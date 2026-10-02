@@ -1,9 +1,10 @@
 # THINK UP
 
-Ứng dụng tiếng Việt phát triển năng lực phản tư, triển khai theo toàn bộ 6 nhóm chức năng trong tài liệu `THINK UP_VER 1.docx.pdf`.
+Ứng dụng song ngữ Anh/Việt phát triển năng lực phản tư, triển khai theo toàn bộ 6 nhóm chức năng trong tài liệu `THINK UP_VER 1.docx.pdf`.
 
 ## Chức năng
 
+- **Ngôn ngữ:** chọn English / Tiếng Việt trên thanh phía trên, đổi ngay và ghi nhớ trên thiết bị bằng cookie trong một năm. Mặc định English. Menu, biểu mẫu, trợ giúp, rubric mặc định, ngày tháng và xuất báo cáo theo lựa chọn; bài viết, nhận xét và nội dung tùy chỉnh giữ nguyên. Khi đã kết nối AI, Coach/Feedback mới theo ngôn ngữ được chọn, trích dẫn minh chứng vẫn nguyên văn.
 - **Reflection Editor:** bốn phần What / So what / Now what / Action, tự lưu sau khi dừng viết 1,8 giây, đếm từ, xuất văn bản, tải minh chứng PNG/JPG/WebP/PDF/TXT (tối đa 3 tệp, 5 MB/tệp).
 - **AI Coach:** câu hỏi gợi mở, điểm mạnh, điểm cần phát triển, gợi ý hành động, mức độ phản tư. Đọc ảnh, sơ đồ và tài liệu để bổ sung bối cảnh. Không có thao tác viết bài thay sinh viên.
 - **Feedback & Rubric:** bốn tiêu chí, bốn mức độ, trọng số tùy chỉnh, minh chứng nguyên văn được kiểm tra. Điểm tổng và mức độ do ứng dụng tính; giảng viên xác nhận điểm cuối.
