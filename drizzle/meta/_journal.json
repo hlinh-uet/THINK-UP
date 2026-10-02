@@ -8,6 +8,13 @@
       "when": 1790950917375,
       "tag": "0000_polite_slyde",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1790955072528,
+      "tag": "0001_heavy_the_watchers",
+      "breakpoints": true
     }
   ]
 }

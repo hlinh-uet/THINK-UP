@@ -5,7 +5,7 @@ import {defaultRubric,defaultWeeks} from '../lib/domain.ts';
 const root=process.env.THINKUP_TEST_URL;
 test('private drafts, cohort permissions, revisions, attachments, lecturer override and actions',{skip:!root},async()=>{
 const suffix=randomUUID().slice(0,8),student=`test-student-${suffix}`,teacher=`test-teacher-${suffix}`,other=`test-other-${suffix}`,outsider=`test-outsider-${suffix}`;
-const headers=(who)=>who?{'oai-authenticated-user-id':who,'oai-authenticated-user-email':`${who}@example.edu`}:{};
+const headers=(who)=>({'oai-authenticated-user-id':who||'local-owner','oai-authenticated-user-email':who?`${who}@example.edu`:'owner@thinkup.local'});
 async function get(who){const response=await fetch(`${root}/api/thinkup`,{headers:headers(who)});const data=await response.json();assert.equal(response.status,200,JSON.stringify(data));return data}
 async function post(who,body,status=200){const response=await fetch(`${root}/api/thinkup`,{method:'POST',headers:{...headers(who),'Content-Type':'application/json'},body:JSON.stringify(body)});const payload=await response.json();assert.equal(response.status,status,JSON.stringify(payload));return payload}
 const owner=await get();assert.equal(owner.user.role,'admin');

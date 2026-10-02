@@ -21,7 +21,7 @@ npm install
 npm run dev
 ```
 
-Mở địa chỉ Local được in ra (thường là http://localhost:3000). Bản phát triển local tạo tài khoản quản trị `owner@thinkup.local` để thiết lập và thử ứng dụng. Cơ chế này chỉ tồn tại khi NODE_ENV là development và hostname là localhost/127.0.0.1; production yêu cầu danh tính đăng nhập do Sites chuyển tiếp.
+Mở địa chỉ Local được in ra (thường là http://localhost:3000). Trang chủ giới thiệu ứng dụng, có nút đăng ký/đăng nhập bằng email và mật khẩu. Để thiết lập admin local, mở `/setup`, đặt mật khẩu cho `owner@thinkup.local`. Không có mật khẩu mặc định. Danh tính owner local chỉ được dùng để kích hoạt và kiểm thử khi NODE_ENV là development và hostname là localhost/127.0.0.1; trang làm việc vẫn yêu cầu đăng nhập.
 
 Dữ liệu local được lưu bằng D1/SQLite và R2 trong `.wrangler/state`. Không xóa thư mục này nếu muốn giữ các bài và minh chứng đã tạo. Các tệp `.env`, `.dev.vars` và `.wrangler` không được đưa vào source triển khai.
 
@@ -41,7 +41,13 @@ Tài liệu API chính thức:
 
 ## Đăng nhập và quyền
 
-Production dùng đăng nhập ChatGPT/Sites. Site mới mặc định riêng tư, chỉ chủ sở hữu xem được. Trong lần đăng nhập đầu tiên của chủ sở hữu, tài khoản quản trị được tạo bằng khóa `owner` duy nhất. Hãy mở và thiết lập Site riêng tư trước khi cấp quyền truy cập cho lớp.
+Ứng dụng dùng tài khoản riêng bằng email và mật khẩu. `/` là trang giới thiệu, `/register` tạo tài khoản sinh viên, `/login` đăng nhập. Đăng nhập thành công mở `/admin`, `/lecturer` hoặc `/student` theo vai trò đọc từ database. Menu, hướng dẫn, trang mặc định và đường dẫn trực tiếp đều được giới hạn theo vai trò; admin có thêm màn hình bài nộp toàn hệ thống. Các trang làm việc xác thực và tải dữ liệu trên server trước khi hiển thị, tránh hiện thoáng qua giao diện sinh viên khi admin đăng nhập.
+
+Tài khoản mới luôn là sinh viên, kể cả khi yêu cầu đăng ký tự gửi role admin/lecturer. Admin thay đổi vai trò trong danh sách người dùng, hoặc xác nhận phân công email sau khi người dùng đăng ký. Đăng ký không tự nhận quyền cao hơn từ một email chưa được xác minh. Quyền và trạng thái tài khoản được kiểm tra từ database ở mỗi yêu cầu; hạ quyền và tạm ngừng tác động tới cả phiên đang đăng nhập.
+
+Để giữ tài khoản và dữ liệu từ bản cũ: chủ sở hữu Site mở **Kích hoạt tài khoản hiện có** (`/setup`), đặt mật khẩu cho danh tính đã được nền tảng xác thực. Không cho phép tự gắn mật khẩu vào một tài khoản cũ chỉ bằng cách nhập email. Luồng này giữ user ID, bài viết, vai trò và phân công hiện có. Site tiếp tục riêng tư theo thiết lập chia sẻ hiện tại; quyền mở Site và quyền của ứng dụng là hai lớp riêng.
+
+Mật khẩu được hash bằng bcrypt với cost 12; kiểm tra giới hạn 72 byte để tránh cắt mật khẩu âm thầm. Phiên đăng nhập dùng token ngẫu nhiên 256 bit, chỉ lưu SHA-256 của token trong D1, hết hạn sau 7 ngày. Cookie HttpOnly, SameSite=Lax, Secure trên HTTPS. Đăng xuất xóa phiên khỏi database và cookie. API đăng nhập/đăng ký kiểm tra Origin và có giới hạn số lần thử; không gửi mật khẩu hoặc hash ra giao diện. Chưa bổ sung email xác minh hay quên mật khẩu qua email.
 
 Để sử dụng với lớp thực tế cần cả hai bước: chủ sở hữu cho phép người dùng truy cập Site bằng cơ chế chia sẻ của Sites, và quản trị THINK UP phân công email/vai trò/học phần trong ứng dụng. Phân công email trong THINK UP không thay đổi quyền chia sẻ Site và không gửi thư tự động.
 
@@ -66,7 +72,7 @@ npm run build
 THINKUP_TEST_URL=http://localhost:3000 npm run test:workflow
 ```
 
-Kiểm thử workflow chỉ dùng trên local development; tạo học phần và người dùng có tiền tố TEST. Kiểm tra bài nháp riêng tư, quyền truy cập minh chứng, giới hạn học phần, xung đột phiên bản, khóa bài nộp/cuối, trả bài/sửa/nộp lại, điểm giảng viên, xác nhận cam kết, hạ quyền và ngừng tài khoản. Không gọi AI có trả phí trong kiểm thử.
+Kiểm thử workflow chỉ dùng trên local development; tạo học phần và người dùng có tiền tố TEST. Kiểm tra đăng ký/đăng nhập thật, chặn tự nhận quyền, Origin, menu và trang server cho ba vai trò, đường dẫn ngoài quyền, kích hoạt tài khoản cũ, xác nhận phân công, giới hạn số lần đăng nhập, hạ quyền/ngừng tài khoản và đăng xuất. Đồng thời kiểm tra bài nháp riêng tư, quyền minh chứng, giới hạn học phần, xung đột phiên bản, khóa bài nộp/cuối, trả bài/sửa/nộp lại, điểm giảng viên và xác nhận cam kết. Không gọi AI có trả phí trong kiểm thử.
 
 ## Lưu trữ và triển khai
 
