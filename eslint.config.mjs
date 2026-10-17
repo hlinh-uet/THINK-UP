@@ -23,6 +23,11 @@ const eslintConfig = defineConfig([
   jsxA11y.flatConfigs.recommended,
   next.configs["core-web-vitals"],
   {
+    files: ['**/*.ts', '**/*.tsx'],
+    // TypeScript checks component props; runtime PropTypes are not used in this app.
+    rules: {'react/prop-types':'off'},
+  },
+  {
     languageOptions: {
       globals: {
         ...globals.browser,

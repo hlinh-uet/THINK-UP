@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {translate, resolveLanguage, dateLocale} from '../lib/i18n.ts';
+import {translate, resolveLanguage, dateLocale, stageLabel} from '../lib/i18n.ts';
+import {demoText,demoContent} from '../lib/demo-i18n.ts';
+import {createDemoData} from '../scripts/demo-data.mjs';
 import {coachInstructions} from '../lib/coach-prompt.ts';
 import {defaultRubric, defaultWeeks, roles, statuses, levels} from '../lib/domain.ts';
 
@@ -15,6 +17,7 @@ test('translated labels support dynamic values without translating or re-interpo
   assert.equal(translate('Chào {0}, cùng think up ✦','en',[name]),'Hi Linh {1}, let’s think up ✦');
   assert.equal(translate('Từ bài viết tuần {0}','en',[3]),'From your week 3 reflection');
   assert.equal(translate('Draft','vi'),'Bản nháp');
+  assert.equal(translate('Tất cả','en'),'All');
   const custom='Tôi nhận ra một góc nhìn khác của riêng mình.';
   assert.equal(translate(custom,'en'),custom);
 });
@@ -27,4 +30,30 @@ test('AI output follows the selected language while preserving evidence quotatio
   assert.match(en,/Write all feedback and questions in English/);
   assert.match(vi,/Write all feedback and questions in Vietnamese/);
   for(const prompt of [en,vi]){assert.match(prompt,/do not translate quotations/);assert.match(prompt,/never write a student's reflection/);}
+});
+
+test('demo content has complete bilingual views without changing stored or authored text',()=>{
+  const data=createDemoData('unused'),original=JSON.stringify(data),fields=[];
+  for(const c of data.tables.courses)fields.push([c.name,c.id]);
+  for(const r of [...data.tables.reflections,...data.tables.versions])fields.push([r.title,r.id],...Object.values(JSON.parse(r.content_json)).map(v=>[v,r.id]));
+  for(const a of data.tables.actions)fields.push([a.text,a.id],[a.review,a.id]);
+  for(const r of data.tables.reviews)fields.push([r.comment,r.id]);
+  for(const a of data.tables.analyses){
+    const result=JSON.parse(a.result_json);
+    fields.push(...[...result.strengths,...result.development,...result.questions,...result.suggestedActions,result.context,result.levelReason,result.levelEvidence].map(text=>[text,a.id]));
+    const version=data.tables.versions.find(v=>v.id===a.version_id),english=demoContent(JSON.parse(version.content_json),version.id,'en');
+    for(const c of result.criteria){
+      fields.push([c.behavior,a.id],[c.evidence,a.id],[c.improvement,a.id]);
+      assert.ok(english[c.evidenceSection].includes(demoText(c.evidence,a.id,'en')),c.evidence);
+    }
+  }
+  for(const [text,id] of fields){
+    if(!text)continue;
+    const en=demoText(text,id,'en');assert.notEqual(en,text,`${id}: ${text}`);assert.equal(demoText(en,id,'vi'),text,`${id}: ${en}`);
+  }
+  assert.equal(JSON.stringify(data),original);
+  const custom='Tôi đã tự chỉnh sửa bài này bằng suy nghĩ của mình.';
+  assert.equal(demoText(custom,'demo-student-week-6','en'),custom);
+  assert.equal(demoText(data.tables.reflections[0].title,'real-user-reflection','en'),data.tables.reflections[0].title);
+  assert.equal(stageLabel('Revision 2','vi'),'Lần chỉnh sửa 2');assert.equal(stageLabel('Revision 2','en'),'Revision 2');assert.equal(stageLabel('Lecturer Review','vi'),'Giảng viên nhận xét');
 });

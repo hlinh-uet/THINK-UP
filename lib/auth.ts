@@ -80,7 +80,7 @@ export async function authenticate(request: Request, operation: string) {
     const matches=await verifyPassword(password,row?.password_hash||dummyHash);
     if(!matches||!row)throw new AppError('Email hoặc mật khẩu không đúng.',401);
     if(!row.active)throw new AppError('Tài khoản đã bị tạm ngừng. Vui lòng liên hệ quản trị viên.',403);
-    const {password_hash: _password,...user}=row;
+    const user:User={id:row.id,email:row.email,name:row.name,role:row.role,active:row.active};
     return createSession(user,request);
   }
   const password=passwordValue(body.password);

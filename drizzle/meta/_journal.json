@@ -15,6 +15,34 @@
       "when": 1790955072528,
       "tag": "0001_heavy_the_watchers",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1791012972896,
+      "tag": "0002_unusual_ben_parker",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1791015637743,
+      "tag": "0003_whole_psylocke",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1791138157279,
+      "tag": "0004_friendly_energizer",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1792198800000,
+      "tag": "0005_final_requirements",
+      "breakpoints": true
     }
   ]
 }

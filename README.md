@@ -1,18 +1,26 @@
+> Cập nhật ngày 17/10/2026 theo `Final_Requirements`: xem [chức năng, role, migration và giới hạn kiểm chứng](docs/final-requirements.md). Lượt đánh giá mới dùng điểm từng tiêu chí /10; các ghi chú 1.5/PDF cũ chỉ dùng để tra lịch sử. Chạy `npm run test:integration` để kiểm tra trên database tạm, không ghi dữ liệu TEST vào workspace đang dùng.
+
 # THINK UP
 
-Ứng dụng song ngữ Anh/Việt phát triển năng lực phản tư, triển khai theo toàn bộ 6 nhóm chức năng trong tài liệu `THINK UP_VER 1.docx.pdf`.
+Ứng dụng song ngữ Anh/Việt phát triển năng lực phản tư, cập nhật theo hai bản yêu cầu sinh viên và giảng viên đã chốt trong `../Final_Requirements`. Xem [chức năng và phân quyền hiện hành](docs/final-requirements.md); [ghi chú 1.5](docs/version-1.5.md) được giữ để tra lịch sử.
 
 ## Chức năng
 
-- **Ngôn ngữ:** chọn English / Tiếng Việt trên thanh phía trên, đổi ngay và ghi nhớ trên thiết bị bằng cookie trong một năm. Mặc định English. Menu, biểu mẫu, trợ giúp, rubric mặc định, ngày tháng và xuất báo cáo theo lựa chọn; bài viết, nhận xét và nội dung tùy chỉnh giữ nguyên. Khi đã kết nối AI, Coach/Feedback mới theo ngôn ngữ được chọn, trích dẫn minh chứng vẫn nguyên văn.
-- **Reflection Editor:** bốn phần What / So what / Now what / Action, tự lưu sau khi dừng viết 1,8 giây, đếm từ, xuất văn bản, tải minh chứng PNG/JPG/WebP/PDF/TXT (tối đa 3 tệp, 5 MB/tệp).
-- **AI Coach:** câu hỏi gợi mở, điểm mạnh, điểm cần phát triển, gợi ý hành động, mức độ phản tư. Đọc ảnh, sơ đồ và tài liệu để bổ sung bối cảnh. Không có thao tác viết bài thay sinh viên.
-- **Feedback & Rubric:** bốn tiêu chí, bốn mức độ, trọng số tùy chỉnh, minh chứng nguyên văn được kiểm tra. Điểm tổng và mức độ do ứng dụng tính; giảng viên xác nhận điểm cuối.
+- **Hồ sơ cá nhân:** bấm tên/avatar ở menu để đổi tên hiển thị, điện thoại, giới thiệu và ảnh. Email, quyền, trạng thái và phân công do admin quản lý. Xem [docs/profiles.md](docs/profiles.md).
+- **Tin nhắn:** chat riêng 1–1 giữa sinh viên, giảng viên và admin, hiện tên/vai trò, lịch sử D1 và số tin chưa đọc. Mở mục **Tin nhắn** → **Mọi người** để bắt đầu. Xem [docs/messages.md](docs/messages.md).
+- **Menu admin:** Học phần, Người dùng, Cài đặt & quyền truy cập và các công cụ giám sát mở thành trang riêng. Xem [docs/admin-workspace.md](docs/admin-workspace.md).
+
+- **Ngôn ngữ:** chọn English / Tiếng Việt trên thanh phía trên, đổi ngay và ghi nhớ trên thiết bị bằng cookie trong một năm. Mặc định English. Menu, biểu mẫu, trợ giúp, rubric mặc định, ngày tháng, tên bước và xuất báo cáo theo lựa chọn. Nội dung demo có bản Việt/Anh cho tên học phần, bài viết, Coach/Feedback, nhận xét và cam kết; chuyển ngôn ngữ chỉ thay cách hiển thị. Nội dung người dùng tự viết hoặc sửa giữ nguyên. Khi đã kết nối AI, Coach/Feedback mới theo ngôn ngữ được chọn, trích dẫn minh chứng vẫn nguyên văn.
+- **Reflection Editor:** một vùng viết tự do, tiêu đề tùy chọn, thêm ảnh/sơ đồ/tài liệu làm bối cảnh và khung Trợ lý phản tư bên cạnh. Tự lưu sau 1,8 giây, lịch sử phiên bản và xuất văn bản. Không bắt buộc viết bốn phần; nộp bài cần nội dung và học phần. Minh chứng PNG/JPG/WebP/PDF/TXT tối đa 3 tệp, 5 MB/tệp. Chi tiết ở [docs/student-editor.md](docs/student-editor.md).
+- **Tư duy cùng AI:** bấm nút để AI đọc bản viết hiện tại (kể cả chưa tự lưu) và ảnh/tài liệu đã upload, rồi gợi ý hướng phát triển và câu hỏi để viết tiếp. Không cần nhập prompt, không tự gọi AI khi gõ bài, không viết hộ/chấm điểm. Gợi ý riêng theo bài, vẫn viết được trong lúc chờ. Khung “Trợ lý phản tư của bạn” giữ ba tab Tư duy cùng AI / AI Coach / Feedback & rubric.
+- **AI Coach:** chức năng riêng đọc bài đã viết và trả năm nhóm: điểm mạnh, điểm cần phát triển, câu hỏi gợi mở, gợi ý hành động, mức độ phản tư. Có nút yêu cầu Coach, kết quả/lịch sử riêng và cảnh báo phản hồi cũ. Không thay thế Tư duy cùng AI hoặc Feedback & rubric. Cả ba dùng được với Codex local hoặc OpenAI API.
+- **Feedback & Rubric:** Reflection Depth 35%, Evidence & Context Quality 25%, Insight Realized 20%, Action Plan 20%; mỗi tiêu chí có Level 1–4 và điểm độc lập 0–10 trong khoảng tương ứng, minh chứng nguyên văn được kiểm tra. Thiếu căn cứ được đánh dấu cần xem xét, chưa tính tổng. Ứng dụng tính tổng theo trọng số 35/25/20/20. AI phân loại Kember độc lập từ toàn bài, kèm lý do và trích dẫn; giảng viên xác nhận điểm và mức Kember cuối.
 - **9-Week Journey:** nội dung, câu hỏi và hạn nộp của từng tuần tùy chỉnh theo học phần; trạng thái các bước dựa trên dữ liệu bài viết thực tế.
-- **Action Tracker:** người học tự chỉnh sửa, xác nhận cam kết; cập nhật tiến độ và kết quả; nhắc lại cam kết chưa hoàn thành khi viết bài tiếp theo.
+- **9-Week Journey & Action Tracker:** một mục “Hành trình & hành động”, hiển thị reflection, cam kết và kết quả thực hiện ngay trong từng tuần. Cam kết gắn với bài reflection gốc; người học tự chỉnh sửa và xác nhận trước khi lưu. Khi viết reflection tiếp theo trong cùng học phần, editor nhắc các cam kết từ bài trước, gồm cả cam kết đã hoàn thành để nhìn lại kết quả. Bộ lọc học phần áp dụng cho cam kết qua bài gốc; cam kết cá nhân chưa gắn bài vẫn được giữ trong phần riêng của hành trình khi xem tất cả học phần. Đường dẫn cũ `?view=actions` mở hành trình hợp nhất.
 - **My Progress:** số bài, số revision, tuần hoàn thành, xu hướng mức độ, điểm từng tiêu chí, điểm mạnh/điểm cần phát triển; xuất CSV. Không tạo số liệu bằng AI.
-- **Lecturer Dashboard:** danh sách sinh viên, bài đã nộp, toàn bộ phiên bản và feedback AI; trả bài chỉnh sửa; điều chỉnh điểm; nhận xét; xác nhận đánh giá cuối; phân tích lớp và xuất CSV.
-- **Admin:** học phần, người dùng, trạng thái tài khoản, phân công vai trò/học phần bằng email, rubric và nội dung 9 tuần mặc định.
+- **Không gian giảng viên:** menu có 5 trang riêng: Bài nộp & đánh giá, Sinh viên, Tiến độ lớp, Kiểm tra trùng lặp, Học phần. Mỗi bài có trang đọc/chấm riêng và URL mở lại được. Điểm không tự điền; giảng viên chọn đủ bốn tiêu chí và mức Kember trước khi xác nhận. Trả bài chỉ cần nhận xét. Có hồ sơ sinh viên, tiến độ 9 tuần, hỗ trợ theo tiêu chí, xuất CSV và cấu hình học phần được phân công. Xem luồng sử dụng tại `docs/lecturer-workspace.md`.
+- **Kiểm tra trùng lặp:** đối chiếu bài đã nộp/hoàn thành của những sinh viên khác nhau trong phạm vi học phần được cấp quyền. Hiển thị tỷ lệ từ trùng của từng bài và các đoạn nguyên văn để giảng viên xem xét. Không dùng AI, không gửi bài ra ngoài, không tự giảm điểm; chưa đối chiếu Internet hoặc kho bài liên trường.
+- **Admin:** học phần; quản lý sinh viên và giảng viên với bộ lọc vai trò, trạng thái, tìm theo tên/email; tạo tài khoản trực tiếp với mật khẩu và phân công nhiều học phần; chỉnh sửa tài khoản, phân công bằng email, rubric và nội dung 9 tuần mặc định.
 
 ## Chạy trên máy
 
@@ -25,7 +33,67 @@ Mở địa chỉ Local được in ra (thường là http://localhost:3000). Tr
 
 Dữ liệu local được lưu bằng D1/SQLite và R2 trong `.wrangler/state`. Không xóa thư mục này nếu muốn giữ các bài và minh chứng đã tạo. Các tệp `.env`, `.dev.vars` và `.wrangler` không được đưa vào source triển khai.
 
+## Dữ liệu demo để kiểm thử local
+
+```bash
+npm run db:seed
+npm run dev
+```
+
+Đăng nhập tại `/login`. Mật khẩu chung của các tài khoản demo: **`ThinkUpDemo2026!`**.
+
+| Email | Vai trò / tình huống |
+| --- | --- |
+| `admin@thinkup.local` | Quản trị: người dùng, học phần, phân công, rubric, bài nộp toàn hệ thống |
+| `lecturer@thinkup.local` | Giảng viên lớp DEMO-REF101; xem, trả bài và chấm bài |
+| `lecturer2@thinkup.local` | Giảng viên lớp DEMO-PRJ201; kiểm thử giới hạn quyền giữa hai lớp |
+| `student@thinkup.local` | Sinh viên chính: 6 bài, có đủ nháp / chờ chấm / cần sửa / hoàn thành |
+| `student2@thinkup.local`, `student3@thinkup.local` | Sinh viên cùng lớp; kiểm thử danh sách, lọc và quyền riêng tư |
+| `student4@thinkup.local` | Sinh viên lớp dự án cộng đồng |
+| `inactive@thinkup.local` | Tài khoản tạm ngừng; đăng nhập bị chặn |
+
+Bộ demo gồm 2 học phần có rubric và lịch 9 tuần, 14 bài reflection với lịch sử phiên bản, 5 đánh giá cuối và 2 bài trả về, 7 cam kết (chưa bắt đầu / đang làm / hoàn thành, có cam kết quá hạn), 2 phân công email chờ và 2 tệp TXT minh chứng thực sự lưu ở R2. Ngày hạn được tính theo ngày chạy seed lần đầu. Phản hồi Coach/Feedback được soạn sẵn, có provider `Demo fixture` và thông báo trên giao diện; không phải kết quả AI thực tế. Các nút gọi AI cần kết nối Codex local hoặc OpenAI API.
+
+Lệnh chỉ dùng Miniflare local, chung binding D1/R2 và `.wrangler/state` với Vite; không gọi database production và không tự chạy khi build, khởi động hoặc triển khai. Tài khoản demo không thay thế owner hiện có. Seed thêm dữ liệu trong một transaction D1, giữ cấu hình và dữ liệu cũ; chạy lại sẽ bỏ qua toàn bộ bộ demo đã nạp, giữ cả những chỉnh sửa và bản ghi demo bạn đã xóa. Nếu có email/ID trùng trước lần nạp đầu, transaction thất bại và không ghi đè tài khoản cũ.
+
+Các luồng thử nhanh:
+
+- Dùng `student@thinkup.local`: mở bài nháp tuần 6, sửa/lưu và tải minh chứng; xem tuần 5 cần sửa rồi nộp lại; xem Journey, Progress và cập nhật cam kết.
+- Dùng `lecturer@thinkup.local`: mở `/lecturer/submissions`, chọn bài tuần 4 chờ chấm, tải minh chứng, xem lịch sử/feedback, trả bài hoặc xác nhận điểm. Chuyển mục trên menu để xem sinh viên, tiến độ lớp, trùng lặp và cấu hình học phần; chỉ thấy lớp được phân công.
+- Dùng `admin@thinkup.local`: mở `/admin?tab=users`, chọn Sinh viên hoặc Giảng viên và **Tạo tài khoản**. Nhập thông tin, đặt/tạo mật khẩu, chọn học phần; tài khoản mới đăng nhập được ngay. Sao chép thông tin đăng nhập ở bước hoàn tất để cung cấp cho người dùng. Để thử phân công chờ, đăng ký `newstudent@thinkup.local` hoặc `newlecturer@thinkup.local`, sau đó admin xác nhận trong ứng dụng.
+
+Kiểm tra seed bằng `npm run test:seed` (D1/R2 tạm riêng, không sửa database local của bạn). Sau khi nạp demo và chạy dev, dùng `npm run test:demo` để kiểm tra đăng nhập, trang của ba vai trò, phân quyền lớp và tải minh chứng; lệnh này cần dữ liệu demo chưa bị chỉnh sửa. `npm run test:admin` tạo hai tài khoản TEST sinh viên/giảng viên để kiểm tra mật khẩu, email trùng, đăng nhập, phân công học phần, giới hạn quyền và danh sách song ngữ. Các tài khoản TEST được giữ lại trong database local để kiểm tra giao diện.
+
 ## Kết nối AI
+
+### Codex local bằng tài khoản ChatGPT
+
+Để kiểm thử trên máy bằng phiên Codex đã đăng nhập ChatGPT, không cần OpenAI API key:
+
+```bash
+codex login
+npm run dev:codex
+```
+
+Mở `http://127.0.0.1:3000` (hoặc cổng được in ra). Bộ chọn **Codex local · ChatGPT** nằm trên thanh phía trên; dùng cho AI Coach, Feedback và phân tích bài của giảng viên. Nếu đã cấu hình API key, có thể đổi sang **OpenAI API**. Kết quả lưu đúng tên nhà cung cấp; các lượt Codex dùng hạn mức gói ChatGPT của tài khoản đang đăng nhập. Đăng nhập THINK UP vẫn dùng email/mật khẩu riêng.
+
+Mặc định thử `gpt-5.6-luna`. Nếu tài khoản không hỗ trợ model này, chọn model mà bạn dùng được trong Codex:
+
+```bash
+CODEX_MODEL=gpt-5.6-luna npm run dev:codex
+```
+
+`CODEX_MODEL` và `CODEX_BIN` (đường dẫn CLI nếu không có trong PATH) là biến môi trường của lệnh khởi động, không phải secret của Sites. Cần Codex CLI có các cờ `--ignore-user-config`, `--ignore-rules`, `--ephemeral` và `--output-schema`; cập nhật CLI nếu phiên bản cũ không nhận cờ.
+
+Ảnh PNG/JPG/WebP và TXT được hỗ trợ. PDF được chuyển từng trang thành ảnh, tối đa tổng cộng 12 trang/ảnh một lượt; cần `pdfinfo` và `pdftoppm` của Poppler (`brew install poppler` trên macOS). Không gửi minh chứng nếu chưa bật tùy chọn gửi kèm.
+
+Lệnh chạy một cầu nối Node chỉ lắng nghe `127.0.0.1`, dùng token ngẫu nhiên trong bộ nhớ, rồi khởi động web trên loopback. Cầu nối chỉ chấp nhận phiên đăng nhập ChatGPT, xử lý một lượt một lúc, tắt công cụ shell/web/plugin và xóa các tệp tạm khi hoàn tất. Phản hồi được kiểm tra theo cùng rubric, trích dẫn và cách tính điểm của kết nối API. Không tự chuyển sang API khi Codex lỗi hoặc hết hạn mức.
+
+Chế độ này chỉ hoạt động trong development qua localhost/127.0.0.1, không qua tunnel hoặc bản deploy. Cấu hình cầu nối không được thêm vào bản build. `npm run dev` tiếp tục dùng kết nối API như trước. Kiểm tra cầu nối bằng `npm run test:codex`.
+
+Kiểm thử thực tế bằng `npm run test:codex:live` khi bản local chạy ở cổng 3011 (hoặc đặt `THINKUP_TEST_URL`). Lệnh này dùng hạn mức ChatGPT cho ba lượt phân tích, tạo tài khoản/bài/học phần có nhãn TEST và cần admin demo đã nạp. Không chạy cùng kiểm thử đơn vị thông thường.
+
+### OpenAI API
 
 Ứng dụng đã tích hợp OpenAI Responses API, Structured Outputs và đầu vào hình ảnh/PDF. **Chưa có khóa thì các thao tác AI không hoạt động**; không thay AI bằng phản hồi giả. Các thao tác viết/lưu/nộp bài, quản lý lớp, nhận xét giảng viên và thống kê vẫn hoạt động.
 
@@ -33,7 +101,7 @@ Trên máy, điền `OPENAI_API_KEY` vào `.dev.vars` (Cloudflare runtime) và g
 
 Khi triển khai Sites, thiết lập `OPENAI_API_KEY` như một secret và `OPENAI_MODEL` trong cấu hình môi trường của Sites. Nên dùng OpenAI Developers để tạo/kết nối khóa. Không gửi khóa trong chat. Việc triển khai không tự tạo hạn mức thanh toán API.
 
-Tệp và nội dung của bài chỉ được gửi khi người học yêu cầu Coach/Feedback. API dùng `store:false`. Các bài quá ngắn (dưới 20 từ) chưa được phân tích; mỗi người học có giới hạn 5 kết quả phân tích đã lưu trong một phút. Lỗi kết nối không tạo đánh giá hoặc làm mất bài.
+Nội dung bài chỉ được gửi khi sinh viên yêu cầu Coach/Feedback hoặc giảng viên yêu cầu phân tích bài đã nộp. Mặc định chỉ gửi văn bản; minh chứng được gửi nếu người dùng chủ động bật tùy chọn cho lần phân tích đó. API dùng `store:false`. Bài dưới 20 từ chưa được phân tích; mỗi người dùng có giới hạn 5 yêu cầu AI trong một phút, bao gồm lượt thất bại, được giữ chỗ trước khi gọi dịch vụ. Lỗi kết nối không tạo đánh giá hoặc làm mất bài. Đề xuất AI của giảng viên được gắn với phiên bản bài hiện tại, không tự đổi trạng thái hoặc điểm cuối.
 
 Tài liệu API chính thức:
 - https://developers.openai.com/api/docs/guides/structured-outputs
@@ -43,7 +111,7 @@ Tài liệu API chính thức:
 
 Ứng dụng dùng tài khoản riêng bằng email và mật khẩu. `/` là trang giới thiệu, `/register` tạo tài khoản sinh viên, `/login` đăng nhập. Đăng nhập thành công mở `/admin`, `/lecturer` hoặc `/student` theo vai trò đọc từ database. Menu, hướng dẫn, trang mặc định và đường dẫn trực tiếp đều được giới hạn theo vai trò; admin có thêm màn hình bài nộp toàn hệ thống. Các trang làm việc xác thực và tải dữ liệu trên server trước khi hiển thị, tránh hiện thoáng qua giao diện sinh viên khi admin đăng nhập.
 
-Tài khoản mới luôn là sinh viên, kể cả khi yêu cầu đăng ký tự gửi role admin/lecturer. Admin thay đổi vai trò trong danh sách người dùng, hoặc xác nhận phân công email sau khi người dùng đăng ký. Đăng ký không tự nhận quyền cao hơn từ một email chưa được xác minh. Quyền và trạng thái tài khoản được kiểm tra từ database ở mỗi yêu cầu; hạ quyền và tạm ngừng tác động tới cả phiên đang đăng nhập.
+Người dùng tự đăng ký luôn nhận vai trò sinh viên, kể cả khi yêu cầu đăng ký tự gửi role admin/lecturer. Admin có thể tạo trực tiếp tài khoản sinh viên/giảng viên, thay đổi vai trò trong danh sách người dùng hoặc xác nhận phân công email sau khi người dùng đăng ký. Tạo trực tiếp lưu tài khoản, mật khẩu đã hash, phân công và nhật ký trong cùng một transaction; email trùng bị từ chối. Mật khẩu chỉ hiển thị trong bước hoàn tất form tạo, không lưu trong browser storage. Đăng ký không tự nhận quyền cao hơn từ một email chưa được xác minh. Quyền và trạng thái tài khoản được kiểm tra từ database ở mỗi yêu cầu; hạ quyền và tạm ngừng tác động tới cả phiên đang đăng nhập.
 
 Để giữ tài khoản và dữ liệu từ bản cũ: chủ sở hữu Site mở **Kích hoạt tài khoản hiện có** (`/setup`), đặt mật khẩu cho danh tính đã được nền tảng xác thực. Không cho phép tự gắn mật khẩu vào một tài khoản cũ chỉ bằng cách nhập email. Luồng này giữ user ID, bài viết, vai trò và phân công hiện có. Site tiếp tục riêng tư theo thiết lập chia sẻ hiện tại; quyền mở Site và quyền của ứng dụng là hai lớp riêng.
 
@@ -55,11 +123,15 @@ Sinh viên chỉ đọc/sửa bài của mình. Giảng viên chỉ xem bài đ�
 
 Bài đã nộp/hoàn thành bị khóa sửa. Giảng viên trả bài để mở lại. Mỗi bước tạo snapshot riêng; chỉnh sửa rubric sau này không thay đổi các kết quả cũ. Chỉnh sửa đồng thời được kiểm tra bằng số revision, tránh ghi đè âm thầm.
 
-## Rubric mặc định và giả định từ tài liệu
+## Rubric và phân loại Kember
 
-Tài liệu chỉ mô tả khung, chưa cho rubric chấm chi tiết. Bản này cung cấp rubric khởi tạo có thể điều chỉnh: bốn tiêu chí, 1–4 điểm/tiêu chí, 25%/tiêu chí.
+Rubric hiện tuân theo hai tài liệu đã chốt trong `../Final_Requirements`: Độ sâu phản tư 35%, Chất lượng bằng chứng & bối cảnh 25%, Bài học rút ra 20%, Kế hoạch ứng dụng 20%. Bốn ô viết What / So what / Now what / Action là cấu trúc soạn bài riêng; AI đánh giá mỗi tiêu chí trên toàn bộ bài. Danh tính và trọng số tiêu chí cố định theo đặc tả; quản trị viên có thể điều chỉnh mô tả mức điểm.
 
-Điểm /10 = tổng (điểm tiêu chí /4 × trọng số) /10. Mức độ theo trung bình bốn điểm: dưới 1,5 (hành động theo thói quen), dưới 2,5 (hiểu biết), dưới 3,5 (phản tư), từ 3,5 (phản tư sâu). Đây là quy tắc vận hành mặc định để giảng viên hiệu chỉnh, không phải thang đo đã được kiểm định học thuật.
+Điểm tổng /10 = Depth × 0,35 + Evidence × 0,25 + Insight × 0,20 + Action × 0,20, làm tròn hai chữ số. Mỗi tiêu chí dùng thang 10 với một chữ số thập phân: Level 1 là 0–2,5; Level 2 là 2,6–5,0; Level 3 là 5,1–7,5; Level 4 là 7,6–10. Điểm lịch sử /4 và tổng điểm đã lưu giữ nguyên. Mức Kember gồm Chưa phản tư / Thấu hiểu / Phản tư / Phản tư phản biện; AI đọc toàn bài và phân loại bằng prompt + Structured Outputs, không suy ra mức từ điểm trung bình hay trọng số. Giảng viên chọn mức Kember riêng khi xác nhận đánh giá cuối.
+
+Cấu hình rubric cũ được lưu trong `settings` trước khi nâng cấp; kết quả và bản rubric của các lần phân tích/chấm trước giữ nguyên. Các điểm tiêu chí cũ không được gán lại thành tiêu chí mới trong thống kê. Chi tiết ở [docs/criteria-spec.md](docs/criteria-spec.md).
+
+Sau khi đã nạp demo cơ bản, chạy `npm run db:seed:criteria` để thêm một bài mẫu riêng ở **tuần 7** của `student@thinkup.local`. Bài hiển thị bốn tiêu chí mới, điểm mẫu 8,63/10 và mức Kember 3; đây là fixture để thử giao diện. Lệnh chạy lại giữ nguyên chỉnh sửa của bạn và không thay dữ liệu lịch sử.
 
 Tuần hoàn thành khi có ít nhất một bài tuần đó được giảng viên xác nhận. Biểu đồ tuần lấy bài có đánh giá gần nhất; số liệu trung bình cuối chỉ lấy bài đã xác nhận. Đánh giá AI của nội dung cũ không được dùng làm điểm hiện tại sau khi sinh viên sửa bài.
 
@@ -69,6 +141,8 @@ Tuần hoàn thành khi có ít nhất một bài tuần đó được giảng v
 npm run typecheck
 npm test
 npm run build
+npm run test:admin
+npm run test:v15
 THINKUP_TEST_URL=http://localhost:3000 npm run test:workflow
 ```
 
@@ -80,6 +154,6 @@ Kiểm thử workflow chỉ dùng trên local development; tạo học phần v�
 
 Khi sửa schema, chạy `npm run db:generate`, kiểm tra migration và build lại trước khi triển khai. Production có D1/R2 riêng; dữ liệu local và fixture kiểm thử không được chuyển lên.
 
-Ảnh nhận diện liên kết: `public/og.png`, tạo bằng ImageGen tích hợp từ brief “thinkup; Viết tốt hơn. Nghĩ sâu hơn.; REFLECT · LEARN · ACT”, bảng màu trắng/tím và hình cầu quỹ đạo của giao diện.
+Giao diện tham khảo Reflection.app: nền ngà nhẹ, màu tím trầm, font Manrope lưu tại dự án, menu nổi có nền mờ khi cuộn và footer nhiều cột. Trang giới thiệu có minh họa bốn phần reflection có thể bấm thử, hiệu ứng xuất hiện khi cuộn và FAQ thu gọn. Sinh viên, giảng viên và admin dùng chung màu sắc, nút, biểu mẫu và khoảng cách; menu mobile giữ nhãn, nút đăng xuất và liên kết thật. Hiệu ứng tắt khi người dùng chọn giảm chuyển động. Ảnh nhận diện liên kết hiện tại: `public/og-v2.png`, tạo bằng ImageGen tích hợp với motif nhật ký phản tư, đồng bộ bảng màu mới; ảnh cũ `public/og.png` được giữ lại. Chi tiết thiết kế và prompt trong `docs/design.md`.
 
-Các giới hạn còn lại trước khi dùng rộng rãi: cần kết nối và xác minh AI thực tế; cần chủ sở hữu cấp quyền chia sẻ cho lớp; chưa kiểm tra tương tác/hiển thị trên trình duyệt vì Browser chưa kết nối trong phiên xây dựng này.
+Reflection Editor đã được kiểm tra trên Chrome headless ở desktop/mobile; Tư duy cùng AI qua Codex local đã được xác minh với ảnh được gửi tự động và bản viết chưa lưu. Để dùng cho lớp, cần chủ sở hữu phân công tài khoản/học phần và cấu hình nhà cung cấp AI phù hợp với môi trường triển khai.

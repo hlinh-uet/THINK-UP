@@ -12,3 +12,9 @@ export function translate(text: string, language: Language, parameters: readonly
   return result.replace(/\{(\d+)\}/g, (token, index: string) => Number(index) < parameters.length ? String(parameters[Number(index)] ?? '') : token);
 }
 export function dateLocale(language: Language) { return language === 'vi' ? 'vi-VN' : 'en-GB'; }
+export function stageLabel(stage: string, language: Language): string {
+  const revision = /^Revision (\d+)$/.exec(stage);
+  if(revision)return translate('Lần chỉnh sửa {0}',language,[revision[1]]);
+  const labels:Record<string,string>={Draft:'Bản nháp',Submitted:'Đã nộp',Final:'Hoàn thành', 'Lecturer Review':'Giảng viên nhận xét', 'AI Coach':'AI Coach', 'AI Feedback':'AI Feedback'};
+  return translate(labels[stage]??stage,language);
+}
