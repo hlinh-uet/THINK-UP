@@ -2,12 +2,12 @@ import type { Data, Reflection } from './domain.ts';
 import { finalReview } from './progress.ts';
 
 export const lecturerPages = [
-  { key: 'submissions', label: 'Bài nộp & đánh giá', icon: 'document' },
-  { key: 'students', label: 'Sinh viên', icon: 'users' },
-  { key: 'progress', label: 'Tiến độ lớp', icon: 'progress' },
-  { key: 'similarity', label: 'Kiểm tra trùng lặp', icon: 'similarity' },
-  { key: 'courses', label: 'Học phần', icon: 'journey' },
-  { key: 'messages', label: 'Tin nhắn', icon: 'messages' },
+  { key: 'submissions', label: 'Bài nộp & đánh giá', navLabel: 'Bài nộp', icon: 'document' },
+  { key: 'students', label: 'Sinh viên', navLabel: 'Sinh viên', icon: 'users' },
+  { key: 'progress', label: 'Tiến độ lớp', navLabel: 'Tiến độ', icon: 'progress' },
+  { key: 'similarity', label: 'Kiểm tra trùng lặp', navLabel: 'Trùng lặp', icon: 'similarity' },
+  { key: 'courses', label: 'Học phần', navLabel: 'Học phần', icon: 'journey' },
+  { key: 'messages', label: 'Tin nhắn', navLabel: 'Tin nhắn', icon: 'messages' },
 ] as const;
 export type LecturerSection = typeof lecturerPages[number]['key'];
 export type LecturerQuery = { course?: string; student?: string; status?: string; week?: string; q?: string; reflection?: string; criterion?:string; level?:string; sort?:string;cohort?:string };

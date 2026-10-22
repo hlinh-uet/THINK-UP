@@ -7,9 +7,65 @@ import { hashPassword, verifyPassword } from '../lib/security.ts';
 import { validateLevel, totalScore, validateWeeks, validateRubric, defaultRubric, writingSections } from '../lib/domain.ts';
 import { upgradeRubricSettings } from '../lib/rubric-upgrade.ts';
 import { createCriteriaDemoData, criteriaDemoMarker } from '../scripts/seed-criteria-demo.mjs';
+import {createStudentCourseDemoData} from '../scripts/student-course-demo-data.mjs';
+import {seedStudentCourses} from '../scripts/seed-student-courses.mjs';
+import {validateAssessment} from '../lib/assessment.ts';
 
 const require = createRequire(import.meta.url);
 const { Miniflare } = createRequire(require.resolve('wrangler/package.json'))('miniflare');
+
+test('additional student courses preserve existing work, have valid assessments and can be seeded only once',async()=>{
+  const mf=new Miniflare({modules:true,script:'export default {fetch(){return new Response("test")}}',compatibilityDate:'2026-05-15',d1Databases:['DB'],r2Buckets:['FILES']});
+  try{
+    const db=await mf.getD1Database('DB'),bucket=await mf.getR2Bucket('FILES');
+    await initializeDemoDatabase(db);
+    const data=createStudentCourseDemoData(new Date('2026-10-22T07:00:00Z'));
+    await assert.rejects(seedStudentCourses(db,bucket,data),/demo gốc/);
+    assert.equal(await db.prepare('SELECT COUNT(*) AS n FROM courses').first('n'),0);
+    await seedDemo(db,bucket,createDemoData('unused-test-hash'));
+    const oldReflections=(await db.prepare('SELECT * FROM reflections ORDER BY id').all()).results;
+    const oldCourses=(await db.prepare('SELECT * FROM courses ORDER BY id').all()).results;
+    assert.equal(await seedStudentCourses(db,bucket,data),true);
+    assert.equal(await db.prepare('SELECT COUNT(*) AS n FROM courses').first('n'),oldCourses.length+8);
+    assert.equal(await db.prepare('SELECT COUNT(*) AS n FROM reflections').first('n'),oldReflections.length+24);
+    assert.deepEqual((await db.prepare("SELECT * FROM reflections WHERE id NOT LIKE 'demo-ui-%' ORDER BY id").all()).results,oldReflections);
+    assert.deepEqual((await db.prepare("SELECT * FROM courses WHERE id NOT LIKE 'demo-course-ui-%' ORDER BY id").all()).results,oldCourses);
+    assert.deepEqual((await db.prepare('PRAGMA foreign_key_check').all()).results,[]);
+    for(const course of data.tables.courses){
+      validateWeeks(JSON.parse(course.weeks_json));validateRubric(JSON.parse(course.rubric_json));
+      assert.equal(await db.prepare("SELECT COUNT(*) AS n FROM memberships WHERE course_id=? AND user_id='demo-student' AND role='student'").bind(course.id).first('n'),1);
+      assert.equal(data.tables.reflections.filter(r=>r.course_id===course.id).length,3);
+    }
+    for(const reflection of data.tables.reflections){
+      const version=data.tables.versions.find(v=>v.id===reflection.latest_version);
+      assert.equal(version.reflection_id,reflection.id);assert.equal(version.content_json,reflection.content_json);
+      assert.equal(reflection.rev,data.tables.versions.filter(v=>v.reflection_id===reflection.id).length);
+    }
+    for(const review of data.tables.reviews){
+      const reflection=data.tables.reflections.find(r=>r.id===review.reflection_id);
+      assert.ok(data.tables.memberships.some(m=>m.course_id===reflection.course_id&&m.user_id===review.reviewer_id&&m.role==='lecturer'));
+      assert.equal(review.version_id,reflection.latest_version);
+      const detail=data.tables.learning_records.find(r=>r.id===`review:${review.id}`);
+      const criteria=JSON.parse(detail.payload_json).criteria;
+      if(review.decision==='final'){
+        validateAssessment(criteria,JSON.parse(reflection.content_json),defaultRubric,[]);
+        assert.equal(review.total,totalScore(JSON.parse(review.scores_json),defaultRubric));
+      }else{assert.equal(review.total,null);assert.deepEqual(criteria,[])}
+    }
+    for(const row of data.tables.analyses){
+      const result=JSON.parse(row.result_json),version=data.tables.versions.find(v=>v.id===row.version_id),content=JSON.parse(version.content_json);
+      assert.equal(result.scoreScale,10);assert.equal(result.levelMethod,'demo-classification');
+      assert.equal(result.total,totalScore(result.criteria.map(c=>c.score),defaultRubric));
+      for(const criterion of result.criteria)assert.ok(content[criterion.evidenceSection].includes(criterion.evidence));
+    }
+    const courseId=data.tables.courses[0].id,actionId=data.tables.actions[0].id;
+    await db.prepare('UPDATE courses SET name=? WHERE id=?').bind('My edited sample course',courseId).run();
+    await db.prepare('DELETE FROM actions WHERE id=?').bind(actionId).run();
+    assert.equal(await seedStudentCourses(db,bucket,data),false);
+    assert.equal(await db.prepare('SELECT name FROM courses WHERE id=?').bind(courseId).first('name'),'My edited sample course');
+    assert.equal(await db.prepare('SELECT id FROM actions WHERE id=?').bind(actionId).first(),null);
+  }finally{await mf.dispose()}
+});
 
 test('local seed preserves existing data and edits, with consistent relational history and R2 evidence', async () => {
   const mf = new Miniflare({ modules: true, script: 'export default {fetch(){return new Response("test")}}', compatibilityDate: '2026-05-15', d1Databases: ['DB'], r2Buckets: ['FILES'] });

@@ -55,6 +55,29 @@ function componentModule(url) {
 }
 const Journey=(await import(componentModule(new URL('../app/JourneyTracker.tsx',import.meta.url)))).default;
 const Reminder=(await import(componentModule(new URL('../app/ReflectionActionReminder.tsx',import.meta.url)))).default;
+const ActionEditor=(await import(componentModule(new URL('../app/ActionEditor.tsx',import.meta.url)))).default;
+
+test('commitment editing preserves values, requires a completed outcome and only links reflections from the source course',()=>{
+  for(const language of ['en','vi'])for(const status of ['todo','in_progress','done','needs_adjustment'])for(const busy of [false,true]){
+    const initial={...action('commitment',r1.id,status),due:'2026-10-30',successCriteria:'Two documented trials',evidence:'My observation notes',followUpReflectionId:r2.id,revision:7};
+    const before=JSON.stringify(initial);
+    const html=renderToStaticMarkup(createElement(ActionEditor,{initial,reflections:[r1,r2,other],language,busy,onSave(){throw new Error('Rendering cannot save a commitment')},onCancel(){}}));
+    const statusChoices=html.match(/<fieldset class="action-status-group"[\s\S]*?<\/fieldset>/)?.[0]||'';
+    assert.equal((statusChoices.match(/type="radio"/g)||[]).length,4);
+    const selected=statusChoices.match(/<input[^>]*checked=""[^>]*>/g)||[];
+    assert.equal(selected.length,1);assert.ok(selected[0].includes(`value="${status}"`));
+    const outcome=html.match(/class="field action-outcome"[\s\S]*?<textarea[^>]*>/)?.[0]||'';
+    assert.equal(outcome.includes('required=""'),status==='done');
+    const followUps=html.match(/<fieldset class="action-follow-ups"[\s\S]*?<\/fieldset>/)?.[0]||'';
+    assert.ok(followUps.includes(r2.title));assert.ok(!followUps.includes(r1.title));assert.ok(!followUps.includes(other.title));
+    assert.match(html,/value="2026-10-30"/);assert.ok(html.includes(initial.successCriteria)&&html.includes(initial.evidence));
+    assert.equal(/<fieldset disabled="" class="action-fields">/.test(html),busy);
+    assert.equal(JSON.stringify(initial),before);
+  }
+  const html=renderToStaticMarkup(createElement(ActionEditor,{initial:{reflectionId:r1.id,text:'A new commitment',status:'todo'},reflections:[r1,r2],language:'en',busy:false,onSave(){}}));
+  assert.doesNotMatch(html,/class="field action-outcome"/);
+  assert.match(html,/Create commitment/);
+});
 
 test('each weekly card contains its own linked commitments, outcome and source reflection; final review still determines week completion',()=>{
   const html=renderToStaticMarkup(createElement(Journey,{weeks:defaultWeeks,reflections:[r1,r2,other],actions,currentWeek:1,language:'en',onOpen:()=>{},onAction:()=>{}}));

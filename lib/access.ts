@@ -2,9 +2,9 @@ export type Role = 'student' | 'lecturer' | 'admin';
 export type View = 'overview' | 'editor' | 'journey' | 'actions' | 'progress' | 'lecturer' | 'admin' | 'messages';
 
 export const studentPages=[
-  {key:'overview',label:'Tổng quan'}, {key:'editor',label:'Reflection Editor'},
-  {key:'journey',label:'Hành trình & hành động'},
-  {key:'progress',label:'Tiến bộ của tôi'}, {key:'messages',label:'Tin nhắn'},
+  {key:'overview',label:'Góc học tập'}, {key:'editor',label:'Bài viết'},
+  {key:'journey',label:'Hành trình'},
+  {key:'progress',label:'Tiến bộ'}, {key:'messages',label:'Tin nhắn'},
 ] as const;
 
 const views: Record<Role, readonly View[]> = {

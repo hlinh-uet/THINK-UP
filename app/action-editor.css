@@ -1,0 +1,80 @@
+/* The commitment editor has its own compact dialog; long details scroll above a fixed footer. */
+.app-shell .modal-backdrop:has(.action-modal) { padding: 24px; background: #39323f38; backdrop-filter: blur(4px); }
+.app-shell .modal.action-modal { display: flex; flex-direction: column; width: min(720px,100%); max-height: min(90dvh,850px); overflow: hidden; border: 1px solid #e8e0eb; border-radius: 18px; background: var(--surface); box-shadow: 0 24px 80px #30263826; }
+.app-shell .action-modal .modal-header { position: static; flex-shrink: 0; padding: 22px 28px 18px; border: 0; background: var(--surface); }
+.app-shell .action-modal .modal-header h3 { font-size: 22px; line-height: 1.4; letter-spacing: -.5px; font-weight: 600; }
+.app-shell .action-modal .close-button { width: 38px; height: 38px; border-radius: 50%; background: transparent; }
+.app-shell .action-modal .close-button:hover { background: var(--accent-soft); }
+.app-shell .action-modal .modal-body { display: flex; min-height: 0; padding: 0; overflow: hidden; }
+.action-editor { display: flex; flex: 1; flex-direction: column; width: 100%; min-width: 0; min-height: 0; }
+.action-editor-scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; padding: 0 28px 22px; }
+.action-source { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.action-source > .ui-icon { flex-shrink: 0; }
+.action-source > span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.action-editor :is(.action-fields,.action-status-group,.action-source-files,.action-follow-ups) { min-width: 0; margin: 0; padding: 0; border: 0; }
+.app-shell .action-editor .field { margin: 0 0 18px; gap: 7px; color: var(--ink); font-size: 14px; font-weight: 550; line-height: 1.5; }
+.app-shell .action-editor .field :is(input,textarea) { min-height: 46px; padding: 10px 12px; border: 1px solid #e7dfeb; border-radius: 9px; background: #faf8fb; color: var(--ink); font-size: 16px; font-weight: 400; line-height: 1.6; appearance: none; -webkit-appearance: none; box-shadow: none; }
+.app-shell .action-editor .field textarea { min-height: 76px; max-height: 160px; resize: vertical; }
+.app-shell .action-editor .field :is(input,textarea):focus { outline: none; border-color: #b9a3c9; background: var(--surface); box-shadow: 0 0 0 3px #79618d10; }
+.action-basics { display: grid; grid-template-columns: minmax(0,1fr) 190px; align-items: start; gap: 20px; }
+.action-due input { color-scheme: light; }
+.action-due input::-webkit-calendar-picker-indicator { opacity: .55; cursor: pointer; }
+
+/* Real radio inputs keep arrow-key selection; the visible choices use the app palette. */
+.action-status-group > legend,.action-source-files > legend,.action-follow-ups > legend { margin-bottom: 8px; padding: 0; color: var(--ink); font-size: 14px; font-weight: 550; line-height: 1.5; }
+.action-status-options { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; margin-bottom: 18px; }
+.action-status-choice,.action-reflection-choice { position: relative; display: flex; align-items: center; gap: 8px; min-width: 0; min-height: 44px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--muted); font-size: 14px; line-height: 1.5; cursor: pointer; transition: background-color .15s,border-color .15s,color .15s; }
+.action-choice-input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; clip-path: inset(50%); }
+.action-choice-mark { display: grid; place-items: center; flex-shrink: 0; width: 16px; height: 16px; border: 1px solid #c7bbcf; border-radius: 50%; background: transparent; }
+:is(.action-status-choice,.action-reflection-choice):hover { background: #f6f1f8; color: var(--ink); }
+:is(.action-status-choice,.action-reflection-choice):has(input:checked) { border-color: #c8b5d5; background: var(--accent-soft); color: var(--accent-hover); }
+:is(.action-status-choice,.action-reflection-choice):has(input:checked) .action-choice-mark { border-color: var(--accent); background: var(--accent); color: #fff; }
+:is(.action-status-choice,.action-reflection-choice):has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
+:is(.action-status-choice,.action-reflection-choice):has(input:disabled) { cursor: wait; opacity: .55; }
+
+/* Optional evidence and links stay available without stretching the main form. */
+.action-extras > summary,.action-history > summary { display: flex; align-items: center; gap: 9px; padding: 14px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; font-weight: 500; line-height: 1.5; list-style: none; cursor: pointer; }
+:is(.action-extras,.action-history) > summary::-webkit-details-marker { display: none; }
+:is(.action-extras,.action-history) > summary > .ui-icon:last-child { margin-left: auto; flex-shrink: 0; transition: transform .16s; }
+:is(.action-extras,.action-history)[open] > summary > .ui-icon:last-child { transform: rotate(180deg); }
+.action-extras-content { padding: 2px 0 6px; }
+.action-source-files { display: grid; gap: 8px; }
+.action-source-files > label { display: flex; align-items: center; gap: 9px; color: var(--ink); font-size: 14px; line-height: 1.6; }
+.action-source-files input[type="checkbox"] { flex-shrink: 0; width: 17px; height: 17px; margin: 0; accent-color: var(--accent); }
+.action-files { display: grid; gap: 6px; margin-top: 14px; }
+.action-file { display: flex; align-items: center; gap: 8px; padding: 9px 11px; border-radius: 7px; background: var(--accent-soft); color: var(--accent); font-size: 14px; }
+.action-file > span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.action-file > .ui-icon { flex-shrink: 0; }
+.action-upload { margin: 14px 0 20px; }
+.app-shell .action-editor .action-attach { min-height: 38px; padding: 8px 12px; background: transparent; font-size: 14px; }
+.action-save-first,.action-upload-message { margin: 12px 0 18px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.action-follow-ups { margin-top: 18px !important; }
+.action-reflection-options { display: grid; gap: 3px; max-height: 190px; padding: 3px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+.action-reflection-choice { align-items: flex-start; border-color: transparent; }
+.action-reflection-choice .action-choice-mark { margin-top: 3px; }
+.action-reflection-choice > span:last-child { min-width: 0; overflow-wrap: anywhere; }
+.action-reflection-choice small { display: block; margin-top: 3px; color: var(--muted); font-size: 13px; }
+.action-history > div { padding: 10px 0 10px 12px; border-left: 2px solid var(--line); }
+.action-history time { color: var(--muted); font-size: 13px; }
+.action-history p { margin: 5px 0 0; font-size: 14px; line-height: 1.6; }
+.app-shell .action-editor-footer { display: flex; flex-shrink: 0; align-items: center; justify-content: flex-end; gap: 10px; width: 100%; margin: 0; padding: 16px 28px; border-top: 1px solid var(--line); background: var(--surface); font-size: 14px; line-height: 1.5; letter-spacing: 0; }
+.app-shell .action-editor-footer .button { min-height: 42px; padding: 10px 18px; font-size: 14px; }
+.app-shell .action-editor-footer .action-cancel { border-color: transparent; background: transparent; color: var(--muted); }
+.app-shell .action-editor-footer .action-cancel:hover { background: var(--accent-soft); }
+@media (max-width: 680px) {
+ .app-shell .modal-backdrop:has(.action-modal) { padding: 16px; }
+ .app-shell .modal.action-modal { max-height: calc(100dvh - 32px); border-radius: 14px; }
+ .app-shell .action-modal .modal-header { padding: 18px 20px 16px; }
+ .app-shell .action-modal .modal-header h3 { font-size: 21px; }
+ .action-editor-scroll { padding: 0 20px 18px; }
+ .action-status-options { grid-template-columns: repeat(2,minmax(0,1fr)); }
+ .action-basics { grid-template-columns: minmax(0,1fr) 160px; gap: 14px; }
+ .app-shell .action-editor-footer { padding: 14px 20px; }
+}
+@media (max-width: 520px) {
+ .action-basics { grid-template-columns: minmax(0,1fr); gap: 0; }
+ .app-shell .action-editor-footer .button { flex: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+ .action-editor :is(.action-status-choice,.action-reflection-choice,summary > .ui-icon) { transition: none; }
+}

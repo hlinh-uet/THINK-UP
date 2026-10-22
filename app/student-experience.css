@@ -1,0 +1,237 @@
+/* Shared student materials. These rules deliberately stay inside the student role. */
+.app-shell.student-workspace .page-heading h1 { font-size: 36px; letter-spacing: -.9px; line-height: 1.25; }
+.student-workspace .page-heading p { font-size: 15px; line-height: 1.85; }
+.student-workspace .page-heading .eyebrow { display: block; margin-bottom: 12px; font-size: 13px; letter-spacing: 1.4px; }
+.app-shell.student-workspace .button { border-radius: 9px; min-height: 42px; padding: 10px 17px; font-size: 14px; }
+.app-shell.student-workspace .button.primary { background: var(--accent); border-color: var(--accent); }
+.app-shell.student-workspace .button.primary:hover:not(:disabled) { background: var(--accent-hover); border-color: var(--accent-hover); }
+.app-shell.student-workspace :is(.badge,.pill) { border-radius: 5px; }
+.student-workspace .badge { font-size: 13px; font-weight: 500; letter-spacing: 0; }
+.student-workspace .badge.draft { background: #f0edf2; color: #85728f; }
+.student-workspace .badge.submitted { background: #eeeaf5; color: #79668f; }
+.student-workspace .badge.returned { background: #f8ede3; color: #a16f49; }
+.student-workspace .badge.final { background: var(--accent-soft); color: var(--accent); }
+.student-workspace .toolbar :is(input,select) { background: var(--surface); border-radius: 8px; min-height: 43px; font-size: 14px; }
+.student-workspace .workspace-tabs { gap: 28px; margin-bottom: 28px; }
+.student-workspace .workspace-tabs > button { font-size: 14px; padding-bottom: 14px; }
+.student-workspace .workspace-tabs > button[aria-selected="true"] { color: var(--accent-hover); border-bottom-color: var(--accent); }
+.app-shell.student-workspace .panel { border-radius: 14px; border-color: var(--line); box-shadow: none; }
+.student-workspace .empty { padding: 32px 20px; }
+/* Writing library: one writing action, a filter, a continuous reading list. */
+.app-shell.student-workspace .reflection-library-list { padding: 0; border: 0; border-radius: 0; background: transparent; }
+.app-shell.student-workspace .reflection-library-list h2 { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 26px; font-weight: 400; }
+.library-count { display: grid; place-items: center; min-width: 23px; height: 23px; padding-inline: 5px; border: 1px solid var(--line); border-radius: 50%; color: var(--muted); font-family: var(--font-sans); font-size: 13px; }
+.student-workspace .reflection-library-list .toolbar { margin-block: 20px 0; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+.app-shell.student-workspace .reflection-library-list .reflection-row { padding: 22px 0; gap: 16px; }
+.student-workspace .reflection-library-list .document-icon { width: 34px; height: 42px; border: 1px solid #e5dbe9; border-radius: 4px 9px 9px 4px; background: #f4eff6; color: #a28aad; }
+.student-workspace .reflection-library-list .reflection-row h4 { font-size: 16px; font-weight: 600; }
+.student-workspace .reflection-library-list .reflection-row p { font-size: 13px; }
+.student-workspace .reflection-library-list .reflection-row .row-score { font-size: 14px; color: #8d789b; }
+/* The editor is paper with supporting tools, rather than a form inside a card. */
+.app-shell.student-workspace .student-writing-workspace .writing-workspace-grid.with-support { grid-template-columns: minmax(0,1fr) 330px; gap: 24px; }
+.app-shell.student-workspace .student-writing-workspace .writing-canvas.panel { padding-inline: 30px; border: 1px solid #e4dce6; border-radius: 12px; background: #fffefa; box-shadow: 0 3px 14px #42344903; }
+.app-shell.student-workspace .student-writing-workspace .writing-canvas:focus-within { border-color: #c3b2ce; box-shadow: 0 3px 14px #42344903; }
+.app-shell.student-workspace .student-writing-workspace .writing-settings > summary { font-size: 13px; padding-block: 18px; }
+.app-shell.student-workspace .student-writing-workspace .title-input { font-size: 31px; padding: 28px 0 22px; }
+.app-shell.student-workspace .student-writing-workspace .title-input::placeholder { color: #b0a3b5; }
+.student-workspace .writing-body-heading label { font-size: 13px; font-weight: 500; color: #a395ac; }
+.student-workspace .writing-body-heading > span { font-size: 13px; }
+.app-shell.student-workspace .student-writing-workspace .writing-canvas .free-writing-area textarea { min-height: 450px; padding: 12px 0 20px; border: 0; border-radius: 0; background: transparent; line-height: 2; font-size: 16px; }
+.app-shell.student-workspace .student-writing-workspace .writing-canvas .free-writing-area textarea:focus { outline: none; box-shadow: none; background: transparent; }
+.student-workspace .writing-canvas .free-writing-area:focus-within .writing-body-heading label { color: var(--accent); }
+.app-shell.student-workspace .student-writing-workspace .writing-canvas .free-writing-area textarea::placeholder { color: #a296aa; font-size: 16px; }
+.app-shell.student-workspace .student-writing-workspace .writing-bottom-bar { border-radius: 0 0 12px 12px; background: #fffefa; }
+.student-workspace .writing-context-column { border-radius: 12px; top: 96px; }
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .writing-support-panel { border: 1px solid #e3dce9; border-radius: 12px; background: #f5f1f8; }
+.app-shell.student-workspace .student-writing-workspace .reflection-assistant-heading { padding: 20px 18px 16px; }
+.student-workspace .reflection-assistant-heading > span { background: #e8deef; color: var(--accent); border-radius: 50%; }
+.app-shell.student-workspace .student-writing-workspace .reflection-assistant-heading h2 { font-size: 15px; }
+.app-shell.student-workspace .student-writing-workspace .reflection-assistant-heading p { font-size: 13px; line-height: 1.7; }
+.app-shell.student-workspace .student-writing-workspace .reflection-support-tabs { gap: 0; padding: 0 12px; border-bottom: 1px solid #e3dce9; background: transparent; }
+.app-shell.student-workspace .student-writing-workspace .reflection-support-tabs button { border: 0; border-bottom: 2px solid transparent; border-radius: 0; background: transparent; font-size: 13px; min-height: 46px; color: var(--muted); }
+.app-shell.student-workspace .student-writing-workspace .reflection-support-tabs button.selected { color: var(--accent-hover); border-bottom-color: var(--accent); box-shadow: none; }
+.app-shell.student-workspace .student-writing-workspace .writing-support-panel :is(.reflection-thinking,.coach-panel,.feedback-panel) { padding: 20px 18px; }
+.app-shell.student-workspace .student-writing-workspace .writing-support-panel .button { font-size: 13px; border-radius: 8px; }
+.student-workspace .writing-support-panel :is(.reflection-thinking-purpose,.thinking-welcome p,.coach-panel > p,.feedback-panel > p) { font-size: 14px; }
+/* A horizontal week trail avoids two competing side menus. */
+.student-workspace .journey-week-layout { grid-template-columns: minmax(0,1fr); gap: 24px; }
+.app-shell.student-workspace .journey-week-nav.panel { padding: 0 0 24px; background: transparent; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; overflow: visible; }
+.student-workspace .journey-nav-heading { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 8px 20px; padding: 0; border: 0; }
+.student-workspace .journey-nav-heading h2 { font-size: 14px; font-weight: 500; }
+.student-workspace .journey-nav-heading p { margin: 0; font-size: 13px; }
+.student-workspace .journey-completion-track { display: none; }
+.student-workspace .journey-week-links { display: grid; grid-template-columns: repeat(9,minmax(0,1fr)); padding: 18px 0 0; gap: 6px; }
+.student-workspace .journey-week-links > button { position: relative; flex-direction: column; align-items: flex-start; gap: 10px; min-height: 106px; padding: 12px 9px; border: 1px solid transparent; border-radius: 9px; }
+.student-workspace .journey-week-links > button.selected { border-color: #dfd1e8; border-radius: 9px; background: #eee7f2; }
+.app-shell.student-workspace .journey-week-links > button.selected .journey-nav-number { color: #fff; background: var(--accent); border-color: var(--accent); }
+.student-workspace .journey-nav-number { width: 26px; height: 26px; font-size: 13px; border-color: #e0d8e4; }
+.student-workspace .journey-week-links > button.complete:not(.selected) .journey-nav-number { color: var(--accent); background: var(--accent-soft); border-color: var(--line); }
+.student-workspace .journey-nav-copy { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
+.student-workspace .journey-nav-copy b { display: none; }
+.student-workspace .journey-nav-copy small { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; margin: 0; font-size: 13px; line-height: 1.6; white-space: normal; }
+.student-workspace .journey-nav-state { display: none; }
+.student-workspace .journey-focused-week { grid-template-columns: minmax(0,1.15fr) minmax(0,1fr); gap: 24px 32px; }
+.app-shell.student-workspace .journey-workspace .journey-week-intro { grid-column: 1 / -1; margin: 0; padding: 28px 32px; border: 1px solid #e7deec; border-radius: 14px; background: #f3edf6; }
+.app-shell.student-workspace .journey-week-intro h2 { font-size: 34px; margin-bottom: 12px; }
+.student-workspace .journey-week-intro > p { font-size: 16px; max-width: 750px; }
+.student-workspace .journey-intro-footer { margin-top: 22px; }
+.app-shell.student-workspace .journey-workspace :is(.journey-week-work,.journey-week-actions) { padding-top: 24px; margin-top: 0; border-top: 1px solid var(--line); }
+.student-workspace .journey-section-heading { align-items: flex-start; gap: 12px; }
+.student-workspace .journey-section-heading :is(h2,h3) { font-family: var(--font-display); font-size: 23px; font-weight: 400; }
+.student-workspace .journey-section-heading p { font-size: 14px; }
+.student-workspace .journey-reflection-copy b { font-size: 14px; }
+.student-workspace .journey-reflection { grid-template-columns: 26px minmax(0,1fr) auto 14px; gap: 9px; }
+.student-workspace .journey-reflection-icon { width: 26px; background: transparent; }
+.student-workspace .journey-commitment-heading h4 { font-size: 14px; line-height: 1.8; }
+.student-workspace .journey-commitment-heading { gap: 8px; }
+.student-workspace .journey-commitment-meta { font-size: 13px; }
+.student-workspace .journey-commitment-footer .button { font-size: 13px; }
+.student-workspace .journey-cycle-hint { color: var(--muted); line-height: 1.8; }
+/* Progress keeps the learning story in front of the detailed report. */
+.student-workspace .personal-progress-grid { grid-template-columns: minmax(0,1.6fr) minmax(260px,1fr); gap: 28px; }
+.app-shell.student-workspace .student-progress .progress-chart-card { padding: 24px; border: 1px solid var(--line); border-radius: 14px; background: #fffefa; }
+.student-workspace .progress-card-heading h2 { font-size: 16px; }
+.app-shell.student-workspace .student-progress .progress-focus { padding: 24px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.student-workspace .progress-bottom-grid { grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 32px; margin-top: 32px; }
+.student-workspace .progress-bottom-grid .progress-card-heading h2 { font-family: var(--font-display); font-size: 23px; font-weight: 400; }
+.student-workspace .progress-teacher-note blockquote { font-size: 15px; }
+.student-workspace .progress-chart-note { font-size: 13px; }
+/* Messages and profile share the same paper, line and corner treatment. */
+.student-workspace .chat-layout { background: var(--surface); border-color: var(--line); border-radius: 14px; }
+.student-workspace .chat-directory { background: #faf7fb; }
+.student-workspace .profile-edit-card { background: var(--surface); }
+.student-workspace .profile-account-column .panel { background: #f5f1f6; }
+@media (max-width: 1240px) {
+ .app-shell.student-workspace .student-writing-workspace .writing-workspace-grid.with-support { grid-template-columns: minmax(0,1fr); }
+ .student-workspace .writing-context-column { position: static; max-height: none; overflow: visible; }
+ .student-workspace .personal-progress-grid { grid-template-columns: minmax(0,1fr); gap: 24px; }
+ .student-workspace .journey-focused-week { grid-template-columns: minmax(0,1fr); }
+ .student-workspace .journey-week-links { gap: 3px; }
+ .student-workspace .journey-week-links > button { padding-inline: 6px; }
+}
+@media (max-width: 1000px) and (min-width: 761px) {
+ .app-shell.student-workspace .student-writing-workspace .writing-workspace-grid.with-support { grid-template-columns: minmax(0,1fr) 310px; }
+ .student-workspace .writing-context-column { position: sticky; top: 90px; max-height: calc(100dvh - 175px); overflow-y: auto; }
+}
+@media (max-width: 760px) {
+ .app-shell.student-workspace .page-heading h1 { font-size: 31px; }
+ .student-workspace .page-heading p { font-size: 14px; }
+ .student-workspace .page-heading .eyebrow { font-size: 13px; }
+ .student-workspace .workspace-tabs { gap: 22px; margin-bottom: 24px; }
+ .student-workspace .workspace-tabs > button { font-size: 13px; }
+ .student-workspace .reflection-library-list .reflection-row .grow { min-width: 0; }
+ .app-shell.student-workspace .reflection-library-list .reflection-row { grid-template-columns: 30px minmax(0,1fr) 14px; gap: 6px 12px; padding-block: 20px; }
+ .student-workspace .reflection-library-list .reflection-row .row-score { display: none; }
+ .student-workspace .reflection-library .page-heading > .button { min-height: 40px; }
+ .app-shell.student-workspace .student-writing-workspace .writing-canvas.panel { padding-inline: 22px; }
+ .app-shell.student-workspace .student-writing-workspace .writing-canvas .free-writing-area textarea { min-height: 380px; }
+ .app-shell.student-workspace .student-writing-workspace .title-input { font-size: 27px; }
+ .student-workspace .writing-workspace-heading .writing-quick-links .text-button { min-height: 36px; font-size: 13px; }
+ .student-workspace .journey-nav-heading { gap: 14px; }
+ .app-shell.student-workspace .journey-week-nav.panel { padding-bottom: 18px; }
+ .student-workspace .journey-week-links { grid-template-columns: repeat(9,minmax(52px,1fr)); overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; padding: 16px 0 6px; scroll-snap-type: x proximity; }
+ .student-workspace .journey-week-links > button { min-height: 47px; justify-content: center; align-items: center; padding: 9px; scroll-snap-align: center; }
+ .student-workspace .journey-nav-copy { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+ .app-shell.student-workspace .journey-workspace .journey-week-intro { padding: 24px; }
+ .app-shell.student-workspace .journey-week-intro h2 { font-size: 29px; }
+ .student-workspace .journey-week-intro > p { font-size: 15px; }
+ .student-workspace .journey-intro-footer { align-items: flex-start; flex-direction: column; gap: 16px; }
+ .student-workspace .journey-reflection { grid-template-columns: 26px minmax(0,1fr) 14px; gap: 7px; }
+ .student-workspace .journey-section-heading { flex-wrap: wrap; }
+ .student-workspace .journey-section-heading > .button { min-height: 38px; font-size: 13px; }
+ .student-workspace .progress-bottom-grid { grid-template-columns: minmax(0,1fr); gap: 24px; }
+ .app-shell.student-workspace .student-progress .progress-chart-card { padding: 20px 16px; }
+ .student-workspace .progress-card-heading h2 { font-size: 16px; }
+ .student-workspace .profile-page-grid { gap: 24px; }
+}
+
+/* Comfortable text sizes also cover inherited assistant, report and account components. */
+.app-shell.student-workspace { font-size: 15px; }
+.app-shell.student-workspace :is(.text-button,.field,.field > small,.notice,.empty p,.profile-locked-note,.profile-privacy-note,.profile-save-row,.profile-managed-label,.profile-readonly-row,.chat-role,.chat-private,.chat-preview,.chat-person-tail,.table-pagination) { font-size: 14px; line-height: 1.7; }
+.app-shell.student-workspace .field :is(input,textarea,select),
+.app-shell.student-workspace :is(.toolbar,.editor-selectors,.chat-search) :is(input,select) { font-size: 16px; min-height: 44px; }
+.app-shell.student-workspace :is(.workspace-footer,.language-picker) :is(a,button),
+.app-shell.student-workspace .workspace-header :is(.account-menu-item,.account-summary b,.account-summary small,.language-menu-label) { font-size: 14px; }
+.app-shell.student-workspace .workspace-header .avatar { font-size: 14px; }
+.app-shell.student-workspace .student-writing-workspace :is(.writing-save-state,.word-counter,.writing-evidence > summary,.writing-outline > summary,.writing-tools > summary,.thinking-context,.thinking-suggestion small,.tiny-status) { font-size: 13px; }
+.app-shell.student-workspace .student-writing-workspace .writing-bottom-bar .button { font-size: 14px; }
+.app-shell.student-workspace .student-writing-workspace :is(.writing-ai-hint,.thinking-welcome p,.thinking-suggestion > p,.coach-empty p,.coach-reflection-level p,.writing-readonly,.writing-submit-check p,.writing-outline > p,.writing-evidence > p,.evidence-option,.evidence-option small) { font-size: 14px; line-height: 1.8; }
+.app-shell.student-workspace .student-writing-workspace .writing-support-panel :is(h3,h4,.guidance-group h4,.reflection-guidance h4) { font-size: 15px; }
+.app-shell.student-workspace .student-writing-workspace .writing-support-panel :is(li,blockquote,.guidance-group p,.rubric-result p,.rubric-result small) { font-size: 14px; line-height: 1.8; }
+.app-shell.student-workspace .student-writing-workspace .writing-action-reminder :is(summary,p,li,.previous-commitment b) { font-size: 14px; line-height: 1.8; }
+.app-shell.student-workspace .student-progress :is(.progress-card-heading p,.progress-course-heading small,.progress-course > p,.progress-reviewed-copy small,.progress-chart-axis,.progress-chart-key,.progress-week-buttons > button,.progress-chart-caption small,.progress-focus-label,.progress-metric-label,.progress-metric p,.progress-action-summary p,.progress-portfolio-copy > span) { font-size: 13px; }
+.app-shell.student-workspace .student-progress :is(.progress-focus-section p,.progress-focus-section li,.progress-teacher-note blockquote,.progress-criterion-card > p,.progress-quiet-empty p) { font-size: 15px; line-height: 1.8; }
+.app-shell.student-workspace .journey-workspace :is(.journey-intro-footer > span,.journey-week-eyebrow,.journey-commitment-source,.journey-process > summary,.journey-no-actions p,.journey-supporting-note,.journey-commitment-details p,.journey-metric-note) { font-size: 14px; line-height: 1.7; }
+/* Topics appear in the selected week's heading; the trail only needs week numbers. */
+.student-workspace .journey-week-links > button { justify-content: center; align-items: center; min-height: 60px; padding: 12px; }
+.student-workspace .journey-nav-number { width: 32px; height: 32px; font-size: 15px; }
+.student-workspace .journey-nav-copy { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 760px) {
+ .app-shell.student-workspace .student-writing-workspace .writing-bottom-bar { flex-direction: column; align-items: stretch; gap: 14px; }
+ .app-shell.student-workspace .student-writing-workspace .writing-bottom-bar > div { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+ .app-shell.student-workspace .student-writing-workspace .writing-bottom-bar .button { min-height: 44px; padding-inline: 12px; font-size: 14px; }
+ .student-workspace .reflection-support-tabs { flex-wrap: wrap; }
+ .app-shell.student-workspace .student-writing-workspace .reflection-support-tabs button { flex: 1 1 95px; font-size: 13px; }
+ .student-workspace .journey-week-links > button { min-height: 56px; padding: 8px; }
+ .student-workspace .overview-journey { grid-template-columns: minmax(0,1fr) auto; gap: 14px; }
+ .student-workspace .overview-journey-heading { flex-wrap: wrap; gap: 8px; }
+ .student-workspace .overview-journey > .text-button { font-size: 13px; }
+}
+
+/* One actionable next step, using the current record rather than a generic tutorial. */
+.student-workspace .overview-kicker { gap: 10px; font-size: 14px; font-weight: 650; letter-spacing: 0; text-transform: none; }
+.student-workspace .overview-feature-copy > p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+.student-workspace .writing-next-step { position: sticky; top: var(--workspace-header-height); z-index: 26; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 16px 20px; margin-bottom: 22px; border: 1px solid #ded3e7; border-radius: 12px; background: #fcf9fdf7; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.student-workspace .writing-next-step > div { min-width: 0; }
+.student-workspace .writing-next-step > div > span { display: block; color: var(--accent); font-size: 13px; font-weight: 650; }
+.student-workspace .writing-next-step p { margin: 4px 0 0; color: var(--ink); font-size: 14px; line-height: 1.6; }
+.student-workspace .writing-next-step > .button { flex-shrink: 0; }
+.student-workspace :is(.writing-canvas,.writing-settings,.lecturer-feedback,.writing-support-panel) { scroll-margin-top: calc(var(--workspace-header-height) + 120px); }
+.app-shell.student-workspace .feedback-panel > .lecturer-feedback { padding: 0 0 24px; margin: 0 0 24px; border: 0; border-bottom: 1px solid #dcd1e4; border-radius: 0; background: transparent; }
+.student-workspace .journey-next-context { display: grid; gap: 5px; }
+.student-workspace .journey-next-context > b { color: var(--accent); font-size: 13px; font-weight: 650; }
+.student-workspace .journey-next-context > span { color: var(--ink); font-size: 14px; }
+.student-workspace .journey-next-context > small { color: var(--muted); font-size: 13px; }
+@media (max-width: 760px) {
+ .student-workspace .writing-next-step { padding: 14px 16px; gap: 12px; flex-wrap: wrap; }
+ .student-workspace .writing-next-step > .button { margin-left: auto; min-height: 44px; }
+ .student-workspace :is(.writing-canvas,.writing-settings,.lecturer-feedback,.writing-support-panel) { scroll-margin-top: calc(var(--workspace-header-height) + 165px); }
+}
+
+/* Compact functional groups keep the reading order together. */
+.app-shell.student-workspace .main-shell > main,
+.app-shell.student-workspace .main-shell > .topbar { max-width: 1120px; }
+.student-workspace .workspace-tabs { gap: 22px; margin-bottom: 22px; }
+.student-workspace .overview-kicker { gap: 8px; font-size: 13px; }
+.student-workspace .writing-next-step { min-height: 60px; padding: 10px 16px; margin-bottom: 18px; gap: 14px; }
+.student-workspace .writing-next-step > div > span { color: var(--muted); font-size: 14px; font-weight: 500; }
+.student-workspace .journey-next-context { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 14px; }
+.app-shell.student-workspace .journey-workspace .journey-week-intro { padding: 24px; }
+.app-shell.student-workspace .journey-week-intro h2 { font-size: 28px; margin-bottom: 10px; }
+.student-workspace .journey-week-intro > p { max-width: 58ch; font-size: 15px; line-height: 1.65; }
+.student-workspace .journey-intro-footer { margin-top: 18px; }
+.student-workspace .journey-focused-week { gap: 20px 24px; }
+.app-shell.student-workspace .student-progress .progress-focus { background: var(--surface); border-color: var(--line); }
+.student-workspace :is(.journey-section-heading,.progress-bottom-grid .progress-card-heading) :is(h2,h3) { font-family: var(--font-sans); font-size: 19px; font-weight: 650; line-height: 1.45; letter-spacing: -.3px; }
+.student-workspace .progress-card-heading { margin-bottom: 16px; }
+.student-workspace .progress-card-heading h2 { font-size: 18px; }
+.student-workspace .progress-teacher-note { margin-bottom: 16px; }
+.student-workspace .progress-chart-method { margin-top: 14px; }
+.student-workspace .progress-chart-method > summary { color: var(--muted); font-size: 13px; cursor: pointer; }
+.student-workspace .progress-chart-method > p { max-width: 58ch; margin: 8px 0 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
+.student-workspace .progress-bottom-grid { margin-top: 24px; gap: 24px; }
+.student-workspace .progress-action-summary { margin-top: 18px; padding-top: 16px; }
+.student-workspace .reflection-library-list .toolbar { margin-top: 0; }
+.app-shell.student-workspace .reflection-library-list .reflection-row { padding-block: 16px; }
+@media (max-width: 760px) {
+ .student-workspace .writing-next-step { flex-wrap: nowrap; padding: 10px 12px; }
+ .student-workspace .writing-next-step > div > span { font-size: 13px; }
+ .student-workspace .writing-next-step > .button { padding-inline: 12px; }
+ .app-shell.student-workspace .journey-week-intro h2 { font-size: 25px; }
+}
+/* Student accents stay violet, including inherited success and revision states. */
+.app-shell.student-workspace .progress-focus-label { color: var(--accent); }
+.app-shell.student-workspace :is(.saved-dot,.chart-legend i) { background: var(--accent); }
+.app-shell.student-workspace :is(.diff-content ins,.diff-added) { color: var(--accent-hover); background: var(--accent-soft); }
+.app-shell.student-workspace :is(input,textarea,select):focus { border-color: var(--accent); }
+.student-workspace .workspace-footer > span { display: none; }

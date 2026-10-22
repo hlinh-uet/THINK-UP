@@ -1,0 +1,65 @@
+/* Shared desktop frame for all signed-in roles. */
+.app-shell.rail-workspace {
+ --paper: #fcfaf7; --surface: #fffefa; --surface-soft: #f5f1f7;
+ --ink: #39323f; --text: var(--ink); --muted: #756a7b;
+ --accent: #79618d; --accent-hover: #624975; --accent-soft: #eee8f3;
+ --purple: var(--accent); --light-purple: var(--accent-soft); --line: #e9e3e7;
+ --workspace-header-height: 76px; --workspace-nav-width: 212px;
+ --shadow: none; background: var(--paper);
+}
+.app-shell.rail-workspace > .sidebar { height: var(--workspace-header-height); border-bottom: 1px solid var(--line); background: var(--paper); box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+.rail-workspace .workspace-header.has-side-navigation { display: flex; justify-content: space-between; max-width: none; height: var(--workspace-header-height); min-height: var(--workspace-header-height); padding: 12px 32px; }
+.app-shell.rail-workspace .workspace-header .brand { display: block; position: relative; font-size: 29px; letter-spacing: -1.6px; line-height: 1; }
+.app-shell.rail-workspace .workspace-header .brand i { display: none; }
+.rail-workspace .workspace-header-actions { margin-left: auto; gap: 22px; }
+.rail-workspace .workspace-preferences { gap: 14px; }
+.rail-workspace .workspace-header .help-button { width: 38px; height: 38px; border-radius: 50%; }
+.rail-workspace .workspace-header .help-button:hover { background: var(--accent-soft); color: var(--accent); }
+.rail-workspace .workspace-side-navigation { position: fixed; top: var(--workspace-header-height); bottom: 0; left: 0; z-index: 40; display: flex; flex-direction: column; width: var(--workspace-nav-width); padding: 34px 18px 28px; overflow-y: auto; overscroll-behavior: contain; border-right: 1px solid var(--line); border-radius: 0; background: var(--paper); box-shadow: none; scrollbar-width: thin; }
+.rail-workspace .workspace-sidebar-controls { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+.rail-workspace .workspace-side-navigation .workspace-navigation { position: static; display: block; padding: 0; margin: 0; border: 0; background: transparent; box-shadow: none; }
+.rail-workspace .workspace-side-navigation nav { display: flex; flex-direction: column; align-items: stretch; gap: 7px; }
+.rail-workspace .workspace-side-navigation nav a { position: relative; display: flex; align-items: center; justify-content: flex-start; gap: 12px; width: 100%; min-height: 46px; padding: 11px 13px; border: 1px solid transparent; border-radius: 9px; background: transparent; color: var(--muted); font-size: 14px; line-height: 1.7; transition: color .18s,background-color .18s; }
+.rail-workspace .workspace-side-navigation nav a > .ui-icon { display: block; width: 18px; height: 18px; flex-shrink: 0; }
+.rail-workspace .workspace-side-navigation nav a > span:not(.nav-count) { min-width: 0; font-weight: 500; }
+.rail-workspace .workspace-side-navigation nav a:hover { background: #f2edf3; color: var(--accent); transform: none; }
+.rail-workspace .workspace-side-navigation nav a.active { color: var(--accent-hover); background: #eee7f2; border-color: #e7deed; box-shadow: none; }
+.rail-workspace .workspace-side-navigation nav a.active > span:not(.nav-count) { font-weight: 700; }
+.rail-workspace .workspace-side-navigation nav a:last-child { margin-top: 24px; }
+.rail-workspace .workspace-side-navigation nav a:last-child::before { content: ''; position: absolute; top: -16px; left: 12px; right: 12px; border-top: 1px solid var(--line); }
+.rail-workspace :is(a,button,input,textarea,select,summary):focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.rail-workspace .workspace-side-navigation .nav-count { display: grid; place-items: center; flex-shrink: 0; min-width: 18px; height: 18px; margin-left: auto; padding: 0 4px; border-radius: 20px; background: var(--accent); color: #fff; font-size: 13px; line-height: 1; }
+.app-shell.rail-workspace .main-shell { margin-left: var(--workspace-nav-width); }
+.app-shell.rail-workspace .main-shell > main { max-width: 1250px; padding: 24px 44px 26px; }
+.rail-workspace .workspace-menu-toggle,.rail-workspace .workspace-navigation-backdrop { display: none; }
+.rail-workspace .workspace-footer { margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--line); }
+.rail-workspace .workspace-footer .footer-wordmark { display: none; }
+.rail-workspace .workspace-footer > span { color: #a295a6; font-family: var(--font-display); font-style: italic; font-size: 14px; }
+.rail-workspace .workspace-footer > div { margin-left: auto; }
+@media (max-width: 1200px) {
+ .app-shell.rail-workspace { --workspace-nav-width: 190px; }
+ .rail-workspace .workspace-side-navigation { padding-inline: 12px; }
+ .app-shell.rail-workspace .main-shell > main { padding-inline: 30px; }
+}
+@media (max-width: 1000px) {
+ .app-shell.rail-workspace .main-shell { margin-left: 0; }
+ .rail-workspace .workspace-header.has-side-navigation { padding-inline: 26px; }
+}
+@media (max-width: 760px) {
+ .app-shell.rail-workspace { --workspace-header-height: 67px; }
+ .rail-workspace .workspace-header.has-side-navigation { padding: 10px 20px; }
+ .app-shell.rail-workspace .workspace-header .brand { font-size: 26px; }
+ .rail-workspace .workspace-header-actions { gap: 14px; }
+ .rail-workspace .workspace-preferences { gap: 6px; }
+ .app-shell.rail-workspace .main-shell > main { padding: 24px 20px; }
+ .rail-workspace .workspace-footer { flex-direction: column; align-items: flex-start; gap: 14px; margin-top: 34px; }
+ .rail-workspace .workspace-footer > div { margin-left: 0; }
+}
+
+/* Keep page identity accessible without repeating the selected navigation label. */
+.app-shell .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.app-shell .workspace-page-actions { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 12px; margin-bottom: 22px; }
+.app-shell .student-writing-workspace .writing-workspace-heading { justify-content: flex-end; }
+@media (max-width: 760px) {
+ .app-shell .student-writing-workspace .writing-workspace-heading { align-items: flex-end; }
+}

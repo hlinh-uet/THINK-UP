@@ -56,6 +56,14 @@ Bộ demo gồm 2 học phần có rubric và lịch 9 tuần, 14 bài reflectio
 
 Lệnh chỉ dùng Miniflare local, chung binding D1/R2 và `.wrangler/state` với Vite; không gọi database production và không tự chạy khi build, khởi động hoặc triển khai. Tài khoản demo không thay thế owner hiện có. Seed thêm dữ liệu trong một transaction D1, giữ cấu hình và dữ liệu cũ; chạy lại sẽ bỏ qua toàn bộ bộ demo đã nạp, giữ cả những chỉnh sửa và bản ghi demo bạn đã xóa. Nếu có email/ID trùng trước lần nạp đầu, transaction thất bại và không ghi đè tài khoản cũ.
 
+Để xem menu Course và các trang student với nhiều dữ liệu hơn, sau bộ demo cơ bản chạy:
+
+```bash
+npm run db:seed:student
+```
+
+Lệnh thêm 8 học phần cho `student@thinkup.local`: Tư duy thiết kế, Nghiên cứu trải nghiệm người dùng, Giao tiếp và làm việc nhóm, Tư duy phản biện, Kỹ năng thuyết trình, Quản lý dự án, Học tập qua phục vụ cộng đồng, Phát triển bền vững. Mỗi học phần có lịch 9 tuần và 3 bài viết; cả bộ có 24 bài, 84 phiên bản, 16 cam kết, 18 góp ý giảng viên và 21 phản hồi rubric mẫu theo thang /10. Có tên học phần dài để thử menu cuộn, dữ liệu Việt/Anh, trạng thái nháp/chờ chấm/cần sửa/hoàn thành và cam kết quá hạn/đang làm/đã xong. Marker riêng giúp chạy lại không thêm trùng hay ghi đè bài, học phần và cấu hình đã có; lệnh không tạo tài khoản mới hoặc gọi AI. Tải lại trang student sau khi nạp.
+
 Các luồng thử nhanh:
 
 - Dùng `student@thinkup.local`: mở bài nháp tuần 6, sửa/lưu và tải minh chứng; xem tuần 5 cần sửa rồi nộp lại; xem Journey, Progress và cập nhật cam kết.

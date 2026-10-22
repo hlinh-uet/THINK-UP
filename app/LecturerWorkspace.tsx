@@ -7,12 +7,15 @@ import { dateLocale, languageCookie, translate, type Language } from '../lib/i18
 import { lecturerHref, lecturerPages, lecturerScope, safeCsv, weeklyClassProgress, type LecturerQuery, type LecturerSection } from '../lib/lecturer-pages';
 import { currentFeedback, finalReview, learnerProgress } from '../lib/progress';
 import UiIcon from './UiIcon';
+import WorkspacePageHeading from './WorkspacePageHeading';
 import UserAvatar from './UserAvatar';
 import WorkspaceProfile from './WorkspaceProfile';
 import WorkspaceHeader from './WorkspaceHeader';
 import LanguageToggle from './LanguageToggle';
 import { useAIProvider } from './AIProviderSelect';
-import MessageUnreadBadge from './MessageUnreadBadge';
+import LecturerNavigation from './LecturerNavigation';
+import LecturerClassFilter from './LecturerClassFilter';
+import CoursePicker from './CoursePicker';
 import LecturerInsights from './LecturerInsights';
 import LecturerReview from './LecturerReview';
 import LecturerCourses from './LecturerCourses';
@@ -44,6 +47,7 @@ export default function LecturerWorkspace({initialData,initialLanguage,section,q
   const tr=(text:string,args:readonly unknown[]=[])=>translate(text,language,args);
   const dt=(text:string,id?:string|null)=>demoText(text,id,language);
   const scope=lecturerScope(data,query.course,query.cohort), course=scope.courses.find(c=>c.id===query.course);
+  const classes=[...new Set(lecturerScope(data).courses.map(c=>c.className||c.code))];
   const rubric=course?.rubric||data.rubric;
   const row=scope.reflections.find(r=>r.id===reflectionId);
   const student=scope.students.find(u=>u.id===query.student);
@@ -98,14 +102,6 @@ export default function LecturerWorkspace({initialData,initialLanguage,section,q
     const url=URL.createObjectURL(new Blob(['\uFEFF'+content],{type:'text/csv;charset=utf-8'}));
     const link=document.createElement('a');link.href=url;link.download='think-up-lecturer.csv';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
-  const descriptions:Record<LecturerSection,string>={
-    submissions:'Mở bài cần đánh giá, đọc nội dung và gửi phản hồi cho sinh viên.',
-    students:'Xem danh sách được phân công và hồ sơ học tập của từng sinh viên.',
-    progress:'Theo dõi tiến độ theo tuần và nhận diện những sinh viên cần hỗ trợ.',
-    similarity:'Đối chiếu bài nộp và đọc các đoạn trùng trong phạm vi học phần của bạn.',
-    courses:'Thiết lập nội dung, hạn nộp và rubric cho học phần bạn phụ trách.',
-    messages:'Trao đổi trực tiếp với sinh viên, giảng viên và quản trị viên.',
-  };
   const visible=scope.reflections.filter(r=>{
     const review=finalReview(r),proposal=currentFeedback(r),index=rubric.findIndex(c=>c.key===criterion);
     const actual=index<0?null:review?.criteria?.[index]?.level||(review?(review.scoreScale===10?criterionLevel(review.scores[index]):review.scores[index]):proposal?.result.criteria[index]?.level);
@@ -114,19 +110,14 @@ export default function LecturerWorkspace({initialData,initialLanguage,section,q
   const progress=learnerProgress(scope.reflections);
   const visibleStudents=scope.students.filter(u=>`${u.name} ${u.email}`.toLowerCase().includes(search.trim().toLowerCase()));
 
-  return <div className="app-shell lecturer-workspace">
-    <WorkspaceHeader language={language} controls={<LanguageToggle language={language} onChange={changeLanguage} disabled={!!busy||(section==='courses'&&hasUnsaved)} title={section==='courses'&&hasUnsaved?tr('Lưu cấu hình trước khi đổi ngôn ngữ.'):undefined}/>} profile={data.user&&<WorkspaceProfile user={data.user} language={language} busy={!!busy} onLogout={()=>void logout()}/>}>
-<nav aria-label={tr('Điều hướng chính')}>{lecturerPages.map(p=><a key={p.key} href={lecturerHref(p.key,common)} className={section===p.key?'active':''} aria-current={section===p.key?'page':undefined}><UiIcon name={p.icon} className="nav-icon"/><span>{tr(p.label)}</span>{p.key==='messages'&&<MessageUnreadBadge language={language}/>} {p.key==='submissions'&&progress.pending>0&&<small className="nav-count">{progress.pending}</small>}</a>)}</nav>
+  return <div className="app-shell lecturer-workspace rail-workspace">
+    <WorkspaceHeader sideNavigation mobileSideMenu homeHref={lecturerHref('submissions')} language={language} sidebarControls={classes.length>0?<CoursePicker courses={scope.courses} value={query.course||''} language={language} disabled={!!busy} onChange={value=>location.assign(lecturerHref(section,{course:value,cohort:query.cohort}))}/>:undefined} controls={<><button type="button" className="help-button" aria-label={tr('Hướng dẫn sử dụng')} onClick={()=>setHelp(true)}><UiIcon name="help"/></button><LanguageToggle language={language} onChange={changeLanguage} disabled={!!busy||(section==='courses'&&hasUnsaved)} title={section==='courses'&&hasUnsaved?tr('Lưu cấu hình trước khi đổi ngôn ngữ.'):undefined}/></>} profile={data.user&&<WorkspaceProfile user={data.user} language={language} busy={!!busy} onLogout={()=>void logout()}/>}>
+<LecturerNavigation section={section} query={common} language={language} busy={!!busy} pending={progress.pending}/>
 </WorkspaceHeader>
-    <div className="main-shell"><header className="topbar"><div className="breadcrumb">{tr('Không gian giảng dạy')}<span className="crumb">/ {tr(page.label)}</span></div><div className="top-controls">
-      <select aria-label={tr('Lọc theo lớp')} value={query.cohort||''} onChange={e=>location.assign(lecturerHref(section,{cohort:e.target.value}))}><option value="">{tr('Tất cả lớp')}</option>{[...new Set(data.courses.map(c=>c.className||c.code))].map(name=><option key={name} value={name}>{name}</option>)}</select>
-      {scope.courses.length>0&&<select disabled={!!busy} aria-label={tr('Học phần đang xem')} value={query.course||''} onChange={e=>location.assign(lecturerHref(section,{course:e.target.value,cohort:query.cohort}))}><option value="">{tr('Tất cả học phần')}</option>{scope.courses.map(c=><option key={c.id} value={c.id}>{c.code} · {dt(c.name,c.id)}</option>)}</select>}
-      
-      
-      <button className="help-button" aria-label={tr('Hướng dẫn sử dụng')} onClick={()=>setHelp(true)}><UiIcon name="help"/></button>
-    </div></header><main id="workspace-main" tabIndex={-1}>
+    <div className="main-shell"><main id="workspace-main" tabIndex={-1}>
       {row?<LecturerReview key={row.id} reflection={row} data={data} language={language} busy={busy} onMutate={mutate} backLabel={query.student?'Hồ sơ sinh viên':'Danh sách bài nộp'} backHref={query.student?studentHref(query.student):lecturerHref('submissions',{...common,status,week,q:search})} similarityHref={lecturerHref('similarity',{course:row.courseId||'',reflection:row.id})}/>:<>
-        <div className="page-heading"><div><h1>{tr(page.label)}</h1><p>{tr(descriptions[section])}</p></div>{['submissions','students','progress'].includes(section)&&<button className="button" onClick={exportReport}>{tr('Xuất CSV')}</button>}</div>
+        <WorkspacePageHeading title={tr(page.label)}>{['submissions','students','progress'].includes(section)&&<button className="button" onClick={exportReport}>{tr('Xuất CSV')}</button>}</WorkspacePageHeading>
+        <LecturerClassFilter classes={classes} value={query.cohort||''} section={section} language={language} busy={!!busy}/>
         {!scope.courses.length?<section className="panel empty"><UiIcon name="lecturer" size={28}/><h3>{tr('Chưa có học phần được phân công')}</h3><p>{tr('Liên hệ quản trị viên để được phân công giảng dạy. Danh sách sinh viên và bài nộp sẽ xuất hiện tại đây.')}</p></section>:<>
           {section==='submissions'&&<>
             <div className="submission-statuses" aria-label={tr('Lọc bài nộp')}>{[['submitted','Chờ đánh giá'],['returned','Đang chỉnh sửa'],['final','Đã hoàn thành'],['all','Tất cả']].map(([key,label])=><button key={key} className={status===key?'selected':''} aria-pressed={status===key} onClick={()=>setStatus(key)}>{tr(label)}<span>{scope.reflections.filter(r=>key==='all'||r.status===key).length}</span></button>)}</div>

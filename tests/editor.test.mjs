@@ -159,3 +159,19 @@ test('Coach and Feedback keep all four guidance groups and require explicit conf
   assert.equal((html.match(/open=""/g)||[]).length,1);
   assert.ok(html.includes('Review and confirm action'));
 });
+
+
+test('editor keeps the next action visible for a draft, returned work and a submitted reflection',()=>{
+  const next=overrides=>{
+    const html=renderToStaticMarkup(createElement(StudentEditor,{...props,...overrides}));
+    const block=html.match(/<section class="writing-next-step"[\s\S]*?<\/section>/)?.[0];
+    assert.ok(block,'The next action is visible above the writing canvas');
+    return block;
+  };
+  assert.match(next({draft:draft({content:emptyContent})}),/Start writing/);
+  assert.match(next({}),/Review &amp; submit/);
+  assert.match(next({draft:{...props.draft,status:'returned'},current:{...props.draft,attachments:[],versions:[],analyses:[],reviews:[{comment:'Please explain your assumptions.'}]}}),/View lecturer feedback/);
+  const submitted=next({draft:{...props.draft,status:'submitted'},onNextAction:noop,nextActionLabel:'Chọn hành động'});
+  assert.match(submitted,/Choose an action/);assert.doesNotMatch(submitted,/Confirm submission/);
+  assert.match(next({busy:'submit'}),/<button[^>]*disabled=""/);
+});

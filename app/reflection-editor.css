@@ -2,65 +2,65 @@
 .app-shell .student-writing-workspace .writing-topline { margin-bottom: 12px; gap: 12px; flex-wrap: wrap; }
 .app-shell .student-writing-workspace .writing-workspace-heading { align-items: center; gap: 20px; margin-bottom: 20px; }
 .writing-workspace-heading > div:first-child { min-width: 0; }
-.app-shell .writing-workspace-heading .eyebrow { display: none; margin: 0; font-size: 10px; letter-spacing: .6px; }
+.app-shell .writing-workspace-heading .eyebrow { display: none; margin: 0; font-size: 13px; letter-spacing: .6px; }
 .app-shell .writing-workspace-heading h1 { font-family: var(--font-display); font-size: 34px; font-weight: 400; line-height: 1.25; letter-spacing: -.7px; margin: 0; }
 .writing-workspace-heading p { font-size: 13px; color: var(--muted); margin: 0; }
 .writing-quick-links { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 10px 18px; }
-.writing-quick-links .text-button { font-size: 11px; }
+.writing-quick-links .text-button { font-size: 13px; }
 .app-shell .student-writing-workspace .writing-workspace-grid.with-support { grid-template-columns: minmax(0,1fr) 320px; align-items: start; gap: 24px; }
 .app-shell .student-writing-workspace .writing-workspace-grid.with-support .writing-canvas { grid-row: auto; }
 .app-shell .student-writing-workspace .writing-canvas.panel { padding: 0 32px; border: 1px solid #dcd0ed; border-top: 3px solid #b8a5d9; border-radius: 20px; background: #fff; box-shadow: 0 8px 30px #49345d08; min-width: 0; }
 .app-shell .student-writing-workspace .writing-canvas:focus-within { border-color: #a995cc; box-shadow: 0 8px 34px #7361bc0d; }
-.app-shell .student-writing-workspace .writing-settings > summary { padding: 16px 0; font-size: 11px; }
+.app-shell .student-writing-workspace .writing-settings > summary { padding: 16px 0; font-size: 13px; }
 .writing-settings > summary > span:first-child { min-width: 0; overflow-wrap: anywhere; }
 .writing-settings > summary > span:last-child { flex-shrink: 0; }
 .app-shell .student-writing-workspace .title-input { font-family: var(--font-display); font-size: 32px; font-weight: 400; line-height: 1.4; letter-spacing: -.6px; padding: 24px 0 20px; }
 .app-shell .student-writing-workspace .title-input::placeholder { color: #91849f; opacity: 1; }
 .app-shell .student-writing-workspace .writing-canvas .free-writing-area { padding-top: 0; }
 .writing-body-heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 12px; }
-.writing-body-heading label { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); font-size: 12px; font-weight: 700; }
-.writing-body-heading > span { color: var(--muted); font-size: 10px; }
+.writing-body-heading label { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); font-size: 13px; font-weight: 700; }
+.writing-body-heading > span { color: var(--muted); font-size: 13px; }
 .app-shell .student-writing-workspace .writing-canvas .free-writing-area textarea { display: block; width: 100%; min-height: 420px; padding: 20px 22px; border: 1px solid #e7dfee; border-radius: 12px; background: #fdfbfe; color: var(--ink); font-size: 16px; line-height: 1.95; resize: vertical; scroll-margin-top: 110px; }
 .app-shell .student-writing-workspace .writing-canvas .free-writing-area textarea::placeholder { color: #8d8198; font-size: 15px; line-height: 1.9; opacity: 1; }
 .app-shell .student-writing-workspace .writing-canvas .free-writing-area textarea:focus { outline: 2px solid #c5b4df; outline-offset: 2px; border-color: #b5a0d2; background: #fff; box-shadow: none; }
-.app-shell .student-writing-workspace .writing-canvas .word-counter { justify-content: flex-end; margin: 0; padding: 10px 0 14px; border-top: 0; font-size: 11px; }
+.app-shell .student-writing-workspace .writing-canvas .word-counter { justify-content: flex-end; margin: 0; padding: 10px 0 14px; border-top: 0; font-size: 13px; }
 .app-shell .student-writing-workspace .writing-evidence { margin: 0; border-top-color: var(--line); }
-.app-shell .student-writing-workspace .writing-evidence > summary { padding: 14px 0; font-size: 11px; }
+.app-shell .student-writing-workspace .writing-evidence > summary { padding: 14px 0; font-size: 13px; }
 .app-shell .student-writing-workspace .writing-outline { display: block; padding: 0; margin: 0; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: transparent; }
-.writing-outline > summary { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 0; color: var(--muted); cursor: pointer; list-style: none; font-size: 11px; }
+.writing-outline > summary { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 0; color: var(--muted); cursor: pointer; list-style: none; font-size: 13px; }
 .writing-outline > summary::-webkit-details-marker { display: none; }
 .writing-outline > summary::after { content: '+'; color: var(--accent); font-size: 16px; }
 .writing-outline[open] > summary::after { content: '−'; }
 .writing-outline > p { font-size: 13px; line-height: 1.85; color: var(--muted); margin: 0 0 14px; }
 .writing-outline > p b { color: var(--ink); margin-right: 4px; }
 .app-shell .student-writing-workspace .writing-bottom-bar { position: static; bottom: auto; z-index: 4; padding: 14px 0; gap: 10px 14px; border-radius: 0 0 18px 18px; background: #ffffffed; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-.app-shell .student-writing-workspace .writing-bottom-bar .button { font-size: 12px; padding: 9px 15px; }
+.app-shell .student-writing-workspace .writing-bottom-bar .button { font-size: 13px; padding: 9px 15px; }
 .app-shell .student-writing-workspace .writing-bottom-bar .button.primary { font-weight: 700; }
 .writing-context-column { display: grid; gap: 16px; position: sticky; top: 92px; max-height: calc(100dvh - 110px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; padding-bottom: 2px; border-radius: 18px; min-width: 0; }
 .app-shell .student-writing-workspace .writing-context-column .writing-support-panel { position: static; max-height: none; overflow: visible; grid-row: auto; background: #f8f5fb; border-color: #e8e1ef; border-radius: 18px; scroll-margin-top: 100px; animation: none; }
 .app-shell .student-writing-workspace .reflection-assistant-heading { padding: 18px 16px 14px; gap: 10px; }
 .reflection-assistant-heading > span { width: 32px; height: 32px; border-radius: 10px; }
 .app-shell .student-writing-workspace .reflection-assistant-heading h2 { font-size: 14px; line-height: 1.5; }
-.app-shell .student-writing-workspace .reflection-assistant-heading p { font-size: 10px; margin-top: 3px; }
+.app-shell .student-writing-workspace .reflection-assistant-heading p { font-size: 13px; margin-top: 3px; }
 .app-shell .student-writing-workspace .reflection-support-tabs { padding: 6px 8px 10px; gap: 3px; }
-.app-shell .student-writing-workspace .reflection-support-tabs button { min-height: 44px; font-size: 11px; line-height: 1.5; padding: 7px 5px; }
+.app-shell .student-writing-workspace .reflection-support-tabs button { min-height: 44px; font-size: 13px; line-height: 1.5; padding: 7px 5px; }
 .reflection-support-tabs button > .ui-icon { display: none; }
 .app-shell .student-writing-workspace .reflection-thinking { min-height: 0; padding: 18px 16px; }
-.app-shell .student-writing-workspace .reflection-thinking-purpose { font-size: 12px; line-height: 1.85; margin-bottom: 14px; }
-.app-shell .student-writing-workspace .thinking-context { font-size: 10px; gap: 6px; padding: 9px; }
+.app-shell .student-writing-workspace .reflection-thinking-purpose { font-size: 13px; line-height: 1.85; margin-bottom: 14px; }
+.app-shell .student-writing-workspace .thinking-context { font-size: 13px; gap: 6px; padding: 9px; }
 .app-shell .student-writing-workspace .thinking-welcome { padding: 4px 0 10px; }
 .app-shell .student-writing-workspace .thinking-welcome h4 { font-size: 13px; }
-.app-shell .student-writing-workspace .thinking-welcome p { font-size: 12px; line-height: 1.85; }
+.app-shell .student-writing-workspace .thinking-welcome p { font-size: 13px; line-height: 1.85; }
 .app-shell .student-writing-workspace .reflection-thinking-output { min-height: 0; padding-top: 18px; }
 .app-shell .student-writing-workspace .writing-support-panel :is(.coach-panel,.feedback-panel) { padding: 18px 16px; background: transparent; }
-.app-shell .student-writing-workspace .writing-support-panel .button { font-size: 11px; }
+.app-shell .student-writing-workspace .writing-support-panel .button { font-size: 13px; }
 .app-shell .student-writing-workspace .writing-action-reminder { max-height: 210px; overflow-y: auto; scrollbar-width: thin; margin: 0; padding: 14px; border-color: #e8e1d3; scroll-margin-top: 100px; }
-.app-shell .student-writing-workspace .writing-action-reminder summary { font-size: 11px; line-height: 1.7; gap: 7px; }
-.app-shell .student-writing-workspace .writing-action-reminder :is(p,li,.previous-commitment b) { font-size: 11px; line-height: 1.85; }
+.app-shell .student-writing-workspace .writing-action-reminder summary { font-size: 13px; line-height: 1.7; gap: 7px; }
+.app-shell .student-writing-workspace .writing-action-reminder :is(p,li,.previous-commitment b) { font-size: 13px; line-height: 1.85; }
 .writing-action-reminder summary > .ui-icon { flex-shrink: 0; }
 .app-shell .student-writing-workspace .writing-preview { min-height: 420px; padding: 0 0 20px; }
 .app-shell .student-writing-workspace .writing-preview > p { font-size: 16px; line-height: 1.95; }
-.app-shell .student-writing-workspace .writing-readonly { font-size: 12px; margin-bottom: 18px; }
+.app-shell .student-writing-workspace .writing-readonly { font-size: 13px; margin-bottom: 18px; }
 /* The library has one clear way into the writing surface. */
 .reflection-library .editor-entry { display: grid; grid-template-columns: 64px minmax(0,1fr) auto; align-items: center; gap: 22px; margin-bottom: 28px; padding: 28px 30px; border: 1px solid #dfd3ec; border-left: 4px solid #b8a5d9; border-radius: 20px; background: #fff; }
 .editor-entry-mark { display: grid; place-items: center; width: 64px; height: 72px; color: var(--accent); background: var(--accent-soft); border-radius: 14px; }
@@ -77,29 +77,29 @@
 }
 @media (max-width: 760px) {
  .app-shell .student-writing-workspace .writing-topline { align-items: flex-start; gap: 8px; margin-bottom: 16px; }
- .writing-topline > .text-button { font-size: 11px; }
- .app-shell .student-writing-workspace .writing-save-state { gap: 7px; font-size: 10px; }
+ .writing-topline > .text-button { font-size: 13px; }
+ .app-shell .student-writing-workspace .writing-save-state { gap: 7px; font-size: 13px; }
  .app-shell .student-writing-workspace .writing-workspace-heading { flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 20px; }
  .app-shell .student-writing-workspace .writing-workspace-heading h1 { font-size: 30px; }
- .writing-workspace-heading p { font-size: 12px; }
+ .writing-workspace-heading p { font-size: 13px; }
  .writing-quick-links { justify-content: flex-start; gap: 8px 16px; }
- .writing-quick-links .text-button { font-size: 10px; }
+ .writing-quick-links .text-button { font-size: 13px; }
  .app-shell .student-writing-workspace .writing-canvas.panel { padding-inline: 20px; border-radius: 16px; }
- .app-shell .student-writing-workspace .writing-settings > summary { align-items: flex-start; gap: 12px; font-size: 10px; }
+ .app-shell .student-writing-workspace .writing-settings > summary { align-items: flex-start; gap: 12px; font-size: 13px; }
  .app-shell .student-writing-workspace .title-input { font-size: 27px; padding: 20px 0; }
  .writing-body-heading > span { display: none; }
  .app-shell .student-writing-workspace .writing-canvas .free-writing-area textarea { min-height: 360px; padding: 16px; font-size: 16px; }
  .app-shell .student-writing-workspace .writing-canvas .free-writing-area textarea::placeholder { font-size: 14px; }
  .app-shell .student-writing-workspace .writing-bottom-bar { bottom: 0; gap: 8px; padding: 10px 0; }
  .app-shell .student-writing-workspace .writing-bottom-bar > div { margin-left: 0; justify-content: flex-end; flex: 1 1 auto; }
- .app-shell .student-writing-workspace .writing-bottom-bar .button { min-height: 40px; padding: 8px 11px; font-size: 11px; }
- .app-shell .student-writing-workspace .writing-tools > summary { font-size: 10px; padding: 6px 0; }
+ .app-shell .student-writing-workspace .writing-bottom-bar .button { min-height: 40px; padding: 8px 11px; font-size: 13px; }
+ .app-shell .student-writing-workspace .writing-tools > summary { font-size: 13px; padding: 6px 0; }
  .app-shell .student-writing-workspace .writing-canvas .writing-preview { min-height: 360px; }
  .reflection-library .editor-entry { grid-template-columns: 42px minmax(0,1fr); gap: 14px; padding: 22px 20px; }
  .editor-entry-mark { width: 42px; height: 48px; border-radius: 10px; }
  .editor-entry-mark > .ui-icon { width: 24px; height: 24px; }
  .app-shell .reflection-library .editor-entry h2 { font-size: 24px; }
- .editor-entry p { font-size: 12px; }
+ .editor-entry p { font-size: 13px; }
  .editor-entry > .button { grid-column: 1 / -1; justify-self: start; }
 }
 
@@ -113,5 +113,5 @@
 .app-shell .writing-support-panel .rubric-result:last-child { border-bottom: 0; }
 .app-shell .writing-support-panel .score-summary { flex-wrap: wrap; gap: 12px; padding: 16px; }
 .app-shell .writing-support-panel .self-assessment > summary,
-.app-shell .writing-support-panel .revision-comparison > summary { font-size: 12px; line-height: 1.8; }
+.app-shell .writing-support-panel .revision-comparison > summary { font-size: 13px; line-height: 1.8; }
 .app-shell .writing-support-panel .self-assessment .grade-criterion { margin-block: 18px; }

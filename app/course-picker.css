@@ -1,0 +1,38 @@
+/* A quiet sidebar trigger; the course list opens in the browser's unclipped popover layer. */
+.rail-workspace .course-picker { width: 100%; min-width: 0; }
+.rail-workspace .course-picker-trigger { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 46px; padding: 11px 13px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); color: var(--ink); font-size: 14px; font-weight: 550; text-align: left; cursor: pointer; transition: background-color .18s,border-color .18s,color .18s,box-shadow .18s; }
+.course-picker-trigger > .ui-icon { flex-shrink: 0; color: var(--accent); }
+.course-picker-trigger > span { flex: 1; }
+.course-picker-chevron { transition: transform .2s ease; }
+.course-picker-trigger[aria-expanded="true"] .course-picker-chevron { transform: rotate(180deg); }
+.rail-workspace .course-picker-trigger:hover:not(:disabled),.rail-workspace .course-picker-trigger[aria-expanded="true"] { border-color: #c8b7d4; background: #f5eff8; color: var(--accent-hover); }
+.rail-workspace .course-picker-trigger[aria-expanded="true"] { box-shadow: 0 0 0 3px #79618d0a; }
+.rail-workspace .course-picker-trigger:disabled { opacity: .55; cursor: wait; }
+.course-picker-selection { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.rail-workspace .course-picker-menu { position: fixed; inset: auto; z-index: 80; display: none; margin: 0; padding: 7px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; border: 1px solid #e4dbe9; border-radius: 14px; background: #fffefa; color: var(--ink); box-shadow: 0 16px 44px #39323f18,0 3px 10px #39323f08; opacity: 0; transform: translateY(-5px) scale(.98); transition: opacity .18s ease,transform .18s ease,display .18s allow-discrete,overlay .18s allow-discrete; }
+.rail-workspace .course-picker-menu:popover-open { display: block; opacity: 1; transform: translateY(0) scale(1); }
+.course-picker-menu::backdrop { background: transparent; }
+.rail-workspace .course-picker-option { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 52px; padding: 11px 12px; border: 0; border-radius: 8px; background: transparent; color: var(--ink); text-align: left; cursor: pointer; transition: background-color .15s,color .15s; }
+.course-option-icon { display: grid; place-items: center; flex-shrink: 0; width: 32px; height: 32px; border: 1px solid var(--line); border-radius: 8px; background: #faf7fb; color: var(--muted); transition: background-color .15s,color .15s,border-color .15s; }
+.course-option-copy { display: grid; gap: 3px; min-width: 0; flex: 1; }
+.course-option-copy > small { font-size: 13px; font-weight: 500; line-height: 1.4; color: var(--muted); overflow-wrap: anywhere; }
+.course-option-copy > span { font-size: 15px; font-weight: 500; line-height: 1.5; overflow-wrap: anywhere; }
+.course-option-check { display: grid; place-items: center; flex-shrink: 0; width: 20px; height: 20px; color: var(--accent); }
+.rail-workspace .course-picker-option:hover,.rail-workspace .course-picker-option:focus-visible { background: #f4eff7; outline: none; }
+.rail-workspace .course-picker-option:focus-visible { box-shadow: inset 0 0 0 2px #b9a3c8; }
+.rail-workspace .course-picker-option[aria-checked="true"] { background: var(--accent-soft); color: var(--accent-hover); }
+.course-picker-option[aria-checked="true"] .course-option-icon { background: #e6dcee; color: var(--accent); border-color: #dfd1e8; }
+.rail-workspace .course-picker-all { margin-bottom: 6px; }
+.course-picker-all + .course-picker-option { position: relative; margin-top: 12px; }
+.course-picker-all + .course-picker-option::before { content: ''; position: absolute; top: -7px; left: 12px; right: 12px; height: 1px; background: var(--line); }
+
+@starting-style {
+ .rail-workspace .course-picker-menu:popover-open { opacity: 0; transform: translateY(-5px) scale(.98); }
+}
+@media (max-width: 1000px) {
+ .rail-workspace .course-picker-trigger { min-height: 42px; padding: 8px 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+ .rail-workspace :is(.course-picker-trigger,.course-picker-menu,.course-picker-option,.course-option-icon,.course-picker-chevron) { transition: none; }
+}

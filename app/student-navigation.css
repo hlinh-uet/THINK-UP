@@ -1,0 +1,18 @@
+/* Student navigation becomes a bottom bar on smaller screens. */
+@media (max-width: 1000px) {
+ .app-shell.student-workspace .main-shell { margin-left: 0; padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
+ .app-shell.student-workspace:has(.workspace-sidebar-controls) .main-shell { padding-bottom: calc(140px + env(safe-area-inset-bottom)); }
+ .student-workspace .workspace-side-navigation { top: auto; bottom: 0; left: 0; right: 0; width: 100%; display: block; padding: 8px 20px calc(8px + env(safe-area-inset-bottom)); overflow: visible; background: #fcfaf7f7; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 0; border-top: 1px solid var(--line); border-radius: 0; box-shadow: 0 -6px 30px #39323f04; }
+ .student-workspace .student-navigation-label,.student-workspace .student-navigation-note { display: none; }
+ .student-workspace .workspace-sidebar-controls { max-width: 650px; margin: 0 auto 6px; padding-bottom: 6px; }
+ .student-workspace .workspace-side-navigation nav { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 5px; max-width: 650px; margin-inline: auto; }
+ .student-workspace .workspace-side-navigation nav a { flex-direction: column; justify-content: center; gap: 4px; min-height: 54px; padding: 7px 2px; border: 0; border-radius: 8px; font-size: 12px; line-height: 1.5; letter-spacing: -.2px; }
+ .student-workspace .workspace-side-navigation nav a:last-child { margin-top: 0; }
+ .student-workspace .workspace-side-navigation nav a:last-child::before { display: none; }
+ .student-workspace .workspace-side-navigation nav a > .ui-icon { width: 19px; height: 19px; }
+ .student-workspace .workspace-side-navigation nav a.active { background: #eee7f2; }
+ .student-workspace .workspace-side-navigation .nav-count { position: absolute; top: 3px; left: calc(50% + 4px); min-width: 15px; height: 15px; font-size: 13px; }
+}
+@media (max-width: 760px) {
+ .student-workspace .workspace-side-navigation { padding-inline: 10px; }
+}

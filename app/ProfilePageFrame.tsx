@@ -5,8 +5,12 @@ import {profileHref} from '../lib/profile';
 import {pageRequest} from '../lib/page-request';
 import {session,AppError,database} from '../lib/server';
 import {profileStore} from '../lib/profile-store';
-import {languageCookie,resolveLanguage} from '../lib/i18n';
+import {languageCookie,resolveLanguage,translate} from '../lib/i18n';
 import ProfileWorkspace from './ProfileWorkspace';
+export async function generateMetadata(){
+  const preferences=await cookies();
+  return {title:translate('Hồ sơ cá nhân',resolveLanguage(preferences.get(languageCookie)?.value))+' · THINK UP'};
+}
 export default async function ProfilePageFrame({workspaceRole}:{workspaceRole:Role}) {
   let user;
   try{user=await session(await pageRequest(profileHref(workspaceRole)))}catch(error){if(error instanceof AppError&&[401,403].includes(error.status))redirect('/login');throw error}

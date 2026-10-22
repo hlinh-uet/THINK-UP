@@ -17,16 +17,14 @@ export default function AICoachPanel({draft,reflection,language,aiReady,busy,onA
   const stale=!!analysis&&!!reflection&&(!analysisIsCurrent(reflection,analysis)||!writingMatchesSaved(draft,reflection));
   return <section className="coach-panel panel" aria-label="AI Coach">
     <div className="section-head"><div className="coach-title"><UiIcon name="coach" size={20}/><h3>AI Coach</h3></div><span className={`tiny-status ${aiReady?'online':''}`}>{tr(aiReady?'Sẵn sàng':'Chưa kết nối')}</span></div>
-    <p className="muted">{tr('Coach đọc toàn bài và phản hồi theo năm nhóm để bạn tự phát triển suy nghĩ.')}</p>
     {!aiReady&&<div className="notice">{tr('AI cần được quản trị viên kết nối. Bạn vẫn có thể viết, lưu và nộp bài cho giảng viên.')}</div>}
     <button className="button primary full" disabled={!readiness.canAnalyze} onClick={onAnalyze}>{tr(busy==='coach'?'Đang đọc bài cùng Coach…':'Nhận phản hồi từ AI Coach')}</button>
-    {readiness.editable&&aiReady&&readiness.words<20&&<p className="writing-ai-hint">{tr('Viết ít nhất 20 từ để Coach có nội dung phản hồi. Bạn có thể dùng Tư duy cùng AI để tìm ý trước.')}</p>}
+    {readiness.editable&&aiReady&&readiness.words<20&&<p className="writing-ai-hint">{tr('Viết ít nhất 20 từ để nhận phản hồi.')}</p>}
     {analysis?<>
       {analysis.provider==='Demo fixture'&&<div className="notice warning">{tr('Phản hồi mẫu để kiểm thử giao diện; không phải kết quả AI thực tế.')}</div>}
       {stale&&<div className="notice warning">{tr('Phản hồi thuộc phiên bản trước. Phân tích lại sau khi chỉnh sửa.')}</div>}
       <ReflectionGuidance analysis={analysis} language={language} onCommit={onCommit}/>
       <div className="coach-reflection-level"><h4>{tr('Mức độ phản tư')}</h4><span className="badge">{tr(levels[analysis.result.level])}</span>{analysis.result.levelReason&&<p>{demoText(analysis.result.levelReason,analysis.id,language)}</p>}{analysis.result.levelEvidence&&<blockquote>“{demoText(analysis.result.levelEvidence,analysis.id,language)}”</blockquote>}</div>
-    </>:<div className="coach-empty"><h4>{tr('Nhìn lại bài viết cùng AI Coach')}</h4><p>{tr('Điểm mạnh · Điểm cần phát triển · Câu hỏi gợi mở · Gợi ý hành động · Mức độ phản tư')}</p></div>}
-    <small className="coach-footnote">{tr('Bạn tự viết. Coach giúp bạn nghĩ sâu hơn.')}</small>
+    </>:<div className="coach-empty"><p>{tr('Chưa có phản hồi.')}</p></div>}
   </section>;
 }

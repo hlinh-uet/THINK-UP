@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {translate, resolveLanguage, dateLocale, stageLabel} from '../lib/i18n.ts';
 import {demoText,demoContent} from '../lib/demo-i18n.ts';
 import {createDemoData} from '../scripts/demo-data.mjs';
+import {createStudentCourseDemoData,studentDemoTranslations} from '../scripts/student-course-demo-data.mjs';
 import {coachInstructions} from '../lib/coach-prompt.ts';
 import {defaultRubric, defaultWeeks, roles, statuses, levels} from '../lib/domain.ts';
 
@@ -56,4 +57,18 @@ test('demo content has complete bilingual views without changing stored or autho
   assert.equal(demoText(custom,'demo-student-week-6','en'),custom);
   assert.equal(demoText(data.tables.reflections[0].title,'real-user-reflection','en'),data.tables.reflections[0].title);
   assert.equal(stageLabel('Revision 2','vi'),'Lần chỉnh sửa 2');assert.equal(stageLabel('Revision 2','en'),'Revision 2');assert.equal(stageLabel('Lecturer Review','vi'),'Giảng viên nhận xét');
+});
+
+test('additional course samples keep bilingual content and grounded quotations without changing stored data',()=>{
+  const data=createStudentCourseDemoData(),before=JSON.stringify(data);
+  for(const [vi,en] of Object.entries(studentDemoTranslations)){
+    assert.equal(demoText(vi,'demo-ui-example','en'),en);
+    assert.equal(demoText(en,'demo-ui-example','vi'),vi);
+  }
+  for(const row of data.tables.analyses){
+    const version=data.tables.versions.find(v=>v.id===row.version_id),english=demoContent(JSON.parse(version.content_json),version.id,'en');
+    for(const criterion of JSON.parse(row.result_json).criteria)assert.ok(english[criterion.evidenceSection].includes(demoText(criterion.evidence,row.id,'en')));
+  }
+  assert.equal(JSON.stringify(data),before);
+  assert.equal(demoText('My edited sample course',data.tables.courses[0].id,'vi'),'My edited sample course');
 });

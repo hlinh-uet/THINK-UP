@@ -57,7 +57,6 @@
 .app-shell .workspace-header .account-signout > .ui-icon { color: inherit; }
 .app-shell .workspace-header .account-signout:hover, .app-shell .workspace-header .account-signout:focus-visible { color: #903944; background: #fcf1f2; }
 .account-menu-item:disabled, .account-menu-item[aria-disabled="true"] { opacity: .55; cursor: wait; }
-.workspace-header .language-toggle { background: #f0ebf8; border-color: transparent; }
 .workspace-menu-toggle { display: none; }
 .app-shell .main-shell { margin-left: 0; min-width: 0; }
 .app-shell .main-shell > .topbar {
@@ -135,8 +134,6 @@
  .app-shell .workspace-header .brand { font-size: 26px; }
  .app-shell .workspace-header .brand i { width: 23px; height: 23px; margin-left: 6px; }
  .workspace-header-actions { gap: 10px; }
- .workspace-header .language-toggle { padding: 2px; }
- .workspace-header .language-toggle button { min-width: 28px; min-height: 32px; padding: 6px; font-size: 10px; }
  .app-shell .workspace-header .avatar { width: 30px; height: 30px; font-size: 11px; }
  .app-shell .workspace-header .profile { position: static; display: flex; padding: 0; gap: 3px; }
  .account-dropdown { top: calc(100% + 8px); right: 18px; }
@@ -165,7 +162,6 @@
  .workspace-header { gap: 8px; }
  .app-shell .workspace-header .brand { font-size: 23px; }
  .workspace-header-actions { gap: 6px; }
- .workspace-header .language-toggle button { min-width: 26px; padding: 5px; }
  .app-shell .workspace-header .avatar { width: 28px; height: 28px; }
  .workspace-menu-toggle { width: 30px; }
 }
@@ -178,9 +174,6 @@
 
 /* Shared controls stay quiet so the content carries the hierarchy. */
 .app-shell .eyebrow { letter-spacing: .1px; font-weight: 500; }
-.app-shell .language-toggle button { color: var(--muted); }
-.app-shell .language-toggle button[aria-pressed=true] { color: var(--ink); }
-.app-shell .language-toggle button:hover:not(:disabled) { color: var(--ink); }
 .app-shell .workspace-menu-toggle { background: #f0ebf8; color: var(--ink); }
 .app-shell .workspace-header .nav-count { color: var(--muted); background: #f4f1f7; }
 .app-shell .field :is(input,textarea,select), .app-shell .toolbar :is(input,select) { border-radius: 9px; }

@@ -19,8 +19,6 @@ body { letter-spacing: -.15px; }
 .field input, .field textarea, .field select, .toolbar input, .toolbar select, .editor-selectors select { border-color: var(--line); border-radius: 12px; }
 input:focus, textarea:focus, select:focus { border-color: #a99acb; box-shadow: 0 0 0 4px #7361bc0d; }
 input:disabled, select:disabled, textarea:disabled { background: #f7f5f9; color: var(--muted); }
-.language-picker { color: var(--muted); }
-.language-picker select { font-size: 12px; }
 .panel { border-radius: 20px; border-color: var(--line); padding: 28px; }
 .pill, .badge { border-radius: 100px; }
 .pill { background: #f8f5fc; color: var(--accent); border-color: #ebe5f5; letter-spacing: .5px; }
@@ -41,7 +39,6 @@ input:disabled, select:disabled, textarea:disabled { background: #f7f5f9; color:
 .public-header nav a:hover::after { right: 0; }
 .public-controls { justify-content: flex-end; gap: 18px; }
 .public-controls .button { min-height: 40px; font-size: 12px; padding: 10px 17px; }
-.public-controls .language-picker > .ui-icon { display: none; }
 .public-login { white-space: nowrap; font-size: 12px; }
 .public-menu-toggle { display: none; }
 
@@ -146,48 +143,6 @@ input:disabled, select:disabled, textarea:disabled { background: #f7f5f9; color:
 .site-footer-bottom > a { display: inline-flex; align-items: center; gap: 9px; }
 
 /* One language control across welcome, auth and all workspaces. */
-.language-toggle { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 3px; padding: 4px; border: 1px solid #e7e1ed; border-radius: 12px; background: #f2eef6; }
-.language-toggle button { min-width: 40px; min-height: 34px; display: grid; place-items: center; padding: 7px 10px; border: 0; border-radius: 8px; background: transparent; color: #82748f; font-size: 11px; line-height: 1; font-weight: 700; letter-spacing: .3px; transition: color .18s, background-color .18s, box-shadow .18s; }
-.language-toggle button[aria-pressed=true] { background: #fff; color: #69519a; box-shadow: 0 1px 5px #47345e12; }
-.language-toggle button:hover:not(:disabled) { color: #5c467e; background: #ffffffa3; }
-.language-toggle button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.language-toggle button:disabled { opacity: .55; }
-
-/* Auth focuses on one clean form rather than a second marketing page. */
-.public-site.is-auth { min-height: 100dvh; display: flex; flex-direction: column; background: #f8f6fa; }
-.is-auth .public-header { position: relative; top: auto; width: calc(100% - 64px); max-width: 1056px; min-height: 72px; display: flex; justify-content: space-between; margin: 14px auto 0; padding: 12px 0; background: transparent; border: 0; box-shadow: none; backdrop-filter: none; }
-.is-auth .public-header .brand { font-size: 29px; }
-.is-auth .public-controls { gap: 0; }
-.is-auth .auth-main { width: calc(100% - 64px); max-width: 1000px; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: stretch; margin: 36px auto 46px; padding: 0; gap: 0; background: #fff; border: 1px solid #e9e2ef; border-radius: 26px; overflow: hidden; box-shadow: 0 14px 60px #4a355a06; }
-.is-auth .auth-story { display: flex; flex-direction: column; justify-content: center; gap: 0; min-height: 560px; padding: 46px 40px; border-radius: 0; background: #eee8f5; }
-.is-auth .auth-story > .eyebrow { color: #82718f; margin: 0; font-size: 10px; letter-spacing: 1.4px; }
-.is-auth .auth-story h1 { margin: 32px 0 17px; font-size: 34px; line-height: 1.5; letter-spacing: -1.3px; color: #4e3c5e; }
-.is-auth .auth-story h1 em { color: #796195; }
-.is-auth .auth-story > p { margin: 0; color: #7e6c8c; font-size: 13px; line-height: 1.9; max-width: 320px; }
-.auth-journal-note { background: #ffffffba; border: 1px solid #ffffff; border-radius: 16px; padding: 22px; margin: 34px 0; }
-.auth-note-label { display: flex; align-items: center; gap: 8px; color: #857295; font-size: 10px; }
-.auth-journal-note p { color: #68517c; font-size: 17px; line-height: 1.7; letter-spacing: -.3px; margin: 18px 0 22px; }
-.auth-note-sections { display: flex; align-items: center; justify-content: space-between; gap: 7px; color: #83708f; font-size: 8px; letter-spacing: .2px; }
-.auth-note-sections i { width: 3px; height: 3px; border-radius: 50%; background: #bba8cb; }
-.auth-story-signature { font-size: 11px; color: #867291; }
-.is-auth .auth-card { padding: 46px 48px 38px; min-width: 0; align-self: center; }
-.is-auth .auth-card > .eyebrow { display: block; font-size: 10px; font-weight: 700; letter-spacing: 1.4px; color: #8c7c98; margin: 0 0 13px; }
-.is-auth .auth-card h2 { font-size: 28px; line-height: 1.4; font-weight: 700; color: #3f334a; letter-spacing: -.9px; margin: 0 0 12px; }
-.is-auth .auth-description { color: #80738b; font-size: 13px; line-height: 1.8; margin: 0 0 28px; }
-.is-auth .auth-card .field { color: #665570; font-size: 12px; font-weight: 700; gap: 8px; margin-bottom: 18px; }
-.is-auth .auth-card input { padding: 13px 15px; min-height: 48px; border: 1px solid #e4ddeb; border-radius: 11px; background: #fcfbfe; color: #4f405b; font-size: 13px; }
-.is-auth .auth-card input:focus { background: #fff; border-color: #b49bc9; box-shadow: 0 0 0 4px #7361bc0c; }
-.is-auth .auth-card input::placeholder { color: #8f819a; }
-.is-auth .password-field input { padding-right: 65px; }
-.is-auth .password-field button { font-size: 11px; color: #796389; }
-.is-auth .password-hint { font-size: 10px; color: #85758f; line-height: 1.8; margin: -6px 0 17px; }
-.is-auth .auth-card .button.full { min-height: 48px; padding: 13px 19px; border-radius: 11px; font-size: 12px; font-weight: 700; margin-top: 6px; }
-.is-auth .auth-role-note { font-size: 10px; line-height: 1.8; color: #83718f; margin: 15px 0 0; }
-.is-auth .auth-links { border-top: 1px solid #f0eaf5; padding-top: 18px; margin-top: 24px; font-size: 12px; }
-.is-auth .auth-links p { margin: 0; }
-.is-auth .auth-links a { color: #796098; font-weight: 700; margin-left: 4px; }
-.auth-page-footer { width: calc(100% - 64px); max-width: 1000px; margin: auto auto 0; padding: 0 0 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; color: #84748f; font-size: 10px; }
-.auth-page-footer a { display: inline-flex; align-items: center; gap: 6px; color: #7e668e; }
 
 /* The workspace borrows the calm spacing, without marketing-page decoration. */
 .app-shell { background: #faf9f7; }
@@ -342,7 +297,6 @@ input:disabled, select:disabled, textarea:disabled { background: #f7f5f9; color:
   .public-header .brand { font-size: 26px; }
   .public-header .brand i { width: 23px; height: 23px; }
   .public-controls { gap: 10px; }
-  .public-controls .language-picker select { font-size: 11px; }
   .public-controls .public-account { display: none; }
   .public-login { font-size: 11px; }
   .home-content { padding: 0 24px; }
@@ -392,16 +346,6 @@ input:disabled, select:disabled, textarea:disabled { background: #f7f5f9; color:
   .site-footer-bottom > a { margin-left: auto; }
   .is-auth .public-header { width: calc(100% - 40px); margin-top: 8px; min-height: 64px; padding: 10px 0; }
   .is-auth .public-header .brand { font-size: 27px; }
-  .is-auth .auth-main { width: calc(100% - 36px); max-width: 470px; margin: 22px auto 32px; display: block; border-radius: 21px; }
-  .is-auth .auth-story { display: none; }
-  .is-auth .auth-card { padding: 32px 26px; }
-  .is-auth .auth-card h2 { font-size: 27px; }
-  .is-auth .auth-description { margin-bottom: 25px; }
-  .is-auth .auth-card input { font-size: 16px; min-height: 50px; }
-  .auth-page-footer { width: calc(100% - 40px); max-width: 470px; font-size: 10px; padding-bottom: 22px; }
-  .auth-page-footer > span:nth-child(2) { display: none; }
-  .language-toggle { padding: 3px; border-radius: 11px; }
-  .language-toggle button { min-width: 38px; min-height: 36px; padding: 8px; }
   .app-shell .sidebar { position: relative; inset: auto; width: auto; margin: 12px 12px 0; padding: 18px 18px 10px; border-radius: 18px; display: grid; grid-template-columns: 1fr auto; overflow: visible; gap: 16px; }
   .app-shell .sidebar .brand { margin: 0; font-size: 27px; }
   .app-shell .workspace-label, .app-shell .sidebar-note { display: none; }
@@ -434,7 +378,6 @@ input:disabled, select:disabled, textarea:disabled { background: #f7f5f9; color:
   .app-shell td, .app-shell th { padding-inline: 12px; }
 }
 @media (max-width: 380px) {
-  .public-controls .language-picker > .ui-icon { display: none; }
   .public-header .brand { font-size: 23px; }
   .public-header .brand i { display: none; }
   .home-content { padding-inline: 18px; }

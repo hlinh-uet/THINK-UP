@@ -2,7 +2,7 @@
 import {useEffect,useRef,useState,type FormEvent} from 'react';
 import {studentPages,viewPath,type Role} from '../lib/access';
 import {adminHref} from '../lib/admin-pages';
-import {lecturerHref,lecturerPages} from '../lib/lecturer-pages';
+import {lecturerHref} from '../lib/lecturer-pages';
 import {avatarLimit,validateAvatar,type OwnProfile} from '../lib/profile';
 import {languageCookie,translate,type Language} from '../lib/i18n';
 import {formatMessageTimestamp} from '../lib/message-date';
@@ -13,8 +13,10 @@ import AdminNavigation from './AdminNavigation';
 import MessageUnreadBadge from './MessageUnreadBadge';
 import WorkspaceProfile from './WorkspaceProfile';
 import WorkspaceHeader from './WorkspaceHeader';
+import LecturerNavigation from './LecturerNavigation';
 import UserAvatar from './UserAvatar';
 import UiIcon from './UiIcon';
+import WorkspacePageHeading from './WorkspacePageHeading';
 import LanguageToggle from './LanguageToggle';
 import SiteFooter from './SiteFooter';
 import {useUnsavedChanges} from './useUnsavedChanges';
@@ -70,10 +72,10 @@ export default function ProfileWorkspace({initialProfile,language:initialLanguag
     if(busy)return;if(dirty){setNotice({text:'Lưu hoặc bỏ thay đổi hồ sơ trước khi đăng xuất.',error:true});return}
     try{const response=await fetch('/api/auth/logout',{method:'POST'});if(!response.ok)throw new Error();location.assign('/')}catch{setNotice({text:'Chưa thể đăng xuất. Vui lòng thử lại.',error:true})}
   }
-  return <div className="app-shell profile-workspace"><WorkspaceHeader language={language} controls={<LanguageToggle language={language} onChange={setLanguage} disabled={busy}/>} profile={<WorkspaceProfile user={profile.user} language={language} busy={busy} current onLogout={()=>void logout()}/>}>
-{role==='admin'?<AdminNavigation section={undefined} query={{}} language={language} busy={busy}/>:<nav aria-label={tr('Điều hướng chính')}>{role==='lecturer'?lecturerPages.map(page=><a key={page.key} href={lecturerHref(page.key)} onClick={e=>{if(busy)e.preventDefault()}}><UiIcon name={page.icon}/><span>{tr(page.label)}</span>{page.key==='messages'&&<MessageUnreadBadge language={language}/>}</a>):studentPages.map(page=><a key={page.key} href={viewPath(role,page.key)} onClick={e=>{if(busy)e.preventDefault()}}><UiIcon name={page.key}/><span>{tr(page.label)}</span>{page.key==='messages'&&<MessageUnreadBadge language={language}/>}</a>)}</nav>}
-</WorkspaceHeader><div className="main-shell"><header className="topbar"><div className="breadcrumb">{tr(role==='admin'?'Không gian quản trị':role==='lecturer'?'Không gian giảng dạy':'Không gian học tập')}<span className="crumb">/ {tr('Hồ sơ cá nhân')}</span></div><div className="top-controls"><button className="help-button" aria-label={tr('Hướng dẫn sử dụng')} onClick={()=>setHelp(!help)}><UiIcon name="help"/></button></div></header>
-    <main id="workspace-main" tabIndex={-1}><div className="page-heading"><div><span className="eyebrow">{tr('THÔNG TIN CỦA BẠN')}</span><h1>{tr('Hồ sơ cá nhân')}</h1><p>{tr('Một chút về bạn, để kết nối dễ hơn trong THINK UP.')}</p></div></div>
+  return <div className={`app-shell profile-workspace ${role==='admin'?'admin-workspace':''} rail-workspace ${role==='lecturer'?'lecturer-workspace':''} ${role==='student'?'student-workspace':''}`}><WorkspaceHeader sideNavigation mobileSideMenu={role!=='student'} homeHref={role==='admin'?adminHref('courses'):role==='student'?'/student':lecturerHref('submissions')} language={language} controls={<><button type="button" className="help-button" aria-label={tr('Hướng dẫn sử dụng')} onClick={()=>setHelp(value=>!value)}><UiIcon name="help"/></button><LanguageToggle language={language} onChange={setLanguage} disabled={busy}/></>} profile={<WorkspaceProfile user={profile.user} language={language} busy={busy} current onLogout={()=>void logout()}/>}>
+{role==='admin'?<AdminNavigation section={undefined} query={{}} language={language} busy={busy}/>:role==='lecturer'?<LecturerNavigation language={language} busy={busy}/>:<nav aria-label={tr('Điều hướng chính')}>{studentPages.map(page=><a key={page.key} href={viewPath(role,page.key)} title={tr(page.label)} onClick={e=>{if(busy)e.preventDefault()}}><UiIcon name={page.key}/><span>{tr(page.label)}</span>{page.key==='messages'&&<MessageUnreadBadge language={language}/>}</a>)}</nav>}
+</WorkspaceHeader><div className="main-shell">
+    <main id="workspace-main" tabIndex={-1}><WorkspacePageHeading title={tr('Hồ sơ cá nhân')}/>
       {help&&<section className="notice profile-help"><b>{tr('Bạn tự chỉnh sửa những gì?')}</b><p>{tr('Bạn có thể đổi tên hiển thị, số điện thoại, giới thiệu và ảnh đại diện. Email đăng nhập, vai trò, trạng thái và phân công học phần do admin quản lý.')}</p><button className="text-button" onClick={()=>setHelp(false)}>{tr('Đóng')}</button></section>}
       {notice&&<div className={`notice profile-notice ${notice.error?'warning':'profile-success'}`} role={notice.error?'alert':'status'}><span>{tr(notice.text)}</span>{conflict&&<button className="text-button" disabled={busy} onClick={()=>void reload()}>{tr('Tải lại thông tin')}</button>}<button className="icon-button" aria-label={tr('Đóng thông báo')} onClick={()=>setNotice(null)}><UiIcon name="close" size={16}/></button></div>}
       <div className="profile-page-grid"><form className="panel profile-edit-card" onSubmit={save}>

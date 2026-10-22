@@ -13,6 +13,17 @@ const messages=[
 const initialInbox={contacts:[peer],conversations:[{id:'room',peer,lastMessage:messages[1],unread:1}],unreadTotal:1};
 const initialThread={peer,conversationId:'room',messages,hasOlder:false,hasMore:false,peerReadId:1};
 
+test('messages in all three workspaces start with actions and chats without the repeated introduction',()=>{
+  for(const role of ['student','lecturer','admin'])for(const language of ['en','vi']){
+    const html=renderToStaticMarkup(createElement(Messages,{user:{...user,role},language,initialInbox,initialThread:null}));
+    assert.ok(html.includes(`<h1 class="sr-only">${language==='en'?'Messages':'Tin nhắn'}</h1>`),'Page identity remains available to screen readers');
+    assert.doesNotMatch(html,/class="page-heading"|Talk directly with students, lecturers and administrators|Trao đổi trực tiếp với sinh viên, giảng viên và quản trị viên/);
+    assert.match(html,/class="workspace-page-actions"/);
+    assert.ok(html.includes(language==='en'?'New message':'Tin nhắn mới'));
+    assert.match(html,/class="chat-directory"/);
+  }
+});
+
 test('messages render identical server/client text across timezones in both languages and all roles',()=>{
   const originalTimezone=process.env.TZ;
   try{

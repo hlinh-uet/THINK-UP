@@ -1,7 +1,7 @@
 'use client';
 import { useCallback,useEffect,useRef,useState,type FormEvent } from 'react';
 import { studentPages,viewPath,type Role } from '../lib/access';
-import { lecturerHref,lecturerPages } from '../lib/lecturer-pages';
+import { lecturerHref } from '../lib/lecturer-pages';
 import { MessageError,messagesHref,mergeMessages,messageLimit,type ChatInbox,type ChatMessage,type ChatPerson,type ChatThread } from '../lib/messaging';
 import { languageCookie,translate,type Language } from '../lib/i18n';
 import { formatMessageTimestamp } from '../lib/message-date';
@@ -11,8 +11,11 @@ import AdminNavigation from './AdminNavigation';
 import MessageUnreadBadge from './MessageUnreadBadge';
 import LanguageToggle from './LanguageToggle';
 import UiIcon from './UiIcon';
+import WorkspacePageHeading from './WorkspacePageHeading';
 import WorkspaceProfile from './WorkspaceProfile';
 import WorkspaceHeader from './WorkspaceHeader';
+import LecturerNavigation from './LecturerNavigation';
+import {adminHref} from '../lib/admin-pages';
 import UserAvatar from './UserAvatar';
 import SiteFooter from './SiteFooter';
 import { useUnsavedChanges } from './useUnsavedChanges';
@@ -38,6 +41,15 @@ export default function MessagesWorkspace({user,language:initialLanguage,initial
   const messageTime=(value:string)=>formatMessageTimestamp(value,language).time;
 
   useEffect(()=>{threadRef.current=thread},[thread]);
+  useEffect(()=>{
+    const input=composer.current;if(!input)return;
+    const resize=()=>{
+      input.style.height='auto';input.style.height=Math.min(input.scrollHeight,144)+'px';
+      if(nearBottom.current&&scroll.current)scroll.current.scrollTop=scroll.current.scrollHeight;
+    };
+    resize();window.addEventListener('resize',resize);
+    return()=>window.removeEventListener('resize',resize);
+  },[text,peerId,loading]);
   useEffect(()=>{if(text.trim())markChanged();else markSaved()},[text,markChanged,markSaved]);
   useEffect(()=>{mounted.current=true;return()=>{mounted.current=false}},[]);
   useEffect(()=>{
@@ -151,23 +163,26 @@ export default function MessagesWorkspace({user,language:initialLanguage,initial
   }
   const matches=(person:ChatPerson)=>(roleFilter==='all'||person.role===roleFilter)&&`${name(person)} ${tr(roles[person.role])}`.toLowerCase().includes(search.trim().toLowerCase());
 
-  return <div className="app-shell messaging-workspace">
-    <WorkspaceHeader language={language} controls={<LanguageToggle language={language} onChange={setLanguage}/>} profile={<WorkspaceProfile user={user} language={language} busy={sending} onLogout={()=>void logout()}/>}>
-{role==='admin'?<AdminNavigation section="messages" query={{}} language={language} unread={inbox.unreadTotal} busy={sending}/>:<nav aria-label={tr('Điều hướng chính')}>{role==='lecturer'?lecturerPages.map(page=><a key={page.key} href={lecturerHref(page.key)} className={page.key==='messages'?'active':''} aria-current={page.key==='messages'?'page':undefined}><UiIcon name={page.icon}/><span>{tr(page.label)}</span>{page.key==='messages'&&<MessageUnreadBadge language={language} count={inbox.unreadTotal}/>}</a>):studentPages.map(page=><a key={page.key} href={viewPath(role,page.key)} className={page.key==='messages'?'active':''} aria-current={page.key==='messages'?'page':undefined}><UiIcon name={page.key}/><span>{tr(page.label)}</span>{page.key==='messages'&&<MessageUnreadBadge language={language} count={inbox.unreadTotal}/>}</a>)}</nav>}
+  return <div className={`app-shell messaging-workspace ${role==='admin'?'admin-workspace':''} rail-workspace ${role==='lecturer'?'lecturer-workspace':''} ${role==='student'?'student-workspace':''}`}>
+    <WorkspaceHeader sideNavigation mobileSideMenu={role!=='student'} homeHref={role==='admin'?adminHref('courses'):role==='student'?'/student':lecturerHref('submissions')} language={language} controls={<><button type="button" className="help-button" aria-label={tr('Hướng dẫn sử dụng')} onClick={()=>setHelp(value=>!value)}><UiIcon name="help"/></button><LanguageToggle language={language} onChange={setLanguage}/></>} profile={<WorkspaceProfile user={user} language={language} busy={sending} onLogout={()=>void logout()}/>}>
+{role==='admin'?<AdminNavigation section="messages" query={{}} language={language} unread={inbox.unreadTotal} busy={sending}/>:role==='lecturer'?<LecturerNavigation section="messages" language={language} unread={inbox.unreadTotal} busy={sending}/>:<nav aria-label={tr('Điều hướng chính')}>{studentPages.map(page=><a key={page.key} href={viewPath(role,page.key)} title={tr(page.label)} className={page.key==='messages'?'active':''} aria-current={page.key==='messages'?'page':undefined}><UiIcon name={page.key}/><span>{tr(page.label)}</span>{page.key==='messages'&&<MessageUnreadBadge language={language} count={inbox.unreadTotal}/>}</a>)}</nav>}
 </WorkspaceHeader>
-    <div className="main-shell"><header className="topbar"><div className="breadcrumb">{tr(role==='admin'?'Không gian quản trị':role==='lecturer'?'Không gian giảng dạy':'Không gian học tập')}<span className="crumb">/ {tr('Tin nhắn')}</span></div><div className="top-controls"><button className="help-button" aria-label={tr('Hướng dẫn sử dụng')} onClick={()=>setHelp(!help)}><UiIcon name="help"/></button></div></header>
-      <main id="workspace-main" tabIndex={-1}><div className="page-heading"><div><h1>{tr('Tin nhắn')}</h1><p>{tr('Trao đổi trực tiếp với sinh viên, giảng viên và quản trị viên.')}</p></div><button className="button primary" disabled={sending} onClick={()=>{void selectPeer('');setTab('contacts');setSearch('');setRoleFilter('all')}}><UiIcon name="add" size={16}/>{tr('Tin nhắn mới')}</button></div>
+    <div className="main-shell">
+      <main id="workspace-main" tabIndex={-1}><WorkspacePageHeading title={tr('Tin nhắn')}><button className="button primary" disabled={sending} onClick={()=>{void selectPeer('');setTab('contacts');setSearch('');setRoleFilter('all')}}><UiIcon name="add" size={16}/>{tr('Tin nhắn mới')}</button></WorkspacePageHeading>
         {help&&<div className="notice chat-help"><b>{tr('Trò chuyện riêng 1–1')}</b><p>{tr('Chọn một tài khoản trong Mọi người để bắt đầu. Chỉ hai người trong hội thoại xem được lịch sử, kể cả khi có vai trò admin. Tên và vai trò tại thời điểm gửi được lưu cùng tin nhắn.')}</p><button className="text-button" onClick={()=>setHelp(false)}>{tr('Đóng')}</button></div>}
         {notice&&<div className="notice warning chat-notice" role="alert"><span>{tr(notice)}</span><button className="icon-button" aria-label={tr('Đóng thông báo')} onClick={()=>setNotice('')}><UiIcon name="close" size={16}/></button></div>}
         <div className={`chat-layout ${peerId?'has-chat':''}`}>
-          <section className="chat-directory panel" aria-label={tr('Danh sách trò chuyện')}>
+          <section className="chat-directory" aria-label={tr('Danh sách trò chuyện')}>
             <div className="chat-directory-tabs">{(['conversations','contacts'] as const).map(value=><button type="button" key={value} aria-pressed={tab===value} className={tab===value?'selected':''} onClick={()=>setTab(value)}>{tr(value==='conversations'?'Hội thoại':'Mọi người')}{value==='conversations'&&inbox.unreadTotal>0&&<small>{inbox.unreadTotal}</small>}</button>)}</div>
-            <div className="chat-search"><input aria-label={tr('Tìm người trò chuyện')} placeholder={tr('Tìm theo tên…')} value={search} maxLength={120} onChange={e=>setSearch(e.target.value)}/><select aria-label={tr('Lọc theo vai trò')} value={roleFilter} onChange={e=>setRoleFilter(e.target.value)}><option value="all">{tr('Tất cả vai trò')}</option>{Object.entries(roles).map(([key,label])=><option key={key} value={key}>{tr(label)}</option>)}</select></div>
+            <div className="chat-search">
+              <label className="chat-search-field"><UiIcon name="search" size={18}/><input type="search" aria-label={tr('Tìm người trò chuyện')} placeholder={tr('Tìm theo tên…')} autoComplete="off" value={search} maxLength={120} onChange={e=>setSearch(e.target.value)}/></label>
+              <div className="chat-role-filters" role="group" aria-label={tr('Lọc theo vai trò')}>{[['all','Tất cả'],...Object.entries(roles)].map(([key,label])=><button type="button" key={key} aria-pressed={roleFilter===key} onClick={()=>setRoleFilter(key)}>{tr(label)}</button>)}</div>
+            </div>
             <div className="chat-people">{tab==='conversations'?inbox.conversations.filter(c=>matches(c.peer)).map(c=><button className={`chat-person ${peerId===c.peer.id?'selected':''}`} key={c.id} disabled={sending} onClick={()=>void selectPeer(c.peer.id)}><UserAvatar person={c.peer}/><span className="chat-person-info"><b>{name(c.peer)}</b><span className={`chat-role ${c.peer.role}`}>{tr(roles[c.peer.role])}</span><small className="chat-preview">{c.lastMessage.senderId===user.id?tr('Bạn:')+' ':''}{c.lastMessage.body}</small></span><span className="chat-person-tail"><small>{messageTime(c.lastMessage.createdAt)}</small>{c.unread>0&&<b className="chat-unread" aria-label={tr('{0} tin chưa đọc',[c.unread])}>{c.unread}</b>}</span></button>):inbox.contacts.filter(matches).map(person=><button className={`chat-person ${peerId===person.id?'selected':''}`} key={person.id} disabled={sending} onClick={()=>void selectPeer(person.id)}><UserAvatar person={person}/><span className="chat-person-info"><b>{name(person)}</b><span className={`chat-role ${person.role}`}>{tr(roles[person.role])}</span></span><UiIcon name="next" size={16}/></button>)}
-              {(tab==='conversations'?inbox.conversations.filter(c=>matches(c.peer)):inbox.contacts.filter(matches)).length===0&&<div className="empty"><UiIcon name="messages" size={25}/><h4>{tr(tab==='conversations'?'Chưa có hội thoại phù hợp':'Chưa tìm thấy người phù hợp')}</h4><p>{tr('Mở Mọi người hoặc đổi từ khóa, vai trò để bắt đầu trò chuyện.')}</p></div>}
+              {(tab==='conversations'?inbox.conversations.filter(c=>matches(c.peer)):inbox.contacts.filter(matches)).length===0&&<div className="empty"><UiIcon name="search" size={24}/><h4>{tr(tab==='conversations'?'Chưa có hội thoại phù hợp':'Chưa tìm thấy người phù hợp')}</h4></div>}
             </div>
           </section>
-          <section className="chat-conversation panel" aria-label={tr('Hội thoại riêng')}>
+          <section className="chat-conversation" aria-label={tr('Hội thoại riêng')}>
             {peerId?<>
               <header className="chat-header"><button className="icon-button chat-back" aria-label={tr('Quay lại danh sách trò chuyện')} onClick={()=>void selectPeer('')}><UiIcon name="next"/></button><UserAvatar person={peer||{name:'…'}}/><div><h2>{peer?name(peer):tr('Đang mở hội thoại…')}</h2>{peer&&<span className={`chat-role ${peer.role}`}>{tr(roles[peer.role])}</span>}</div><span className="chat-private">{tr('Hội thoại riêng')}</span></header>
               <div className="chat-history" ref={scroll} role="log" aria-label={tr('Lịch sử tin nhắn')} aria-live="polite" aria-relevant="additions" onScroll={()=>{
@@ -175,7 +190,7 @@ export default function MessagesWorkspace({user,language:initialLanguage,initial
               }}>
                 {loading?<div className="empty" role="status">{tr('Đang tải tin nhắn…')}</div>:<>
                   {current?.hasOlder&&<button className="text-button chat-older" disabled={olderLoading} onClick={()=>void loadOlder()}>{tr(olderLoading?'Đang tải…':'Xem tin nhắn trước')}</button>}
-                  {!current?.messages.length&&<div className="empty"><UiIcon name="messages" size={30}/><h4>{tr('Bắt đầu cuộc trò chuyện')}</h4><p>{tr('Gửi lời chào hoặc trao đổi về bài reflection, học phần và những điều bạn cần hỗ trợ.')}</p></div>}
+                  {!current?.messages.length&&<div className="chat-thread-empty"><UiIcon name="messages" size={28}/><h4>{tr('Bắt đầu cuộc trò chuyện')}</h4></div>}
                   {current?.messages.map((message,i)=>{
                     const own=message.senderId===user.id,previous=current.messages[i-1],timestamp=formatMessageTimestamp(message.createdAt,language);
                     return <div key={message.id}>{(!previous||formatMessageTimestamp(previous.createdAt,language).dayKey!==timestamp.dayKey)&&<div className="chat-day">{timestamp.date}</div>}<article className={`chat-message ${own?'own':''}`}><div className="chat-message-identity"><b>{demoText(message.senderName,message.senderId,language)}</b><span className={`chat-role ${message.senderRole}`}>{tr(roles[message.senderRole])}</span></div><p>{message.body}</p><footer><time dateTime={message.createdAt}>{timestamp.time}</time>{own&&<span><UiIcon name="check" size={12}/>{tr(message.id<=current.peerReadId?'Đã đọc':'Đã gửi')}</span>}</footer></article></div>;
@@ -184,8 +199,12 @@ export default function MessagesWorkspace({user,language:initialLanguage,initial
               </div>
               {newBelow&&<button className="chat-to-bottom text-button" onClick={()=>{nearBottom.current=true;setNewBelow(false);if(scroll.current)scroll.current.scrollTop=scroll.current.scrollHeight;void acknowledge()}}><UiIcon name="down" size={14}/>{tr('Xuống tin nhắn mới nhất')}</button>}
               {peer&&!peer.active&&<div className="notice chat-inactive">{tr('Tài khoản này đã tạm ngừng. Bạn vẫn có thể đọc lịch sử, nhưng chưa thể gửi thêm tin.')}</div>}
-              <form className="chat-composer" onSubmit={send}><label className="sr-only" htmlFor="chat-message-input">{tr('Soạn tin nhắn')}</label><textarea id="chat-message-input" ref={composer} rows={3} maxLength={messageLimit} value={text} disabled={sending||loading||!current||!peer?.active} placeholder={tr('Viết tin nhắn…')} onChange={e=>setText(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.nativeEvent.isComposing){e.preventDefault();void send()}}}/><div><small>{tr('Enter để gửi · Shift + Enter để xuống dòng')}<span>{text.length}/{messageLimit}</span></small><button className="button primary" disabled={sending||loading||!current||!peer?.active||!text.trim()}>{sending?tr('Đang gửi…'):tr('Gửi tin nhắn')}<UiIcon name="next" size={16}/></button></div></form>
-            </>:<div className="chat-welcome empty"><div className="chat-welcome-icon"><UiIcon name="messages" size={30}/></div><span className="eyebrow">{tr('Kết nối trong THINK UP')}</span><h2>{tr('Một cuộc trò chuyện giúp mọi việc rõ hơn.')}</h2><p>{tr('Chọn người bên trái để trao đổi. Bạn có thể nhắn cho sinh viên, giảng viên và admin; tên và vai trò luôn được hiển thị rõ.')}</p><button className="button" onClick={()=>setTab('contacts')}>{tr('Chọn người để nhắn')}</button></div>}
+              <form className="chat-composer" onSubmit={send}><div className="chat-compose-bar">
+                <label className="sr-only" htmlFor="chat-message-input">{tr('Soạn tin nhắn')}</label>
+                <textarea id="chat-message-input" ref={composer} rows={1} maxLength={messageLimit} value={text} disabled={sending||loading||!current||!peer?.active} placeholder={tr('Viết tin nhắn…')} onChange={e=>setText(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.nativeEvent.isComposing){e.preventDefault();void send()}}}/>
+                <button className="chat-send" type="submit" aria-label={tr(sending?'Đang gửi…':'Gửi tin nhắn')} title={tr(sending?'Đang gửi…':'Gửi tin nhắn')} aria-busy={sending} disabled={sending||loading||!current||!peer?.active||!text.trim()}><UiIcon name={sending?'spinner':'send'} size={20}/></button>
+              </div></form>
+            </>:<div className="chat-welcome"><UiIcon name="messages" size={32} className="chat-welcome-symbol"/><h2>{tr('Chọn cuộc trò chuyện')}</h2><button className="text-button" onClick={()=>{setTab('contacts');setSearch('');setRoleFilter('all')}}>{tr('Chọn người để nhắn')}<UiIcon name="next" size={16}/></button></div>}
           </section>
         </div>
         <SiteFooter language={language} compact onHelp={()=>setHelp(!help)}/>

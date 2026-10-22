@@ -1,0 +1,25 @@
+/* One compact entry point; full language names are shown only when choosing. */
+.language-picker { display: flex; align-items: center; position: relative; flex: 0 0 auto; color: var(--ink); }
+.language-picker .language-trigger { display: inline-flex; align-items: center; justify-content: center; gap: 4px; width: 44px; height: 40px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer; transition: background-color .18s ease,color .18s ease; }
+.language-picker .language-trigger:hover:not(:disabled), .language-trigger[aria-expanded="true"] { background: var(--accent-soft); color: var(--accent); }
+.language-picker .language-trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.language-trigger > .ui-icon:last-child { transition: transform .18s ease; }
+.language-trigger[aria-expanded="true"] > .ui-icon:last-child { transform: rotate(180deg); }
+.language-menu { position: absolute; top: calc(100% + 10px); right: 0; z-index: 55; width: 190px; max-width: calc(100vw - 36px); padding: 7px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); box-shadow: 0 12px 36px #302e3814; }
+.language-menu[hidden] { display: none; }
+.language-menu-label { display: block; padding: 9px 11px 8px; font-size: 11px; color: var(--muted); font-weight: 500; }
+.language-picker .language-option { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; min-height: 44px; padding: 11px; border: 0; border-radius: 8px; background: transparent; color: var(--ink); font-size: 13px; font-weight: 500; text-align: left; cursor: pointer; }
+.language-picker .language-option[aria-checked="true"] { color: var(--accent); }
+.language-picker .language-option:hover, .language-picker .language-option:focus-visible { background: var(--accent-soft); outline: none; }
+.workspace-preferences { display: flex; align-items: center; }
+@media (max-width: 760px) {
+ .language-picker .language-trigger { width: 38px; height: 38px; }
+ .language-menu { width: 180px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+ .language-menu:not([hidden]) { animation: language-menu-in .16s ease-out; }
+ @keyframes language-menu-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+}
+@media (prefers-reduced-motion: reduce) {
+ .language-picker *, .language-picker *::after { animation: none !important; transition: none !important; }
+}

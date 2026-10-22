@@ -1,13 +1,18 @@
 import { cookies } from 'next/headers';
 import { notFound,redirect } from 'next/navigation';
 import { homePath,type Role } from '../lib/access';
-import { languageCookie,resolveLanguage } from '../lib/i18n';
+import { languageCookie,resolveLanguage,translate } from '../lib/i18n';
 import { loadWorkspaceData } from '../lib/workspace';
 import { pageRequest } from '../lib/page-request';
 import { AppError,database } from '../lib/server';
 import { messageStore } from '../lib/message-store';
 import { MessageError } from '../lib/messaging';
 import MessagesWorkspace from './MessagesWorkspace';
+
+export async function generateMetadata(){
+  const preferences=await cookies();
+  return {title:translate('Tin nhắn',resolveLanguage(preferences.get(languageCookie)?.value))+' · THINK UP'};
+}
 
 export default async function MessagesPageFrame({workspaceRole,searchParams}:{workspaceRole:Role;searchParams:Promise<{peer?:string}>}) {
   let data;

@@ -53,17 +53,15 @@ export default function ReflectionThinking({draft,language,provider,aiReady,atta
     finally{locked.current=false;setPending(false)}
   }
   return <section className="reflection-thinking" aria-label={tr('Tư duy cùng AI')}>
-    <p className="reflection-thinking-purpose">{tr('Từ những gì bạn đang viết và các ảnh/tài liệu đã thêm, AI gợi mở hướng suy nghĩ để bạn viết tiếp.')}</p>
     <div className="thinking-context"><UiIcon name="document" size={16}/><span>{tr(attachmentCount?'Bản viết hiện tại + ảnh/tài liệu đã thêm':'Bản viết hiện tại trong Editor')}</span>{attachmentCount>0&&<small>{attachmentCount} {tr('tệp')}</small>}</div>
     <button id="reflection-think-button" className="button primary full" disabled={pending||hasServerPending||loading||busy||!editable||!aiReady||!hasContext} onClick={()=>void think()}><UiIcon name="coach" size={17}/>{tr(pending||hasServerPending?'Đang tư duy cùng bạn…':latest?'Tư duy tiếp với bối cảnh mới':'Tư duy cùng AI')}</button>
-    {!hasContext&&<p className="writing-ai-hint">{tr('Viết vài ý hoặc thêm ảnh/tài liệu bên Editor, rồi bấm Tư duy cùng AI.')}</p>}
+    {!hasContext&&<p className="writing-ai-hint">{tr('Viết vài ý hoặc thêm tệp để bắt đầu.')}</p>}
     {!aiReady&&<div className="notice">{tr('AI chưa được kết nối. Bạn vẫn có thể viết và lưu bài.')}</div>}
     {!editable&&<p className="writing-ai-hint">{tr('Bài đã khóa. Bạn có thể đọc lại các gợi ý.')}</p>}
     {error&&<div className="notice warning" role="alert">{tr(error)}{attempt&&<button className="text-button" disabled={pending||busy||!editable} onClick={()=>void think(true)}>{tr('Thử lại gợi ý')}</button>}</div>}
     <div className="reflection-thinking-output" aria-live="polite" aria-busy={pending||loading||hasServerPending}>
-      {loading?<p className="muted">{tr('Đang tải gợi ý…')}</p>:pending||hasServerPending?<div className="thinking-welcome" role="status"><UiIcon name="coach" size={26}/><h4>{tr('AI đang đọc bối cảnh của bạn…')}</h4><p>{tr('Bạn cứ tiếp tục viết. Gợi ý sẽ xuất hiện ở đây khi hoàn tất.')}</p></div>:latest?<article className="thinking-suggestion"><div className="section-head"><h4>{tr('Gợi ý để viết tiếp')}</h4><small>{new Intl.DateTimeFormat(dateLocale(language),{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Ho_Chi_Minh'}).format(new Date(latest.created_at))}</small></div>{stale&&<div className="notice warning">{tr('Bạn đã thay đổi bối cảnh. Bấm tư duy tiếp để nhận gợi ý mới.')}</div>}<p>{latest.reply}</p></article>:<div className="thinking-welcome"><UiIcon name="coach" size={28}/><h4>{tr('Một góc nhìn mới, từ chính bài viết của bạn.')}</h4><p>{tr('Bấm nút phía trên để khám phá điều đáng chú ý, câu hỏi cần đào sâu và hướng phát triển tiếp theo.')}</p></div>}
+      {loading?<p className="muted">{tr('Đang tải gợi ý…')}</p>:pending||hasServerPending?<div className="thinking-welcome" role="status"><UiIcon name="coach" size={26}/><h4>{tr('AI đang đọc bối cảnh của bạn…')}</h4><p>{tr('Bạn cứ tiếp tục viết. Gợi ý sẽ xuất hiện ở đây khi hoàn tất.')}</p></div>:latest?<article className="thinking-suggestion"><div className="section-head"><h4>{tr('Gợi ý để viết tiếp')}</h4><small>{new Intl.DateTimeFormat(dateLocale(language),{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Ho_Chi_Minh'}).format(new Date(latest.created_at))}</small></div>{stale&&<div className="notice warning">{tr('Bạn đã thay đổi bối cảnh. Bấm tư duy tiếp để nhận gợi ý mới.')}</div>}<p>{latest.reply}</p></article>:<div className="thinking-welcome"><UiIcon name="coach" size={28}/><p>{tr('Chưa có gợi ý.')}</p></div>}
     </div>
     {suggestions.length>1&&<details className="thinking-history"><summary>{tr('Gợi ý trước đây')}</summary>{suggestions.slice(0,-1).reverse().slice(0,5).map(turn=><article key={turn.id}><p>{turn.reply}</p></article>)}</details>}
-    <small className="thinking-footnote">{tr('Gợi ý dựa trên bối cảnh tại lúc bấm nút. Bạn tự chọn ý và viết bằng lời của mình.')}</small>
   </section>;
 }
