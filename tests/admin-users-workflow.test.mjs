@@ -41,10 +41,11 @@ test('admin creates student and lecturer accounts with real credentials, assignm
     await create(studentLogin.cookie,{...base,email:`denied-student-${suffix}@example.edu`},403);
     await create(lecturerLogin.cookie,{...base,email:`denied-lecturer-${suffix}@example.edu`},403);
     const after=await state(admin.cookie);assert.equal(after.memberships.filter(m=>m.userId===student.id).length,1);assert.equal(after.memberships.find(m=>m.userId===lecturer.id).role,'lecturer');
-    await access('/admin',admin.cookie,307,'/admin/courses');
+    await access('/admin',admin.cookie,307,'/admin/users');
     await access('/admin?tab=settings',admin.cookie,307,'/admin/settings');
+    await access('/admin?view=messages',admin.cookie,307,'/admin/messages');
     await access('/admin?tab=users&role=lecturer',admin.cookie,307,'/admin/users?role=lecturer');
-    await access('/admin?view=lecturer&tab=progress&course=demo-course-reflection',admin.cookie,307,'/admin/progress?course=demo-course-reflection');
+    await access('/admin?view=lecturer&tab=progress&course=demo-course-reflection',admin.cookie,307,'/admin/courses?course=demo-course-reflection');
     for(const language of ['en','vi'])for(const page of adminPages){
       const html=await visible(adminHref(page.key),admin.cookie,language);
       const nav=html.match(/<nav\b[^>]*>[\s\S]*?<\/nav>/)?.[0];assert.ok(nav,page.key);
@@ -54,31 +55,30 @@ test('admin creates student and lecturer accounts with real credentials, assignm
       assert.ok(!nav.includes('/lecturer')&&!nav.includes('/student'));
       assert.ok(!html.includes('class="tab-bar"')&&!html.includes('lecturer-tabs'));
       const main=html.match(/<main\b[^>]*>[\s\S]*?<\/main>/)[0];
-      assert.ok(main.includes(`<h1>${translate(page.label,language).replaceAll('&','&amp;')}</h1>`),page.key);
+      assert.match(main,new RegExp(`<h1\\b[^>]*>${translate(page.label,language).replaceAll('&','&amp;')}</h1>`),page.key);
       if(page.key==='courses'){assert.ok(main.includes(translate('Tạo học phần',language)));assert.ok(!main.includes(translate('Tạo tài khoản',language)));assert.ok(!html.includes('aria-label="'+translate('Học phần đang xem',language)+'"'))}
       if(page.key==='users'){assert.ok(main.includes(translate('Tạo tài khoản',language)));assert.ok(!main.includes(translate('Ma trận quyền truy cập',language)))}
-      if(page.key==='settings'){assert.ok(main.includes(translate('Ma trận quyền truy cập',language)));assert.ok(main.includes(translate('Chỉnh sửa cấu hình',language)));assert.ok(!main.includes(translate('Tạo tài khoản',language)))}
+      if(page.key==='settings'){assert.ok(main.includes(translate('Phân quyền',language)));assert.ok(main.includes(translate('Lưu cấu hình',language)));assert.ok(!main.includes(translate('Tạo tài khoản',language)))}
       if(language==='en')assert.ok(!nav.includes('Người dùng')&&!nav.includes('Học phần')&&!nav.includes('Cài đặt'));
     }
     for(const page of adminPages){await access(adminHref(page.key),studentLogin.cookie,307,'/student');await access(adminHref(page.key),lecturerLogin.cookie,307,'/lecturer')}
     await access('/admin/settings',null,307,'/login');
-    for(const section of ['submissions','progress','similarity'])await access(adminHref(section,{course:'missing-course'}),admin.cookie,404);
-    await access(adminHref('submissions',{reflection:'demo-student-week-6'}),admin.cookie,404);
-    await access(adminHref('submissions',{course:'demo-course-project',reflection:'demo-student-week-4'}),admin.cookie,404);
-    const detail=await visible(adminHref('submissions',{course:'demo-course-reflection',reflection:'demo-student-week-4'}),admin.cookie,'en');
-    const expected=after.classReflections.find(r=>r.id==='demo-student-week-4');
-    assert.ok(detail.includes(expected.attachments[0].name));assert.ok(detail.includes(translate('Phiên bản bài viết','en')));
-    const scoped=await visible(adminHref('submissions',{course:'demo-course-project'}),admin.cookie,'en');
-    const scopedNav=scoped.match(/<nav\b[^>]*>[\s\S]*?<\/nav>/)[0];
-    assert.ok(scopedNav.includes('href="/admin/progress?course=demo-course-project"'));
-    assert.ok(scopedNav.includes('href="/admin/users"'));
+    for(const section of ['submissions','progress','similarity']){
+      await access(`/admin/${section}`,admin.cookie,307,'/admin/courses');
+      await access(`/admin/${section}?course=demo-course-project&reflection=demo-student-week-4`,admin.cookie,307,'/admin/courses?course=demo-course-project');
+    }
+    await access('/admin/overview',admin.cookie,307,'/admin/users');
+    await access('/admin/courses?course=missing-course',admin.cookie,404);
+    const configuredCourse=await visible('/admin/courses?course=demo-course-project',admin.cookie,'en');
+    assert.ok(configuredCourse.includes(translate('Lưu cấu hình','en')));
+    assert.ok(!configuredCourse.includes('/admin/submissions'));
     const en=await visible('/admin?tab=users&role=lecturer',admin.cookie,'en'),vi=await visible('/admin?tab=users&role=lecturer',admin.cookie,'vi');
-    assert.ok(en.includes('Students &amp; lecturers'));assert.ok(en.includes('Create account'));assert.ok(en.includes(lecturerEmail));assert.ok(!en.includes(studentEmail));
-    assert.ok(vi.includes('Sinh viên &amp; giảng viên'));assert.ok(vi.includes('Tạo tài khoản'));
+    assert.ok(en.includes(translate('Người dùng','en')));assert.ok(en.includes('Create account'));assert.ok(en.includes(lecturerEmail));assert.ok(!en.includes(studentEmail));
+    assert.ok(vi.includes('Người dùng'));assert.ok(vi.includes('Tạo tài khoản'));
     const students=await visible('/admin?tab=users&role=student',admin.cookie,'en');assert.ok(students.includes(studentEmail));assert.ok(!students.includes(lecturerEmail));
     const seededStudent=await login('student@thinkup.local',demoPassword);
-    const englishOverview=await visible('/student',seededStudent.cookie,'en'),vietnameseOverview=await visible('/student',seededStudent.cookie,'vi');
+    const englishOverview=await visible('/student?view=editor',seededStudent.cookie,'en'),vietnameseOverview=await visible('/student?view=editor',seededStudent.cookie,'vi');
     assert.ok(englishOverview.includes('What I want to change about how I learn'));assert.ok(!englishOverview.includes('Điều tôi muốn thay đổi trong cách học'));
-    assert.ok(englishOverview.includes('Set two survey progress checkpoints each week.'));assert.ok(vietnameseOverview.includes('Điều tôi muốn thay đổi trong cách học'));
+    const journey=await visible('/student?view=journey',seededStudent.cookie,'en');assert.ok(journey.includes('Set two survey progress checkpoints each week.'));assert.ok(vietnameseOverview.includes('Điều tôi muốn thay đổi trong cách học'));
   }finally{for(const cookie of cookies)await fetch(root+'/api/auth/logout',{method:'POST',headers:{Origin:root,cookie}})}
 });

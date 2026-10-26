@@ -130,20 +130,40 @@ export async function executeCodex(payload, { binary = process.env.CODEX_BIN || 
   } finally { await rm(directory, { recursive: true, force: true }); }
 }
 
-export async function startCodexBridge({ token = randomBytes(32).toString('hex'), execute = executeCodex } = {}) {
+export async function startCodexBridge({ token = randomBytes(32).toString('hex'), execute = executeCodex, maxQueue = 0, queueTimeout = 90000 } = {}) {
+  if (!Number.isInteger(maxQueue) || maxQueue < 0 || maxQueue > 10) throw new Error('Invalid Codex queue limit.');
   let busy = false;
+  const waiting = [];
+  async function acquire(signal) {
+    if (!busy) { busy = true; return; }
+    if (waiting.length >= maxQueue) throw new BridgeError('Codex đang phân tích bài khác. Hãy đợi hoàn tất rồi thử lại.', 429);
+    await new Promise((resolve, reject) => {
+      const entry = { resolve: () => { cleanup(); resolve(); } };
+      const remove = () => { const index = waiting.indexOf(entry); if (index >= 0) waiting.splice(index, 1); };
+      const aborted = () => { remove(); cleanup(); reject(new BridgeError('Yêu cầu AI đã bị hủy.', 499)); };
+      const timer = setTimeout(() => { remove(); cleanup(); reject(new BridgeError('AI đang bận. Hãy thử lại sau ít phút.', 429)); }, queueTimeout);
+      function cleanup() { clearTimeout(timer); signal.removeEventListener('abort', aborted); }
+      signal.addEventListener('abort', aborted, { once: true });
+      waiting.push(entry);
+      if (signal.aborted) aborted();
+    });
+  }
+  function release() {
+    const next = waiting.shift();
+    if (next) next.resolve(); else busy = false;
+  }
   const server = createServer(async (request, response) => {
     const reply = (status, body) => { if (!response.destroyed) { response.writeHead(status, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }); response.end(JSON.stringify(body)); } };
     const supplied = Buffer.from(request.headers.authorization || ''), expected = Buffer.from(`Bearer ${token}`);
     if (request.headers.origin || !/^127\.0\.0\.1:\d+$/.test(request.headers.host || '') || supplied.length !== expected.length || !timingSafeEqual(supplied, expected)) { reply(403, { error: 'Không được phép truy cập cầu nối Codex.' }); return; }
     if (request.method !== 'POST' || !['/analyze', '/chat', '/reading'].includes(request.url)) { reply(404, { error: 'Không tìm thấy thao tác.' }); return; }
-    if (busy) { reply(429, { error: 'Codex đang phân tích một bài khác. Hãy đợi hoàn tất rồi thử lại.' }); return; }
     if (!request.headers['content-type']?.startsWith('application/json')) { reply(415, { error: 'Yêu cầu cần có định dạng JSON.' }); return; }
-    busy = true;
+    let acquired = false;
     const controller = new AbortController();
     const closed = () => { if (!response.writableEnded) controller.abort(); };
     response.once('close', closed);
     try {
+      await acquire(controller.signal); acquired = true;
       let size = 0; const chunks = [];
       for await (const chunk of request) {
         size += chunk.length;
@@ -155,7 +175,7 @@ export async function startCodexBridge({ token = randomBytes(32).toString('hex')
       catch { throw new BridgeError('Yêu cầu JSON chưa hợp lệ.', 400); }
       reply(200, await execute(payload, { signal: controller.signal, mode: request.url === '/chat' ? 'chat' : request.url === '/reading' ? 'reading' : 'feedback' }));
     } catch (error) { reply(error instanceof BridgeError ? error.status : 502, { error: error instanceof BridgeError ? error.message : 'Chưa thể kết nối Codex. Hãy kiểm tra đăng nhập và thử lại.' }); }
-    finally { response.removeListener('close', closed); busy = false; }
+    finally { response.removeListener('close', closed); if (acquired) release(); }
   });
   server.requestTimeout = 300000;
   await new Promise((resolve, reject) => { server.once('error', reject); server.listen(0, '127.0.0.1', resolve); });

@@ -2,13 +2,16 @@ import type { Data, Reflection } from './domain.ts';
 import { finalReview } from './progress.ts';
 
 export const lecturerPages = [
-  { key: 'submissions', label: 'Bài nộp & đánh giá', navLabel: 'Bài nộp', icon: 'document' },
-  { key: 'students', label: 'Sinh viên', navLabel: 'Sinh viên', icon: 'users' },
-  { key: 'progress', label: 'Tiến độ lớp', navLabel: 'Tiến độ', icon: 'progress' },
-  { key: 'similarity', label: 'Kiểm tra trùng lặp', navLabel: 'Trùng lặp', icon: 'similarity' },
-  { key: 'courses', label: 'Học phần', navLabel: 'Học phần', icon: 'journey' },
-  { key: 'messages', label: 'Tin nhắn', navLabel: 'Tin nhắn', icon: 'messages' },
+  { key: 'overview', label: 'Bàn làm việc', navLabel: 'Bàn làm việc', icon: 'overview', group: 'Đánh giá', description: 'Tiếp tục công việc đang dở và những việc cần chú ý.' },
+  { key: 'submissions', label: 'Bài nộp', navLabel: 'Bài nộp', icon: 'document', group: 'Đánh giá', description: 'Đọc, đánh giá và trả lời từng bài reflection.' },
+  { key: 'similarity', label: 'Kiểm tra trùng lặp', navLabel: 'Trùng lặp', icon: 'similarity', group: 'Đánh giá', description: 'Đối chiếu văn bản và xem các đoạn tương đồng giữa bài nộp.' },
+  { key: 'students', label: 'Sinh viên', navLabel: 'Sinh viên', icon: 'users', group: 'Theo dõi lớp', description: 'Danh sách lớp, hành trình từng tuần và hồ sơ của mỗi sinh viên.' },
+  { key: 'progress', label: 'Phân tích lớp', navLabel: 'Phân tích lớp', icon: 'progress', group: 'Theo dõi lớp', description: 'Nhìn lại nhịp học, chất lượng phản tư và việc thực hiện cam kết của lớp.' },
+  { key: 'courses', label: 'Học phần & rubric', navLabel: 'Học phần & rubric', icon: 'journey', group: 'Quản lý', description: 'Thiết lập nội dung chín tuần, hạn nộp và tiêu chí đánh giá.' },
+  { key: 'messages', label: 'Tin nhắn', navLabel: 'Tin nhắn', icon: 'messages', group: 'Quản lý', description: 'Trao đổi trực tiếp với sinh viên và đồng nghiệp.' },
 ] as const;
+// Lecturer-facing names for the stored reflection states (spec 2.1).
+export const lecturerStatuses: Record<string, string> = { draft: 'Bản nháp', submitted: 'Chờ duyệt', returned: 'Đang chỉnh sửa', final: 'Đã hoàn tất' };
 export type LecturerSection = typeof lecturerPages[number]['key'];
 export type LecturerQuery = { course?: string; student?: string; status?: string; week?: string; q?: string; reflection?: string; criterion?:string; level?:string; sort?:string;cohort?:string };
 
@@ -19,8 +22,9 @@ export function lecturerHref(section: LecturerSection, query: LecturerQuery = {}
   return path + (params.size ? `?${params}` : '');
 }
 
-export function lecturerScope(data: Data, courseId = '',className='') {
-  const ids = new Set(data.memberships.filter(m => m.userId === data.user?.id && m.role === 'lecturer').map(m => m.courseId));
+/** The courses a lecturer teaches; `everything` widens it to every course for the administrator's monitoring pages. */
+export function lecturerScope(data: Data, courseId = '',className='',everything=false) {
+  const ids = new Set(everything?data.courses.map(c=>c.id):data.memberships.filter(m => m.userId === data.user?.id && m.role === 'lecturer').map(m => m.courseId));
   const courses = data.courses.filter(c => ids.has(c.id)&&(!className||(c.className||c.code)===className));
   const scopedIds = new Set(courses.filter(c => !courseId || c.id === courseId).map(c => c.id));
   const memberships = data.memberships.filter(m => scopedIds.has(m.courseId) && m.role === 'student');

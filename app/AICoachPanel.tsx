@@ -21,7 +21,7 @@ export default function AICoachPanel({draft,reflection,language,aiReady,busy,onA
     <button className="button primary full" disabled={!readiness.canAnalyze} onClick={onAnalyze}>{tr(busy==='coach'?'Đang đọc bài cùng Coach…':'Nhận phản hồi từ AI Coach')}</button>
     {readiness.editable&&aiReady&&readiness.words<20&&<p className="writing-ai-hint">{tr('Viết ít nhất 20 từ để nhận phản hồi.')}</p>}
     {analysis?<>
-      {analysis.provider==='Demo fixture'&&<div className="notice warning">{tr('Phản hồi mẫu để kiểm thử giao diện; không phải kết quả AI thực tế.')}</div>}
+      {analysis.provider==='Demo fixture'&&<div className="notice warning">{tr('Phản hồi mẫu có sẵn trong dữ liệu dùng thử, không phải kết quả AI thực tế. Bạn có thể yêu cầu AI phân tích lại bài viết.')}</div>}
       {stale&&<div className="notice warning">{tr('Phản hồi thuộc phiên bản trước. Phân tích lại sau khi chỉnh sửa.')}</div>}
       <ReflectionGuidance analysis={analysis} language={language} onCommit={onCommit}/>
       <div className="coach-reflection-level"><h4>{tr('Mức độ phản tư')}</h4><span className="badge">{tr(levels[analysis.result.level])}</span>{analysis.result.levelReason&&<p>{demoText(analysis.result.levelReason,analysis.id,language)}</p>}{analysis.result.levelEvidence&&<blockquote>“{demoText(analysis.result.levelEvidence,analysis.id,language)}”</blockquote>}</div>

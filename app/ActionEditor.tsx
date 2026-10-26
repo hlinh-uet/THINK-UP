@@ -10,7 +10,11 @@ const statuses=[['todo','Chưa bắt đầu'],['in_progress','Đang thực hiệ
 
 export default function ActionEditor({initial,reflections,language,busy,onSave,onCancel}:{initial:Partial<Action>;reflections:Reflection[];language:Language;busy:boolean;onSave:(value:Partial<Action>)=>Promise<void>;onCancel?:()=>void}){
  const tr=(s:string)=>translate(s,language),dt=(s:string,id?:string)=>demoText(s,id,language);
- const [uploading,setUploading]=useState(false),[message,setMessage]=useState(''),[value,setValue]=useState<Partial<Action>>({...initial,revision:initial.revision||0});
+ const [uploading,setUploading]=useState(false),[message,setMessage]=useState(''),[value,setValue]=useState<Partial<Action>>(()=>{
+  // Demo fixtures are stored in one language; show their fields in the reader's language like everywhere else.
+  const shown=(text?:string)=>text&&initial.id?dt(text,initial.id):text;
+  return {...initial,text:shown(initial.text),successCriteria:shown(initial.successCriteria),review:shown(initial.review),evidence:shown(initial.evidence),revision:initial.revision||0};
+ });
  const statusName=useId(),followUpName=useId(),fileInput=useRef<HTMLInputElement>(null);
  const source=reflections.find(r=>r.id===value.reflectionId),locked=busy||uploading;
  const followUps=reflections.filter(r=>r.id!==source?.id&&r.courseId===source?.courseId);

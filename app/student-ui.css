@@ -1,0 +1,1418 @@
+/*
+ * Student pages. The shared palette, rail and controls live in workspace-ui.css.
+ * Colours come from the shared workspace palette; components only use their semantic names
+ * (rail, primary, highlight, hero). Pages are a title, then notes, lists and a few sheets.
+ * The self-hosted Manrope variable font includes Vietnamese and uses the same shapes on every device.
+ */
+
+.app-shell.student-workspace {
+ --font-sans: Manrope, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+ --font-display: var(--font-sans); --serif: var(--font-sans);
+ --ink: var(--content-ink); --text: var(--content-text); --muted: var(--content-muted); --faint: #616e80;
+ --hl-deep: var(--content-accent);
+ --hero-title: var(--ink); --hero-sub: var(--muted); --hero-label: var(--hl-deep);
+ --rail-text: var(--content-rail-text);
+ color: var(--text); font-family: var(--font-sans); font-size: 15px; font-weight: 400; line-height: 1.7; letter-spacing: 0;
+}
+
+/* ───────── Shared vocabulary ───────── */
+/* Blocks: every content group sits on one light white surface. */
+.app-shell.student-workspace :is(
+ .student-progress .progress-chart-card, .student-progress .progress-focus, .student-progress .progress-criterion-card, .profile-edit-card
+) { margin: 0; padding: 22px 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: 0 1px 2px #22211f0a; }
+.app-shell.rail-workspace :is(.space-row,.library-row,.journey-reflection,.journey-commitment,.progress-course,.profile-readonly-row,.profile-course):last-child { border-bottom: 0; padding-bottom: 0; }
+
+/* The one "do this next" block, shared by home and the selected journey week. */
+.app-shell.student-workspace .overview-feature, .app-shell.student-workspace .journey-workspace .journey-week-intro { display: block; margin: 0; padding: 26px 28px; border: 0; border-radius: var(--radius); background: var(--accent-soft); box-shadow: none; }
+.app-shell.student-workspace :is(.overview-week-label,.journey-week-eyebrow) { display: block; margin: 0 0 6px; color: var(--accent); font-size: 13px; font-weight: 600; }
+.app-shell.student-workspace :is(.overview-feature,.journey-week-intro) h2 { margin: 0; font-family: var(--font-sans); font-size: 21px; font-weight: 700; line-height: 1.35; letter-spacing: -.4px; color: var(--ink); }
+.app-shell.student-workspace :is(.overview-feature,.journey-week-intro) > p { display: block; max-width: 60ch; margin: 6px 0 0; color: var(--muted); font-size: 15px; line-height: 1.7; -webkit-line-clamp: unset; }
+.app-shell.student-workspace .overview-feature > .button { margin-top: 18px; }
+
+/* Rows: one line of text, one status on the right. */
+.space-list, .library-week-group { display: grid; }
+.app-shell.student-workspace :is(.space-row,.library-row) { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 50px; padding: 11px 0; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--ink); text-align: left; font-size: 15px; line-height: 1.45; }
+.app-shell.student-workspace :is(.space-row,.library-row):hover :is(.space-row-text,.library-title) { color: var(--accent); }
+.app-shell.student-workspace :is(.space-row-text,.library-title) { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ───────── Home ───────── */
+.app-shell.student-workspace .student-overview { display: grid; gap: var(--gap); }
+.app-shell.student-workspace .student-overview > .student-page-title { margin: 0 0 4px; }
+.app-shell.student-workspace .overview-journey { display: block; }
+.space-section-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 8px; }
+.app-shell.student-workspace .space-row.action-mini { color: var(--ink); }
+.app-shell.student-workspace .space-row > .space-row-text { color: var(--ink); font-size: 15px; }
+.app-shell.student-workspace .space-row .task-circle { flex-shrink: 0; width: 16px; height: 16px; margin: 0; border: 2px solid var(--accent-line); border-radius: 50%; }
+.app-shell.student-workspace .space-row > .space-row-due { flex-shrink: 0; color: var(--muted); font-size: 13px; }
+.app-shell.student-workspace .space-row > .space-row-due.is-overdue { color: var(--warn); }
+.app-shell.student-workspace .space-more { display: none; }
+.space-empty { padding: 12px 0 0; color: var(--muted); }
+.space-empty p { margin: 0 0 6px; }
+.app-shell.student-workspace .overview-task-due { color: var(--warn); font-size: 14px; }
+
+/* ───────── My reflections ───────── */
+.app-shell.student-workspace .reflection-library { display: grid; gap: var(--gap); }
+.app-shell.student-workspace .reflection-library > .student-page-title { margin: 0 0 4px; }
+.library-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px 28px; flex-wrap: wrap; border-bottom: 1px solid #e6e1e5; }
+.library-filters { display: flex; gap: 22px; overflow-x: auto; scrollbar-width: none; }
+.library-filters > button { flex-shrink: 0; padding: 0 0 11px; margin-bottom: -1px; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--muted); font-size: 14px; font-weight: 500; }
+.library-filters > button:hover { color: var(--ink); }
+.library-filters > button[aria-pressed="true"] { border-bottom-color: var(--ink); color: var(--ink); font-weight: 600; }
+.library-search { display: flex; align-items: center; gap: 8px; flex: 0 1 240px; margin-bottom: 8px; color: var(--faint); }
+.app-shell.student-workspace .library-search input { flex: 1; min-width: 0; min-height: 34px; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; font-size: 14px; color: var(--ink); }
+.app-shell.student-workspace .library-search input:focus { box-shadow: none; }
+.library-search:focus-within { color: var(--accent); }
+.app-shell.student-workspace .library-week-group > h2 { margin-bottom: 4px; color: var(--muted); font-size: 13px; font-weight: 600; }
+.library-more { display: flex; margin: 8px auto 0; }
+.library-empty { padding: 40px 0; color: var(--muted); text-align: center; }
+.library-empty.is-first { padding: 48px 24px; border-radius: var(--radius); background: var(--accent-soft); }
+.app-shell.student-workspace .library-empty.is-first h2 { margin: 0 0 18px; font-family: var(--font-sans); font-size: 21px; font-weight: 700; color: var(--ink); }
+
+/* ───────── Editor: the page of paper is the subject ───────── */
+.app-shell.student-workspace .writing-toolbar { position: sticky; top: 0; z-index: 26; display: flex; align-items: center; gap: 12px; margin: -28px 0 20px; padding: 14px 0; background: var(--paper); }
+.app-shell.student-workspace .writing-toolbar .writing-save-state { display: flex; align-items: center; gap: 10px; margin-right: auto; color: var(--muted); font-size: 13px; }
+.app-shell.student-workspace .writing-toolbar .writing-next-step { position: static; display: flex; min-height: 0; margin: 0; padding: 0; border: 0; background: transparent; box-shadow: none; }
+.app-shell.student-workspace .writing-panel-toggle { gap: 8px; }
+.app-shell.student-workspace .writing-panel-toggle.is-on { background: var(--accent-soft); border-color: var(--accent-line); color: var(--accent-hover); }
+.app-shell.student-workspace .student-writing-workspace .writing-workspace-grid { display: grid; align-items: start; }
+.app-shell.student-workspace .student-writing-workspace .writing-workspace-grid.with-support { grid-template-columns: minmax(0,1fr) clamp(320px, 25vw, 400px); gap: 24px; }
+.app-shell.student-workspace .student-writing-workspace .writing-workspace-grid.is-focused { grid-template-columns: minmax(0,880px); justify-content: center; }
+.app-shell.student-workspace .student-writing-workspace .writing-canvas.panel { padding: 6px 48px 0; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); box-shadow: 0 1px 2px #22211f0a, 0 10px 32px #2a29270d; }
+.app-shell.student-workspace .student-writing-workspace .writing-canvas:focus-within { border-color: var(--accent-line); box-shadow: 0 1px 2px #22211f0a, 0 12px 40px #2a292717; }
+.app-shell.student-workspace .student-writing-workspace .writing-settings > summary { padding-block: 16px; color: var(--muted); font-size: 13px; border-bottom: 1px solid var(--line); }
+.app-shell.student-workspace .student-writing-workspace .title-input { padding: 28px 0 6px; font-family: var(--font-sans); font-weight: 700; letter-spacing: -.6px; font-size: 28px; line-height: 1.3; }
+.app-shell.student-workspace .student-writing-workspace .with-support .title-input { font-size: 25px; }
+.app-shell.student-workspace .student-writing-workspace .writing-body-heading { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.app-shell.student-workspace .student-writing-workspace .writing-canvas .free-writing-area textarea { min-height: max(420px, 56vh); padding: 14px 0 24px; font-size: 16px; font-weight: 400; line-height: 1.95; letter-spacing: 0; color: var(--text); }
+.app-shell.student-workspace .student-writing-workspace .writing-canvas .free-writing-area textarea::placeholder { font-size: 16px; color: var(--faint); }
+.app-shell.student-workspace .student-writing-workspace .word-counter { color: var(--faint); font-size: 13px; }
+.app-shell.student-workspace .student-writing-workspace :is(.writing-evidence,.writing-outline) > summary { color: var(--muted); font-size: 14px; }
+.app-shell.student-workspace .student-writing-workspace .writing-bottom-bar { margin-inline: -48px; padding: 14px 48px; border-radius: 0 0 18px 18px; background: #fafafc; border-top: 1px solid var(--line); }
+.app-shell.student-workspace .writing-context-column { top: 76px; gap: 14px; max-height: calc(100dvh - 92px); border-radius: var(--radius); }
+.app-shell.student-workspace .writing-context-column[hidden] { display: none; }
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .writing-support-panel { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.app-shell.student-workspace .student-writing-workspace .reflection-assistant-heading { display: none; }
+.app-shell.student-workspace .student-writing-workspace .reflection-support-tabs { padding: 4px 8px 0; border-bottom: 1px solid var(--line); }
+.app-shell.student-workspace .student-writing-workspace .reflection-support-tabs button { min-height: 44px; padding-inline: 6px; font-size: 13px; line-height: 1.3; }
+.app-shell.student-workspace .student-writing-workspace .reflection-support-tabs button > svg { display: none; }
+.app-shell.student-workspace .student-writing-workspace .writing-action-reminder { max-height: none; overflow: visible; margin: 0; padding: 14px 16px; border: 0; border-radius: var(--radius); background: #f8f5ee; }
+.app-shell.student-workspace .student-writing-workspace .writing-action-reminder > summary { color: #7c6545; font-size: 14px; font-weight: 600; }
+.app-shell.student-workspace .student-writing-workspace .writing-action-reminder :is(p,li,.previous-commitment b) { font-size: 14px; line-height: 1.55; }
+.app-shell.student-workspace .writing-action-reminder > :is(small,p.muted) { display: none; }
+.student-workspace .writing-action-reminder > ul { margin: 10px 0 0; padding-left: 18px; color: #6c5a43; }
+.student-workspace .previous-commitment { padding: 10px 0; border-top: 1px solid #efe3cf; }
+
+/* ───────── Journey ───────── */
+.app-shell.student-workspace .journey-workspace .workspace-section-content > .journey-week-layout { display: grid; gap: var(--gap); }
+.app-shell.student-workspace .journey-week-layout { display: grid; gap: var(--gap); }
+.app-shell.student-workspace .journey-week-nav.panel { overflow: visible; }
+.app-shell.student-workspace .journey-focused-week:not([hidden]) { display: grid; gap: var(--gap); }
+.app-shell.student-workspace .journey-intro-top { display: block; }
+.app-shell.student-workspace :is(.journey-week-eyebrow i,.journey-intro-top > .badge,.journey-next-context > b) { display: none; }
+.app-shell.student-workspace .journey-intro-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px 20px; margin-top: 18px; }
+.app-shell.student-workspace .journey-next-context { order: 2; color: var(--muted); }
+.app-shell.student-workspace .journey-next-context small { font-size: 13px; }
+.app-shell.student-workspace .journey-week-requirements { margin-top: 12px; font-size: 14px; }
+.app-shell.student-workspace .journey-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 4px; }
+.app-shell.student-workspace .journey-section-heading .button { min-height: 34px; padding: 5px 12px; font-size: 13px; }
+.app-shell.student-workspace .journey-count { margin-left: 8px; color: var(--faint); font-weight: 500; }
+.app-shell.student-workspace .journey-reflection { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 50px; padding: 11px 0; border: 0; border-bottom: 1px solid var(--line); background: transparent; text-align: left; }
+.app-shell.student-workspace .journey-reflection:hover b { color: var(--accent); }
+.app-shell.student-workspace :is(.journey-reflection-icon,.journey-reflection > svg,.journey-reflection-copy small) { display: none; }
+.app-shell.student-workspace .journey-reflection-copy { flex: 1; min-width: 0; }
+.app-shell.student-workspace .journey-reflection-copy b { display: block; overflow: hidden; font-size: 15px; font-weight: 400; text-overflow: ellipsis; white-space: nowrap; }
+.app-shell.student-workspace .journey-commitments { display: grid; }
+.app-shell.student-workspace .journey-commitment { display: block; padding: 14px 0; margin: 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; box-shadow: none; }
+.app-shell.student-workspace .journey-commitment-heading { display: flex; align-items: flex-start; gap: 12px; }
+.app-shell.student-workspace .journey-commitment-heading h4 { flex: 1; margin: 0; font-size: 15px; font-weight: 500; line-height: 1.5; }
+.app-shell.student-workspace .journey-task-icon { display: none; }
+.app-shell.student-workspace .journey-commitment-meta { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 4px 0 0; padding: 0; color: var(--muted); font-size: 13px; }
+.app-shell.student-workspace .journey-commitment-meta svg { display: none; }
+.app-shell.student-workspace .journey-week-actions :is(.journey-commitment-meta > span:first-child:not(.journey-overdue), .journey-commitment-source) { display: none; }
+.app-shell.student-workspace .journey-overdue { color: var(--warn); }
+.app-shell.student-workspace .journey-commitment-source { margin-top: 2px; font-size: 13px; }
+.app-shell.student-workspace .journey-commitment-details { margin-top: 6px; font-size: 13px; }
+.app-shell.student-workspace .journey-commitment-footer { display: flex; justify-content: flex-start; margin-top: 10px; }
+.app-shell.student-workspace .journey-commitment-footer .button { min-height: 34px; padding: 5px 12px; font-size: 13px; }
+.app-shell.student-workspace .journey-commitment-footer .button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.app-shell.student-workspace .journey-commitment-footer .button svg { display: none; }
+.app-shell.student-workspace .journey-no-actions { display: block; padding: 10px 0 0; border: 0; background: none; color: var(--muted); text-align: left; }
+.app-shell.student-workspace .journey-no-actions > span { display: none; }
+.app-shell.student-workspace .journey-empty-line { padding: 10px 0 0; color: var(--muted); }
+.app-shell.student-workspace .journey-process { display: none; }
+.app-shell.student-workspace .journey-all-actions > .journey-section-heading { display: none; }
+.app-shell.student-workspace .journey-filters { margin: 0 0 8px; }
+.app-shell.student-workspace .archive-panel { margin-top: 28px; color: var(--muted); font-size: 13px; }
+
+/* ───────── Progress ───────── */
+.app-shell.student-workspace .student-progress .workspace-section-content > :is(div,section) + :is(div,section) { margin-top: var(--gap); }
+.app-shell.student-workspace .student-progress .progress-metrics { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 0; margin: 0 0 var(--gap); padding: 18px 0; }
+.app-shell.student-workspace .progress-metric { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 2px; min-width: 0; padding: 0 24px; border: 0; border-left: 1px solid var(--line); background: none; }
+.app-shell.student-workspace .progress-metric:first-child { border-left: 0; }
+.app-shell.student-workspace .progress-metric-label { color: var(--muted); font-size: 13px; line-height: 1.4; }
+.app-shell.student-workspace .progress-metric-label svg, .app-shell.student-workspace .progress-metric > p { display: none; }
+.app-shell.student-workspace .progress-metric-value { display: flex; align-items: baseline; gap: 5px; margin: 0; }
+.app-shell.student-workspace .progress-metric-value b { font-family: var(--font-sans); font-size: 26px; font-weight: 700; line-height: 1.2; letter-spacing: -.6px; color: var(--ink); }
+.app-shell.student-workspace .progress-metric-value span { color: var(--muted); font-size: 13px; }
+.app-shell.student-workspace .personal-progress-grid, .app-shell.student-workspace .progress-bottom-grid { display: grid; grid-template-columns: minmax(0,1fr); gap: var(--gap); margin: 0; }
+.app-shell.student-workspace .student-progress :is(.progress-chart-card,.progress-focus,.progress-course-panel) > h2 { margin-bottom: 14px; }
+.app-shell.student-workspace .progress-chart-caption { margin-top: 14px; padding-top: 12px; }
+.app-shell.student-workspace .progress-chart-reflections .text-button { font-size: 14px; }
+.app-shell.student-workspace .progress-teacher-note { margin: 0 0 18px; }
+.app-shell.student-workspace .progress-teacher-note blockquote { margin: 0 0 8px; padding: 2px 0 2px 16px; border-left: 3px solid var(--accent-line); font-family: var(--font-sans); font-size: 15px; font-weight: 400; font-style: normal; line-height: 1.6; color: var(--ink); }
+.app-shell.student-workspace .progress-focus-details { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+.app-shell.student-workspace .progress-focus-section { margin: 0; padding: 0; border: 0; }
+.app-shell.student-workspace .student-progress .progress-focus-label { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; color: var(--ink); font-size: 14px; font-weight: 600; }
+.app-shell.student-workspace .student-progress .progress-focus-section li { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; }
+.app-shell.student-workspace .progress-focus-label svg { color: var(--accent); }
+.app-shell.student-workspace .student-progress .progress-focus-section :is(p,li) { color: var(--muted); font-size: 14px; line-height: 1.55; }
+.app-shell.student-workspace .progress-course { display: flex; align-items: center; gap: 18px; padding: 11px 0; margin: 0; border: 0; border-bottom: 1px solid var(--line); }
+.app-shell.student-workspace .progress-course-heading { display: contents; }
+.app-shell.student-workspace .progress-course-heading > div { flex: 1; min-width: 0; }
+.app-shell.student-workspace .progress-course-heading small { display: none; }
+.app-shell.student-workspace .student-progress .progress-course-heading h3 { overflow: hidden; margin: 0; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.45; text-overflow: ellipsis; white-space: nowrap; }
+.app-shell.student-workspace .progress-course-heading > b { order: 3; flex-shrink: 0; width: 40px; text-align: right; font-size: 14px; font-weight: 600; }
+.app-shell.student-workspace .progress-course-heading > b span { color: var(--faint); font-size: 12px; font-weight: 400; }
+.app-shell.student-workspace .progress-course-weeks { order: 2; display: grid; flex: 0 0 120px; grid-template-columns: repeat(9,1fr); gap: 4px; margin: 0; }
+.app-shell.student-workspace .progress-course-weeks > span { height: 7px; border-radius: 4px; background: #ebe9f1; }
+.app-shell.student-workspace .progress-course-weeks > span.complete { background: var(--accent); }
+.app-shell.student-workspace .progress-criteria-grid { gap: var(--gap); }
+
+/* ───────── Wide screens: two columns of blocks ───────── */
+@media (min-width: 1280px) {
+ .space-columns { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: var(--gap); align-items: start; }
+ .app-shell.student-workspace .personal-progress-grid { grid-template-columns: minmax(0,1.5fr) minmax(0,1fr); align-items: start; }
+ .app-shell.student-workspace .progress-focus-details { grid-template-columns: 1fr; }
+}
+@media (max-width: 1279px) { .space-columns { display: grid; gap: var(--gap); } }
+
+/* ───────── Narrow screens ───────── */
+@media (max-width: 1240px) {
+ .app-shell.rail-workspace .profile-page-grid { grid-template-columns: minmax(0,1fr); }
+ .app-shell.student-workspace .student-writing-workspace .writing-workspace-grid.with-support { grid-template-columns: minmax(0,1fr); }
+ .app-shell.student-workspace .writing-context-column { position: static; max-height: none; overflow: visible; }
+}
+@media (max-width: 1000px) {
+ .app-shell.student-workspace .writing-toolbar { top: var(--workspace-header-height); }
+ .app-shell.student-workspace .main-shell > main { padding: 32px 28px 56px; }
+ .app-shell.student-workspace .workspace-side-navigation { padding-inline: 6px; }
+ .app-shell.student-workspace .workspace-side-navigation nav { gap: 2px; }
+ .app-shell.student-workspace .workspace-side-navigation nav a { min-height: 52px; padding: 6px 0; font-size: 11px; letter-spacing: -.2px; white-space: nowrap; }
+}
+@media (max-width: 760px) {
+ .app-shell.student-workspace { --gap: 14px; }
+ .app-shell.student-workspace .main-shell > main { padding: 24px 16px 40px; }
+ .app-shell.student-workspace .main-shell > main:has(.student-writing-workspace) { padding-top: 12px; }
+ .app-shell.student-workspace .student-page-title h1 { font-size: 25px; }
+ .app-shell.rail-workspace :is(.student-progress .progress-chart-card,.student-progress .progress-focus,.profile-edit-card) { padding: 18px; }
+ .app-shell.student-workspace :is(.overview-feature,.journey-workspace .journey-week-intro) { padding: 22px 20px; }
+ .app-shell.student-workspace :is(.overview-feature,.journey-week-intro) h2 { font-size: 19px; }
+ .library-search { flex: 1 1 100%; order: -1; }
+ .app-shell.student-workspace .writing-toolbar { flex-wrap: wrap; margin-top: 0; }
+ .app-shell.student-workspace .writing-toolbar .writing-save-state { width: 100%; order: -1; }
+ .app-shell.student-workspace .writing-toolbar .writing-next-step { margin-left: auto; }
+ .app-shell.student-workspace .student-writing-workspace .writing-canvas.panel { padding-inline: 20px; }
+ .app-shell.student-workspace .student-writing-workspace .writing-bottom-bar { margin-inline: -20px; padding-inline: 20px; }
+ .app-shell.student-workspace .student-writing-workspace .title-input { font-size: 24px; }
+ .app-shell.student-workspace .student-progress .progress-metrics { grid-template-columns: 1fr 1fr; gap: 16px 0; }
+ .app-shell.student-workspace .progress-metric:nth-child(3) { border-left: 0; }
+ .app-shell.student-workspace .progress-metric { padding: 0 16px; }
+ .app-shell.student-workspace .progress-focus-details { grid-template-columns: 1fr; }
+ .app-shell.student-workspace .progress-course-weeks { flex-basis: 72px; }
+ .app-shell.rail-workspace .profile-form-fields { grid-template-columns: 1fr; }
+ .app-shell.rail-workspace .profile-hero { align-items: flex-start; }
+ .app-shell.rail-workspace .profile-hero .profile-portrait { width: 64px; height: 64px; font-size: 22px; }
+}
+
+/* ───────── Colour and motion: soft light behind the paper, gentle response to the hand ───────── */
+.app-shell.student-workspace {
+ --ease: cubic-bezier(.22,.61,.36,1);
+ --block: var(--surface);
+ background: var(--paper);
+}
+
+.app-shell.student-workspace .writing-toolbar { background: #f5f5f7e6; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+
+/* Blocks: translucent white that lifts slightly under the pointer. */
+.app-shell.student-workspace :is(
+ .student-progress .progress-chart-card, .student-progress .progress-focus, .student-progress .progress-criterion-card, .profile-edit-card
+) { background: var(--block); border-color: var(--line); box-shadow: 0 1px 2px #22211f08; transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s var(--ease); animation: tu-rise .55s var(--ease) backwards; }
+.app-shell.student-workspace :is(
+ .student-progress .progress-chart-card, .student-progress .progress-focus, .student-progress .progress-criterion-card
+):hover { transform: translateY(-2px); border-color: var(--accent-line); box-shadow: 0 2px 4px #22211f0a, 0 12px 30px #2a292714; }
+
+/* Stagger the first blocks of a page so they arrive one after another. */
+.app-shell.rail-workspace :is(.student-overview,.reflection-library,.space-columns,.personal-progress-grid,.profile-account-column,.journey-focused-week,.journey-week-layout) > :nth-child(2) { animation-delay: .06s; }
+.app-shell.rail-workspace :is(.student-overview,.reflection-library,.space-columns,.personal-progress-grid,.profile-account-column,.journey-focused-week,.journey-week-layout) > :nth-child(3) { animation-delay: .12s; }
+.app-shell.student-workspace :is(.student-overview,.reflection-library,.space-columns,.journey-focused-week) > :nth-child(4) { animation-delay: .18s; }
+.app-shell.student-workspace :is(.student-overview,.reflection-library) > :nth-child(n+5) { animation-delay: .24s; }
+.app-shell.student-workspace .space-columns > * { animation-delay: inherit; }
+.app-shell.student-workspace .student-page-title { animation: tu-fade .45s var(--ease) both; }
+@keyframes tu-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes tu-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* The next step glows with a slow violet-to-peach wash. */
+.app-shell.student-workspace :is(.overview-feature,.journey-workspace .journey-week-intro) { position: relative; overflow: hidden; background: linear-gradient(120deg, #efe9fb 0%, #f3effc 50%, #ebeefb 100%); background-size: 180% 180%; animation: tu-rise .55s var(--ease) backwards, tu-wash 14s ease-in-out infinite alternate; }
+.app-shell.student-workspace :is(.overview-feature,.journey-workspace .journey-week-intro)::after { content: ''; position: absolute; right: -80px; top: -90px; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle, #ffffff99 0%, #ffffff00 70%); pointer-events: none; }
+@keyframes tu-wash { from { background-position: 0% 40%; } to { background-position: 100% 60%; } }
+
+/* Buttons and links respond smoothly. */
+.app-shell.student-workspace :is(.button,.text-button,.workspace-tabs > button,.library-filters > button,.workspace-side-navigation nav a,.badge) { transition: background .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease), box-shadow .25s var(--ease), transform .25s var(--ease); }
+.app-shell.student-workspace .button.primary { background: var(--primary); border-color: var(--primary); box-shadow: 0 1px 2px #0000001f; }
+.app-shell.student-workspace .button.primary:hover:not(:disabled) { background: var(--primary-hover); border-color: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 8px 18px #0000001f; }
+.app-shell.student-workspace .button.primary:active:not(:disabled) { transform: translateY(0); box-shadow: 0 1px 2px #2a292726; }
+.app-shell.student-workspace .button:not(.primary):hover:not(:disabled) { transform: translateY(-1px); }
+.app-shell.student-workspace .text-button > svg { transition: transform .25s var(--ease); }
+.app-shell.student-workspace .text-button:hover:not(:disabled) { text-decoration: none; }
+.app-shell.student-workspace .text-button:hover:not(:disabled) > svg:last-child { transform: translateX(3px); }
+.app-shell.student-workspace .workspace-side-navigation nav a > svg { transition: transform .25s var(--ease); }
+.app-shell.student-workspace .workspace-side-navigation nav a:hover > svg { transform: translateX(2px); }
+
+/* Rows highlight as a soft violet band and the text eases sideways. */
+.app-shell.rail-workspace :is(.space-row,.library-row,.journey-reflection,.progress-course,.profile-course) { margin-inline: -12px; padding-inline: 12px; width: calc(100% + 24px); border-radius: 10px; transition: background .25s var(--ease); }
+.app-shell.student-workspace :is(.space-row,.library-row,.journey-reflection):hover { background: var(--hl-soft); }
+.app-shell.student-workspace :is(.space-row-text,.library-title,.journey-reflection-copy) { transition: transform .3s var(--ease), color .25s var(--ease); }
+.app-shell.student-workspace :is(.space-row,.library-row,.journey-reflection):hover :is(.space-row-text,.library-title,.journey-reflection-copy) { transform: translateX(4px); }
+.app-shell.student-workspace .space-row .task-circle { transition: border-color .25s var(--ease), background .25s var(--ease); }
+.app-shell.student-workspace .space-row:hover .task-circle { border-color: var(--accent); background: var(--accent-soft); }
+
+/* The current week breathes; finished weeks fill in one after another. */
+@keyframes tu-breathe { 0%,100% { box-shadow: 0 0 0 0 #6a4fa340; } 50% { box-shadow: 0 0 0 7px #6a4fa300; } }
+@keyframes tu-pop { from { opacity: 0; transform: scale(.7); } to { opacity: 1; transform: none; } }
+
+/* Progress marks grow in rather than appearing at once. */
+.app-shell.student-workspace .progress-course-weeks > span.complete { background: var(--accent); transform-origin: left; animation: tu-grow .6s var(--ease) .2s both; }
+@keyframes tu-grow { from { transform: scaleX(0); } to { transform: none; } }
+.app-shell.student-workspace .student-progress .progress-line { stroke-dasharray: 1200; stroke-dashoffset: 1200; animation: tu-draw 1.2s var(--ease) .25s forwards; }
+@keyframes tu-draw { to { stroke-dashoffset: 0; } }
+
+/* Tabs: the underline slides in. */
+.app-shell.student-workspace :is(.workspace-tabs > button,.library-filters > button) { position: relative; border-bottom-color: transparent !important; }
+.app-shell.student-workspace :is(.workspace-tabs > button,.library-filters > button)::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; border-radius: 2px; background: var(--accent); transform: scaleX(0); transition: transform .3s var(--ease); }
+.app-shell.student-workspace :is(.workspace-tabs > button[aria-selected="true"],.library-filters > button[aria-pressed="true"])::after { transform: scaleX(1); }
+
+/* Editor paper and assistant arrive like the other blocks. */
+.app-shell.student-workspace .student-writing-workspace .writing-canvas.panel { animation: tu-rise .5s var(--ease) backwards; transition: box-shadow .35s var(--ease), border-color .35s var(--ease); }
+.app-shell.student-workspace .writing-context-column:not([hidden]) { animation: tu-slide .45s var(--ease) backwards; }
+@keyframes tu-slide { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+ .app-shell.student-workspace *, .app-shell.student-workspace *::before, .app-shell.student-workspace *::after { animation: none !important; transition: none !important; }
+ .app-shell.student-workspace .student-progress .progress-line { stroke-dashoffset: 0; }
+}
+
+/* ───────── Home and My writing: notes, a path and a to-do list instead of boxed lists ───────── */
+.app-shell.student-workspace .student-page-title h1 { font-size: 30px; }
+.app-shell.student-workspace .space-label { margin: 0 0 14px; font-family: var(--font-sans); font-size: 15px; font-weight: 600; letter-spacing: -.1px; color: var(--muted); }
+.app-shell.student-workspace .space-section { margin: 12px 0 0; }
+
+/* Next step with its drawing */
+.app-shell.student-workspace section.overview-feature { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 24px; padding: 30px 36px; }
+.app-shell.student-workspace .overview-feature-copy { position: relative; z-index: 1; min-width: 0; }
+.app-shell.student-workspace .overview-feature-copy > p { max-width: 56ch; margin: 6px 0 0; color: var(--muted); font-size: 15px; line-height: 1.7; }
+.app-shell.student-workspace .overview-feature-copy > .button { margin-top: 20px; }
+
+/* Journey as a path: one topic label under the current stop */
+.app-shell.student-workspace section.overview-journey { display: flex; align-items: center; gap: 28px; margin: 8px 0 18px; padding: 0 4px; border: 0; background: none; box-shadow: none; }
+.app-shell.student-workspace .overview-journey > .text-button { flex-shrink: 0; color: var(--muted); }
+
+/* Reflection notes */
+.app-shell.student-workspace .note-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; }
+.app-shell.student-workspace .reflection-note { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; min-height: 172px; padding: 18px 18px 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); text-align: left; box-shadow: 0 1px 2px #22211f08; overflow: hidden; transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease); animation: tu-rise .5s var(--ease) backwards; }
+.app-shell.student-workspace .reflection-note::before { content: ''; position: absolute; inset: 0 0 auto; height: 4px; background: var(--note, #d9d6e2); }
+.app-shell.student-workspace .reflection-note.is-draft { --note: #cfcbd9; }
+.app-shell.student-workspace .reflection-note.is-submitted { --note: #8ea3d1; }
+.app-shell.student-workspace .reflection-note.is-returned { --note: #e0956b; }
+.app-shell.student-workspace .reflection-note.is-final { --note: #7fb893; }
+.app-shell.student-workspace .reflection-note:hover { transform: translateY(-3px); border-color: var(--accent-line); box-shadow: 0 2px 4px #22211f0a, 0 14px 30px #2a292717; }
+.app-shell.student-workspace .note-week { color: var(--faint); font-size: 12px; font-weight: 600; }
+.app-shell.student-workspace .note-title { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; font-size: 16px; font-weight: 600; line-height: 1.55; }
+.app-shell.student-workspace .note-excerpt { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; color: var(--muted); font-size: 14px; line-height: 1.7; }
+.app-shell.student-workspace .note-status { display: inline-flex; align-items: center; gap: 7px; margin-top: auto; padding-top: 8px; color: var(--muted); font-size: 13px; font-weight: 500; }
+.app-shell.student-workspace .note-status > i { width: 7px; height: 7px; border-radius: 50%; background: var(--note, #cfcbd9); }
+.app-shell.student-workspace .reflection-note.is-new { align-items: center; justify-content: center; gap: 10px; border: 1.5px dashed var(--accent-line); background: #faf9fd; color: var(--accent); box-shadow: none; }
+.app-shell.student-workspace .reflection-note.is-new::before { display: none; }
+.app-shell.student-workspace .reflection-note.is-new b { font-size: 14px; font-weight: 600; }
+.app-shell.student-workspace .reflection-note.is-new:hover { background: var(--accent-soft); border-color: var(--accent); }
+.app-shell.student-workspace .note-grid > :nth-child(2) { animation-delay: .05s; }
+.app-shell.student-workspace .note-grid > :nth-child(3) { animation-delay: .1s; }
+.app-shell.student-workspace .note-grid > :nth-child(n+4) { animation-delay: .15s; }
+.app-shell.student-workspace .space-more { display: inline-flex; margin-top: 12px; }
+
+/* Commitments as a to-do list */
+.app-shell.student-workspace .todo-list { display: grid; gap: 8px; }
+.app-shell.student-workspace .todo-item { display: flex; align-items: center; gap: 14px; width: 100%; padding: 13px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); text-align: left; font-size: 15px; transition: transform .25s var(--ease), border-color .25s var(--ease), box-shadow .25s var(--ease); }
+.app-shell.student-workspace .todo-item:hover { transform: translateX(3px); border-color: var(--accent-line); box-shadow: 0 6px 18px #2a29270f; }
+.app-shell.student-workspace .todo-item .task-circle { flex-shrink: 0; width: 18px; height: 18px; margin: 0; border: 2px solid var(--accent-line); border-radius: 50%; transition: border-color .25s var(--ease), background .25s var(--ease); }
+.app-shell.student-workspace .todo-item:hover .task-circle { border-color: var(--accent); background: var(--accent-soft); }
+.app-shell.student-workspace .todo-item > .todo-text { flex: 1; min-width: 0; color: var(--ink); font-size: 15px; line-height: 1.45; }
+.app-shell.student-workspace .todo-due { flex-shrink: 0; padding: 2px 10px; border-radius: 99px; background: #efeef3; color: var(--muted); font-size: 12px; font-weight: 500; }
+.app-shell.student-workspace .todo-due.is-overdue { background: var(--warn-soft); color: var(--warn); }
+.app-shell.student-workspace .space-empty { margin: 0; color: var(--muted); }
+
+/* Library groups are labels over a grid, not boxes */
+.app-shell.student-workspace .library-filters > button { padding-bottom: 11px; }
+
+@media (max-width: 760px) {
+ .app-shell.student-workspace .student-page-title h1 { font-size: 25px; }
+ .app-shell.student-workspace section.overview-feature { grid-template-columns: minmax(0,1fr); padding: 22px 20px; }
+ .app-shell.student-workspace section.overview-journey { flex-direction: column; align-items: stretch; gap: 8px; }
+ .app-shell.student-workspace .overview-journey > .text-button { align-self: flex-end; }
+ .app-shell.student-workspace .note-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+ .app-shell.student-workspace .reflection-note { min-height: 150px; padding: 14px; }
+}
+
+/* ───────── Journey, Progress, Profile and Messages in the same language ───────── */
+/* Section headings everywhere read as quiet labels. */
+.app-shell.rail-workspace :is(.journey-section-heading,.student-progress section,.profile-section-head) :is(h2,h3) { color: var(--muted); font-size: 15px; font-weight: 600; }
+
+/* Journey: the path carries the selected week's topic; notes and a to-do list below. */
+.app-shell.student-workspace .journey-week-nav.panel { margin: 0; padding: 4px 4px 34px; border: 0; background: none; box-shadow: none; }
+.app-shell.student-workspace .journey-workspace :is(.journey-week-work,.journey-week-actions) { margin: 8px 0 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+.app-shell.student-workspace .journey-section-heading { margin-bottom: 12px; }
+.app-shell.student-workspace .journey-section-heading .button { min-height: 32px; padding: 4px 12px; border-radius: 99px; font-size: 13px; }
+.app-shell.student-workspace .journey-commitments { display: grid; gap: 10px; }
+.app-shell.student-workspace .journey-commitments > .journey-commitment,
+.app-shell.student-workspace .journey-commitments > .journey-commitment:last-child { padding: 16px 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); transition: border-color .25s var(--ease), box-shadow .25s var(--ease); }
+.app-shell.student-workspace .journey-commitments > .journey-commitment:hover { border-color: var(--accent-line); box-shadow: 0 6px 18px #2a29270f; }
+.app-shell.student-workspace .journey-commitment.is-done { background: #fafafc; }
+.app-shell.student-workspace .journey-commitment.is-done h4 { color: var(--muted); }
+.app-shell.student-workspace .journey-commitment-heading .badge { margin-left: auto; }
+.app-shell.student-workspace .journey-commitment-details > summary { color: var(--muted); font-size: 13px; cursor: pointer; }
+.app-shell.student-workspace .journey-commitment-footer { margin-top: 10px; }
+.app-shell.student-workspace .journey-commitment-footer .button,
+.app-shell.student-workspace .journey-commitment-footer .button.primary { min-height: 32px; padding: 4px 14px; border: 0; border-radius: 99px; background: var(--accent-soft); color: var(--accent-hover); box-shadow: none; font-size: 13px; font-weight: 600; }
+.app-shell.student-workspace .journey-commitment-footer .button:hover:not(:disabled) { background: var(--accent); color: #fff; transform: none; }
+.app-shell.student-workspace .journey-all-actions.panel { padding: 0; border: 0; background: none; box-shadow: none; }
+.app-shell.student-workspace .journey-filters { display: flex; gap: 10px; margin: 0 0 16px; }
+.app-shell.student-workspace .journey-filters :is(input,select) { min-height: 40px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 99px; background: var(--surface); font-size: 14px; }
+.app-shell.student-workspace .journey-filters input { flex: 1; }
+.app-shell.student-workspace .journey-all-actions .table-pagination { border-top: 0; }
+.app-shell.student-workspace .archive-panel > summary { color: var(--muted); }
+
+/* Progress: plain figures, chart and focus on paper, courses and evidence as tiles. */
+.app-shell.student-workspace .student-progress .progress-metrics { padding: 4px 0 6px; border: 0; background: none; box-shadow: none; }
+.app-shell.student-workspace .student-progress .progress-metric:first-child { padding-left: 0; }
+.app-shell.student-workspace .student-progress .progress-metric-value b { font-size: 30px; }
+.app-shell.student-workspace .student-progress .progress-course-panel { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; padding: 0; border: 0; background: none; box-shadow: none; }
+.app-shell.student-workspace .student-progress .progress-course-panel > :is(h2,.progress-quiet-empty) { grid-column: 1 / -1; margin: 6px 0 0; }
+.app-shell.student-workspace .student-progress .progress-course-panel > .progress-course,
+.app-shell.student-workspace .student-progress .progress-course-panel > .progress-course:last-child { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 10px 12px; width: auto; margin: 0; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); transition: transform .25s var(--ease), border-color .25s var(--ease), box-shadow .25s var(--ease); }
+.app-shell.student-workspace .student-progress .progress-course:hover { transform: translateY(-2px); border-color: var(--accent-line); box-shadow: 0 8px 20px #2a292712; }
+.app-shell.student-workspace .student-progress .progress-course-heading > div { grid-column: 1; grid-row: 1; }
+.app-shell.student-workspace .student-progress .progress-course-heading h3 { color: var(--ink); font-size: 14px; font-weight: 500; white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.app-shell.student-workspace .student-progress .progress-course-heading > b { grid-column: 2; grid-row: 1; width: auto; }
+.app-shell.student-workspace .student-progress .progress-course-weeks { grid-column: 1 / -1; grid-row: 2; }
+.app-shell.student-workspace .progress-criteria-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+.app-shell.student-workspace .student-progress .progress-criterion-card .progress-card-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.app-shell.student-workspace .student-progress .progress-criterion-card .progress-card-heading h2 { color: var(--ink); font-size: 15px; }
+.app-shell.student-workspace .progress-criterion-value b { font-size: 28px; font-weight: 700; letter-spacing: -.6px; }
+.app-shell.student-workspace .progress-criterion-card > p { margin: 8px 0 0; color: var(--muted); font-size: 13px; }
+.app-shell.student-workspace .progress-detailed-report { margin-top: 18px; padding: 0; border: 0; background: none; color: var(--muted); }
+.app-shell.student-workspace .student-progress .progress-portfolio { display: grid; gap: 10px; padding: 0; border: 0; background: none; box-shadow: none; }
+.app-shell.student-workspace .student-progress .progress-portfolio > .progress-card-heading { display: flex; align-items: center; gap: 10px; }
+.app-shell.student-workspace .progress-portfolio-row { display: flex; align-items: center; gap: 14px; width: 100%; padding: 14px 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); text-align: left; transition: transform .25s var(--ease), border-color .25s var(--ease), box-shadow .25s var(--ease); }
+.app-shell.student-workspace .progress-portfolio-row:hover { transform: translateX(3px); border-color: var(--accent-line); box-shadow: 0 6px 18px #2a29270f; }
+.app-shell.student-workspace .progress-portfolio-row :is(.progress-document,> svg:last-child) { display: none; }
+.app-shell.student-workspace .progress-portfolio-copy { flex: 1; min-width: 0; }
+.app-shell.student-workspace .progress-portfolio-copy b { display: block; font-size: 15px; font-weight: 600; }
+.app-shell.student-workspace .progress-portfolio-copy > span { display: flex; flex-wrap: wrap; gap: 4px 8px; margin-top: 2px; color: var(--muted); font-size: 13px; }
+.app-shell.student-workspace .progress-portfolio-copy i { font-style: normal; color: var(--faint); }
+.app-shell.student-workspace .student-progress .progress-portfolio .table-pagination { border-top: 0; }
+.app-shell.student-workspace .progress-count { padding: 1px 9px; border-radius: 99px; background: #efeef3; color: var(--muted); font-size: 12px; }
+
+/* Profile: the editable form sits on paper; account details and courses sit beside it. */
+.app-shell.rail-workspace :is(.profile-account-card,.profile-courses-card) { padding: 0; border: 0; background: none; box-shadow: none; }
+.app-shell.rail-workspace .profile-account-card { padding: 4px 4px 0; }
+.app-shell.rail-workspace .profile-courses-card { display: flex; flex-wrap: wrap; gap: 8px; }
+.app-shell.rail-workspace .profile-courses-card > .profile-section-head { flex-basis: 100%; margin-bottom: 4px; }
+.app-shell.rail-workspace .profile-courses-card > .profile-course,
+.app-shell.rail-workspace .profile-courses-card > .profile-course:last-child { display: inline-flex; align-items: baseline; gap: 8px; width: auto; max-width: 100%; margin: 0; padding: 7px 14px; border: 1px solid var(--line); border-radius: 99px; background: var(--surface); font-size: 13px; }
+.app-shell.rail-workspace .profile-courses-card > .profile-course > small { font-size: 11px; }
+
+/* Messages: the conversation sits on one sheet. */
+.app-shell.rail-workspace .chat-layout { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: 0 1px 2px #22211f08; overflow: hidden; animation: tu-rise .5s var(--ease) backwards; }
+.app-shell.rail-workspace .chat-directory { background: #fafafc; }
+
+@media (max-width: 760px) {
+ .app-shell.student-workspace .journey-filters { flex-wrap: wrap; }
+ .app-shell.student-workspace .journey-filters input { flex-basis: 100%; }
+}
+.app-shell.student-workspace .journey-all-actions .journey-filters { flex-direction: row; flex-wrap: nowrap; align-items: center; }
+.app-shell.student-workspace .journey-all-actions .journey-filters select { flex: 0 0 auto; width: auto; max-width: 220px; }
+.app-shell.student-workspace .journey-commitment :is(.journey-commitment-source,.journey-commitment-meta) { margin-left: 0; padding-left: 0; }
+.app-shell.student-workspace .journey-commitment .journey-commitment-details { margin-top: 8px; padding-top: 0; border-top: 0; }
+.app-shell.student-workspace .journey-week-work .note-week { display: none; }
+.app-shell.student-workspace .progress-criteria-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+@media (max-width: 760px) {
+ .app-shell.student-workspace .journey-all-actions .journey-filters { flex-wrap: wrap; }
+ .app-shell.student-workspace .progress-criteria-grid { grid-template-columns: minmax(0,1fr); }
+}
+@media (min-width: 761px) {
+ .app-shell.rail-workspace.messaging-workspace .chat-directory { padding: 12px 18px 12px 20px; }
+ .app-shell.rail-workspace.messaging-workspace .chat-conversation { padding: 8px 20px 16px 24px; }
+}
+@media (max-width: 760px) { .app-shell.student-workspace .student-progress .progress-metric:nth-child(odd) { padding-left: 0; } }
+
+/* ───────── Manrope: clear titles, comfortable reading and quiet supporting text ───────── */
+.app-shell.student-workspace .student-page-title h1 { font-size: 30px; font-weight: 650; line-height: 1.4; letter-spacing: -.025em; color: var(--ink); }
+.app-shell.student-workspace .space-label,
+.app-shell.rail-workspace :is(.journey-section-heading,.student-progress section,.profile-section-head) :is(h2,h3) { color: var(--ink); font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
+.app-shell.student-workspace :is(.journey-section-heading,.student-progress section,.profile-section-head) :is(h2,h3) { line-height: 1.55; letter-spacing: -.015em; }
+.app-shell.student-workspace .note-title { font-weight: 600; }
+.app-shell.student-workspace .note-excerpt { color: var(--muted); }
+.app-shell.student-workspace .note-week { color: var(--faint); font-size: 13px; font-weight: 500; }
+.app-shell.student-workspace .student-progress .progress-metric-value b,
+.app-shell.student-workspace .progress-criterion-value b { font-size: 28px; font-weight: 600; letter-spacing: -.02em; color: var(--ink); }
+.app-shell.student-workspace .progress-metric-value span { color: var(--faint); font-weight: 400; }
+.app-shell.student-workspace .progress-metric-label { color: var(--muted); font-size: 13px; }
+.app-shell.student-workspace .student-progress .progress-criterion-card .progress-card-heading h2 { font-weight: 600; font-size: 15px; }
+.app-shell.student-workspace .student-progress .progress-focus-label { font-weight: 600; }
+.app-shell.student-workspace .journey-commitment-heading h4 { font-weight: 500; }
+.app-shell.rail-workspace .profile-hero h2 { font-size: 20px; font-weight: 700; }
+.app-shell.student-workspace .button { font-weight: 600; }
+.app-shell.student-workspace .workspace-tabs > button[aria-selected="true"],
+.app-shell.student-workspace .library-filters > button[aria-pressed="true"],
+.app-shell.student-workspace .workspace-side-navigation nav a.active > span:not(.nav-count) { font-weight: 600; }
+.app-shell.student-workspace .student-writing-workspace .title-input { color: var(--ink); font-weight: 600; line-height: 1.5; letter-spacing: -.02em; }
+.app-shell.student-workspace :is(.button,.text-button,.workspace-side-navigation nav a) { letter-spacing: 0; }
+.app-shell.student-workspace .workspace-side-navigation nav a { line-height: 1.65; }
+.app-shell.student-workspace :is(.space-empty,.library-empty,.journey-quiet-empty) { font-size: 14px; line-height: 1.75; }
+.app-shell.student-workspace .student-writing-workspace .writing-preview > p { color: var(--text); line-height: 1.95; }
+.app-shell.student-workspace .profile-hero h2 { font-weight: 600; letter-spacing: -.02em; }
+.app-shell.student-workspace .chat-message p { color: var(--text); line-height: 1.8; }
+
+/* ───────── Feedback & rubric panel: a score summary, one line per criterion, extras folded below ───────── */
+.app-shell.student-workspace .student-writing-workspace .writing-support-panel .feedback-panel { display: grid; gap: 14px; padding: 18px; border: 0; background: none; }
+.app-shell.student-workspace .feedback-panel > .lecturer-feedback { margin: 0; padding: 14px 16px; border: 0; border-radius: 12px; background: #fcf3ec; }
+.app-shell.student-workspace .feedback-panel > .lecturer-feedback .eyebrow { display: block; margin: 0 0 6px; color: #9a5a33; font-size: 11px; font-weight: 600; letter-spacing: .04em; }
+.app-shell.student-workspace .feedback-panel > .lecturer-feedback h4 { display: flex; align-items: center; gap: 8px; margin: 0 0 4px; font-size: 14px; font-weight: 600; }
+.app-shell.student-workspace .feedback-panel > .lecturer-feedback p { margin: 0; color: var(--ink); font-size: 14px; line-height: 1.55; }
+.app-shell.student-workspace .feedback-panel > .lecturer-feedback details { margin-top: 8px; font-size: 13px; }
+.app-shell.student-workspace .feedback-panel > .lecturer-feedback .muted { margin-top: 6px; font-size: 12px; }
+
+.app-shell.student-workspace .analysis-results.is-compact { display: grid; gap: 10px; }
+.app-shell.student-workspace .rubric-summary { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 12px; }
+.app-shell.student-workspace .rubric-summary > b { font-size: 30px; font-weight: 600; letter-spacing: -.02em; line-height: 1.1; color: var(--ink); }
+.app-shell.student-workspace .rubric-summary > b small { margin-left: 2px; color: var(--faint); font-size: 14px; font-weight: 400; }
+.app-shell.student-workspace .rubric-kember { padding: 2px 10px; border-radius: 99px; background: var(--accent-soft); color: var(--accent-hover); font-size: 12px; font-weight: 600; }
+.app-shell.student-workspace .rubric-provider { margin-left: auto; color: var(--faint); font-size: 12px; }
+.app-shell.student-workspace .rubric-note { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.app-shell.student-workspace .rubric-note.is-warning { color: var(--warn); }
+.app-shell.student-workspace .rubric-empty { margin: 0; color: var(--muted); font-size: 14px; }
+
+.app-shell.student-workspace .rubric-rows { display: grid; border-top: 1px solid var(--line); }
+.app-shell.student-workspace .rubric-row { border-bottom: 1px solid var(--line); }
+.app-shell.student-workspace .rubric-row > summary { display: grid; grid-template-columns: minmax(0,1fr) 64px auto 12px; align-items: center; gap: 10px; padding: 11px 0; list-style: none; cursor: pointer; }
+.app-shell.student-workspace .rubric-row > summary::-webkit-details-marker { display: none; }
+.app-shell.student-workspace .rubric-row > summary::after { content: ''; width: 7px; height: 7px; border-right: 1.5px solid var(--faint); border-bottom: 1.5px solid var(--faint); transform: rotate(45deg) translateY(-2px); transition: transform .25s var(--ease); }
+.app-shell.student-workspace .rubric-row[open] > summary::after { transform: rotate(225deg) translateY(-2px); }
+.app-shell.student-workspace .rubric-row > summary:hover .rubric-row-name { color: var(--accent); }
+.app-shell.student-workspace .rubric-row-name { min-width: 0; color: var(--ink); font-size: 14px; font-weight: 500; line-height: 1.35; transition: color .2s var(--ease); }
+.app-shell.student-workspace .rubric-row-name small { margin-left: 6px; color: var(--faint); font-size: 11px; font-weight: 400; }
+.app-shell.student-workspace .rubric-row-bar { height: 6px; border-radius: 4px; background: #ebe9f1; overflow: hidden; }
+.app-shell.student-workspace .rubric-row-bar > i { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
+.app-shell.student-workspace .rubric-row > summary > b { min-width: 38px; text-align: right; font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.app-shell.student-workspace .rubric-row > summary > b small { color: var(--faint); font-size: 11px; font-weight: 400; }
+.app-shell.student-workspace .rubric-kember-reason > summary { grid-template-columns: minmax(0,1fr) auto 12px; }
+.app-shell.student-workspace .rubric-row-body { display: grid; gap: 8px; padding: 0 0 14px; animation: tu-fade .3s var(--ease); }
+.app-shell.student-workspace .rubric-row-body p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+.app-shell.student-workspace .rubric-level { display: inline-block; margin-right: 6px; padding: 0 8px; border-radius: 99px; background: #efeef3; color: var(--ink); font-size: 11px; font-weight: 600; line-height: 1.8; }
+.app-shell.student-workspace .rubric-row-body blockquote { margin: 0; padding: 8px 12px; border-left: 3px solid var(--accent-line); border-radius: 0 8px 8px 0; background: #f7f5fc; color: var(--ink); font-size: 13px; line-height: 1.55; }
+.app-shell.student-workspace .rubric-improve b { display: block; margin-bottom: 2px; color: var(--ink); font-size: 12px; font-weight: 600; }
+
+.app-shell.student-workspace .feedback-actions { display: flex; align-items: center; gap: 12px; }
+.app-shell.student-workspace .feedback-actions > .button { flex: 1; width: auto; min-height: 38px; font-size: 13px; }
+.app-shell.student-workspace .feedback-actions > .text-button { flex-shrink: 0; margin-left: auto; font-size: 13px; }
+.app-shell.student-workspace .feedback-panel .writing-ai-hint { margin: -6px 0 0; font-size: 12px; }
+
+.app-shell.student-workspace .feedback-more { display: grid; margin-top: 4px; border-top: 1px solid var(--line); }
+.app-shell.student-workspace .feedback-more > details,
+.app-shell.student-workspace .feedback-more > details.panel { margin: 0; padding: 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: none; box-shadow: none; }
+.app-shell.student-workspace .feedback-more > details > summary { display: flex; align-items: center; gap: 6px; padding: 11px 0; color: var(--ink); font-size: 13px; font-weight: 500; list-style: none; cursor: pointer; }
+.app-shell.student-workspace .feedback-more > details > summary::-webkit-details-marker { display: none; }
+.app-shell.student-workspace .feedback-more > details > summary::after { content: ''; margin-left: auto; width: 7px; height: 7px; border-right: 1.5px solid var(--faint); border-bottom: 1.5px solid var(--faint); transform: rotate(45deg); transition: transform .25s var(--ease); }
+.app-shell.student-workspace .feedback-more > details[open] > summary::after { transform: rotate(225deg); }
+.app-shell.student-workspace .feedback-more > details > summary small { color: var(--faint); font-weight: 400; }
+.app-shell.student-workspace .feedback-more > details > :not(summary) { margin-bottom: 12px; font-size: 13px; }
+.app-shell.student-workspace .feedback-more > details > div > p { margin: 0 0 8px; color: var(--muted); line-height: 1.55; }
+.app-shell.student-workspace .student-writing-workspace .writing-support-panel .feedback-more > details.revision-comparison { margin: 0; padding: 0; border-top: 0; }
+.app-shell.student-workspace .feedback-more > details:last-child { border-bottom: 0; }
+
+.app-shell.student-workspace .reflection-note.is-draft { --note: var(--note-draft); }
+.app-shell.student-workspace .reflection-note.is-submitted { --note: var(--note-submitted); }
+.app-shell.student-workspace .reflection-note.is-returned { --note: var(--note-returned); }
+.app-shell.student-workspace .reflection-note.is-final { --note: var(--note-final); }
+.app-shell.student-workspace .reflection-note:hover,
+.app-shell.student-workspace :is(.todo-item,.journey-commitments > .journey-commitment,.progress-portfolio-row,.student-progress .progress-course):hover { border-color: var(--hl-line); box-shadow: 0 10px 26px #00000010; }
+.app-shell.student-workspace .reflection-note.is-new { border-color: var(--hl-line); background: var(--hl-soft); color: var(--hl-deep); }
+.app-shell.student-workspace .reflection-note.is-new:hover { border-color: var(--hl); }
+.app-shell.student-workspace .todo-item .task-circle { border-color: var(--hl-line); }
+.app-shell.student-workspace .todo-item:hover .task-circle { border-color: var(--hl); background: var(--hl-soft); }
+.app-shell.student-workspace .todo-due { background: #eeefeb; }
+
+/* The next step */
+.app-shell.student-workspace :is(section.overview-feature,.journey-workspace .journey-week-intro) { background: var(--hero-bg); color: var(--hero-title); box-shadow: none; animation: tu-rise .55s var(--ease) backwards; }
+.app-shell.student-workspace :is(.overview-feature,.journey-workspace .journey-week-intro)::after { display: none; }
+.app-shell.student-workspace :is(.overview-feature,.journey-week-intro) h2 { color: var(--hero-title); }
+.app-shell.student-workspace :is(.overview-week-label,.journey-week-eyebrow) { color: var(--hero-label); opacity: 1; }
+.app-shell.student-workspace :is(.overview-feature-copy,.journey-week-intro) > p,
+.app-shell.student-workspace .journey-week-intro :is(.journey-next-context,.journey-week-requirements > summary,.journey-week-requirements p) { color: var(--hero-sub); }
+.app-shell.student-workspace .overview-task-due { color: var(--warn); }
+.app-shell.student-workspace :is(.overview-feature,.journey-week-intro) .button.primary { background: var(--hero-btn-bg); border-color: var(--hero-btn-bg); color: var(--hero-btn-text); }
+.app-shell.student-workspace :is(.overview-feature,.journey-week-intro) .button.primary:hover:not(:disabled) { filter: brightness(1.08); }
+
+@keyframes tu-breathe { 0%,100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--hl) 40%, transparent); } 50% { box-shadow: 0 0 0 8px transparent; } }
+
+/* Progress marks */
+.app-shell.student-workspace .progress-line { stroke: var(--hl); }
+.app-shell.student-workspace .progress-point { fill: var(--hl-deep); }
+.app-shell.student-workspace .progress-week-buttons > button[aria-pressed="true"] { background: var(--hl-soft); color: var(--hl-deep); }
+.app-shell.student-workspace .progress-chart-caption strong { color: var(--ink); }
+.app-shell.student-workspace :is(.progress-course-weeks > span,.rubric-row-bar) { background: var(--surface-soft); }
+.app-shell.student-workspace :is(.progress-course-weeks > span.complete,.personal-progress-track > span,.rubric-row-bar > i) { background: var(--hl); }
+.app-shell.student-workspace .rubric-kember { background: var(--hl-soft); color: var(--hl-deep); }
+.app-shell.student-workspace :is(.progress-teacher-note blockquote,.rubric-row-body blockquote) { border-left-color: var(--hl-line); }
+.app-shell.student-workspace .rubric-row-body blockquote { background: var(--hl-soft); }
+.app-shell.student-workspace .progress-teacher-note blockquote { background: none; }
+.app-shell.student-workspace .progress-focus-label svg { color: var(--hl); }
+
+/* Editor, journey actions, profile, messages and dialogs */
+.app-shell.student-workspace .writing-panel-toggle.is-on { background: var(--hl-soft); border-color: var(--hl-line); color: var(--hl-deep); }
+.app-shell.student-workspace .student-writing-workspace .writing-canvas:focus-within { border-color: var(--hl-line); }
+.app-shell.student-workspace .student-writing-workspace .reflection-support-tabs button.selected { color: var(--ink); border-bottom-color: var(--hl); }
+.app-shell.student-workspace .student-writing-workspace .writing-action-reminder { background: #fbf5e6; }
+.app-shell.student-workspace .student-writing-workspace .writing-action-reminder > summary { color: #7c6232; }
+.app-shell.student-workspace .saved-dot { background: var(--note-final); }
+.app-shell.student-workspace :is(.journey-commitment-footer .button,.journey-commitment-footer .button.primary) { background: var(--hl-soft); color: var(--hl-deep); }
+.app-shell.student-workspace .journey-commitment-footer .button:hover:not(:disabled) { background: var(--primary); color: var(--primary-text); }
+.app-shell.student-workspace .journey-section-heading .button { background: var(--surface); }
+.app-shell.rail-workspace .profile-hero .profile-portrait { background: var(--hl-soft); color: var(--hl-deep); }
+.app-shell.rail-workspace.messaging-workspace .chat-message.own { background: var(--own-bubble); }
+.app-shell.rail-workspace.messaging-workspace .chat-message:not(.own) { background: var(--other-bubble); }
+.app-shell.rail-workspace.messaging-workspace .chat-directory { background: var(--surface-soft); }
+.app-shell.rail-workspace.messaging-workspace .chat-welcome-symbol { color: var(--hl); }
+.app-shell.rail-workspace.messaging-workspace .chat-composer .chat-compose-bar { border-color: var(--line); background: var(--surface); box-shadow: none; }
+.app-shell.rail-workspace.messaging-workspace .chat-composer .chat-compose-bar:focus-within { border-color: var(--hl); box-shadow: 0 0 0 3px var(--hl-soft); }
+.app-shell.rail-workspace .chat-layout { background: var(--surface); }
+.app-shell.rail-workspace :is(.chat-empty,.chat-conversation-empty) svg,
+.app-shell.student-workspace .writing-body-heading :is(label,svg) { color: var(--faint); }
+.app-shell.student-workspace .modal { border-color: var(--line); background: var(--surface); }
+.app-shell.student-workspace .action-editor .field :is(input,textarea) { border-color: var(--line); background: var(--surface); }
+.app-shell.student-workspace .action-editor .field :is(input,textarea):focus { border-color: var(--hl); box-shadow: 0 0 0 3px var(--hl-soft); }
+.app-shell.student-workspace .action-choice-mark { border-color: var(--line); }
+.app-shell.student-workspace :is(.action-status-choice,.action-reflection-choice):hover { background: var(--hl-soft); }
+.app-shell.student-workspace :is(.action-status-choice,.action-reflection-choice):has(input:checked) { border-color: var(--hl); background: var(--hl-soft); color: var(--ink); }
+.app-shell.student-workspace :is(.action-status-choice,.action-reflection-choice):has(input:checked) .action-choice-mark { border-color: var(--hl); background: var(--hl); color: var(--hl-ink); }
+.app-shell.student-workspace .journey-week-eyebrow i { border-color: var(--line); }
+.app-shell.student-workspace .progress-course-heading > b { color: var(--ink); }
+.app-shell.student-workspace :is(section.overview-feature,.journey-workspace .journey-week-intro) { border: 1px solid var(--line); box-shadow: 0 1px 2px #22211f08; }
+.app-shell.student-workspace :is(.overview-week-label,.journey-week-eyebrow)::before { content: ''; display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: var(--hl); vertical-align: 1px; }
+
+/* My Space: an open notebook to leaf through, then the overview filed as library cards. */
+.app-shell.student-workspace .student-overview { --space-status-dot: var(--note-draft); --page: #fffcf4; --page-rule: #f6f0de; --page-edge: #e9dfc2; --cover: #2a2927;
+ display: block; max-width: 1180px; margin-inline: auto; }
+.app-shell.student-workspace .student-overview :is(.is-submitted,[data-status="submitted"]) { --space-status-dot: var(--note-submitted); }
+.app-shell.student-workspace .student-overview :is(.is-returned,[data-status="returned"]) { --space-status-dot: var(--note-returned); }
+.app-shell.student-workspace .student-overview :is(.is-final,[data-status="final"],[data-status="complete"]) { --space-status-dot: var(--note-final); }
+.app-shell.student-workspace .student-overview :is(a,button):focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+
+.app-shell.student-workspace .space-welcome { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 30px; animation: space-settle .45s var(--ease) backwards; }
+.app-shell.student-workspace .space-welcome > div { min-width: 0; }
+.app-shell.student-workspace .space-welcome h1 { margin: 0; color: var(--ink); font-size: 28px; font-weight: 600; line-height: 1.45; letter-spacing: -.025em; }
+.app-shell.student-workspace .space-salutation { color: var(--muted); font-weight: 400; }
+.app-shell.student-workspace .space-name { color: var(--ink); font-weight: 600; }
+.app-shell.student-workspace .space-welcome .space-new-page { flex-shrink: 0; border-color: var(--line); background: var(--surface); color: var(--ink); font-size: 13px; box-shadow: none; }
+.app-shell.student-workspace .space-welcome .space-new-page:is(:hover,:focus-visible):not(:disabled) { border-color: var(--hl-line); background: var(--hl-soft); }
+.app-shell.student-workspace .space-welcome .space-new-page > .ui-icon { transition: transform .3s var(--ease); }
+.app-shell.student-workspace .space-welcome .space-new-page:hover > .ui-icon { transform: rotate(-10deg) translateY(-1px); }
+
+/* The book: a charcoal cover, two cream ruled pages, a stitched spine and a butter ribbon. */
+.app-shell.student-workspace .space-book { position: relative; z-index: 2; animation: space-book-in .7s cubic-bezier(.22,1,.36,1) .08s backwards; }
+.app-shell.student-workspace .space-book::after { content: ''; position: absolute; z-index: 8; top: -7px; right: 84px; width: 18px; height: 92px; background: linear-gradient(90deg, #e2bd55, var(--hl) 40%, #f0d37f); clip-path: polygon(0 0,100% 0,100% 100%,50% 84%,0 100%); filter: drop-shadow(0 2px 2px #0000002a); pointer-events: none; transform-origin: top; animation: space-ribbon 1.1s cubic-bezier(.34,1.56,.64,1) .5s backwards; }
+@keyframes space-ribbon { from { transform: scaleY(0); } }
+@keyframes space-book-in { from { opacity: 0; transform: translateY(18px) scale(.985); } }
+@keyframes space-settle { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.app-shell.student-workspace .book-spread { position: relative; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); padding: 12px 12px 30px; border-radius: 18px; perspective: 2600px;
+ background: radial-gradient(120% 140% at 50% 0%, #3a3936 0%, var(--cover) 60%); box-shadow: inset 0 0 0 1px #ffffff0f, 0 2px 4px #0000001c, 0 26px 54px #22211f33; }
+.app-shell.student-workspace .book-spread::before { content: ''; position: absolute; z-index: 0; left: 14px; right: 14px; bottom: 23px; height: 8px; border-radius: 0 0 8px 8px; background: repeating-linear-gradient(180deg, var(--page) 0 1px, var(--page-edge) 1px 2px); }
+.app-shell.student-workspace .book-spread::after { content: ''; position: absolute; z-index: 5; top: 12px; bottom: 30px; left: 50%; width: 30px; margin-left: -15px; pointer-events: none;
+ background: linear-gradient(90deg, transparent, #8a6a1a14 35%, #00000024 50%, #8a6a1a14 65%, transparent), repeating-linear-gradient(180deg, transparent 0 14px, #d9cba2 14px 22px) 50% 0 / 1px 100% no-repeat; }
+.app-shell.student-workspace .book-page { position: relative; z-index: 1; contain: layout paint; display: flex; flex-direction: column; min-width: 0; height: 100%; min-height: 444px; padding: 38px 46px 52px;
+ background: repeating-linear-gradient(180deg, transparent 0 31px, var(--page-rule) 31px 32px) 0 70px / 100% calc(100% - 110px) no-repeat, var(--page); }
+.app-shell.student-workspace .book-page.is-left { border-radius: 9px 3px 3px 9px; box-shadow: inset -26px 0 30px -26px #8a6a1a33; }
+.app-shell.student-workspace .book-page.is-right { border-radius: 3px 9px 9px 3px; box-shadow: inset 26px 0 30px -26px #8a6a1a33; }
+.app-shell.student-workspace .book-page-label { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; padding-right: 64px; color: var(--hl-deep); font-size: 11.5px; font-weight: 650; letter-spacing: .12em; text-transform: uppercase; }
+.app-shell.student-workspace .book-page-label::after { content: ''; flex: 1; height: 1px; background: var(--page-edge); }
+.app-shell.student-workspace .book-page-body { display: flex; flex: 1; flex-direction: column; min-height: 0; }
+.app-shell.student-workspace .book-page-body > * { flex: 1; display: flex; flex-direction: column; align-items: flex-start; }
+.app-shell.student-workspace .book-folio { position: absolute; bottom: 20px; color: var(--faint); font-size: 12px; font-variant-numeric: tabular-nums; }
+.app-shell.student-workspace .book-page.is-left .book-folio { left: 46px; }
+.app-shell.student-workspace .book-page.is-right .book-folio { right: 46px; }
+
+/* Turning a page: the leaf swings around the spine, shaded as it lifts. */
+.app-shell.student-workspace .book-leaf { position: absolute; z-index: 7; top: 12px; bottom: 30px; width: calc(50% - 12px); transform-style: preserve-3d; will-change: transform; transform: translateZ(0); }
+.app-shell.student-workspace .book-leaf *, .app-shell.student-workspace .book-leaf *::before, .app-shell.student-workspace .book-leaf *::after { animation: none !important; transition: none !important; }
+.app-shell.student-workspace .book-leaf-face .book-page { box-shadow: none; }
+.app-shell.student-workspace .book-leaf.is-next { left: 50%; transform-origin: left center; animation: book-leaf-next .82s cubic-bezier(.65,.05,.36,1) forwards; }
+.app-shell.student-workspace .book-leaf.is-prev { left: 12px; transform-origin: right center; animation: book-leaf-prev .82s cubic-bezier(.65,.05,.36,1) forwards; }
+.app-shell.student-workspace .book-leaf-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: translateZ(.5px); }
+.app-shell.student-workspace .book-leaf-face.is-back { transform: rotateY(180deg) translateZ(.5px); }
+/* Entrance animations play once; pages revealed by a turn appear already settled. */
+.app-shell.student-workspace .space-book.has-turned .book-page :is(.space-road-walked,.space-stop) { animation: none; }
+.app-shell.student-workspace .book-leaf-face::after { content: ''; position: absolute; inset: 0; z-index: 3; border-radius: inherit; pointer-events: none; background: linear-gradient(90deg, #00000000 30%, #0000002e); opacity: 0; will-change: opacity; animation: book-shade .82s ease-in-out; }
+.app-shell.student-workspace .book-leaf.is-prev .book-leaf-face::after { background: linear-gradient(270deg, #00000000 30%, #0000002e); }
+@keyframes book-leaf-next { to { transform: rotateY(-180deg); } }
+@keyframes book-leaf-prev { to { transform: rotateY(180deg); } }
+@keyframes book-shade { 50% { opacity: 1; } }
+.app-shell.student-workspace .book-spread.is-single { grid-template-columns: minmax(0,1fr); }
+.app-shell.student-workspace .book-spread.is-single::after { display: none; }
+.app-shell.student-workspace .book-single { transform-origin: left center; animation: book-turn-in .55s cubic-bezier(.22,1,.36,1); }
+.app-shell.student-workspace .book-single .book-page { border-radius: 9px; box-shadow: inset 22px 0 26px -24px #8a6a1a33; }
+@keyframes book-turn-in { from { opacity: 0; transform: perspective(1400px) rotateY(-28deg); } }
+
+/* A folded corner invites the turn; arrows and dots sit under the book. */
+.app-shell.student-workspace .book-corner { position: absolute; z-index: 6; right: 12px; bottom: 30px; width: 30px; height: 30px; padding: 0; border: 0; border-radius: 0 0 9px 0; cursor: pointer;
+ background: linear-gradient(315deg, var(--cover) 0 50%, #e4d6ad 50%, #f7efd6 100%); box-shadow: -3px -3px 6px #8a6a1a1f; transition: width .35s var(--ease), height .35s var(--ease); }
+.app-shell.student-workspace .book-corner:is(:hover,:focus-visible) { width: 52px; height: 52px; }
+.app-shell.student-workspace .book-dots { position: absolute; z-index: 6; left: 50%; bottom: 10px; display: flex; gap: 6px; transform: translateX(-50%); }
+.app-shell.student-workspace .book-dots > i { width: 6px; height: 6px; border-radius: 3px; background: #ffffff38; transition: width .35s var(--ease), background .35s var(--ease); }
+.app-shell.student-workspace .book-dots > i.is-on { width: 20px; background: var(--hl); }
+.app-shell.student-workspace .book-arrow { position: absolute; z-index: 9; top: calc(50% - 22px); display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--line); border-radius: 50%;
+ background: var(--surface); color: var(--ink); box-shadow: 0 6px 16px #22211f1f; cursor: pointer; transition: transform .3s var(--ease), background .25s var(--ease), color .25s var(--ease), opacity .25s; }
+.app-shell.student-workspace .book-arrow.is-prev { left: -22px; } .app-shell.student-workspace .book-arrow.is-prev .ui-icon { transform: rotate(180deg); }
+.app-shell.student-workspace .book-arrow.is-next { right: -22px; }
+.app-shell.student-workspace .book-arrow:is(:hover,:focus-visible):not(:disabled) { background: var(--ink); color: var(--surface); transform: scale(1.08); }
+.app-shell.student-workspace .book-arrow:disabled { opacity: 0; pointer-events: none; }
+
+/* Index tabs: the four areas of Think Up tucked under the book like coloured dividers, pulled out on hover. */
+.app-shell.student-workspace .book-tabs { position: relative; z-index: 1; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0,1fr); gap: 24px; margin: 46px 24px 0; }
+.app-shell.student-workspace .book-tab { --tint: #f8ecc4; --tint-ink: var(--hl-deep); --tint-bar: var(--hl);
+ display: flex; flex-direction: column; align-items: stretch; position: relative; gap: 10px; min-width: 0; margin: 0; padding: 18px 20px 18px; border: 0; border-radius: 4px 16px 16px 16px;
+ background: var(--tint); color: var(--ink); font: inherit; text-align: left; cursor: pointer;
+ box-shadow: 0 8px 18px #8a6a1a14, inset 0 -1px 0 #0000000a; transform-origin: top; transition: transform .45s cubic-bezier(.34,1.4,.64,1), box-shadow .4s var(--ease);
+ animation: book-tab-in .6s cubic-bezier(.22,1,.36,1) backwards; }
+.app-shell.student-workspace .book-tab.is-actions { --tint: #f7e1d4; --tint-ink: #9b4a28; --tint-bar: #d98f69; }
+.app-shell.student-workspace .book-tab.is-progress { --tint: #dfe9d8; --tint-ink: #44653b; --tint-bar: #8fb183; }
+.app-shell.student-workspace .book-tab.is-messages { --tint: #dde5f1; --tint-ink: #44587b; --tint-bar: #93a6c6; }
+.app-shell.student-workspace .book-tab:nth-child(1) { animation-delay: .35s; } .app-shell.student-workspace .book-tab:nth-child(2) { animation-delay: .42s; }
+.app-shell.student-workspace .book-tab:nth-child(3) { animation-delay: .49s; } .app-shell.student-workspace .book-tab:nth-child(4) { animation-delay: .56s; }
+@keyframes book-tab-in { from { opacity: 0; transform: translateY(14px); } }
+.app-shell.student-workspace .book-tab::before { content: ''; position: absolute; left: 0; bottom: 100%; width: 42%; height: 13px; border-radius: 10px 14px 0 0; background: var(--tint); transition: width .4s var(--ease); }
+.app-shell.student-workspace .book-tab:is(:hover,:focus-visible)::before { width: 58%; }
+.app-shell.student-workspace .book-tab:is(:hover,:focus-visible) { transform: translateY(-5px); box-shadow: 0 16px 28px #8a6a1a24, inset 0 -1px 0 #0000000a; }
+.app-shell.student-workspace .book-tab-head { display: flex; align-items: center; gap: 10px; }
+.app-shell.student-workspace .book-tab-icon { display: grid; place-items: center; flex-shrink: 0; width: 30px; height: 30px; border-radius: 9px; background: #ffffffa6; color: var(--tint-ink); transition: transform .45s cubic-bezier(.34,1.56,.64,1); }
+.app-shell.student-workspace .book-tab:is(:hover,:focus-visible) .book-tab-icon { transform: rotate(-10deg) scale(1.08); }
+.app-shell.student-workspace .book-tab .space-tile-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); font-size: 14.5px; font-weight: 650; }
+.app-shell.student-workspace .book-tab .space-tile-value { flex-shrink: 0; color: var(--tint-ink); font-size: 22px; font-weight: 700; line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.app-shell.student-workspace .book-tab-head > .ui-icon:last-child { color: var(--tint-ink); transition: transform .3s var(--ease); }
+.app-shell.student-workspace .book-tab:hover .book-tab-head > .ui-icon:last-child { transform: translateX(3px); }
+.app-shell.student-workspace .book-tab .space-tile-bar { display: flex; gap: 3px; height: 4px; margin: 2px 0 0; }
+.app-shell.student-workspace .book-tab .space-tile-bar > i { min-width: 4px; border-radius: 2px; background: #ffffff99; transform-origin: left; animation: space-bar-in .9s var(--ease) 1s backwards; }
+.app-shell.student-workspace .book-tab .space-tile-bar > i:is(.is-final,.is-open) { background: var(--tint-bar); }
+.app-shell.student-workspace .book-tab.is-writing .space-tile-bar > i.is-final { background: var(--note-final); }
+.app-shell.student-workspace .book-tab.is-writing .space-tile-bar > i.is-submitted { background: var(--note-submitted); }
+.app-shell.student-workspace .book-tab.is-writing .space-tile-bar > i.is-returned { background: var(--note-returned); }
+.app-shell.student-workspace .book-tab.is-writing .space-tile-bar > i.is-draft { background: #fffaf0; }
+.app-shell.student-workspace .book-tab .space-tile-bar > i.is-overdue { background: var(--warn); opacity: .7; }
+@keyframes space-bar-in { from { transform: scaleX(0); } }
+.app-shell.student-workspace .book-tab > small { color: color-mix(in srgb, var(--tint-ink) 70%, var(--muted)); font-size: 12.5px; line-height: 1.5; }
+.app-shell.student-workspace .book-tab > small.is-overdue { color: var(--warn); }
+
+/* Page contents. */
+.app-shell.student-workspace .space-book section.overview-feature { display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: 0; min-height: 0; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; overflow: visible; transform: none; animation: none; }
+.app-shell.student-workspace .space-book section.overview-feature::before, .app-shell.student-workspace .space-book section.overview-feature::after { display: none; }
+.app-shell.student-workspace .space-paper-meta { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 16px; align-self: stretch; color: var(--muted); font-size: 12px; }
+.app-shell.student-workspace .space-paper-meta > span:first-child, .app-shell.student-workspace .book-status { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border: 1px solid var(--page-edge); border-radius: 99px; background: #fffef9; color: var(--muted); font-size: 11.5px; font-weight: 500; }
+.app-shell.student-workspace .space-paper-meta > span:first-child::before, .app-shell.student-workspace .book-status > i { content: ''; width: 6px; height: 6px; flex-shrink: 0; border-radius: 50%; background: var(--space-status-dot); }
+.app-shell.student-workspace .space-book .overview-week-label { margin: 0; color: var(--muted); font-size: 12px; font-weight: 400; }
+.app-shell.student-workspace .space-book .overview-week-label::before { display: none; }
+.app-shell.student-workspace .space-book .overview-feature h2 { max-width: none; margin: 18px 0 10px; color: var(--ink); font-size: 27px; font-weight: 650; line-height: 1.3; letter-spacing: -.025em; overflow-wrap: anywhere; }
+.app-shell.student-workspace .space-book :is(.space-paper-excerpt,.book-latest > p) { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; margin: 0; color: var(--text); font-size: 14.5px; line-height: 2.2; }
+.app-shell.student-workspace .space-paper-context { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
+.app-shell.student-workspace .space-book .overview-task-due { margin: 0; color: var(--warn); font-size: 13px; }
+.app-shell.student-workspace .space-paper-actions { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; align-self: stretch; margin-top: auto; padding-top: 22px; }
+.app-shell.student-workspace .space-paper-actions .button.primary { min-height: 42px; padding: 9px 16px; border-color: var(--primary); background: var(--primary); color: var(--primary-text); font-size: 13.5px; box-shadow: 0 2px 4px #18181b14; }
+.app-shell.student-workspace .space-paper-actions .button.primary:is(:hover,:focus-visible):not(:disabled) { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 8px 16px #18181b1f; }
+.app-shell.student-workspace .space-paper-actions .button.primary > .ui-icon { transition: transform .25s var(--ease); }
+.app-shell.student-workspace .space-paper-actions .button.primary:hover > .ui-icon { transform: translateX(3px); }
+.app-shell.student-workspace .space-paper-updated { color: var(--faint); font-size: 12px; }
+.app-shell.student-workspace .book-link { margin-top: auto; padding-top: 16px; color: var(--hl-deep); font-size: 13.5px; font-weight: 600; }
+.app-shell.student-workspace .book-link > .ui-icon { transition: transform .25s var(--ease); }
+.app-shell.student-workspace .book-link:hover > .ui-icon { transform: translateX(3px); }
+.app-shell.student-workspace .book-empty { margin: 0; color: var(--muted); font-size: 14.5px; font-style: italic; line-height: 2.2; }
+
+.app-shell.student-workspace .space-journey-week { display: flex; align-items: baseline; gap: 6px; margin: 0; color: var(--muted); font-size: 13px; }
+.app-shell.student-workspace .space-journey-week > b { color: var(--ink); font-size: 46px; font-weight: 650; line-height: 1; letter-spacing: -.045em; font-variant-numeric: tabular-nums; }
+.app-shell.student-workspace .space-journey-week > span:last-child { color: var(--faint); }
+.app-shell.student-workspace .space-journey-theme { margin: 10px 0 0; color: var(--ink); font-size: 17px; font-weight: 600; line-height: 1.5; }
+.app-shell.student-workspace .space-journey-prompt { margin: 8px 0 0; padding-left: 12px; border-left: 2px solid var(--hl); color: var(--muted); font-size: 14px; font-style: italic; line-height: 1.7; }
+.app-shell.student-workspace .space-journey-track { align-self: stretch; margin: 18px 0 0; }
+.app-shell.student-workspace .space-journey-track svg { display: block; width: 100%; max-width: 380px; height: auto; overflow: visible; }
+.app-shell.student-workspace .space-road { fill: none; stroke: #ddd4bd; stroke-width: 3; stroke-dasharray: 1 7; stroke-linecap: round; }
+.app-shell.student-workspace .space-road-walked { fill: none; stroke: var(--hl); stroke-width: 3.5; stroke-linecap: round; animation: space-walk 1.4s var(--ease) .6s backwards; }
+@keyframes space-walk { from { stroke-dasharray: 0 100; } }
+.app-shell.student-workspace .space-stop circle { fill: var(--page); stroke: #d4cab0; stroke-width: 2; }
+.app-shell.student-workspace .space-stop.done circle { fill: var(--hl); stroke: var(--page); stroke-width: 2.5; }
+.app-shell.student-workspace .space-stop.current circle:not(.space-stop-halo) { fill: var(--ink); stroke: var(--page); stroke-width: 3; }
+.app-shell.student-workspace .space-stop text { fill: var(--surface); font-size: 10px; font-weight: 700; text-anchor: middle; }
+.app-shell.student-workspace .space-stop-halo { fill: var(--hl) !important; stroke: none !important; transform-box: fill-box; transform-origin: center; animation: space-halo 2.4s ease-out 1.8s infinite; opacity: 0; }
+@keyframes space-halo { 0% { transform: scale(.7); opacity: .5; } 100% { transform: scale(1.7); opacity: 0; } }
+
+.app-shell.student-workspace .book-quote blockquote { position: relative; margin: 0; padding: 6px 0 0 30px; color: var(--ink); font-size: 17px; font-style: italic; line-height: 2; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; overflow: hidden; }
+.app-shell.student-workspace .book-quote blockquote::before { content: '\201C'; position: absolute; left: -4px; top: -10px; color: var(--hl); font-size: 56px; font-style: normal; line-height: 1; }
+.app-shell.student-workspace .book-quote-source { margin: 12px 0 0 30px; color: var(--muted); font-size: 12.5px; }
+.app-shell.student-workspace .book-todos { align-self: stretch; margin: 0; padding: 0; list-style: none; }
+.app-shell.student-workspace .book-todos li + li { border-top: 1px dashed var(--page-edge); }
+.app-shell.student-workspace .book-todos button { display: flex; align-items: flex-start; gap: 14px; width: 100%; padding: 13px 0; border: 0; background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+.app-shell.student-workspace .book-todos button > span:last-child { display: grid; gap: 3px; min-width: 0; }
+.app-shell.student-workspace .book-check { position: relative; flex-shrink: 0; width: 17px; height: 17px; margin-top: 3px; border: 1.5px solid #b9ad8c; border-radius: 4px 5px 4px 6px; transform: rotate(-3deg); transition: border-color .25s var(--ease), background .25s var(--ease); }
+.app-shell.student-workspace .book-check::after { content: ''; position: absolute; left: 4px; top: 0; width: 5px; height: 10px; border: solid var(--ink); border-width: 0 2px 2px 0; transform: rotate(45deg) scale(0); transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
+.app-shell.student-workspace .book-todos button:is(:hover,:focus-visible) .book-check { border-color: var(--ink); background: var(--hl-soft); }
+.app-shell.student-workspace .book-todos button:is(:hover,:focus-visible) .book-check::after { transform: rotate(45deg) scale(1); }
+.app-shell.student-workspace .book-todo-text { font-size: 15px; line-height: 1.55; }
+.app-shell.student-workspace .book-todos small { color: var(--muted); font-size: 12px; }
+.app-shell.student-workspace .book-todos small.is-overdue { color: var(--warn); }
+.app-shell.student-workspace .book-latest h3 { margin: 16px 0 6px; color: var(--ink); font-size: 22px; font-weight: 650; line-height: 1.35; letter-spacing: -.02em; }
+
+@media (prefers-reduced-motion: reduce) {
+ .app-shell.student-workspace .student-overview *, .app-shell.student-workspace .student-overview *::before, .app-shell.student-workspace .student-overview *::after { animation: none !important; transition: none !important; }
+ .app-shell.student-workspace .space-stop-halo { display: none; }
+}
+@media (max-width: 1000px) {
+ .app-shell.student-workspace .book-page { padding: 32px 30px 48px; }
+ .app-shell.student-workspace .book-page.is-left .book-folio { left: 30px; } .app-shell.student-workspace .book-page.is-right .book-folio { right: 30px; }
+}
+@media (max-width: 760px) {
+ .app-shell.student-workspace .space-welcome { align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
+ .app-shell.student-workspace .space-welcome h1 { font-size: 24px; }
+ .app-shell.student-workspace .space-book::after { right: 36px; height: 64px; }
+ .app-shell.student-workspace .book-spread { padding: 8px 8px 26px; border-radius: 14px; }
+ .app-shell.student-workspace .book-arrow { top: auto; bottom: -6px; width: 38px; height: 38px; }
+ .app-shell.student-workspace .book-arrow.is-prev { left: 14px; } .app-shell.student-workspace .book-arrow.is-next { right: 14px; }
+ .app-shell.student-workspace .book-tabs { grid-auto-flow: row; grid-template-columns: 1fr 1fr; margin: 40px 0 0; gap: 26px 14px; }
+ .app-shell.student-workspace .book-tab { padding: 16px 14px 14px; }
+ .app-shell.student-workspace .book-page { min-height: 380px; padding: 28px 24px 46px; }
+ .app-shell.student-workspace .book-page.is-right .book-folio { right: 24px; }
+ .app-shell.student-workspace .book-corner { display: none; }
+ .app-shell.student-workspace .space-book .overview-feature h2 { font-size: 23px; }
+}
+.app-shell.student-workspace .book-page.is-left .book-page-label { padding-right: 0; }
+@media (max-width: 760px) { .app-shell.student-workspace .book-page .book-page-label { padding-right: 52px; } }
+@media (min-width: 761px) and (max-width: 1100px) { .app-shell.student-workspace .book-tabs { gap: 16px; margin-inline: 0; } .app-shell.student-workspace .book-tab { padding-inline: 16px; } .app-shell.student-workspace .book-tab-icon { display: none; } }
+
+/* Progress: a growth journal. Pastel index tabs for the headline figures, then graph-paper sheets for the
+   Kember curve and the criteria radar, and ruled ledgers for courses and the evidence portfolio. */
+.app-shell.student-workspace .growth { --page: #fffcf4; --page-edge: #e9dfc2; --grid: #efe6cc66; --space-status-dot: var(--note-draft);
+ display: grid; gap: 30px; max-width: 1180px; margin-inline: auto; }
+.app-shell.student-workspace .growth > .student-page-title { margin: 0; }
+.app-shell.student-workspace .growth :is(.is-submitted) { --space-status-dot: var(--note-submitted); }
+.app-shell.student-workspace .growth :is(.is-returned) { --space-status-dot: var(--note-returned); }
+.app-shell.student-workspace .growth :is(.is-final) { --space-status-dot: var(--note-final); }
+.app-shell.student-workspace .growth-label { display: flex; align-items: center; gap: 12px; margin: 0 0 20px; color: var(--hl-deep); font-size: 11.5px; font-weight: 650; letter-spacing: .12em; text-transform: uppercase; }
+.app-shell.student-workspace .growth-label::after { content: ''; flex: 1; height: 1px; background: var(--page-edge); }
+.app-shell.student-workspace .growth-count { order: 1; padding: 1px 8px; border-radius: 99px; background: var(--hl-soft); color: var(--hl-deep); font-size: 11px; letter-spacing: 0; }
+.app-shell.student-workspace .growth-hint { margin: 14px 0 0; color: var(--muted); font-size: 13.5px; font-style: italic; line-height: 1.7; }
+
+/* Headline figures: one charcoal strip, like the notebook cover, with hairline dividers and small butter rings. */
+.app-shell.student-workspace .growth-metrics { position: relative; display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); padding: 26px 0; overflow: hidden; border-radius: 20px;
+ background: radial-gradient(90% 160% at 0% 0%, #3b3935 0%, #2a2927 55%, #232220 100%); color: #f7f5ef; box-shadow: 0 1px 2px #0000001f, 0 18px 40px #22211f2e; animation: space-settle .55s var(--ease) .05s backwards; }
+.app-shell.student-workspace .growth-metrics::after { content: ''; position: absolute; right: -80px; top: -120px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, #e8c76626 0%, transparent 65%); pointer-events: none; }
+.app-shell.student-workspace .growth-metric { position: relative; display: grid; grid-template-columns: minmax(0,1fr) auto; grid-template-rows: auto auto 1fr; column-gap: 12px; row-gap: 8px; min-width: 0; padding: 2px 26px; }
+.app-shell.student-workspace .growth-metric + .growth-metric { border-left: 1px solid #ffffff17; }
+.app-shell.student-workspace .growth-metric-label { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; color: #b3afa5; font-size: 12.5px; font-weight: 500; letter-spacing: .01em; }
+.app-shell.student-workspace .growth-metric-label > .ui-icon { color: var(--hl); opacity: .9; }
+.app-shell.student-workspace .growth-metric-value { display: flex; align-items: baseline; gap: 6px; min-width: 0; }
+.app-shell.student-workspace .growth-metric-number { color: #fbfaf6; font-size: 40px; font-weight: 600; line-height: 1.05; letter-spacing: -.045em; font-variant-numeric: tabular-nums; }
+.app-shell.student-workspace .growth-metric-value > span { color: #8f8b82; font-size: 14px; }
+.app-shell.student-workspace .growth-metric > small { grid-column: 1; color: #9d998f; font-size: 12px; line-height: 1.5; }
+.app-shell.student-workspace .growth-metric-ring { grid-column: 2; grid-row: 2 / span 2; align-self: center; width: 52px; height: 52px; transform: rotate(-90deg); }
+.app-shell.student-workspace .growth-metric-ring circle { fill: none; stroke: #ffffff17; stroke-width: 4; }
+.app-shell.student-workspace .growth-metric-ring .growth-metric-arc { stroke: var(--hl); stroke-linecap: round; animation: growth-ring 1.2s cubic-bezier(.65,.05,.36,1) .5s backwards; }
+.app-shell.student-workspace .growth-metric-ring text { fill: #d8d3c6; font-size: 11px; font-weight: 600; text-anchor: middle; transform: rotate(90deg); transform-origin: 24px 24px; }
+@keyframes growth-ring { from { stroke-dasharray: 0 100; } }
+
+/* Graph paper sheets. */
+.app-shell.student-workspace .growth-sheet { position: relative; padding: 28px 32px 30px; border: 1px solid #ece4cf; border-radius: 18px;
+ background: linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 22px 22px, linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 22px 22px, var(--page);
+ box-shadow: 0 1px 2px #8a6a1a0d, 0 16px 36px #8a6a1a0f; animation: space-settle .55s var(--ease) .15s backwards; }
+.app-shell.student-workspace .growth-reflection { display: grid; grid-template-columns: minmax(0,1fr) 290px; gap: 36px; }
+.app-shell.student-workspace .growth-chart-side { min-width: 0; }
+.app-shell.student-workspace .growth-chart-wrap { position: relative; }
+.app-shell.student-workspace .growth-chart { display: block; width: 100%; height: auto; overflow: visible; }
+.app-shell.student-workspace .growth-level line { stroke: #ddd0a9; stroke-width: 1; stroke-dasharray: 3 5; }
+.app-shell.student-workspace .growth-level text { fill: var(--faint); font-size: 11px; text-anchor: end; }
+.app-shell.student-workspace .growth-area { fill: url(#growth-fill); animation: space-settle .8s var(--ease) .9s backwards; }
+.app-shell.student-workspace .growth-line { fill: none; stroke: #d6ad42; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 100; animation: growth-draw 1.4s cubic-bezier(.65,.05,.36,1) .35s backwards; }
+@keyframes growth-draw { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+.app-shell.student-workspace .growth-dot { fill: var(--ink); stroke: var(--page); stroke-width: 3; }
+.app-shell.student-workspace .growth-point { animation: space-stop-in .4s var(--ease) 1.2s backwards; }
+.app-shell.student-workspace .growth-point-halo { fill: var(--hl); opacity: 0; transform-box: fill-box; transform-origin: center; animation: space-halo 2.4s ease-out 1.6s infinite; }
+@keyframes space-stop-in { from { opacity: 0; } }
+@keyframes space-halo { 0% { transform: scale(.7); opacity: .5; } 100% { transform: scale(1.7); opacity: 0; } }
+.app-shell.student-workspace .growth-weeks { display: grid; grid-template-columns: repeat(9,minmax(0,1fr)); margin-top: 6px; }
+.app-shell.student-workspace .growth-weeks > button { justify-self: center; min-width: 38px; height: 28px; padding: 0 8px; border: 0; border-radius: 99px; background: none; color: var(--muted); font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer; transition: background .25s var(--ease), color .25s var(--ease); }
+.app-shell.student-workspace .growth-weeks > button:hover:not(:disabled) { background: var(--hl-soft); color: var(--ink); }
+.app-shell.student-workspace .growth-weeks > button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+.app-shell.student-workspace .growth-weeks > button:disabled { color: #cfc6ad; cursor: default; }
+.app-shell.student-workspace .growth-caption { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--page-edge); color: var(--muted); font-size: 13px; }
+.app-shell.student-workspace .growth-caption b { color: var(--ink); font-size: 18px; }
+.app-shell.student-workspace .growth-caption-links { display: flex; flex-wrap: wrap; gap: 6px 18px; min-width: 0; }
+.app-shell.student-workspace .growth-caption-links .text-button { max-width: 100%; overflow: hidden; color: var(--hl-deep); font-size: 13.5px; text-overflow: ellipsis; white-space: nowrap; }
+.app-shell.student-workspace .growth-empty { position: absolute; inset: 0 0 34px; display: grid; place-content: center; justify-items: center; gap: 6px; padding: 20px; text-align: center; color: var(--muted); font-size: 13px; }
+.app-shell.student-workspace .growth-empty b { color: var(--ink); font-size: 15px; }
+
+.app-shell.student-workspace .growth-now { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; padding-left: 32px; border-left: 1px dashed #ddd0a9; }
+.app-shell.student-workspace .growth-now-value { display: flex; align-items: baseline; gap: 6px; margin: 0; }
+.app-shell.student-workspace .growth-now-value b { color: var(--ink); font-size: 64px; font-weight: 700; line-height: .95; letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
+.app-shell.student-workspace .growth-now-value span { color: var(--faint); font-size: 16px; }
+.app-shell.student-workspace .growth-now-name { margin: 8px 0 0; color: var(--ink); font-size: 16px; font-weight: 600; }
+.app-shell.student-workspace .growth-delta { display: inline-flex; align-items: center; gap: 6px; margin: 12px 0 0; padding: 4px 10px; border-radius: 99px; background: #e1ecd9; color: #44653b; font-size: 12px; font-weight: 600; }
+.app-shell.student-workspace .growth-delta.is-down { background: var(--warn-soft); color: var(--warn); }
+.app-shell.student-workspace .growth-note { position: relative; align-self: stretch; margin: 28px 4px 0; padding: 24px 20px 14px; border-radius: 3px 3px 14px 3px; background: linear-gradient(180deg, #fcefc0, #faeab2); box-shadow: 0 1px 1px #8a6a1a14, 0 12px 20px #8a6a1a1f; transform: rotate(1.4deg); transition: transform .45s cubic-bezier(.34,1.4,.64,1); }
+.app-shell.student-workspace .growth-note:hover { transform: rotate(0) translateY(-3px); }
+.app-shell.student-workspace .growth-note::before { content: ''; position: absolute; top: -10px; left: 50%; width: 82px; height: 22px; margin-left: -41px; background: repeating-linear-gradient(135deg, #ffffffaa 0 6px, #ffffff70 6px 12px); box-shadow: 0 1px 2px #8a6a1a1a; transform: rotate(-3deg); }
+.app-shell.student-workspace .growth-note blockquote { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6; overflow: hidden; margin: 0; color: #4a3f22; font-size: 14px; font-style: italic; line-height: 1.7; }
+.app-shell.student-workspace .growth-note figcaption { margin-top: 8px; }
+.app-shell.student-workspace .growth-note .text-button { color: #6f5512; font-size: 13px; }
+
+.app-shell.student-workspace .growth-criteria-body { display: grid; grid-template-columns: 260px minmax(0,1fr); align-items: center; gap: 40px; }
+.app-shell.student-workspace .growth-radar { display: block; width: 100%; max-width: 260px; height: auto; margin-inline: auto; overflow: visible; }
+.app-shell.student-workspace .growth-radar-ring { fill: none; stroke: #e2d7b6; stroke-width: 1; }
+.app-shell.student-workspace .growth-radar-ring:last-of-type { stroke: #d4c597; }
+.app-shell.student-workspace .growth-radar-axis { stroke: #e9dfc2; stroke-width: 1; }
+.app-shell.student-workspace .growth-radar-tag { fill: var(--hl-deep); font-size: 13px; font-weight: 700; text-anchor: middle; }
+.app-shell.student-workspace .growth-radar-shape { fill: #e8c76659; stroke: #d6ad42; stroke-width: 2.5; stroke-linejoin: round; transform-box: view-box; transform-origin: 130px 130px; animation: growth-radar-in .9s cubic-bezier(.34,1.3,.64,1) .4s backwards; }
+.app-shell.student-workspace .growth-radar-dot { fill: var(--ink); stroke: var(--page); stroke-width: 2; animation: space-stop-in .4s var(--ease) 1.1s backwards; }
+@keyframes growth-radar-in { from { transform: scale(0); opacity: 0; } }
+.app-shell.student-workspace .growth-criteria-list { margin: 0; padding: 0; list-style: none; }
+.app-shell.student-workspace .growth-criteria-list > li { display: grid; grid-template-columns: 28px minmax(0,1fr) auto; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px dashed var(--page-edge); }
+.app-shell.student-workspace .growth-criteria-list > li:last-child { border-bottom: 0; }
+.app-shell.student-workspace .growth-criterion-num { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--hl-soft); color: var(--hl-deep); font-size: 12px; font-weight: 700; }
+.app-shell.student-workspace .growth-criterion-copy { display: grid; gap: 7px; min-width: 0; }
+.app-shell.student-workspace .growth-criterion-copy p { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin: 0; }
+.app-shell.student-workspace .growth-criterion-copy b { color: var(--ink); font-size: 15px; font-weight: 600; }
+.app-shell.student-workspace .growth-criterion-copy .growth-count { order: 0; background: #f3ecd6; color: var(--muted); }
+.app-shell.student-workspace .growth-criterion-copy em { padding: 1px 8px; border-radius: 99px; font-size: 11px; font-style: normal; font-weight: 600; }
+.app-shell.student-workspace .growth-criterion-copy em.is-strong { background: #e1ecd9; color: #44653b; }
+.app-shell.student-workspace .growth-criterion-copy em.is-weak { background: var(--warn-soft); color: var(--warn); }
+.app-shell.student-workspace .growth-track { display: block; height: 6px; border-radius: 3px; background: #efe7cf; overflow: hidden; }
+.app-shell.student-workspace .growth-track > span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #edd48a, #d6ad42); transform-origin: left; animation: space-bar-in 1s var(--ease) .5s backwards; }
+.app-shell.student-workspace .growth-criterion-copy small { color: var(--muted); font-size: 12.5px; }
+.app-shell.student-workspace .growth-criterion-score { color: var(--faint); font-size: 13px; white-space: nowrap; }
+.app-shell.student-workspace .growth-criterion-score b { color: var(--ink); font-size: 24px; font-weight: 700; letter-spacing: -.03em; }
+
+/* Ruled ledgers. */
+.app-shell.student-workspace .growth-ledgers { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 28px; align-items: start; }
+.app-shell.student-workspace .growth-ledger { min-width: 0; padding: 26px 28px 20px; border: 1px solid #ece4cf; border-radius: 18px; background: #fffdf7; box-shadow: 0 1px 2px #8a6a1a0d, 0 12px 28px #8a6a1a0a; animation: space-settle .55s var(--ease) .25s backwards; }
+.app-shell.student-workspace .growth-ledger .growth-label { margin-bottom: 8px; }
+.app-shell.student-workspace :is(.growth-course-list,.growth-portfolio) { margin: 0; padding: 0; list-style: none; }
+.app-shell.student-workspace :is(.growth-course-list,.growth-portfolio) > li + li { border-top: 1px dashed var(--page-edge); }
+.app-shell.student-workspace .growth-course { display: grid; grid-template-columns: minmax(0,1fr) auto 44px; align-items: center; gap: 16px; padding: 13px 0; }
+.app-shell.student-workspace .growth-course-copy { display: grid; gap: 2px; min-width: 0; }
+.app-shell.student-workspace .growth-course-copy small { color: var(--faint); font-size: 11.5px; letter-spacing: .04em; }
+.app-shell.student-workspace .growth-course-copy b { overflow: hidden; color: var(--ink); font-size: 14.5px; font-weight: 500; text-overflow: ellipsis; white-space: nowrap; }
+.app-shell.student-workspace .growth-course-weeks { display: flex; gap: 4px; }
+.app-shell.student-workspace .growth-course-weeks > i { width: 9px; height: 9px; border: 1.5px solid #ddd3b8; border-radius: 50%; }
+.app-shell.student-workspace .growth-course-weeks > i.complete { border-color: var(--hl); background: var(--hl); }
+.app-shell.student-workspace .growth-course-count { color: var(--faint); font-size: 12px; text-align: right; }
+.app-shell.student-workspace .growth-course-count b { color: var(--ink); font-size: 16px; }
+.app-shell.student-workspace .growth-portfolio-row { display: grid; grid-template-columns: 36px minmax(0,1fr) auto; align-items: center; gap: 14px; width: 100%; margin: 0; padding: 12px 8px; border: 0; border-radius: 10px; background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; transition: background .25s var(--ease); }
+.app-shell.student-workspace .growth-portfolio-row:is(:hover,:focus-visible) { background: #fbf4dc99; }
+.app-shell.student-workspace .growth-portfolio-week { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: var(--hl-soft); color: var(--hl-deep); font-size: 12px; font-weight: 700; }
+.app-shell.student-workspace .growth-portfolio-copy { display: grid; gap: 3px; min-width: 0; }
+.app-shell.student-workspace .growth-portfolio-copy b { overflow: hidden; font-size: 14.5px; font-weight: 500; text-overflow: ellipsis; white-space: nowrap; transition: color .2s; }
+.app-shell.student-workspace .growth-portfolio-row:hover .growth-portfolio-copy b { color: var(--hl-deep); }
+.app-shell.student-workspace .growth-portfolio-copy > span { overflow: hidden; color: var(--muted); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.app-shell.student-workspace .growth-portfolio-copy i { margin: 0 6px; font-style: normal; color: var(--faint); }
+
+.app-shell.student-workspace .growth-details { border: 1px dashed #ddd0a9; border-radius: 16px; background: #fffdf766; }
+.app-shell.student-workspace .growth-details > summary { display: flex; align-items: center; gap: 10px; padding: 16px 22px; color: var(--ink); font-size: 14.5px; font-weight: 600; cursor: pointer; list-style: none; }
+.app-shell.student-workspace .growth-details > summary::-webkit-details-marker { display: none; }
+.app-shell.student-workspace .growth-details > summary > .ui-icon:last-child { margin-left: auto; color: var(--muted); transition: transform .3s var(--ease); }
+.app-shell.student-workspace .growth-details[open] > summary > .ui-icon:last-child { transform: rotate(90deg); }
+.app-shell.student-workspace .growth-details[open] > summary { border-bottom: 1px dashed #ddd0a9; }
+.app-shell.student-workspace .growth-details > :not(summary) { padding: 20px 22px; }
+
+@media (prefers-reduced-motion: reduce) {
+ .app-shell.student-workspace .growth *, .app-shell.student-workspace .growth *::before { animation: none !important; transition: none !important; }
+}
+@media (max-width: 1100px) {
+ .app-shell.student-workspace .growth-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); row-gap: 26px; }
+ .app-shell.student-workspace .growth-metric:nth-child(3) { border-left: 0; }
+ .app-shell.student-workspace .growth-reflection { grid-template-columns: minmax(0,1fr); }
+ .app-shell.student-workspace .growth-now { display: grid; grid-template-columns: auto minmax(0,1fr); align-items: center; gap: 4px 24px; padding: 24px 0 0; border-left: 0; border-top: 1px dashed #ddd0a9; }
+ .app-shell.student-workspace .growth-now > .growth-label { grid-column: 1 / -1; }
+ .app-shell.student-workspace .growth-note { grid-column: 1 / -1; }
+ .app-shell.student-workspace .growth-criteria-body { grid-template-columns: minmax(0,1fr); gap: 20px; }
+ .app-shell.student-workspace .growth-ledgers { grid-template-columns: minmax(0,1fr); }
+}
+@media (max-width: 760px) {
+ .app-shell.student-workspace .growth { gap: 24px; }
+ .app-shell.student-workspace .growth-metrics { padding: 20px 0; }
+ .app-shell.student-workspace .growth-metric { padding: 2px 16px; }
+ .app-shell.student-workspace .growth-metric-ring { width: 40px; height: 40px; }
+ .app-shell.student-workspace .growth-metric-number { font-size: 30px; }
+ .app-shell.student-workspace :is(.growth-sheet,.growth-ledger) { padding: 20px 18px; border-radius: 14px; }
+ .app-shell.student-workspace .growth-level text { font-size: 15px; }
+ .app-shell.student-workspace .growth-weeks > button { min-width: 0; padding: 0 2px; font-size: 11px; }
+ .app-shell.student-workspace .growth-now { grid-template-columns: minmax(0,1fr); }
+ .app-shell.student-workspace .growth-now-value b { font-size: 52px; }
+ .app-shell.student-workspace .growth-course { grid-template-columns: minmax(0,1fr) 40px; }
+ .app-shell.student-workspace .growth-course-weeks { grid-column: 1 / -1; grid-row: 2; }
+}
+
+/* Writing: the same notebook language. A segmented filter and cream sheets in the library; in the editor a ruled page,
+   a sticky-note reminder and a segmented assistant; soft cream fields in dialogs. Layout and behaviour are unchanged. */
+.app-shell.student-workspace { --sheet: #fffdf7; --sheet-edge: #ece4cf; --sheet-rule: #f2ead4; }
+
+/* Library */
+.app-shell.student-workspace .library-toolbar { gap: 14px 24px; margin-bottom: 4px; padding-bottom: 0; border-bottom: 0; }
+.app-shell.student-workspace .library-filters { display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 4px; border-radius: 99px; background: #efeadf; }
+.app-shell.student-workspace .library-filters > button { min-height: 34px; padding: 0 15px; border: 0; border-radius: 99px; background: none; color: var(--muted); font-size: 13.5px; font-weight: 500; transition: background .25s var(--ease), color .25s var(--ease), box-shadow .25s var(--ease); }
+.app-shell.student-workspace .library-filters > button::after { display: none; }
+.app-shell.student-workspace .library-filters > button:hover { color: var(--ink); }
+.app-shell.student-workspace .library-filters > button[aria-pressed="true"] { background: var(--ink); color: var(--surface); box-shadow: 0 2px 6px #22211f26; }
+.app-shell.student-workspace .library-search { min-width: 240px; min-height: 42px; padding: 0 16px; border: 1px solid var(--sheet-edge); border-radius: 99px; background: var(--sheet); transition: border-color .25s var(--ease), box-shadow .25s var(--ease); }
+.app-shell.student-workspace .library-search:focus-within { border-color: var(--hl-line); box-shadow: 0 0 0 4px var(--hl-soft); color: var(--hl-deep); }
+.app-shell.student-workspace .library-search input { border: 0; background: none; box-shadow: none; }
+.app-shell.student-workspace .note-grid { gap: 18px; }
+.app-shell.student-workspace .reflection-note { overflow: hidden; gap: 8px; min-height: 190px; padding: 20px 20px 18px; border: 1px solid var(--sheet-edge); border-radius: 16px;
+ background: var(--sheet);
+ box-shadow: 0 1px 2px #8a6a1a0d; transition: transform .4s cubic-bezier(.34,1.3,.64,1), box-shadow .35s var(--ease), border-color .3s var(--ease); }
+.app-shell.student-workspace .reflection-note::before { display: none; }
+.app-shell.student-workspace .reflection-note::after { content: ''; position: absolute; right: 0; bottom: 0; width: 0; height: 0; border-radius: 0 0 16px 0; background: linear-gradient(315deg, var(--paper) 0 50%, #e6d9b2 50%, #f7efd7 100%); box-shadow: -2px -2px 5px #8a6a1a1a; transition: width .35s var(--ease), height .35s var(--ease); }
+.app-shell.student-workspace .reflection-note:hover { transform: translateY(-4px); border-color: var(--hl-line); box-shadow: 0 16px 30px #8a6a1a17; }
+.app-shell.student-workspace .reflection-note:hover::after { width: 30px; height: 30px; }
+.app-shell.student-workspace .note-week { color: var(--hl-deep); font-size: 11px; font-weight: 650; letter-spacing: .1em; text-transform: uppercase; }
+.app-shell.student-workspace .note-title { color: var(--ink); font-size: 16px; font-weight: 600; line-height: 1.45; letter-spacing: -.01em; }
+.app-shell.student-workspace .note-excerpt { color: var(--muted); font-size: 13.5px; line-height: 1.65; }
+.app-shell.student-workspace .note-status { margin-top: auto; padding: 3px 10px; border: 1px solid var(--sheet-edge); border-radius: 99px; background: #fff; color: var(--muted); font-size: 11.5px; font-weight: 500; }
+.app-shell.student-workspace .reflection-note.is-new { border: 1.5px dashed var(--hl-line); background: #fdf8e8; color: var(--hl-deep); }
+.app-shell.student-workspace .library-more { border-radius: 99px; }
+
+/* Editor toolbar */
+.app-shell.student-workspace .writing-toolbar { background: color-mix(in srgb, var(--paper) 88%, transparent); border-bottom: 1px solid transparent; }
+.app-shell.student-workspace .writing-back { color: var(--muted); font-size: 14px; font-weight: 500; }
+.app-shell.student-workspace .writing-back:hover:not(:disabled) { color: var(--ink); }
+.app-shell.student-workspace .writing-save-state { gap: 8px; color: var(--faint); font-size: 12.5px; }
+.app-shell.student-workspace .writing-save-state .badge { padding: 3px 10px; border-radius: 99px; font-size: 11.5px; }
+.app-shell.student-workspace .writing-panel-toggle { border-color: var(--sheet-edge); border-radius: 99px; background: var(--sheet); color: var(--ink); }
+.app-shell.student-workspace .writing-panel-toggle.is-on { border-color: var(--hl-line); background: var(--hl-soft); color: var(--hl-deep); }
+.app-shell.student-workspace .writing-next-step .button.primary { border-radius: 99px; padding-inline: 18px; }
+
+/* The ruled page */
+.app-shell.student-workspace .student-writing-workspace .writing-canvas.panel { border-color: var(--sheet-edge); border-radius: 22px;
+ background: linear-gradient(90deg, transparent 0 26px, #f1c9b84d 26px 27px, transparent 27px), var(--sheet); box-shadow: 0 1px 2px #8a6a1a0d, 0 20px 44px #8a6a1a12; }
+.app-shell.student-workspace .student-writing-workspace .writing-canvas:focus-within { border-color: var(--hl-line); box-shadow: 0 1px 2px #8a6a1a0d, 0 24px 50px #8a6a1a1a; }
+.app-shell.student-workspace .writing-settings > summary { color: var(--muted); font-size: 12px; letter-spacing: .02em; }
+.app-shell.student-workspace .writing-settings > summary > span:first-child { color: var(--hl-deep); font-weight: 650; letter-spacing: .08em; text-transform: uppercase; font-size: 11.5px; }
+.app-shell.student-workspace .writing-settings { border-bottom-color: var(--sheet-edge); }
+.app-shell.student-workspace .student-writing-workspace .title-input { color: var(--ink); font-size: 28px; font-weight: 650; letter-spacing: -.025em; }
+.app-shell.student-workspace .student-writing-workspace .title-input::placeholder { color: #c9c0a6; }
+.app-shell.student-workspace .student-writing-workspace .writing-canvas .free-writing-area :is(textarea,textarea:focus) { color: #3a3833; font-size: 16px; line-height: 32px; padding-top: 14px;
+ background-image: repeating-linear-gradient(180deg, transparent 0 31px, var(--sheet-rule) 31px 32px); background-size: 100% 32px; background-attachment: local; background-origin: content-box; background-clip: content-box; }
+.app-shell.student-workspace .free-writing-area textarea::placeholder { color: #c2b99f; }
+.app-shell.student-workspace .word-counter { color: var(--faint); font-size: 12px; }
+.app-shell.student-workspace .student-writing-workspace :is(.writing-evidence,.writing-outline) { border-top: 1px dashed var(--sheet-edge); }
+.app-shell.student-workspace .student-writing-workspace :is(.writing-evidence,.writing-outline) > summary { color: var(--ink); font-size: 14px; font-weight: 500; }
+.app-shell.student-workspace .student-writing-workspace .writing-bottom-bar { border-top: 1px solid var(--sheet-edge); background: #fbf7ea; }
+.app-shell.student-workspace .writing-bottom-bar .button { border-radius: 99px; }
+.app-shell.student-workspace .writing-readonly { border: 1px solid var(--sheet-edge); border-radius: 12px; background: #f7f2e3; color: var(--muted); }
+.app-shell.student-workspace .file-chip { border-color: var(--sheet-edge); border-radius: 12px; background: #fff; }
+
+/* Assistant: a white card with a segmented switch */
+.app-shell.student-workspace .writing-support-panel { overflow: hidden; border-color: var(--sheet-edge); border-radius: 22px; box-shadow: 0 1px 2px #8a6a1a0d, 0 16px 36px #8a6a1a0f; }
+.app-shell.student-workspace .reflection-support-tabs { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 2px; margin: 14px 14px 4px; padding: 4px; border: 0; border-radius: 14px; background: #ebe5d6; }
+.app-shell.student-workspace .reflection-support-tabs button { min-height: 38px; padding: 6px 8px; border: 0 !important; border-radius: 10px; background: none; color: var(--muted); font-size: 12.5px; font-weight: 500; line-height: 1.25; transition: background .25s var(--ease), color .25s var(--ease), box-shadow .25s var(--ease); }
+.app-shell.student-workspace .reflection-support-tabs button:hover { color: var(--ink); }
+.app-shell.student-workspace .student-writing-workspace .reflection-support-tabs button.selected { background: #fff; color: var(--ink); font-weight: 600; box-shadow: 0 1px 3px #22211f1f; }
+.app-shell.student-workspace .reflection-support-tabs button::after { display: none; }
+.app-shell.student-workspace .thinking-context { border-color: var(--sheet-edge); border-radius: 12px; background: var(--sheet); }
+.app-shell.student-workspace .writing-support-panel .notice { border: 0; border-radius: 12px; background: #f6f2e7; color: var(--muted); }
+.app-shell.student-workspace .writing-support-panel .button.primary.full { border-radius: 12px; }
+.app-shell.student-workspace .writing-support-panel .button.primary.full:disabled { border-color: #ece6d6; background: #f3eee1; color: var(--faint); }
+.app-shell.student-workspace .feedback-panel > .lecturer-feedback { border: 1px solid #f0d9c8; border-radius: 14px; background: #fcf1e8; }
+
+/* Dialogs */
+.app-shell.student-workspace .modal { border: 0; border-radius: 24px; box-shadow: 0 30px 80px #22211f40; }
+.app-shell.student-workspace .modal-header h2, .app-shell.student-workspace .modal-header h3 { color: var(--ink); font-size: 22px; font-weight: 650; letter-spacing: -.02em; }
+.app-shell.student-workspace :is(.modal-footer,.action-editor-footer) { background: #fbf8ef; border-top-color: var(--sheet-edge); border-radius: 0 0 24px 24px; }
+.app-shell.student-workspace .modal-footer .button { border-radius: 99px; padding-inline: 18px; }
+.app-shell.student-workspace .modal .field :is(input,textarea,select), .app-shell.student-workspace .action-editor .field :is(input,textarea) { border-color: var(--sheet-edge); border-radius: 14px; background: var(--sheet); transition: border-color .25s var(--ease), box-shadow .25s var(--ease); }
+.app-shell.student-workspace .action-editor .field :is(input,textarea):focus, .app-shell.student-workspace .modal .field :is(input,textarea,select):focus { border-color: var(--hl-line); box-shadow: 0 0 0 4px var(--hl-soft); }
+.app-shell.student-workspace .action-source { color: var(--muted); }
+.app-shell.student-workspace :is(.action-status-choice,.action-reflection-choice) { border-color: var(--sheet-edge); border-radius: 99px; background: #fff; }
+.app-shell.student-workspace :is(.action-status-choice,.action-reflection-choice):has(input:checked) { border-color: var(--ink); background: var(--ink); color: var(--surface); }
+.app-shell.student-workspace :is(.action-status-choice,.action-reflection-choice):has(input:checked) .action-choice-mark { border-color: var(--hl); background: var(--hl); color: var(--ink); }
+.app-shell.student-workspace .action-extras { border-top: 1px dashed var(--sheet-edge); }
+@media (max-width: 760px) {
+ .app-shell.student-workspace .library-filters { flex-wrap: nowrap; max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+ .app-shell.student-workspace .library-filters::-webkit-scrollbar { display: none; }
+ .app-shell.student-workspace .library-filters > button { flex-shrink: 0; }
+ .app-shell.student-workspace .library-search { min-width: 0; width: 100%; }
+ .app-shell.student-workspace .student-writing-workspace .writing-canvas.panel { background: var(--sheet); border-radius: 18px; }
+ .app-shell.student-workspace .student-writing-workspace .title-input { font-size: 23px; }
+}
+
+/* Previous commitments: one quiet button, opening a two-pane sheet (choose on the left, read and update on the right). */
+.app-shell.student-workspace .commit-recall-trigger { display: flex; align-items: center; gap: 14px; width: 100%; margin: 0; padding: 14px 16px; border: 1px solid var(--hl-line); border-radius: 18px; background: linear-gradient(180deg, #fdf6dc, #fbf0cc); color: var(--ink); font: inherit; text-align: left; cursor: pointer; box-shadow: 0 1px 2px #8a6a1a12; transition: transform .3s var(--ease), box-shadow .3s var(--ease); }
+.app-shell.student-workspace .commit-recall-trigger:is(:hover,:focus-visible) { transform: translateY(-2px); box-shadow: 0 12px 24px #8a6a1a1f; }
+.app-shell.student-workspace .commit-recall-icon { display: grid; place-items: center; flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px; background: var(--ink); color: var(--hl); }
+.app-shell.student-workspace .commit-recall-copy { display: grid; flex: 1; gap: 2px; min-width: 0; }
+.app-shell.student-workspace .commit-recall-copy b { font-size: 14.5px; font-weight: 650; }
+.app-shell.student-workspace .commit-recall-copy small { color: #7a6630; font-size: 12.5px; }
+.app-shell.student-workspace .commit-recall-copy em { color: var(--warn); font-style: normal; font-weight: 600; }
+.app-shell.student-workspace .commit-recall-trigger > .ui-icon:last-child { color: #7a6630; transition: transform .3s var(--ease); }
+.app-shell.student-workspace .commit-recall-trigger:hover > .ui-icon:last-child { transform: translateX(3px); }
+.app-shell.student-workspace .commit-recall-backdrop { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 24px; background: #22211f66; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); animation: tu-fade .25s ease; }
+.app-shell.student-workspace .commit-recall-scrim { position: absolute; inset: 0; padding: 0; border: 0; background: none; cursor: default; }
+.app-shell.student-workspace .commit-recall-sheet { position: relative; display: grid; grid-template-columns: 340px minmax(0,1fr); width: min(1040px, 100%); height: min(720px, calc(100vh - 48px)); overflow: hidden; border-radius: 24px; background: var(--surface); box-shadow: 0 30px 80px #22211f40; animation: space-settle .35s var(--ease); }
+.app-shell.student-workspace .commit-recall-guide { display: flex; flex-direction: column; gap: 16px; min-height: 0; padding: 28px 24px 24px 28px; overflow-y: auto; border-right: 1px solid var(--sheet-edge); background: #fbf8ef; }
+.app-shell.student-workspace .commit-recall-guide h2 { margin: 0; color: var(--ink); font-size: 20px; font-weight: 650; line-height: 1.3; letter-spacing: -.02em; }
+.app-shell.student-workspace .commit-recall-source { margin: -10px 0 0; color: var(--muted); font-size: 12.5px; line-height: 1.5; }
+.app-shell.student-workspace .commit-recall-list { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.app-shell.student-workspace .commit-recall-list button { display: grid; grid-template-columns: 10px minmax(0,1fr); gap: 4px 12px; width: 100%; margin: 0; padding: 12px 14px; border: 1px solid transparent; border-radius: 14px; background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; transition: background .2s, border-color .2s, box-shadow .2s; }
+.app-shell.student-workspace .commit-recall-list button:hover { background: #fff; }
+.app-shell.student-workspace .commit-recall-list button[aria-pressed="true"] { border-color: var(--hl-line); background: #fff; box-shadow: 0 2px 10px #8a6a1a17; }
+.app-shell.student-workspace .commit-recall-list i { width: 8px; height: 8px; margin-top: 6px; border-radius: 50%; background: var(--note-draft); }
+.app-shell.student-workspace .commit-recall-list button.is-in_progress i { background: var(--note-submitted); }
+.app-shell.student-workspace .commit-recall-list button.is-done i { background: var(--note-final); }
+.app-shell.student-workspace .commit-recall-list button.is-needs_adjustment i { background: var(--note-returned); }
+.app-shell.student-workspace .commit-recall-list span { font-size: 14px; font-weight: 500; line-height: 1.45; }
+.app-shell.student-workspace .commit-recall-list small { grid-column: 2; color: var(--muted); font-size: 12px; }
+.app-shell.student-workspace .commit-recall-list q { grid-column: 2; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; color: var(--muted); font-size: 12.5px; font-style: italic; }
+.app-shell.student-workspace .commit-recall-prompts { padding: 16px 16px 14px; border: 1px dashed #e2d6b2; border-radius: 14px; background: #fff; }
+.app-shell.student-workspace .commit-recall-prompts b { display: block; margin-bottom: 8px; color: var(--ink); font-size: 13.5px; font-weight: 600; line-height: 1.45; }
+.app-shell.student-workspace .commit-recall-prompts ul { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.app-shell.student-workspace .commit-recall-prompts li { position: relative; padding-left: 16px; color: var(--muted); font-size: 13px; line-height: 1.55; }
+.app-shell.student-workspace .commit-recall-prompts li::before { content: '?'; position: absolute; left: 0; color: var(--hl-deep); font-weight: 700; }
+.app-shell.student-workspace .commit-recall-hint { margin-top: auto; color: var(--faint); font-size: 12px; line-height: 1.5; }
+.app-shell.student-workspace .commit-recall-form { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.app-shell.student-workspace .commit-recall-form > header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px 28px 6px; }
+.app-shell.student-workspace .commit-recall-form > header h3 { margin: 0; color: var(--ink); font-size: 20px; font-weight: 650; letter-spacing: -.02em; }
+.app-shell.student-workspace .commit-recall-close { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 1px solid var(--sheet-edge); border-radius: 50%; background: #fff; color: var(--muted); cursor: pointer; }
+.app-shell.student-workspace .commit-recall-close:hover { border-color: var(--ink); color: var(--ink); }
+.app-shell.student-workspace .commit-recall-form .action-editor { display: flex; flex: 1; flex-direction: column; min-height: 0; }
+.app-shell.student-workspace .commit-recall-form .action-editor-scroll { flex: 1; min-height: 0; overflow-y: auto; padding: 8px 28px 20px; }
+.app-shell.student-workspace .commit-recall-form .action-editor-footer { display: flex; justify-content: flex-end; gap: 10px; padding: 14px 28px; border-top: 1px solid var(--sheet-edge); background: #fbf8ef; }
+.app-shell.student-workspace .commit-recall-form .action-editor-footer .button { border-radius: 99px; padding-inline: 18px; }
+@media (max-width: 860px) {
+ .app-shell.student-workspace .commit-recall-backdrop { place-items: end stretch; padding: 0; }
+ .app-shell.student-workspace .commit-recall-sheet { grid-template-columns: minmax(0,1fr); height: auto; max-height: 92vh; overflow-y: auto; border-radius: 22px 22px 0 0; }
+ .app-shell.student-workspace .commit-recall-guide { overflow: visible; border-right: 0; border-bottom: 1px solid var(--sheet-edge); }
+ .app-shell.student-workspace .commit-recall-form .action-editor-scroll { overflow: visible; }
+}
+
+/* Course and week pickers: soft cream selects with their own chevron. */
+.app-shell.student-workspace .editor-selectors { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.3fr); gap: 14px; margin-top: 14px; }
+.app-shell.student-workspace .editor-selectors label { display: grid; gap: 6px; color: var(--muted); font-size: 11.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.app-shell.student-workspace .editor-selectors select { width: 100%; min-height: 44px; padding: 0 40px 0 14px; border: 1px solid var(--sheet-edge); border-radius: 14px; appearance: none; -webkit-appearance: none; cursor: pointer;
+ background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2386681a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E") right 14px center / 16px no-repeat, #fff;
+ color: var(--ink); font: inherit; font-size: 14.5px; font-weight: 500; letter-spacing: 0; text-transform: none; transition: border-color .25s var(--ease), box-shadow .25s var(--ease); }
+.app-shell.student-workspace .editor-selectors select:hover:not(:disabled) { border-color: var(--hl-line); }
+.app-shell.student-workspace .editor-selectors select:focus { outline: none; border-color: var(--hl-line); box-shadow: 0 0 0 4px var(--hl-soft); }
+.app-shell.student-workspace .editor-selectors select:disabled { background-color: #f6f2e6; color: var(--muted); cursor: default; }
+.app-shell.student-workspace .writing-week-prompt { margin: 14px 0 4px; padding: 14px 16px; border: 0; border-left: 3px solid var(--hl); border-radius: 0 14px 14px 0; background: var(--hl-soft); }
+.app-shell.student-workspace .writing-week-prompt b { color: var(--ink); font-size: 14.5px; }
+.app-shell.student-workspace .writing-week-prompt p { margin: 4px 0 0; color: var(--muted); font-size: 13.5px; line-height: 1.6; }
+@media (max-width: 760px) { .app-shell.student-workspace .editor-selectors { grid-template-columns: minmax(0,1fr); } }
+
+/* Reviewing (returned, submitted, final): one joined frame, the reflection on the left and its feedback on the right. */
+@media (min-width: 1101px) {
+ .app-shell.student-workspace .student-writing-workspace .writing-workspace-grid.with-support.is-review { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0; align-items: stretch; border-radius: 22px; box-shadow: 0 1px 2px #8a6a1a0d, 0 20px 44px #8a6a1a14; }
+ .app-shell.student-workspace .student-writing-workspace .is-review .writing-canvas.panel { padding-inline: 36px; border-right: 0; border-radius: 22px 0 0 22px; box-shadow: none; }
+ .app-shell.student-workspace .student-writing-workspace .is-review .writing-canvas:focus-within { box-shadow: none; }
+ .app-shell.student-workspace .student-writing-workspace .is-review .writing-bottom-bar { margin-inline: -36px; padding-inline: 36px; border-radius: 0 0 0 22px; }
+ .app-shell.student-workspace .student-writing-workspace .is-review .writing-context-column { position: static; display: flex; flex-direction: column; gap: 0; min-width: 0; border: 1px solid var(--sheet-edge); border-radius: 0 22px 22px 0; background: #fff; }
+ .app-shell.student-workspace .student-writing-workspace .is-review .writing-context-column { align-self: stretch; height: auto; max-height: none; overflow: visible; }
+ .app-shell.student-workspace .student-writing-workspace .is-review .commit-recall { padding: 22px 36px 0; }
+ .app-shell.student-workspace .student-writing-workspace .is-review .reflection-support-tabs { margin: 18px 36px 6px; }
+ .app-shell.student-workspace .student-writing-workspace .is-review .writing-support-panel :is(.feedback-panel,.coach-panel,.reflection-thinking) { padding-inline: 36px; }
+ .app-shell.student-workspace .student-writing-workspace .is-review .writing-canvas.panel { display: flex; flex-direction: column; }
+ .app-shell.student-workspace .student-writing-workspace .is-review .writing-canvas > .writing-bottom-bar { margin-top: auto; }
+ .app-shell.student-workspace .student-writing-workspace .is-review .writing-support-panel { position: sticky; top: calc(var(--workspace-header-height, 72px) + 8px); border: 0; border-radius: 0 22px 22px 0; box-shadow: none; }
+}
+.app-shell.student-workspace .student-writing-workspace .writing-support-panel .reflection-support-tabs { padding: 4px; border: 0; border-radius: 14px; background: #ece6d7; }
+
+/* Read mode shares the ruled page with the editor, so switching to Edit does not move the text. */
+.app-shell.student-workspace .student-writing-workspace .writing-canvas .writing-preview { min-height: 0; padding: 0 0 8px; }
+.app-shell.student-workspace .student-writing-workspace .writing-canvas .writing-preview > p { margin: 0; padding-top: 14px; color: #3a3833; font-size: 16px; line-height: 32px; white-space: pre-wrap; overflow-wrap: anywhere;
+ background: repeating-linear-gradient(180deg, transparent 0 31px, var(--sheet-rule) 31px 32px) 0 0 / 100% 32px content-box content-box; }
+.app-shell.student-workspace .writing-submit-check { margin-top: 22px; padding: 18px 20px; border: 1px solid var(--hl-line); border-radius: 16px; background: var(--hl-soft); }
+.app-shell.student-workspace .writing-submit-check .button.primary { border-radius: 99px; }
+.app-shell.student-workspace .writing-edit-toggle.is-on { border-color: var(--ink); background: var(--ink); color: var(--surface); }
+.app-shell.student-workspace .writing-edit-toggle:disabled { opacity: .45; cursor: not-allowed; }
+
+/* Journey: segmented view switch, a charcoal week strip, a cream chapter page per week with the reflection cycle,
+   and compact commitment cards. */
+.app-shell.student-workspace .journey-workspace { --sheet: #fffdf7; --sheet-edge: #ece4cf; }
+.app-shell.student-workspace .journey-workspace .workspace-tabs { display: inline-flex; gap: 2px; margin: 0 0 22px; padding: 4px; border: 0; border-radius: 99px; background: #efeadf; }
+.app-shell.student-workspace .journey-workspace .workspace-tabs > button { min-height: 36px; padding: 0 18px; border: 0 !important; border-radius: 99px; background: none; color: var(--muted); font-size: 14px; font-weight: 500; }
+.app-shell.student-workspace .journey-workspace .workspace-tabs > button::after { display: none; }
+.app-shell.student-workspace .journey-workspace .workspace-tabs > button[aria-selected="true"] { background: var(--ink); color: var(--surface); box-shadow: 0 2px 6px #22211f26; }
+
+/* Week strip */
+.app-shell.student-workspace .journey-workspace .journey-week-nav { display: grid; gap: 14px; margin: 0; padding: 18px 20px 20px; border: 0; border-radius: 20px; background: radial-gradient(90% 160% at 0% 0%, #3b3935 0%, #2a2927 55%, #232220 100%); box-shadow: 0 18px 40px #22211f2e; }
+.app-shell.student-workspace .journey-workspace .journey-nav-heading { display: flex; align-items: center; gap: 16px; margin: 0; }
+.app-shell.student-workspace .journey-workspace .journey-nav-heading p { flex-shrink: 0; margin: 0; color: #d8d3c6; font-size: 13px; font-weight: 500; }
+.app-shell.student-workspace .journey-workspace .journey-completion-track { flex: 1; height: 5px; border-radius: 3px; background: #ffffff1a; overflow: hidden; }
+.app-shell.student-workspace .journey-workspace .journey-completion-track > span { display: block; height: 100%; border-radius: inherit; background: var(--hl); }
+.app-shell.student-workspace .journey-workspace .journey-week-links { display: grid; grid-template-columns: repeat(9,minmax(0,1fr)); gap: 8px; padding: 0; }
+.app-shell.student-workspace .journey-workspace .journey-week-links::before { display: none; }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button { position: relative; display: grid; align-content: start; gap: 6px; width: auto; height: auto; min-height: 86px; margin: 0; padding: 12px 12px 10px; border: 1px solid #ffffff12; border-radius: 14px; background: #ffffff0a; color: #d8d3c6; text-align: left; box-shadow: none; animation: none; transform: none; transition: background .25s var(--ease), border-color .25s var(--ease), transform .25s var(--ease); }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button:hover:not(.selected) { border-color: #ffffff2e; background: #ffffff14; transform: translateY(-2px); }
+.app-shell.student-workspace .journey-workspace .journey-week-links .journey-nav-number { display: flex; align-items: center; width: auto; height: 22px; padding: 0; border: 0; background: none; color: #fbfaf6; font-size: 18px; font-weight: 700; letter-spacing: -.02em; }
+.app-shell.student-workspace .journey-workspace .journey-week-links .journey-nav-copy { display: block; min-width: 0; }
+.app-shell.student-workspace .journey-workspace .journey-week-links .journey-nav-copy b { display: none; }
+.app-shell.student-workspace .journey-workspace .journey-week-links .journey-nav-copy small { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; padding: 0; background: none; color: #9d998f; font-size: 11.5px; line-height: 1.35; }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.complete { border-color: #e8c76640; background: #e8c7661a; color: #d8d3c6; }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.complete .journey-nav-number { color: var(--hl); }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.selected { border-color: var(--hl); background: var(--hl); box-shadow: 0 8px 20px #e8c76640; }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.selected .journey-nav-number { color: var(--ink); }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.selected .journey-nav-copy small { color: #4a3f22; }
+.app-shell.student-workspace .journey-workspace .journey-nav-state { position: absolute; top: 12px; right: 12px; width: 7px; height: 7px; border-radius: 50%; background: transparent; }
+.app-shell.student-workspace .journey-workspace .journey-nav-state.current { background: var(--hl); box-shadow: 0 0 0 0 #e8c76680; animation: journey-ping 2s ease-out infinite; }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.selected .journey-nav-state.current { background: var(--ink); animation: none; }
+@keyframes journey-ping { 0% { box-shadow: 0 0 0 0 #e8c76680; } 100% { box-shadow: 0 0 0 8px #e8c76600; } }
+
+/* Chapter page for the selected week */
+.app-shell.student-workspace .journey-workspace .journey-week-intro { position: relative; display: grid; grid-template-columns: auto minmax(0,1fr) auto; grid-template-areas: "num top foot" "num title foot" "num prompt foot" "num req foot" "num steps steps"; column-gap: 28px; align-items: start; padding: 28px 32px; border: 1px solid var(--sheet-edge); border-radius: 22px; background: var(--sheet); box-shadow: 0 1px 2px #8a6a1a0d, 0 16px 36px #8a6a1a0f; }
+.app-shell.student-workspace .journey-workspace .journey-week-intro > * { grid-column: auto; grid-row: auto; }
+.app-shell.student-workspace .journey-workspace .journey-intro-number { grid-area: num; color: var(--hl); font-size: 76px; font-weight: 750; line-height: .9; letter-spacing: -.06em; font-variant-numeric: tabular-nums; }
+.app-shell.student-workspace .journey-workspace .journey-intro-top { grid-area: top; display: flex; align-items: center; gap: 10px; }
+.app-shell.student-workspace .journey-workspace .journey-intro-top .badge { border-radius: 99px; }
+.app-shell.student-workspace .journey-workspace .journey-week-eyebrow { display: inline-flex; align-items: center; gap: 8px; margin: 0; color: var(--hl-deep); font-size: 11.5px; font-weight: 650; letter-spacing: .1em; text-transform: uppercase; }
+.app-shell.student-workspace .journey-workspace .journey-week-eyebrow::before { display: none; }
+.app-shell.student-workspace .journey-workspace .journey-week-eyebrow i { padding: 2px 8px; border-radius: 99px; background: var(--ink); color: var(--hl); font-size: 10.5px; font-style: normal; letter-spacing: .04em; }
+.app-shell.student-workspace .journey-workspace .journey-week-intro h2 { grid-area: title; margin: 8px 0 0; color: var(--ink); font-size: 26px; font-weight: 650; letter-spacing: -.025em; }
+.app-shell.student-workspace .journey-workspace .journey-week-intro > p { grid-area: prompt; margin: 10px 0 0; padding-left: 12px; border-left: 3px solid var(--hl); color: var(--muted); font-size: 15px; font-style: italic; }
+.app-shell.student-workspace .journey-workspace .journey-week-requirements { grid-area: req; margin-top: 10px; }
+.app-shell.student-workspace .journey-workspace .journey-intro-footer { grid-area: foot; flex-direction: column; align-items: flex-end; gap: 8px; margin: 0; }
+.app-shell.student-workspace .journey-workspace .journey-intro-footer .button.primary { border-radius: 99px; padding-inline: 18px; }
+.app-shell.student-workspace .journey-workspace .journey-next-context { display: grid; justify-items: end; gap: 2px; color: var(--muted); font-size: 12px; }
+.app-shell.student-workspace .journey-workspace .journey-next-context b { color: var(--faint); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.app-shell.student-workspace .journey-steps { grid-area: steps; display: grid; grid-template-columns: repeat(7,minmax(0,1fr)); margin: 24px 0 0; padding: 18px 0 0; border-top: 1px dashed var(--sheet-edge); list-style: none; }
+.app-shell.student-workspace .journey-steps li { position: relative; display: grid; justify-items: center; gap: 8px; color: var(--faint); font-size: 12px; font-weight: 500; text-align: center; }
+.app-shell.student-workspace .journey-steps li::before { content: ''; position: absolute; top: 10px; left: calc(-50% + 14px); right: calc(50% + 14px); height: 2px; background: var(--sheet-edge); }
+.app-shell.student-workspace .journey-steps li:first-child::before { display: none; }
+.app-shell.student-workspace .journey-steps li.achieved::before { background: var(--hl); }
+.app-shell.student-workspace .journey-steps i { display: grid; place-items: center; width: 22px; height: 22px; border: 2px solid var(--sheet-edge); border-radius: 50%; background: #fff; color: var(--ink); }
+.app-shell.student-workspace .journey-steps li.achieved i { border-color: var(--hl); background: var(--hl); }
+.app-shell.student-workspace .journey-steps li.achieved { color: var(--ink); }
+
+/* Work and commitments */
+.app-shell.student-workspace .journey-workspace .journey-section-heading h3, .app-shell.student-workspace .journey-workspace .journey-section-heading h2 { display: flex; align-items: center; gap: 8px; color: var(--ink); font-size: 16px; font-weight: 650; }
+.app-shell.student-workspace .journey-workspace .journey-count { padding: 1px 8px; border-radius: 99px; background: var(--hl-soft); color: var(--hl-deep); font-size: 12px; font-weight: 600; }
+.app-shell.student-workspace .journey-workspace .journey-section-heading .button { border-radius: 99px; }
+.app-shell.student-workspace .journey-workspace .note-grid > .reflection-note.is-new { min-height: 120px; }
+.app-shell.student-workspace .journey-workspace .journey-commitments > .journey-commitment { display: grid; gap: 10px; padding: 18px 20px; border: 1px solid var(--sheet-edge); border-radius: 18px; background: #fff; box-shadow: 0 1px 2px #8a6a1a0a; }
+.app-shell.student-workspace .journey-workspace .journey-commitment.is-done { background: #fbf8ef; }
+.app-shell.student-workspace .journey-workspace .journey-commitment-heading { display: grid; grid-template-columns: 34px minmax(0,1fr) auto; align-items: start; gap: 12px; }
+.app-shell.student-workspace .journey-workspace .journey-task-icon { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px; background: var(--hl-soft); color: var(--hl-deep); }
+.app-shell.student-workspace .journey-workspace .journey-task-icon.done { background: #e1ecd9; color: #44653b; }
+.app-shell.student-workspace .journey-workspace .journey-task-icon.needs_adjustment { background: var(--warn-soft); color: var(--warn); }
+.app-shell.student-workspace .journey-workspace .journey-commitment-heading h4 { margin: 6px 0 0; color: var(--ink); font-size: 15.5px; font-weight: 600; line-height: 1.45; }
+.app-shell.student-workspace .journey-workspace .journey-commitment-heading .badge { margin-top: 4px; border-radius: 99px; }
+.app-shell.student-workspace .journey-workspace :is(.journey-commitment-meta,.journey-commitment-source,.journey-commitment-details,.journey-commitment-footer) { margin-left: 46px; }
+.app-shell.student-workspace .journey-workspace .journey-commitment-meta { display: flex; flex-wrap: wrap; gap: 6px; color: var(--muted); font-size: 12px; }
+.app-shell.student-workspace .journey-workspace .journey-commitment-meta > span { display: inline-flex; align-items: center; gap: 5px; padding: 2px 9px; border-radius: 99px; background: #f3eee1; }
+.app-shell.student-workspace .journey-workspace .journey-commitment-meta > span.journey-overdue { background: var(--warn-soft); color: var(--warn); }
+.app-shell.student-workspace .journey-workspace .journey-commitment-source { justify-self: start; color: var(--hl-deep); font-size: 13px; }
+.app-shell.student-workspace .journey-workspace .journey-commitment-details > summary { color: var(--muted); font-size: 13px; }
+.app-shell.student-workspace .journey-workspace .journey-commitment-footer { display: flex; }
+.app-shell.student-workspace .journey-workspace :is(.journey-commitment-footer .button,.journey-commitment-footer .button.primary) { min-height: 36px; padding: 0 16px; border: 1px solid var(--ink); border-radius: 99px; background: var(--ink); color: var(--surface); font-size: 13px; }
+.app-shell.student-workspace .journey-workspace .journey-commitment.is-done .journey-commitment-footer .button { border-color: var(--sheet-edge); background: #fff; color: var(--ink); }
+.app-shell.student-workspace .journey-workspace .journey-no-actions { border: 1px dashed var(--sheet-edge); border-radius: 18px; background: var(--sheet); }
+
+/* All commitments: rounded search and filters */
+.app-shell.student-workspace .journey-workspace .journey-all-actions { padding: 0; border: 0; background: none; box-shadow: none; }
+.app-shell.student-workspace .journey-workspace .journey-filters { gap: 10px; margin: 6px 0 16px; }
+.app-shell.student-workspace .journey-workspace .journey-filters input { min-height: 44px; padding: 0 18px; border: 1px solid var(--sheet-edge); border-radius: 99px; background: var(--sheet); }
+.app-shell.student-workspace .journey-workspace .journey-filters input:focus { border-color: var(--hl-line); box-shadow: 0 0 0 4px var(--hl-soft); outline: none; }
+.app-shell.student-workspace .journey-workspace .journey-filters select { min-height: 44px; padding: 0 40px 0 16px; border: 1px solid var(--sheet-edge); border-radius: 99px; appearance: none; -webkit-appearance: none; cursor: pointer;
+ background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2386681a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E") right 14px center / 16px no-repeat, #fff; color: var(--ink); font: inherit; font-size: 14px; }
+.app-shell.student-workspace .journey-workspace .journey-all-actions .journey-commitments { display: grid; gap: 12px; }
+
+@media (max-width: 1100px) {
+ .app-shell.student-workspace .journey-workspace .journey-week-links { grid-template-columns: repeat(9,minmax(96px,1fr)); overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+}
+@media (max-width: 760px) {
+ .app-shell.student-workspace .journey-workspace .journey-week-intro { grid-template-columns: minmax(0,1fr); grid-template-areas: "num" "top" "title" "prompt" "req" "foot" "steps"; padding: 22px 20px; }
+ .app-shell.student-workspace .journey-workspace .journey-intro-number { font-size: 52px; }
+ .app-shell.student-workspace .journey-workspace .journey-intro-footer { align-items: stretch; margin-top: 18px; }
+ .app-shell.student-workspace .journey-workspace .journey-next-context { justify-items: start; }
+ .app-shell.student-workspace .journey-steps { grid-template-columns: repeat(7,minmax(56px,1fr)); overflow-x: auto; }
+ .app-shell.student-workspace .journey-workspace :is(.journey-commitment-meta,.journey-commitment-source,.journey-commitment-details,.journey-commitment-footer) { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .app-shell.student-workspace .journey-workspace .journey-nav-state.current { animation: none; } }
+.app-shell.student-workspace .journey-workspace .journey-week-links .journey-nav-number { width: auto; height: 22px; border-radius: 0; background: none; place-items: initial; }
+.app-shell.student-workspace .journey-workspace .journey-week-links .journey-nav-copy { position: static; width: auto; height: auto; margin: 0; padding: 0; overflow: visible; clip-path: none; transform: none; }
+.app-shell.student-workspace .journey-workspace .journey-week-links .journey-nav-copy small { width: auto; margin: 0; white-space: normal; }
+.app-shell.student-workspace .journey-workspace .journey-completion-track { display: block; }
+.app-shell.student-workspace .journey-workspace .journey-nav-state { display: block; }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button:is(.complete,.selected,:not(.complete)) .journey-nav-number { width: auto; height: 22px; border: 0; border-radius: 0; background: none; box-shadow: none; }
+
+/* Journey, below the chapter page: no boxes. Two ruled lists side by side, split by a hairline. */
+.app-shell.student-workspace .journey-workspace .journey-focused-week { gap: 28px; }
+.app-shell.student-workspace .journey-workspace :is(.journey-week-work,.journey-week-actions) { margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+@media (min-width: 1101px) {
+ .app-shell.student-workspace .journey-workspace .journey-focused-week:not([hidden]) { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); column-gap: 0; }
+ .app-shell.student-workspace .journey-workspace .journey-focused-week > .journey-week-intro { grid-column: 1 / -1; }
+ .app-shell.student-workspace .journey-workspace .journey-week-work { padding-right: 36px; }
+ .app-shell.student-workspace .journey-workspace .journey-week-actions { padding-left: 36px; border-left: 1px solid var(--sheet-edge); }
+}
+.app-shell.student-workspace .journey-workspace .journey-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 36px; margin: 4px 0 6px; }
+.app-shell.student-workspace .journey-workspace .journey-section-heading .button { min-height: 34px; padding: 0 14px; border: 0; background: none; color: var(--hl-deep); font-size: 13.5px; font-weight: 600; }
+.app-shell.student-workspace .journey-workspace .journey-section-heading .button:hover { background: var(--hl-soft); }
+.app-shell.student-workspace .journey-new-reflection { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 99px; color: var(--hl-deep); font-size: 13.5px; font-weight: 600; }
+.app-shell.student-workspace .journey-new-reflection:hover { background: var(--hl-soft); }
+.app-shell.student-workspace .journey-reflection-list { margin: 0; padding: 0; list-style: none; }
+.app-shell.student-workspace .journey-reflection-list li + li { border-top: 1px dashed var(--sheet-edge); }
+.app-shell.student-workspace .journey-reflection-list button { display: grid; grid-template-columns: 8px minmax(0,1fr) auto 16px; align-items: center; gap: 14px; width: 100%; margin: 0; padding: 14px 10px; border: 0; border-radius: 12px; background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; transition: background .2s var(--ease); }
+.app-shell.student-workspace .journey-reflection-list button:hover { background: #fbf4dc80; }
+.app-shell.student-workspace .journey-reflection-list i { width: 8px; height: 8px; border-radius: 50%; background: var(--note-draft); }
+.app-shell.student-workspace .journey-reflection-list .is-submitted i { background: var(--note-submitted); }
+.app-shell.student-workspace .journey-reflection-list .is-returned i { background: var(--note-returned); }
+.app-shell.student-workspace .journey-reflection-list .is-final i { background: var(--note-final); }
+.app-shell.student-workspace .journey-reflection-copy { display: grid; gap: 2px; min-width: 0; }
+.app-shell.student-workspace .journey-reflection-copy b { overflow: hidden; font-size: 15px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; transition: color .2s; }
+.app-shell.student-workspace .journey-reflection-list button:hover .journey-reflection-copy b { color: var(--hl-deep); }
+.app-shell.student-workspace .journey-reflection-copy small { overflow: hidden; color: var(--muted); font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
+.app-shell.student-workspace .journey-reflection-status { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.app-shell.student-workspace .journey-reflection-list button > .ui-icon { color: var(--faint); transition: transform .25s var(--ease), color .2s; }
+.app-shell.student-workspace .journey-reflection-list button:hover > .ui-icon { color: var(--ink); transform: translateX(3px); }
+.app-shell.student-workspace .journey-workspace .journey-quiet-empty { margin: 8px 0 0; color: var(--muted); font-size: 14px; font-style: italic; }
+
+/* Commitments as ruled rows in both tabs */
+.app-shell.student-workspace .journey-workspace .journey-commitments { display: grid; gap: 0; }
+.app-shell.student-workspace .journey-workspace .journey-commitments > .journey-commitment { gap: 8px; padding: 16px 10px; border: 0; border-radius: 0; background: none; box-shadow: none; }
+.app-shell.student-workspace .journey-workspace .journey-commitments > .journey-commitment + .journey-commitment { border-top: 1px dashed var(--sheet-edge); }
+.app-shell.student-workspace .journey-workspace .journey-commitments > .journey-commitment:hover { transform: none; box-shadow: none; background: none; }
+.app-shell.student-workspace .journey-workspace .journey-commitment.is-done { background: none; opacity: .75; }
+.app-shell.student-workspace .journey-workspace .journey-task-icon { width: 30px; height: 30px; border-radius: 50%; }
+.app-shell.student-workspace .journey-workspace .journey-commitment-heading { grid-template-columns: 30px minmax(0,1fr) auto; }
+.app-shell.student-workspace .journey-workspace .journey-commitment-heading h4 { margin-top: 4px; font-size: 15px; }
+.app-shell.student-workspace .journey-workspace :is(.journey-commitment-meta,.journey-commitment-source,.journey-commitment-details,.journey-commitment-footer) { margin-left: 42px; }
+.app-shell.student-workspace .journey-workspace :is(.journey-commitment-footer .button,.journey-commitment-footer .button.primary) { min-height: 32px; padding: 0 14px; font-size: 12.5px; }
+.app-shell.student-workspace .journey-workspace .journey-no-actions { padding: 8px 0; border: 0; background: none; text-align: left; }
+.app-shell.student-workspace .journey-workspace .journey-no-actions > span { display: none; }
+.app-shell.student-workspace .journey-workspace .journey-no-actions p { margin: 0; color: var(--muted); font-size: 14px; font-style: italic; }
+.app-shell.student-workspace .journey-workspace .journey-all-actions .journey-commitments { gap: 0; }
+@media (max-width: 760px) {
+ .app-shell.student-workspace .journey-workspace :is(.journey-commitment-meta,.journey-commitment-source,.journey-commitment-details,.journey-commitment-footer) { margin-left: 0; }
+ .app-shell.student-workspace .journey-reflection-list button { grid-template-columns: 8px minmax(0,1fr) 16px; }
+ .app-shell.student-workspace .journey-reflection-status { display: none; }
+}
+.app-shell.student-workspace .journey-reflection-list .journey-reflection-copy small { display: block; }
+/* Combined journey: say so, and label every reflection and commitment with its course. */
+.app-shell.student-workspace .journey-combined-note { display: flex; align-items: center; gap: 10px; margin: -6px 0 18px; padding: 10px 14px; border: 1px dashed var(--hl-line); border-radius: 14px; background: #fdf8e8; color: var(--muted); font-size: 13px; line-height: 1.5; }
+.app-shell.student-workspace .journey-combined-note > .ui-icon { flex-shrink: 0; color: var(--hl-deep); }
+.app-shell.student-workspace .journey-combined-note b { color: var(--ink); font-weight: 600; }
+.app-shell.student-workspace .journey-course-tag { display: inline-flex; font-style: normal; align-items: center; margin-right: 8px; padding: 1px 8px; border-radius: 6px; background: var(--ink); color: var(--hl); font-size: 10.5px; font-weight: 700; letter-spacing: .04em; vertical-align: 2px; }
+.app-shell.student-workspace .journey-workspace .journey-commitment-meta > .journey-course-tag { margin-right: 0; padding: 2px 9px; border-radius: 99px; background: var(--ink); color: var(--hl); font-size: 11px; }
+.app-shell.student-workspace .journey-week-actions .journey-commitment-meta > em.journey-course-tag + span:not(.journey-overdue) { display: none; }
+/* The detailed report keeps its tables inside the page width on phones. */
+.app-shell.student-workspace .growth-details { min-width: 0; max-width: 100%; }
+.app-shell.student-workspace .growth-details :is(.table-scroll,.learning-analytics) { max-width: 100%; overflow-x: auto; }
+.app-shell.student-workspace .growth-details .learning-analytics { min-width: 0; }
+
+/* Final pass: Messages, Profile and Help in the same language as the rest (segmented switches, cream fields, pills). */
+.app-shell.student-workspace.messaging-workspace .chat-directory { background: #fbf8ef; }
+.app-shell.student-workspace .chat-directory-tabs { display: inline-flex; gap: 2px; padding: 4px; border: 0; border-radius: 99px; background: #efeadf; }
+.app-shell.student-workspace .chat-directory-tabs > button { min-height: 32px; padding: 0 14px; border: 0 !important; border-radius: 99px; background: none; color: var(--muted); font-size: 13px; font-weight: 500; }
+.app-shell.student-workspace .chat-directory-tabs > button::after { display: none; }
+.app-shell.student-workspace .chat-directory-tabs > button.selected { background: var(--ink); color: var(--surface); }
+.app-shell.student-workspace .chat-search-field { border-color: #ece4cf; border-radius: 99px; background: #fff; }
+.app-shell.student-workspace .chat-search-field:focus-within { border-color: var(--hl-line); box-shadow: 0 0 0 4px var(--hl-soft); }
+.app-shell.student-workspace .chat-role-filters { display: flex; flex-wrap: wrap; gap: 6px; }
+.app-shell.student-workspace .chat-role-filters > button { min-height: 28px; padding: 0 11px; border: 1px solid #ece4cf; border-radius: 99px; background: #fff; color: var(--muted); font-size: 12px; }
+.app-shell.student-workspace .chat-role-filters > button[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--surface); }
+.app-shell.student-workspace .chat-person { border-radius: 14px; }
+.app-shell.student-workspace .chat-person:hover { background: #fff; }
+
+.app-shell.student-workspace .profile-form-fields :is(input,textarea) { border: 1px solid #ece4cf; border-radius: 14px; background: #fffdf7; }
+.app-shell.student-workspace .profile-form-fields :is(input,textarea):focus { border-color: var(--hl-line); box-shadow: 0 0 0 4px var(--hl-soft); outline: none; }
+.app-shell.student-workspace :is(.profile-workspace,.profile-edit-card) .button { border-radius: 99px; }
+.app-shell.student-workspace .profile-course { border-radius: 99px; }
+
+.app-shell.student-workspace .modal .help-intro { border: 1px solid var(--hl-line); border-radius: 18px; background: linear-gradient(180deg, #fdf6dc, #fbf0cc); }
+.app-shell.student-workspace .modal .help-intro > span { color: var(--hl-deep); }
+.app-shell.student-workspace .modal .close-button { border-radius: 50%; }
+
+/* Light strips: headline figures and the week strip sit on warm cream instead of charcoal, so they match the paper. */
+.app-shell.student-workspace .growth-metrics, .app-shell.student-workspace main .stat-grid { background: linear-gradient(180deg, #fffaf0 0%, #fbf3dc 100%); color: var(--ink); border: 1px solid #efe2b8; box-shadow: 0 1px 2px #8a6a1a0d, 0 14px 32px #8a6a1a12; }
+.app-shell.student-workspace .growth-metrics::after { background: radial-gradient(circle, #e8c76633 0%, transparent 65%); }
+.app-shell.student-workspace .growth-metric + .growth-metric, .app-shell.student-workspace main .stat-grid > .stat + .stat { border-left-color: #eadbae; }
+.app-shell.student-workspace .growth-metric-label, .app-shell.student-workspace main .stat-grid > .stat > span { color: var(--muted); }
+.app-shell.student-workspace .growth-metric-label > .ui-icon { color: var(--hl-deep); }
+.app-shell.student-workspace .growth-metric-number, .app-shell.student-workspace main .stat-grid > .stat > b { color: var(--ink); }
+.app-shell.student-workspace .growth-metric .growth-metric-value > span, .app-shell.student-workspace main .stat-grid > .stat > b small { color: var(--faint); }
+.app-shell.student-workspace .growth-metric > small { color: var(--muted); }
+.app-shell.student-workspace .growth-metric.is-queue .growth-metric-number { color: var(--hl-deep); }
+.app-shell.student-workspace .growth-metric-ring circle { stroke: #efe2b8; }
+.app-shell.student-workspace .growth-metric-ring text { fill: var(--ink); }
+
+.app-shell.student-workspace .journey-workspace .journey-week-nav { border: 1px solid #efe2b8; background: linear-gradient(180deg, #fffaf0 0%, #fbf3dc 100%); box-shadow: 0 1px 2px #8a6a1a0d, 0 14px 32px #8a6a1a12; }
+.app-shell.student-workspace .journey-workspace .journey-nav-heading p { color: var(--muted); }
+.app-shell.student-workspace .journey-workspace .journey-completion-track { background: #efe2b8; }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button { border-color: #eadbae; background: #fffdf7; color: var(--muted); }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button:hover:not(.selected) { border-color: var(--hl-line); background: #fff; }
+.app-shell.student-workspace .journey-workspace .journey-week-links .journey-nav-number { color: var(--ink); }
+.app-shell.student-workspace .journey-workspace .journey-week-links .journey-nav-copy small { color: var(--muted); }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.complete { border-color: #eadbae; background: #f6ecc9; }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.complete .journey-nav-number { color: var(--hl-deep); }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.selected { border-color: var(--hl); background: var(--hl); box-shadow: 0 8px 18px #e8c76655; }
+
+/* Strips v2: clean white with a richer honey accent instead of pale yellow fills. */
+.app-shell.student-workspace { --honey: #dcaa2e; --honey-soft: #fbf1d6; --honey-ink: #7a5a0e; }
+.app-shell.student-workspace .growth-metrics, .app-shell.student-workspace main .stat-grid { background: #fff; border: 1px solid var(--line); box-shadow: 0 1px 2px #22211f0a, 0 12px 28px #22211f0d; }
+.app-shell.student-workspace .growth-metrics::after { display: none; }
+.app-shell.student-workspace .growth-metric + .growth-metric, .app-shell.student-workspace main .stat-grid > .stat + .stat { border-left-color: var(--line); }
+.app-shell.student-workspace .growth-metric-label > .ui-icon { display: grid; place-items: center; width: 24px; height: 24px; padding: 4px; border-radius: 8px; background: var(--honey-soft); color: var(--honey-ink); }
+.app-shell.student-workspace .growth-metric-ring circle { stroke: #f1ece0; }
+.app-shell.student-workspace .growth-metric-ring .growth-metric-arc { stroke: var(--honey); }
+.app-shell.student-workspace .growth-metric.is-queue .growth-metric-number { color: var(--honey-ink); }
+
+.app-shell.student-workspace .journey-workspace .journey-week-nav { border: 1px solid var(--line); background: #fff; box-shadow: 0 1px 2px #22211f0a, 0 12px 28px #22211f0d; }
+.app-shell.student-workspace .journey-workspace .journey-completion-track { background: #f1ece0; }
+.app-shell.student-workspace .journey-workspace .journey-completion-track > span { background: var(--honey); }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button { border-color: var(--line); background: #fbfaf7; }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.complete { border-color: #ecd9a6; background: var(--honey-soft); }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.complete .journey-nav-number { color: var(--honey-ink); }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.selected { border-color: var(--honey); background: var(--honey); box-shadow: 0 8px 18px #dcaa2e4d; }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.selected .journey-nav-copy small { color: #3d2e08; }
+.app-shell.student-workspace .journey-workspace .journey-nav-state.current { background: var(--honey); }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.complete { border-color: var(--line); background: #fff; }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.complete .journey-nav-number { color: var(--honey); }
+
+/* Strips v3: warm taupe — deeper than paper, softer than charcoal. */
+.app-shell.student-workspace { --strip: linear-gradient(135deg, #544d46 0%, #625a51 55%, #6a6258 100%); --strip-line: #ffffff1f; --strip-text: #fbf8f1; --strip-muted: #ddd5c6; --strip-faint: #b9b0a0; --honey-light: #f1c95c; }
+.app-shell.student-workspace .growth-metrics, .app-shell.student-workspace main .stat-grid { border: 0; background: var(--strip); color: var(--strip-text); box-shadow: 0 1px 2px #22211f14, 0 16px 34px #3a33291f; }
+.app-shell.student-workspace .growth-metric + .growth-metric, .app-shell.student-workspace main .stat-grid > .stat + .stat { border-left-color: var(--strip-line); }
+.app-shell.student-workspace .growth-metric-label, .app-shell.student-workspace main .stat-grid > .stat > span { color: var(--strip-muted); }
+.app-shell.student-workspace .growth-metric-label > .ui-icon { background: #ffffff1a; color: var(--honey-light); }
+.app-shell.student-workspace .growth-metric-number, .app-shell.student-workspace main .stat-grid > .stat > b { color: var(--strip-text); }
+.app-shell.student-workspace .growth-metric .growth-metric-value > span, .app-shell.student-workspace main .stat-grid > .stat > b small { color: var(--strip-faint); }
+.app-shell.student-workspace .growth-metric > small { color: var(--strip-faint); }
+.app-shell.student-workspace .growth-metric.is-queue .growth-metric-number { color: var(--honey-light); }
+.app-shell.student-workspace .growth-metric-ring circle { stroke: #ffffff26; }
+.app-shell.student-workspace .growth-metric-ring .growth-metric-arc { stroke: var(--honey-light); }
+.app-shell.student-workspace .growth-metric-ring text { fill: var(--strip-text); }
+
+.app-shell.student-workspace .journey-workspace .journey-week-nav { border: 0; background: var(--strip); box-shadow: 0 1px 2px #22211f14, 0 16px 34px #3a33291f; }
+.app-shell.student-workspace .journey-workspace .journey-nav-heading p { color: var(--strip-muted); }
+.app-shell.student-workspace .journey-workspace .journey-completion-track { background: #ffffff26; }
+.app-shell.student-workspace .journey-workspace .journey-completion-track > span { background: var(--honey-light); }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button { border-color: #ffffff1f; background: #ffffff12; }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button:hover:not(.selected) { border-color: #ffffff40; background: #ffffff1f; }
+.app-shell.student-workspace .journey-workspace .journey-week-links .journey-nav-number { color: var(--strip-text); }
+.app-shell.student-workspace .journey-workspace .journey-week-links .journey-nav-copy small { color: var(--strip-faint); }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.complete { border-color: #f1c95c4d; background: #f1c95c1f; }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.complete .journey-nav-number { color: var(--honey-light); }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.selected { border-color: var(--honey-light); background: var(--honey-light); box-shadow: 0 8px 18px #00000026; }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.selected .journey-nav-number { color: var(--ink); }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.selected .journey-nav-copy small { color: #3d2e08; }
+.app-shell.student-workspace .journey-workspace .journey-nav-state.current { background: var(--honey-light); }
+.app-shell.student-workspace .journey-workspace .journey-week-links > button.selected .journey-nav-state.current { background: var(--ink); }

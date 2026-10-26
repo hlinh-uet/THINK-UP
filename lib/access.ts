@@ -10,7 +10,7 @@ export const studentPages=[
 const views: Record<Role, readonly View[]> = {
   student: ['overview', 'editor', 'journey', 'actions', 'progress','messages'],
   lecturer: ['lecturer','messages'],
-  admin: ['admin', 'lecturer','messages'],
+  admin: ['admin','messages'],
 };
 export function isRole(role: unknown): role is Role { return role === 'student' || role === 'lecturer' || role === 'admin'; }
 export function homeView(role: Role): View { return role === 'student' ? 'overview' : role; }

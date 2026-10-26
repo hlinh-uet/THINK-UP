@@ -95,7 +95,7 @@ test('each weekly card contains its own linked commitments, outcome and source r
 test('editor reminder shows all commitments and outcomes for the previous reflection',()=>{
   const previous=previousCommitments(r2,[r1,r2,other],actions);
   const html=renderToStaticMarkup(createElement(Reminder,{previous,language:'en',onReview:()=>{}}));
-  assert.match(html,/id="reflection-action-reminder" open=""/);
+  assert.match(html,/id="reflection-action-reminder"/);assert.match(html,/aria-haspopup="dialog"/);
   assert.match(html,/Action finished/);assert.match(html,/Action pending/);assert.match(html,/I tried it and learned to listen/);
   assert.doesNotMatch(html,/Action other/);assert.doesNotMatch(html,/Action next/);
   assert.equal(renderToStaticMarkup(createElement(Reminder,{previous:null,language:'vi',onReview:()=>{}})),'');

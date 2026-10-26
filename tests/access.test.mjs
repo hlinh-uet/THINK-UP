@@ -9,7 +9,7 @@ test('each role has its own home and prevents unauthorized query navigation',()=
   assert.equal(homePath('student'),'/student');assert.equal(homeView('student'),'overview');
   for(const view of ['admin','lecturer'])assert.equal(canView('student',view),false);
   for(const view of ['admin','editor','overview','actions','progress'])assert.equal(canView('lecturer',view),false);
-  assert.equal(canView('admin','editor'),false);assert.equal(canView('admin','lecturer'),true);
+  assert.equal(canView('admin','editor'),false);assert.equal(canView('admin','lecturer'),false);assert.equal(resolveView('admin','lecturer'),'admin');
   assert.equal(resolveView('student','admin'),'overview');assert.equal(resolveView('lecturer','admin'),'lecturer');assert.equal(resolveView('admin','editor'),'admin');
   assert.equal(viewPath('student','editor'),'/student?view=editor');assert.equal(canView('unknown','admin'),false);
 });

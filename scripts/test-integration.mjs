@@ -21,11 +21,33 @@ async function clearScratchRateLimits(dir){
 }
 console.log(`Isolated integration workspace: ${root}`);
 await run(process.execPath,['scripts/seed-demo.mjs']);
+// Seed an unpublished report before the server starts, exclusively in the disposable D1.
+async function seedPrivateReading(dir){
+ if(!dir.startsWith(root))throw new Error('Fixtures must remain in the scratch workspace.');
+ for(const entry of await readdir(dir,{withFileTypes:true})){
+  const path=join(dir,entry.name);
+  if(entry.isDirectory()){if(await seedPrivateReading(path))return true;continue;}
+  if(!entry.name.endsWith('.sqlite'))continue;
+  const db=new DatabaseSync(path);
+  try{
+   if(!db.prepare("SELECT name FROM sqlite_master WHERE name='learning_records'").get())continue;
+   const row=db.prepare("SELECT * FROM reflections WHERE user_id='demo-student' AND status='submitted' LIMIT 1").get();
+   if(!row)throw new Error('Missing reading fixture reflection.');
+   const stamp=new Date().toISOString(),content=JSON.parse(row.content_json),marker='TEST UNPUBLISHED READING: teacher approval required';
+   const payload={provider:'TEST privacy fixture',result:{summary:[{text:'Fixture summary',evidence:content.what,section:'what'}],thinking:[],learning:[],attention:[],feedback:{strengths:marker,development:'Teacher draft',evidence:content.what,questions:'Why?',nextSteps:'Review'}}};
+   db.prepare("INSERT INTO learning_records (id,kind,owner_id,reflection_id,course_id,version_id,payload_json,revision,created_at,updated_at) VALUES (?,'reading','demo-lecturer',?,?,?,?,1,?,?)").run('test-private-reading',row.id,row.course_id,row.latest_version,JSON.stringify(payload),stamp,stamp);
+   env.THINKUP_READING_FIXTURE_REFLECTION=row.id;
+   return true;
+  }finally{db.close();}
+ }
+ return false;
+}
+if(!await seedPrivateReading(join(project,'.wrangler','state')))throw new Error('Unable to seed privacy fixture.');
 const server=spawn('npm',['run','dev','--','--host','127.0.0.1','--port',String(port)],{cwd:project,env,detached:true,stdio:['ignore','pipe','pipe']});let serverLog='';server.stdout.on('data',x=>serverLog+=x);server.stderr.on('data',x=>serverLog+=x);
 try{
  let ready=false;for(let attempt=0;attempt<120;attempt++){try{const response=await fetch(url+'/api/thinkup',{signal:AbortSignal.timeout(2000)});if(response.ok){ready=true;break}}catch{/* Server is still starting. */}await new Promise(r=>setTimeout(r,250));}
  if(!ready)throw new Error('The test server did not start.');
- const available=['demo-workflow','admin-users-workflow','auth-workflow','workflow','version15-workflow','messages-workflow','profile-workflow','final-workflow'],requested=process.argv.slice(2),files=requested.length?requested:available;
+ const available=['permissions-workflow','reading-privacy-workflow','demo-workflow','admin-users-workflow','auth-workflow','workflow','version15-workflow','messages-workflow','profile-workflow','final-workflow'],requested=process.argv.slice(2),files=requested.length?requested:available;
  if(files.some(file=>!available.includes(file)))throw new Error('Unknown integration workflow.');
  for(const file of files){
   // Only the disposable database is reset; production rate limits remain enabled and unchanged.

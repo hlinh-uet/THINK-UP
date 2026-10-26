@@ -1,24 +1,27 @@
 'use client';
 
+import { useState } from 'react';
 import type { Action, Reflection } from '../lib/domain';
 import { translate, type Language } from '../lib/i18n';
-import { demoText } from '../lib/demo-i18n';
+import CommitmentSheet from './CommitmentSheet';
 import UiIcon from './UiIcon';
 
-export default function ReflectionActionReminder({previous,language,onReview}:{
-  previous:{reflection:Reflection;actions:Action[]}|null;language:Language;onReview:(action:Action)=>void;
+/** One quiet button beside the editor, opening the shared commitment sheet for the previous reflection. */
+export default function ReflectionActionReminder({previous,reflections=[],language,busy=false,onReview,onSave}:{
+  previous:{reflection:Reflection;actions:Action[]}|null;reflections?:Reflection[];language:Language;busy?:boolean;
+  onReview:(action:Action)=>void;onSave?:(value:Partial<Action>)=>Promise<unknown>;
 }) {
+  const [open,setOpen]=useState(false);
   if(!previous)return null;
   const tr=(text:string,parameters:readonly unknown[]=[])=>translate(text,language,parameters);
-  return <details className="writing-action-reminder" id="reflection-action-reminder" open>
-    <summary><UiIcon name="actions" size={17}/>{tr('Nhìn lại cam kết lần trước')}<span className="badge">{previous.actions.length}</span></summary>
-    <p>{tr('Bạn đã thực hiện điều mình cam kết như thế nào?')}</p>
-    <small className="muted">{tr('Từ bài viết tuần {0}',[previous.reflection.week])} · {demoText(previous.reflection.title,previous.reflection.id,language)}</small>
-    <div className="previous-commitments">{previous.actions.map(action=><div className="previous-commitment" key={action.id}>
-      <div><b>{demoText(action.text,action.id,language)}</b><span className="badge">{tr(action.status==='done'?'Hoàn thành':action.status==='in_progress'?'Đang thực hiện':'Chưa bắt đầu')}</span></div>
-      {action.review&&<p>{demoText(action.review,action.id,language)}</p>}
-      <button className="text-button" onClick={()=>onReview(action)}>{tr(action.status==='done'?'Xem lại cam kết':'Cập nhật kết quả')} ↗</button>
-    </div>)}</div>
-    <ul><li>{tr('Điều gì thuận lợi hoặc cản trở việc thực hiện?')}</li><li>{tr('Bạn có bằng chứng gì cho thấy mình đã tiến bộ?')}</li><li>{tr('Bạn cần điều chỉnh hành động tiếp theo như thế nào?')}</li></ul><p className="muted">{tr('Dùng kết quả thực hiện làm trải nghiệm để tiếp tục phản tư trong bài viết này.')}</p>
-  </details>;
+  const pending=previous.actions.filter(a=>a.status!=='done').length;
+  function start(){if(onSave)setOpen(true);else if(previous?.actions[0])onReview(previous.actions[0])}
+  return <section className="commit-recall" id="reflection-action-reminder">
+    <button type="button" className="commit-recall-trigger" aria-haspopup="dialog" aria-expanded={open} onClick={start}>
+      <span className="commit-recall-icon"><UiIcon name="actions" size={18}/></span>
+      <span className="commit-recall-copy"><b>{tr('Nhìn lại cam kết lần trước')}</b><small>{tr('Tuần {0}',[previous.reflection.week])} · {tr('{0} cam kết',[previous.actions.length])}{pending>0&&<> · <em>{tr('{0} chưa hoàn thành',[pending])}</em></>}</small></span>
+      <UiIcon name="next" size={16}/>
+    </button>
+    <CommitmentSheet source={previous.reflection} actions={previous.actions} reflections={reflections} language={language} busy={busy} open={open} onClose={()=>setOpen(false)} onSave={value=>onSave?onSave(value):Promise.resolve(false)}/>
+  </section>;
 }

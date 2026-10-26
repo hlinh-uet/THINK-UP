@@ -26,7 +26,7 @@ test('email sign-in, SSR screens, route isolation, invitation approval, role cha
   assert.equal(register.status,200,JSON.stringify(register.payload));assert.equal(register.payload.user.role,'student');assert.equal(register.payload.redirect,'/student');assert.ok(register.cookie);
   assert.ok(!JSON.stringify(register.payload).includes('password'));assert.equal(register.payload.user.email,email);
   const studentCookie=register.cookie;assert.equal((await state(studentCookie)).payload.user.role,'student');
-  const studentHtml=await visible('/student',studentCookie);assert.match(studentHtml,/STUDY SPACE|LEARNING WORKSPACE|LEARNING SPACE/);assert.ok(studentHtml.includes('/student?view=editor'));assert.ok(!studentHtml.includes('href="/admin'));assert.ok(!studentHtml.includes('href="/lecturer'));
+  const studentHtml=await visible('/student',studentCookie);assert.match(studentHtml,/class="[^"]*student-workspace/);assert.ok(studentHtml.includes('/student?view=editor'));assert.ok(!studentHtml.includes('href="/admin'));assert.ok(!studentHtml.includes('href="/lecturer'));
   const redirected=await page('/admin/courses',studentCookie);assert.ok([302,303,307,308].includes(redirected.status));assert.equal(new URL(redirected.headers.get('location'),root).pathname,'/student');
   const forbiddenQuery=await visible('/student?view=admin',studentCookie);assert.ok(!forbiddenQuery.includes('class="invite-form"'));
   const lecturerRegister=await auth('register',{name:`TEST Lecturer ${suffix}`,email:lecturerEmail,password,role:'lecturer'});assert.equal(lecturerRegister.payload.user.role,'student');
@@ -34,12 +34,12 @@ test('email sign-in, SSR screens, route isolation, invitation approval, role cha
   const denied=await fetch(`${root}/api/thinkup`,{method:'POST',headers:{cookie:studentCookie,Origin:root,'Content-Type':'application/json'},body:JSON.stringify({action:'invite-approve',id:pending.id})});assert.equal(denied.status,403);
   await owner({action:'invite-approve',id:pending.id});
   const lecturerLogin=await auth('login',{email:lecturerEmail,password});assert.equal(lecturerLogin.payload.redirect,'/lecturer');assert.equal(lecturerLogin.payload.user.role,'lecturer');
-  const lecturerHtml=await visible('/lecturer',lecturerLogin.cookie);assert.ok(lecturerHtml.includes('TEACHING WORKSPACE'));assert.ok(!lecturerHtml.includes('/student?view=editor'));assert.ok(!lecturerHtml.includes('href="/admin'));
+  const lecturerHtml=await visible('/lecturer',lecturerLogin.cookie);assert.match(lecturerHtml,/class="[^"]*lecturer-workspace/);assert.ok(lecturerHtml.includes('/lecturer/submissions'));assert.ok(!lecturerHtml.includes('/student?view=editor'));assert.ok(!lecturerHtml.includes('href="/admin'));
   const wrong=await auth('login',{email,password:'Wrong passphrase 2026'});assert.equal(wrong.status,401);
   const login=await auth('login',{email,password});assert.equal(login.status,200);assert.equal(login.payload.redirect,'/student');
   await owner({action:'user-save',...register.payload.user,role:'admin',active:1});
   const adminLogin=await auth('login',{email,password});assert.equal(adminLogin.payload.redirect,'/admin');
-  const adminHtml=await visible('/admin',adminLogin.cookie);assert.ok(adminHtml.includes('ADMIN WORKSPACE'));assert.ok(adminHtml.includes('/admin/submissions'));assert.ok(!adminHtml.includes('/student?view=editor'));
+  const adminHtml=await visible('/admin',adminLogin.cookie);assert.match(adminHtml,/class="[^"]*admin-workspace/);assert.ok(adminHtml.includes('/admin/users'));assert.ok(!adminHtml.includes('/admin/submissions'));assert.ok(!adminHtml.includes('/student?view=editor'));
   // Permissions use the live database role, including already issued sessions.
   await owner({action:'user-save',...register.payload.user,role:'student',active:1});assert.equal((await state(adminLogin.cookie)).payload.user.role,'student');
   const lowered=await page('/admin/courses',adminLogin.cookie);assert.equal(new URL(lowered.headers.get('location'),root).pathname,'/student');

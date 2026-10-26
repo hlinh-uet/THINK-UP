@@ -6,8 +6,7 @@ export default function RoleHelp({audience:role,language}:{audience:Role;languag
   const steps=role==='admin'?[
     ['Học phần','Mở Học phần để tạo lớp, thiết lập hành trình 9 tuần, hạn nộp và rubric.'],
     ['Người dùng','Mở Người dùng để tạo tài khoản sinh viên hoặc giảng viên, chỉnh vai trò, trạng thái và phân công.'],
-    ['Cài đặt & quyền truy cập','Mở Cài đặt & quyền truy cập để xem kết nối AI, sửa cấu hình mặc định và kiểm tra ma trận quyền.'],
-    ['Theo dõi bài nộp toàn hệ thống','Mở Bài nộp toàn hệ thống, Tiến độ học tập hoặc Kiểm tra trùng lặp để theo dõi các học phần.'],
+    ['Cài đặt & quyền truy cập','Mở Cài đặt để sửa cấu hình mặc định, bật/tắt quyền theo vai trò và xem nhật ký thao tác.'],
   ]:[
     ['Chọn học phần được phân công','Danh sách sinh viên và bài nộp chỉ hiển thị trong học phần bạn phụ trách.'],
     ['Nhận xét và đối chiếu rubric','Xem bài viết, minh chứng, từng phiên bản và đề xuất AI trước khi đánh giá.'],

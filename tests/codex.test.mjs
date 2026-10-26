@@ -55,6 +55,40 @@ test('an API-key login cannot silently substitute for the Plus login', async () 
   await requireChatGPTLogin('codex', async () => ({ code: 0, stdout: '', stderr: 'Logged in using ChatGPT' }));
 });
 
+test('hosted Codex is an explicit server opt-in and never exposes an API billing fallback', () => {
+  const hosted = { ...settings, HOST_CODEX_ENABLED: 'true', OPENAI_API_KEY: 'test-key' };
+  assert.deepEqual(availableAIProviders(hosted, false), ['codex']);
+  assert.equal(selectAIProvider(hosted, false), 'codex');
+  assert.throws(() => selectAIProvider(hosted, false, 'openai'), /chưa được kết nối/);
+  assert.deepEqual(availableAIProviders({ ...hosted, CODEX_BRIDGE_TOKEN: undefined }, false), []);
+  assert.deepEqual(availableAIProviders({ ...hosted, CODEX_BRIDGE_URL: 'http://external.example' }, false), []);
+  assert.deepEqual(availableAIProviders({ ...settings, HOST_CODEX_ENABLED: 'false' }, false), []);
+});
+
+test('hosting queues overlapping AI requests without running two Codex processes at once', async () => {
+  let releaseFirst, firstStarted;
+  const started = new Promise(resolve => { firstStarted = resolve; });
+  let active = 0, maximumActive = 0;
+  const bridge = await startCodexBridge({ maxQueue: 2, execute: async payload => {
+    active++; maximumActive = Math.max(maximumActive, active);
+    try {
+      if (payload.id === 1) { firstStarted(); await new Promise(resolve => { releaseFirst = resolve; }); }
+      return { chat: { reply: `answer ${payload.id}` } };
+    } finally { active--; }
+  } });
+  const request = id => fetch(bridge.url + '/chat', { method: 'POST', headers: { authorization: `Bearer ${bridge.token}`, 'content-type': 'application/json' }, body: JSON.stringify({ id }) });
+  try {
+    const first = request(1); await started;
+    const second = request(2), third = request(3);
+    releaseFirst();
+    const responses = await Promise.all([first, second, third]);
+    for (const response of responses) assert.equal(response.status, 200);
+    const answers = await Promise.all(responses.map(response => response.json()));
+    assert.deepEqual(answers.map(answer => answer.chat.reply), ['answer 1', 'answer 2', 'answer 3']);
+    assert.equal(maximumActive, 1);
+  } finally { releaseFirst?.(); await bridge.close(); }
+});
+
 test('Codex uses isolated files, stdin, fixed schema, disabled tools and the same feedback validation', async () => {
   let workdir;
   const request = payload();
@@ -128,8 +162,12 @@ test('bridge authenticates server requests, blocks browser origins and serialize
 });
 
 test('lecturer reading uses its own trusted schema and validates exact source quotations',async()=>{
- const {readingSchema,normalizeReading}=await import('../lib/reading.ts');
- const report={summary:[{text:'The team interviewed students.',evidence:content.what,section:'what'}],thinking:[],learning:[],attention:[],feedback:{strengths:'Concrete context.',development:'Explain the cause.',evidence:content.what,questions:'What changed?',nextSteps:'Check another perspective.'}};
+ const {readingSchema,normalizeReading,readingEvidenceContext}=await import('../lib/reading.ts');
+ const source={...content,what:'Tôi đã hỏi: “Vì sao?”\nSau đó, tôi lắng nghe. Không sửa lời bạn.'};
+ const quotations=JSON.parse(readingEvidenceContext(source).text).evidenceQuotations;
+ assert.ok(quotations.some(quote=>quote.text.includes('“Vì sao?”')));
+ for(const quote of quotations){assert.ok(source[quote.section].includes(quote.text));assert.ok(quote.text.length<=1000);}
+ const report={summary:[{text:'The team interviewed students.',evidence:content.what,section:'what'}],thinking:[],learning:[],attention:[],criteria:['reflectionDepth','evidenceContext','insight','actionPlan'].map(key=>({key,status:'supported',text:'A grounded reading note.',evidence:content.what,section:'what'})),feedback:{strengths:'Concrete context.',development:'Explain the cause.',evidence:content.what,questions:'What changed?',nextSteps:'Check another perspective.'}};
  const result=await executeCodex({...payload(),schema:{malicious:'ignored'}},{mode:'reading',runner:async(_command,args)=>{
   if(args[0]==='login')return {code:0,stdout:'Logged in using ChatGPT',stderr:''};
   assert.deepEqual(JSON.parse(await readFile(args[args.indexOf('--output-schema')+1],'utf8')),readingSchema);

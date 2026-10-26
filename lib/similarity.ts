@@ -13,6 +13,7 @@ export type SimilarityMatch = {
 };
 export type SimilarityReport = {
   checkedAt: string; courseIds: string[]; reflectionId: string | null;
+  studentId?: string | null; week?: number | null;
   documents: number; eligible: number; skipped: number; comparedPairs: number;
   matches: SimilarityMatch[]; matchedPairs: number; versions: {id:string;versionId:string}[];
 };
@@ -72,7 +73,7 @@ function excerpts(left: Indexed,right: Indexed,shared: string[]): SimilarityMatc
 }
 
 /** Text overlap is a review signal. It never changes a grade or establishes plagiarism. */
-export function compareSubmissions(documents: SimilarityDocument[], ignoredTexts: string[] = [], reflectionId?: string) {
+export function compareSubmissions(documents: SimilarityDocument[], ignoredTexts: string[] = [], reflectionId?: string, studentId?: string) {
   const ignored=new Set<string>();
   for(const text of ignoredTexts){const words=tokens(text);for(let i=0;i<=words.length-windowSize;i++)ignored.add(key(words,i));}
   const indexed=documents.map(d=>indexDocument(d,ignored));
@@ -85,6 +86,8 @@ export function compareSubmissions(documents: SimilarityDocument[], ignoredTexts
     const a=list[i],b=list[j],left=eligible[a],right=eligible[b];
     if(left.doc.userId===right.doc.userId)continue;
     if(reflectionId&&left.doc.id!==reflectionId&&right.doc.id!==reflectionId)continue;
+    if(studentId&&left.doc.userId!==studentId&&right.doc.userId!==studentId)continue;
+    if(reflectionId&&studentId&&![left,right].some(d=>d.doc.id===reflectionId&&d.doc.userId===studentId))continue;
     candidates.add(`${a}:${b}`);
   }
   let matches:SimilarityMatch[]=[];let matchedPairs=0;
@@ -103,6 +106,9 @@ export function compareSubmissions(documents: SimilarityDocument[], ignoredTexts
   const authorCounts=new Map<string,number>();
   for(const d of eligible)authorCounts.set(d.doc.userId,(authorCounts.get(d.doc.userId)||0)+1);
   const target=reflectionId?eligible.find(d=>d.doc.id===reflectionId):null;
-  const comparedPairs=reflectionId?(target?eligible.length-(authorCounts.get(target.doc.userId)||0):0):eligible.length*(eligible.length-1)/2-[...authorCounts.values()].reduce((n,c)=>n+c*(c-1)/2,0);
+  const selectedCount=studentId?authorCounts.get(studentId)||0:0;
+  const comparedPairs=reflectionId?(target&&(!studentId||target.doc.userId===studentId)?eligible.length-(authorCounts.get(target.doc.userId)||0):0)
+    :studentId?selectedCount*(eligible.length-selectedCount)
+    :eligible.length*(eligible.length-1)/2-[...authorCounts.values()].reduce((n,c)=>n+c*(c-1)/2,0);
   return {documents:documents.length,eligible:eligible.length,skipped:documents.length-eligible.length,comparedPairs,matches,matchedPairs,versions:documents.map(d=>({id:d.id,versionId:d.versionId}))};
 }

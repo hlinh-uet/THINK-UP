@@ -4,13 +4,6 @@
 .app-shell.student-learning .page-heading p { font-size: 16px; line-height: 1.8; }
 .student-learning .workspace-tabs { gap: 28px; margin-bottom: 28px; }
 .student-learning .workspace-tabs > button { font-size: 16px; }
-.student-learning .learning-summary { margin-top: 24px; border-top: 1px solid var(--line); padding-top: 18px; }
-.student-learning .learning-summary > summary { display: flex; justify-content: space-between; align-items: center; gap: 16px; list-style: none; cursor: pointer; font-size: 15px; font-weight: 500; color: var(--muted); }
-.student-learning .learning-summary > summary::-webkit-details-marker { display: none; }
-.student-learning .learning-summary > summary::after { content: '+'; font-size: 18px; }
-.student-learning .learning-summary[open] > summary::after { content: '−'; }
-.app-shell.student-learning :is(.journey-summary,.progress-summary) :is(.journey-metrics,.progress-metrics) { border-top: 0; margin: 12px 0 0; padding: 0; }
-.student-learning .overview-summary > summary { font-size: 14px; }
 
 /* Containers carry semantics; rules and spacing separate the actual content. */
 .app-shell.student-learning :is(.student-progress,.journey-workspace) .panel { background: transparent; border: 0; border-radius: 0; box-shadow: none; }

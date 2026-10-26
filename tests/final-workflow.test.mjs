@@ -38,7 +38,10 @@ test('final requirements: decimal grading, private drafts, actions, snapshots, r
   await learning(student.cookie,{action:'template-save',courseId:courses[0],title:'Denied',text:'Denied',criterionKey:'all'},403);
   await learning(outside.cookie,{action:'review-draft-save',id:row.id,rev:row.rev,criteria,draftRevision:0},403);
   const template=await learning(teacher.cookie,{action:'template-save',courseId:courses[0],title:'TEST Template',text:'Specific strengths and next steps.',criterionKey:'reflectionDepth'});assert.ok((await state(teacher.cookie)).learningRecords.some(r=>r.id===template.id));assert.ok(!(await state(student.cookie)).learningRecords.some(r=>r.id===template.id));
+  await learning(outside.cookie,{action:'template-remove',id:template.id},404);
   await mutate(owner,{action:'user-save',id:teacher.id,name:teacher.name,email:teacher.email,role:'student',active:1});
+  await learning(teacher.cookie,{action:'template-remove',id:template.id},403);
+  await learning(teacher.cookie,{action:'template-save',courseId:courses[0],title:'Denied',text:'Denied'},403);
   const demoted=await state(teacher.cookie);assert.equal(demoted.learningRecords.filter(r=>r.kind==='review-draft').length,0);assert.equal(demoted.classReflections.length,0);assert.equal(demoted.classActions.length,0);assert.equal(demoted.courses.length,0);
   await mutate(owner,{action:'user-save',id:teacher.id,name:teacher.name,email:teacher.email,role:'lecturer',active:1});
   const grade={action:'review',id:row.id,rev:row.rev,decision:'final',comment:'Final confirmed pedagogical feedback.',criteria,level:3,sourceVersion,rubricVersion:versionKey};
@@ -47,8 +50,10 @@ test('final requirements: decimal grading, private drafts, actions, snapshots, r
   await mutate(teacher.cookie,{...grade,criteria:criteria.map((c,i)=>i===0?{...c,score:2.5}:c)},400);
   await mutate(teacher.cookie,{...grade,criteria:criteria.map((c,i)=>i===0?{...c,evidence:'Fabricated.'}:c)},400);
   for(const language of ['en','vi']){
-   const detail=await page(`/lecturer/submissions/${row.id}`,teacher,language);assert.ok(detail.includes(language==='vi'?'Lưu nháp, chưa gửi':'Save draft without sending'));assert.ok(detail.includes(language==='vi'?'Tự đánh giá của sinh viên':'Student self-assessment'));assert.ok(detail.includes(language==='vi'?'So sánh phiên bản và điểm rubric':'Compare versions and rubric scores'));
-   const progress=await page('/lecturer/progress',teacher,language);assert.ok(progress.includes(language==='vi'?'Báo cáo theo tiêu chí':'Criterion report'));assert.ok(progress.includes(language==='vi'?'Theo dõi kế hoạch hành động':'Action plan monitoring'));
+   const detail=await page(`/lecturer/submissions/${row.id}`,teacher,language);assert.ok(detail.includes(language==='vi'?'Lưu nháp':'Save draft'));assert.ok(detail.includes(language==='vi'?'Tự đánh giá':'Self-assessment'));assert.ok(detail.includes(language==='vi'?'Phiên bản':'Versions'));
+   assert.ok(detail.includes(language==='vi'?'Đánh giá bài viết':'Assess reflection'));assert.ok(detail.includes(language==='vi'?'4/4 tiêu chí':'4/4 criteria'));assert.ok(detail.includes('PRIVATE teacher draft updated'));
+   assert.equal((detail.match(/class="lx-crit is-done/g)||[]).length,4,'Saved criteria restore as complete before final submission.');
+   const progress=await page('/lecturer/progress',teacher,language);assert.ok(progress.includes(language==='vi'?'Chất lượng phản tư':'Reflection quality'));assert.ok(progress.includes(language==='vi'?'Cam kết &amp; hành động':'Commitments &amp; actions'));
    const home=await page('/student',student,language);assert.ok(!home.includes('PRIVATE teacher draft'));
   }
   if(!(await state(teacher.cookie)).aiReady){await learning(teacher.cookie,{action:'reading-analyze',id:row.id,rev:row.rev},503);await mutate(teacher.cookie,{action:'review-analyze',id:row.id,rev:row.rev},503);}
@@ -77,7 +82,30 @@ test('final requirements: decimal grading, private drafts, actions, snapshots, r
   await call('/api/learning',student.cookie,null,403);await learning(teacher.cookie,{action:'retention-save',days:365,policy:'Denied'},403);
   await learning(owner,{action:'retention-save',days:365,policy:'TEST retain then review; no automatic deletion.'});await learning(owner,{action:'incident-save',summary:'TEST incident',response:'TEST reviewed access logs; responsible: test admin.',status:'closed'});
   const governance=await call('/api/learning',owner);assert.ok(governance.audit.some(a=>a.action==='action-save'));assert.ok(governance.audit.some(a=>a.action==='Final'));assert.ok(governance.incidents.some(i=>i.payload.summary==='TEST incident'));
+  const incident=governance.incidents.find(i=>i.payload.summary==='TEST incident');
+  await learning(owner,{action:'incident-save',id:incident.id,revision:incident.revision,summary:'TEST incident updated',response:'TEST follow-up completed.',status:'open'});
+  await learning(owner,{action:'incident-save',id:incident.id,revision:incident.revision,summary:'Stale edit',response:'Stale',status:'closed'},409);
+  const changedIncident=(await call('/api/learning',owner)).incidents.find(i=>i.id===incident.id);
+  await learning(owner,{action:'incident-save',id:incident.id,revision:changedIncident.revision,summary:changedIncident.payload.summary,response:changedIncident.payload.response,status:'closed'});
+  assert.equal((await call('/api/learning',owner)).incidents.find(i=>i.id===incident.id).payload.status,'closed');
+  const fullAdmin=await state(owner),lightSettings=await call('/api/thinkup?adminSection=settings',owner),lightUsers=await call('/api/thinkup?adminSection=users',owner),lightCoursesList=await call('/api/thinkup?adminSection=courses',owner);
+  for(const light of [lightSettings,lightUsers,lightCoursesList]){assert.equal(light.user.role,'admin');assert.deepEqual(light.classReflections,[]);assert.deepEqual(light.reflections,[]);assert.equal(light.adminSummary,undefined)}
+  assert.deepEqual(lightSettings.users,[]);assert.deepEqual(lightSettings.courses,[]);
+  assert.ok(JSON.stringify(lightSettings).length<JSON.stringify(fullAdmin).length/10,'Settings never carry reflection content or AI histories.');
+  assert.deepEqual(lightUsers.users.map(u=>u.id).sort(),fullAdmin.users.map(u=>u.id).sort());
+  assert.deepEqual(lightUsers.memberships,fullAdmin.memberships);
+  const studentLight=await call('/api/thinkup?adminSection=settings',student.cookie);assert.equal(studentLight.aiConfig,undefined);assert.equal(studentLight.adminSummary,undefined);assert.ok(studentLight.reflections.every(r=>r.userId===student.id));
+  const lightCourses=await call(`/api/thinkup?adminSection=courses&course=${courses[0]}`,owner);
+  assert.ok(lightCourses.learningRecords.filter(r=>r.kind==='course-history').every(r=>r.courseId===courses[0]));assert.ok(lightCourses.learningRecords.some(r=>r.kind==='course-history'));
+  assert.equal(lightSettings.aiConfig,undefined);
+  await learning(owner,{action:'ai-settings-save',enabled:false,defaultProvider:'auto'},400);
+  const membership=(await state(owner)).memberships.find(m=>m.userId===teacher.id&&m.courseId===courses[0]);
+  await mutate(owner,{action:'membership-remove',id:membership.id});
+  await learning(teacher.cookie,{action:'template-remove',id:template.id},403);
+  await mutate(owner,{action:'invite',email:teacher.email,name:teacher.name,role:'lecturer',courseId:courses[0]});
+  assert.ok((await state(teacher.cookie)).learningRecords.some(r=>r.id===template.id));
   await learning(teacher.cookie,{action:'template-remove',id:template.id});
+  assert.ok(!(await state(teacher.cookie)).learningRecords.some(r=>r.id===template.id));
   const legacyAfter=(await state(owner)).classReflections.filter(r=>r.id.startsWith('demo-')).map(r=>({id:r.id,reviews:r.reviews,analyses:r.analyses}));assert.deepEqual(legacyAfter,legacyBefore);
   for(const path of ['/student','/lecturer/submissions','/admin/courses']){const r=await fetch(root+path);assert.equal(new URL(r.url).pathname,'/login');}
   console.log('Verified decimal scores, private review drafts, class-scoped actions, historical grades, all roles and new VN/EN screens.');

@@ -131,9 +131,11 @@ test('the editor has one free-form body, visible AI sidebar and optional evidenc
   const html=renderToStaticMarkup(createElement(StudentEditor,props));
   assert.ok(html.includes('free-writing-grid'));
   assert.ok(!/<aside[^>]+id="writing-support"[^>]+hidden/.test(html));
-  assert.equal((html.match(/<textarea/g)||[]).length,1);
-  assert.ok(html.includes('id="reflection-body"'));
+  assert.equal((html.match(/<textarea/g)||[]).length,0,'A written reflection opens in full for reading');
   for(const text of Object.values(fullContent))assert.ok(html.includes(text));
+  assert.ok(/<button[^>]*class="button writing-edit-toggle"[^>]*aria-pressed="false"[^>]*>.*?Edit<\/button>/.test(html));
+  const blank=renderToStaticMarkup(createElement(StudentEditor,{...props,draft:{...props.draft,content:{...emptyContent}}}));
+  assert.equal((blank.match(/<textarea/g)||[]).length,1,'An empty draft opens ready to write');assert.ok(blank.includes('id="reflection-body"'));
   assert.ok(html.includes('Coach content'));
   assert.ok(html.includes('Your reflection companion')&&!html.includes('Chat with AI'));
   assert.ok(!html.includes('writing-tab-')&&!html.includes('/4'));
@@ -144,11 +146,13 @@ test('the editor has one free-form body, visible AI sidebar and optional evidenc
 test('read-only submissions remain readable and busy operations disable input changes',()=>{
   for(const status of ['submitted','final']){
     const html=renderToStaticMarkup(createElement(StudentEditor,{...props,draft:{...props.draft,status}}));
-    const inputs=html.match(/<textarea\b[^>]*>/g);assert.equal(inputs.length,1);assert.ok(inputs.every(tag=>tag.includes('readOnly')));
+    assert.equal((html.match(/<textarea\b[^>]*>/g)||[]).length,0);for(const text of Object.values(fullContent))assert.ok(html.includes(text));
+    assert.ok(/<button[^>]*class="button writing-edit-toggle"[^>]*disabled=""/.test(html),'Locked reflections cannot be edited');
     assert.ok(/<input\b[^>]+id="reflection-title"[^>]+disabled/.test(html));
   }
-  const html=renderToStaticMarkup(createElement(StudentEditor,{...props,busy:'feedback'}));
+  const html=renderToStaticMarkup(createElement(StudentEditor,{...props,busy:'feedback',draft:{...props.draft,content:{...emptyContent}}}));
   assert.ok((html.match(/<textarea\b[^>]*>/g)).every(tag=>tag.includes('disabled')));
+  assert.ok(/<button[^>]*class="button writing-edit-toggle[^"]*"[^>]*disabled=""/.test(html));
 });
 
 test('Coach and Feedback keep all four guidance groups and require explicit confirmation for suggested actions',()=>{

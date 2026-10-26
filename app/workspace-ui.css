@@ -1,0 +1,183 @@
+/* Shared student design language for student, lecturer and admin workspaces. */
+.app-shell.rail-workspace {
+ /* One palette for every signed-in role: charcoal, cream and butter yellow. */
+ --content-ink: #253449; --content-text: #405069; --content-muted: #5d6b7d; --content-accent: #4b607b; --content-rail-text: #c4cbd4; --status-good: #2d7448;
+ --paper: #f7f6f2; --surface: #fff; --surface-soft: #f1efe9;
+ --ink: #22211f; --text: var(--ink); --muted: #6d6a63; --faint: #aba79e; --line: #e8e5dd;
+ --hl: #e8c766; --hl-deep: #86681a; --hl-soft: #fbf4dc; --hl-line: #eedc9f; --hl-ink: #22211f;
+ --primary: #2a2927; --primary-hover: #3b3a37; --primary-text: #fbfaf6;
+ --done-bg: #efe9d4; --done-text: #5c4a17;
+ --rail-bg: #21201e; --rail-2: #2d2c29; --rail-line: #383733; --rail-text: #b9b5ab; --rail-strong: #f7f5ef;
+ --rail-active-bg: #f1dc94; --rail-active-text: #21201e; --brand-accent: #ecd486;
+ --hero-bg: var(--surface);
+ --hero-title: #22211f; --hero-sub: #6d6a63; --hero-label: #86681a; --hero-btn-bg: #2a2927; --hero-btn-text: #fbfaf6;
+ --own-bubble: #fbf4dc; --other-bubble: #f1efe9;
+ --note-draft: #d8d5cd; --note-submitted: #a3afc2; --note-returned: #dba878; --note-final: #a9bf9f;
+ --warn: #b0542e; --warn-soft: #f8ebe2;
+ --accent: var(--hl-deep); --accent-hover: var(--hl-deep); --accent-soft: var(--hl-soft); --accent-line: var(--hl-line);
+ --workspace-nav-width: 228px; --workspace-header-height: 72px;
+ --radius: 16px; --gap: 20px;
+ --purple: var(--accent); --light-purple: var(--accent-soft);
+ --ease: cubic-bezier(.22,.61,.36,1); --shadow: 0 1px 2px #22211f0a;
+ --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+ --font-display: var(--font-sans);
+ font-family: var(--font-sans); background: var(--paper); color: var(--ink); font-size: 15px; letter-spacing: -.01em;
+}
+
+/* ───────── Shell: one full-height rail (brand · course · pages · account) ───────── */
+@media (min-width: 1001px) {
+ .app-shell.rail-workspace > .sidebar { position: fixed; inset: 0 auto auto 0; width: var(--workspace-nav-width); height: var(--workspace-header-height); padding: 0; border: 0; border-right: 1px solid var(--line); background: var(--paper); overflow: visible; z-index: 46; }
+ .rail-workspace .workspace-header.has-side-navigation { height: 100%; min-height: 0; padding: 22px 22px 0; }
+ .app-shell.rail-workspace .workspace-header .brand { font-size: 25px; letter-spacing: -1.2px; }
+ .rail-workspace .workspace-header-actions { position: fixed; left: 0; bottom: 0; z-index: 46; display: flex; flex-direction: row-reverse; align-items: center; justify-content: space-between; width: var(--workspace-nav-width); margin: 0; padding: 12px 14px 14px 12px; border-top: 1px solid var(--line); border-right: 1px solid var(--line); background: var(--paper); }
+ .rail-workspace .workspace-preferences { gap: 2px; }
+ .rail-workspace .workspace-header .help-button { width: 36px; height: 36px; }
+ .rail-workspace .language-picker .language-trigger { width: 40px; height: 36px; }
+ .rail-workspace .account-dropdown { top: auto; bottom: calc(100% + 10px); left: 0; right: auto; }
+ .rail-workspace .language-menu { top: auto; bottom: calc(100% + 10px); }
+ .rail-workspace .workspace-side-navigation { top: 0; padding: calc(var(--workspace-header-height) + 8px) 14px 84px; border-right: 1px solid var(--line); background: var(--paper); }
+ .app-shell.rail-workspace .main-shell { margin-left: var(--workspace-nav-width); }
+}
+.rail-workspace .workspace-sidebar-controls { margin: 0 0 16px; padding: 0 0 16px; border-bottom: 1px solid var(--line); }
+.rail-workspace .workspace-side-navigation nav { gap: 2px; }
+.app-shell.rail-workspace .workspace-side-navigation nav a { min-height: 42px; padding: 9px 12px; border: 0; border-radius: 10px; color: var(--muted); font-size: 14px; }
+.app-shell.rail-workspace .workspace-side-navigation nav a:hover { background: var(--surface-soft); color: var(--ink); }
+.app-shell.rail-workspace .workspace-side-navigation nav a.active { background: var(--accent-soft); color: var(--accent-hover); }
+.app-shell.rail-workspace .workspace-side-navigation nav a.active > span:not(.nav-count) { font-weight: 600; }
+.app-shell.rail-workspace .workspace-side-navigation nav a:last-child { margin-top: 18px; }
+.app-shell.rail-workspace .workspace-side-navigation nav a:last-child::before { top: -10px; }
+.app-shell.rail-workspace .main-shell > main { max-width: 1360px; margin-inline: auto; padding: 40px clamp(28px, 3.5vw, 56px) 64px; }
+.app-shell.rail-workspace .main-shell > main:has(.student-writing-workspace,.chat-layout) { max-width: 1600px; padding-top: 28px; }
+.app-shell.rail-workspace .workspace-footer { display: none; }
+
+/* Page titles and controls */
+.student-page-title { display: flex; align-items: center; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; margin: 0 0 24px; }
+.student-page-title > div { min-width: 0; }
+.app-shell.rail-workspace .student-page-title h1 { margin: 0; font-family: var(--font-sans); font-size: 28px; font-weight: 700; line-height: 1.25; letter-spacing: -.6px; color: var(--ink); }
+.student-page-title-actions { display: flex; align-items: center; gap: 10px; }
+.app-shell.rail-workspace :is(.space-section-head,.library-week-group,.journey-section-heading,.student-progress section,.profile-section-head) :is(h2,h3) { margin: 0; font-family: var(--font-sans); font-size: 16px; font-weight: 600; line-height: 1.4; letter-spacing: -.2px; color: var(--ink); }
+.app-shell.rail-workspace .button { min-height: 40px; padding: 8px 16px; border-radius: 10px; font-size: 14px; font-weight: 600; }
+.app-shell.rail-workspace .button:not(.primary) { background: var(--surface); border-color: var(--line); color: var(--ink); }
+.app-shell.rail-workspace .button:not(.primary):hover:not(:disabled) { background: var(--hl-soft); border-color: var(--accent-line); }
+.app-shell.rail-workspace .button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.app-shell.rail-workspace .button.primary:hover:not(:disabled) { background: var(--accent-hover); border-color: var(--accent-hover); }
+.app-shell.rail-workspace .text-button { color: var(--accent); font-size: 14px; font-weight: 500; }
+.rail-workspace .badge { flex-shrink: 0; padding: 2px 10px; border-radius: 99px; font-size: 12px; font-weight: 500; line-height: 1.6; white-space: nowrap; }
+.rail-workspace .badge.draft { background: #efeef3; color: #625f6c; }
+.rail-workspace .badge.submitted { background: #ecf0f8; color: #4b6188; }
+.rail-workspace .badge.returned { background: var(--warn-soft); color: var(--warn); }
+.rail-workspace .badge.final { background: #e9f3ec; color: #3d7352; }
+.app-shell.rail-workspace .workspace-tabs { gap: 24px; margin: 0 0 20px; border-bottom: 1px solid #e6e1e5; }
+.app-shell.rail-workspace .workspace-tabs > button { padding: 0 0 11px; margin-bottom: -1px; border-bottom: 2px solid transparent; color: var(--muted); font-size: 14px; font-weight: 500; }
+.app-shell.rail-workspace .workspace-tabs > button:hover { color: var(--ink); }
+.app-shell.rail-workspace .workspace-tabs > button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+.app-shell.rail-workspace .sr-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ───────── Profile ───────── */
+.app-shell.rail-workspace .profile-page-grid { display: grid; grid-template-columns: minmax(0,1.4fr) minmax(300px,1fr); gap: var(--gap); align-items: start; }
+.app-shell.rail-workspace .profile-hero { display: flex; align-items: center; gap: 20px; padding-bottom: 22px; margin-bottom: 22px; border-bottom: 1px solid var(--line); }
+.app-shell.rail-workspace .profile-hero .profile-portrait { width: 80px; height: 80px; border-radius: 50%; font-size: 28px; font-weight: 600; flex-shrink: 0; }
+.app-shell.rail-workspace .profile-hero h2 { margin: 0; font-family: var(--font-sans); font-size: 20px; font-weight: 700; letter-spacing: -.3px; line-height: 1.3; }
+.app-shell.rail-workspace .profile-hero-meta { margin-top: 2px; font-size: 14px; }
+.app-shell.rail-workspace .profile-avatar-controls { display: flex; align-items: center; gap: 14px; padding: 0; margin-top: 12px; border: 0; }
+.app-shell.rail-workspace .profile-avatar-controls .button { min-height: 34px; padding: 5px 12px; font-size: 13px; cursor: pointer; }
+.app-shell.rail-workspace .profile-avatar-controls .text-button { font-size: 13px; color: var(--muted); }
+.app-shell.rail-workspace .profile-form-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 20px; }
+.app-shell.rail-workspace .profile-form-fields .profile-bio { grid-column: 1 / -1; }
+.app-shell.rail-workspace .profile-form-fields .field { gap: 6px; margin: 0; color: var(--ink); font-size: 14px; font-weight: 600; }
+.app-shell.rail-workspace .profile-form-fields :is(input,textarea) { min-height: 44px; padding: 10px 13px; border: 1px solid var(--line); border-radius: 10px; background: #fafafc; font-size: 15px; font-weight: 400; }
+.app-shell.rail-workspace .profile-form-fields textarea { min-height: 120px; line-height: 1.6; }
+.app-shell.rail-workspace .profile-save-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+.app-shell.rail-workspace .profile-save-row > span { color: var(--muted); font-size: 13px; }
+.app-shell.rail-workspace .profile-account-column { display: grid; gap: var(--gap); }
+.app-shell.rail-workspace .profile-section-head { margin-bottom: 4px; }
+.app-shell.rail-workspace .profile-managed-label { padding: 2px 10px; border-radius: 99px; background: #efeef3; color: var(--muted); font-size: 12px; }
+.app-shell.rail-workspace .profile-course-count { color: var(--faint); font-size: 14px; }
+.app-shell.rail-workspace .profile-readonly-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.app-shell.rail-workspace .profile-readonly-row > span:first-child { color: var(--muted); }
+.app-shell.rail-workspace .profile-readonly-row > b { font-weight: 500; }
+.app-shell.rail-workspace .profile-email-row input { min-height: 0; padding: 0; border: 0; background: transparent; box-shadow: none; font-size: 14px; color: var(--ink); cursor: default; }
+.app-shell.rail-workspace .profile-contact { margin-top: 12px; }
+.app-shell.rail-workspace .profile-course { padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.app-shell.rail-workspace .profile-course > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app-shell.rail-workspace .profile-course > small { color: var(--faint); font-size: 12px; }
+
+/* ───────── Theme: components read the palette variables only ───────── */
+.app-shell.rail-workspace > .sidebar,
+.app-shell.rail-workspace .workspace-side-navigation,
+.app-shell.rail-workspace .workspace-header-actions { background: var(--rail-bg); border-color: var(--rail-line); }
+@media (min-width: 1001px) {
+ .app-shell.rail-workspace > .sidebar,
+ .rail-workspace .workspace-header-actions,
+ .rail-workspace .workspace-side-navigation { background: var(--rail-bg); border-color: var(--rail-line); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+.app-shell.rail-workspace .workspace-header .brand { color: var(--rail-strong); }
+.app-shell.rail-workspace .workspace-header .brand span { color: var(--brand-accent); }
+.app-shell.rail-workspace .workspace-sidebar-controls { border-color: var(--rail-line); }
+.app-shell.rail-workspace .workspace-side-navigation .course-picker-trigger { border-color: var(--rail-line); background: var(--rail-2); color: var(--rail-strong); }
+.app-shell.rail-workspace .workspace-side-navigation .course-picker-trigger > .ui-icon { color: var(--brand-accent); }
+.app-shell.rail-workspace .workspace-side-navigation nav a { color: var(--rail-text); }
+.app-shell.rail-workspace .workspace-side-navigation nav a:hover { background: var(--rail-2); color: var(--rail-strong); }
+.app-shell.rail-workspace .workspace-side-navigation nav a.active { background: var(--rail-active-bg); color: var(--rail-active-text); }
+.app-shell.rail-workspace .workspace-side-navigation nav a:last-child::before { border-color: var(--rail-line); }
+.app-shell.rail-workspace .workspace-side-navigation .nav-count { background: var(--hl); color: var(--hl-ink); }
+.app-shell.rail-workspace .workspace-header :is(.help-button,.language-trigger,.account-trigger) { color: var(--rail-text); }
+.app-shell.rail-workspace .workspace-header :is(.help-button,.language-trigger):hover,
+.app-shell.rail-workspace .workspace-header .account-trigger:hover,
+.app-shell.rail-workspace .workspace-header .account-trigger.is-open { background: var(--rail-2); border-color: var(--rail-line); color: var(--rail-strong); }
+.app-shell.rail-workspace .workspace-header .avatar { background: var(--hl); color: var(--hl-ink); font-weight: 700; }
+.app-shell.rail-workspace .workspace-header .account-dropdown .avatar { background: var(--hl-soft); color: var(--ink); }
+.app-shell.rail-workspace .workspace-header :is(.account-dropdown,.language-menu) { background: var(--surface); border-color: var(--line); }
+.app-shell.rail-workspace .course-option-icon { background: var(--hl-soft); border-color: var(--hl-line); color: var(--ink); }
+@media (max-width: 1000px) {
+ .app-shell.rail-workspace .workspace-side-navigation nav a.active { background: var(--rail-active-bg); color: var(--rail-active-text); }
+}
+
+/* Actions, links, tabs and states */
+.app-shell.rail-workspace ::selection { background: var(--hl-line); color: var(--ink); }
+.app-shell.rail-workspace :is(a,button,input,textarea,select,summary):focus-visible { outline-color: var(--hl); }
+.app-shell.rail-workspace .button.primary { background: var(--primary); border-color: var(--primary); color: var(--primary-text); box-shadow: 0 1px 2px #0000001f; }
+.app-shell.rail-workspace .button.primary:hover:not(:disabled) { background: var(--primary-hover); border-color: var(--primary-hover); box-shadow: 0 8px 18px #0000001f; }
+.app-shell.rail-workspace .button.primary:disabled { background: var(--line); border-color: var(--line); color: var(--muted); opacity: 1; }
+.app-shell.rail-workspace .button:not(.primary):hover:not(:disabled) { background: var(--hl-soft); border-color: var(--hl-line); }
+.app-shell.rail-workspace .text-button { color: var(--hl-deep); font-weight: 600; }
+.app-shell.rail-workspace .text-button:hover:not(:disabled) { color: var(--hl-deep); text-decoration: underline; text-decoration-color: var(--hl-line); text-decoration-thickness: 2px; text-underline-offset: 5px; }
+.app-shell.rail-workspace :is(.workspace-tabs > button,.library-filters > button)::after { height: 3px; background: var(--hl); }
+.rail-workspace .badge.draft { background: #eeefeb; color: #66706a; }
+.rail-workspace .badge.submitted { background: #e5ecf5; color: #3c5c86; }
+.rail-workspace .badge.returned { background: var(--warn-soft); color: var(--warn); }
+.rail-workspace .badge.final { background: #e1efe4; color: #2d7448; }
+.rail-workspace .badge:not(.draft):not(.submitted):not(.returned):not(.final) { background: #eeefeb; border-color: transparent; color: var(--muted); }
+
+/* Dropdowns and form focus follow the same palette as the rail. */
+.app-shell.rail-workspace .course-picker-trigger:hover:not(:disabled),
+.app-shell.rail-workspace .course-picker-trigger[aria-expanded="true"] { background: var(--rail-2); border-color: var(--brand-accent); color: var(--rail-strong); box-shadow: none; }
+.app-shell.rail-workspace .course-picker-menu { border-color: var(--line); background: var(--surface); }
+.app-shell.rail-workspace .course-picker-option:hover,
+.app-shell.rail-workspace .course-picker-option:focus-visible { background: var(--hl-soft); }
+.app-shell.rail-workspace .course-picker-option:focus-visible { box-shadow: inset 0 0 0 2px var(--hl); }
+.app-shell.rail-workspace .course-picker-option[aria-checked="true"] .course-option-icon { background: var(--hl-soft); border-color: var(--hl-line); color: var(--hl-deep); }
+.app-shell.rail-workspace .account-trigger .avatar { background: var(--hl); color: var(--hl-ink); }
+.app-shell.rail-workspace .account-menu-item:hover,
+.app-shell.rail-workspace .account-menu-item:focus-visible,
+.app-shell.rail-workspace .account-menu-item[aria-current="page"] { background: var(--hl-soft); color: var(--hl-deep); }
+.app-shell.rail-workspace :is(.field,.toolbar) :is(input,textarea,select):focus { border-color: var(--hl); box-shadow: 0 0 0 3px var(--hl-soft); }
+.app-shell.rail-workspace .button.dark { background: var(--primary); border-color: var(--primary); color: var(--primary-text); }
+.app-shell.rail-workspace .button.dark:hover:not(:disabled) { background: var(--primary-hover); border-color: var(--primary-hover); }
+.app-shell.rail-workspace .student-page-title p { margin: 6px 0 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.app-shell.rail-workspace .profile-edit-card { padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); }
+.app-shell.rail-workspace .profile-form-fields :is(input,textarea) { background: var(--surface-soft); }
+.app-shell.rail-workspace .profile-managed-label { background: var(--surface-soft); }
+
+@media (max-width: 1000px) {
+ .app-shell.rail-workspace .main-shell { margin-left: 0; }
+ .app-shell.rail-workspace .main-shell > main { padding: 28px 24px 40px; }
+}
+@media (max-width: 760px) {
+ .app-shell.rail-workspace .main-shell > main { padding: 24px 18px 32px; }
+ .app-shell.rail-workspace .student-page-title h1 { font-size: 25px; }
+ .app-shell.rail-workspace .profile-page-grid { grid-template-columns: minmax(0,1fr); }
+ .app-shell.rail-workspace .profile-form-fields { grid-template-columns: minmax(0,1fr); }
+ .app-shell.rail-workspace .profile-edit-card { padding: 18px; }
+ .app-shell.rail-workspace .profile-save-row { flex-wrap: wrap; }
+}

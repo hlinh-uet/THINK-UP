@@ -1,8 +1,9 @@
-import {all,one,prepare,database,session,reflection,course,configFor,assertAdmin,AppError,str,id,now,log,isLocal} from './server';
+import {all,one,prepare,database,session,reflection,course,configFor,assertAdmin,AppError,str,id,now,log,isLocal,assertPermission} from './server';
 import {records,recordInsert} from './learning-store';
 import {validateAssessment,rubricVersion} from './assessment';
 import {readWithAI} from './reading-ai';
 import {totalScore,type User} from './domain';
+import {actionPermission,normalizePermissionPolicy,validateRolePermissions} from './permissions';
 
 export function assertStudent(user:User){if(user.role!=='student')throw new AppError('Thao tác này dành cho sinh viên.',403);}
 export async function checkedAssessment(_user:User,row:Record<string,unknown>,value:unknown){
@@ -21,7 +22,7 @@ async function saveRecord(recordId:string,kind:string,user:User,row:Record<strin
  return revision+1;
 }
 export async function saveAction(user:User,body:Record<string,unknown>){
- assertStudent(user);
+ assertStudent(user);assertPermission(user,'actions.manage');
  const actionId=body.id?str(body.id,100,true):id();
  const prior=body.id?await one<Record<string,unknown>>('SELECT * FROM actions WHERE id=? AND user_id=?',actionId,user.id):null;
  if(body.id&&!prior)throw new AppError('Không tìm thấy cam kết.',404);
@@ -53,11 +54,21 @@ export async function saveAction(user:User,body:Record<string,unknown>){
 }
 export async function learningAction(request:Request,user:User,body:Record<string,unknown>){
  const action=body.action;
+ const permission=actionPermission(action,user.role);if(permission)assertPermission(user,permission);
+ if(action==='permissions-save'){
+  assertAdmin(user);let roles;try{roles=validateRolePermissions(body.roles)}catch(e){throw new AppError(e instanceof Error?e.message:'Cấu hình phân quyền chưa hợp lệ.')}
+  const prior=await one<{value:string}>("SELECT value FROM settings WHERE key='role-permissions'"),policy=normalizePermissionPolicy(prior?JSON.parse(prior.value):undefined);
+  if(body.revision!==policy.revision)throw new AppError('Phân quyền đã thay đổi ở phiên khác. Tải lại trước khi lưu.',409);
+  const next={revision:policy.revision+1,roles},value=JSON.stringify(next);
+  const saved=await prepare("INSERT INTO settings (key,value) VALUES ('role-permissions',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value WHERE settings.value=?",value,prior?.value??'').run();
+  if(saved.meta.changes!==1)throw new AppError('Phân quyền đã thay đổi ở phiên khác. Tải lại trước khi lưu.',409);
+  await log(user,'permissions-save','system',{before:policy.roles,after:roles});return {ok:true,policy:next};
+ }
  if(action==='reading-analyze'){
   const row=await reflection(user,str(body.id,100,true),'review');
   if(!['submitted','final'].includes(String(row.status))||body.rev!==row.rev)throw new AppError('Bài đã thay đổi hoặc đang chỉnh sửa. Tải lại trước khi phân tích.',409);
   const rubric=await configFor(row),output=await readWithAI(user.id,String(row.id),String(row.title),JSON.parse(String(row.content_json)),rubric,body.language==='vi'?'vi':'en',body.includeAttachments===true,{local:isLocal(request),provider:body.aiProvider});
-  const live=(await session(request))!,latest=await reflection(live,String(row.id),'review');if(latest.rev!==row.rev)throw new AppError('Bài đã thay đổi. Phân tích chưa được lưu.',409);
+  const live=(await session(request))!;assertPermission(live,live.role==='admin'?'courses.manage':'ai.use');const latest=await reflection(live,String(row.id),'review');if(latest.rev!==row.rev)throw new AppError('Bài đã thay đổi. Phân tích chưa được lưu.',409);
   const reportId=id(),stamp=now();
   const saved=await prepare("INSERT INTO learning_records (id,kind,owner_id,reflection_id,course_id,version_id,payload_json,revision,created_at,updated_at) SELECT ?,'reading',?,id,course_id,latest_version,?,1,?,? FROM reflections WHERE id=? AND rev=? AND status IN ('submitted','final')",reportId,user.id,JSON.stringify({...output,rubricVersion:rubricVersion(rubric),includeAttachments:body.includeAttachments===true}),stamp,stamp,row.id,row.rev).run();
   if(saved.meta.changes!==1)throw new AppError('Bài đã thay đổi. Phân tích chưa được lưu.',409);
@@ -78,7 +89,12 @@ export async function learningAction(request:Request,user:User,body:Record<strin
   const recordId=id();await recordInsert(recordId,'feedback-template',user.id,null,courseId,null,{criterionKey,title,text}).run();await log(user,'template-save',recordId);return {id:recordId};
  }
  if(action==='template-remove'){
-  const recordId=str(body.id,100,true);const result=await prepare("DELETE FROM learning_records WHERE id=? AND kind='feedback-template' AND owner_id=?",recordId,user.id).run();if(!result.meta.changes)throw new AppError('Không tìm thấy mẫu nhận xét.',404);await log(user,'template-remove',recordId);return {ok:true};
+  if(!['lecturer','admin'].includes(user.role))throw new AppError('Cần quyền giảng viên hoặc quản trị viên.',403);
+  const recordId=str(body.id,100,true);
+  const template=(await records("SELECT * FROM learning_records WHERE id=? AND kind='feedback-template' AND owner_id=?",recordId,user.id))[0];
+  if(!template?.courseId)throw new AppError('Không tìm thấy mẫu nhận xét.',404);
+  await course(user,template.courseId,true);
+  const result=await prepare("DELETE FROM learning_records WHERE id=? AND kind='feedback-template' AND owner_id=?",recordId,user.id).run();if(!result.meta.changes)throw new AppError('Không tìm thấy mẫu nhận xét.',404);await log(user,'template-remove',recordId);return {ok:true};
  }
  if(action==='self-assess'){
   assertStudent(user);const row=await reflection(user,str(body.id,100,true),'write');if(body.rev!==row.rev)throw new AppError('Lưu phiên bản mới nhất trước khi tự đánh giá.',409);
@@ -105,9 +121,13 @@ export async function learningAction(request:Request,user:User,body:Record<strin
 }
 export async function learningState(user:User,mode:string){
  if(mode==='archives'){
+  if(user.role==='admin')assertPermission(user,'courses.manage');
   const archived=await all(`SELECT r.id,r.title,r.week,r.status,l.created_at FROM learning_records l JOIN reflections r ON r.id=l.reflection_id WHERE l.kind='archive' ${user.role==='admin'?'':'AND r.user_id=?'} ORDER BY l.created_at DESC`,...(user.role==='admin'?[]:[user.id]));return {archived};
  }
  assertAdmin(user);
- const [audit,incidents,retention]=await Promise.all([all('SELECT id,user_id,action,target_id,detail,created_at FROM audit ORDER BY created_at DESC,rowid DESC LIMIT 200'),records("SELECT * FROM learning_records WHERE kind='incident' ORDER BY created_at DESC LIMIT 100"),one<{value:string}>("SELECT value FROM settings WHERE key='retention'")]);
+ if(mode==='permissions'){assertPermission(user,'permissions.manage');const stored=await one<{value:string}>("SELECT value FROM settings WHERE key='role-permissions'");return normalizePermissionPolicy(stored?JSON.parse(stored.value):undefined)}
+ assertPermission(user,'audit.read');
+ if(mode==='audit'){const audit=await all(`SELECT a.id,a.user_id,a.action,a.target_id,a.created_at,actor.name AS actor_name,COALESCE(target_user.name,target_reflection.title,target_course.code,'') AS target_label FROM audit a LEFT JOIN users actor ON actor.id=a.user_id LEFT JOIN users target_user ON target_user.id=a.target_id LEFT JOIN reflections target_reflection ON target_reflection.id=a.target_id LEFT JOIN courses target_course ON target_course.id=a.target_id ORDER BY a.created_at DESC,a.rowid DESC LIMIT 200`);return {audit}}
+ const [audit,incidents,retention]=await Promise.all([all(`SELECT a.id,a.user_id,a.action,a.target_id,a.detail,a.created_at,actor.name AS actor_name,COALESCE(target_user.name,target_reflection.title,target_course.code,'') AS target_label FROM audit a LEFT JOIN users actor ON actor.id=a.user_id LEFT JOIN users target_user ON target_user.id=a.target_id LEFT JOIN reflections target_reflection ON target_reflection.id=a.target_id LEFT JOIN courses target_course ON target_course.id=a.target_id ORDER BY a.created_at DESC,a.rowid DESC LIMIT 200`),records("SELECT * FROM learning_records WHERE kind='incident' ORDER BY created_at DESC LIMIT 100"),one<{value:string}>("SELECT value FROM settings WHERE key='retention'")]);
  return {audit,incidents,retention:retention?JSON.parse(retention.value):{days:365,policy:'Lưu hồ sơ trong 365 ngày sau khi kết thúc học phần; rà soát trước khi xóa. Lưu trữ có thể khôi phục, không tự xóa dữ liệu.'}};
 }

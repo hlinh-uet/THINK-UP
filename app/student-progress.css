@@ -1,14 +1,6 @@
 /* Personal learning progress, using the workspace's existing palette. */
 .student-progress { min-width: 0; }
 .student-progress .progress-export { gap: 9px; }
-.student-progress .progress-metrics { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 16px; margin-bottom: 24px; }
-.student-progress .progress-metric { padding: 20px 22px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; min-width: 0; }
-.progress-metric-label { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 13px; color: var(--muted); }
-.progress-metric-label svg { flex-shrink: 0; color: var(--accent); opacity: .8; }
-.progress-metric-value { display: flex; align-items: baseline; gap: 7px; margin-top: 12px; }
-.progress-metric-value b { font-size: 32px; line-height: 1.25; font-weight: 650; letter-spacing: -1px; color: var(--ink); font-variant-numeric: tabular-nums; }
-.progress-metric-value > span { color: var(--muted); font-size: 13px; }
-.progress-metric p { font-size: 13px; color: var(--muted); margin: 8px 0 0; line-height: 1.7; }
 .student-progress .workspace-tabs { gap: 28px; margin-bottom: 24px; }
 .personal-progress-grid { display: grid; grid-template-columns: minmax(0,1.85fr) minmax(280px,1fr); gap: 20px; align-items: stretch; }
 .app-shell .student-progress .panel { padding: 24px; border-radius: 18px; }
@@ -100,26 +92,14 @@
 @media (max-width: 1200px) {
  .personal-progress-grid { grid-template-columns: minmax(0,1fr) minmax(250px,.8fr); }
  .progress-bottom-grid { grid-template-columns: minmax(0,1fr); }
- .student-progress .progress-metric { padding: 18px; }
- .progress-metric-label { font-size: 13px; }
- .progress-metric-label svg { display: none; }
  .progress-chart-card .progress-card-heading { flex-direction: column; gap: 6px; }
 }
 @media (max-width: 1000px) {
  .personal-progress-grid { grid-template-columns: minmax(0,1fr); }
- .student-progress .progress-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); }
- .progress-metric-label svg { display: block; }
  .progress-chart-card .progress-card-heading { flex-direction: row; }
 }
 @media (max-width: 760px) {
  .app-shell .student-progress .panel { padding: 20px; }
- .student-progress .progress-metrics { gap: 12px; margin-bottom: 20px; }
- .student-progress .progress-metric { padding: 16px; }
- .progress-metric-label { align-items: flex-start; font-size: 13px; }
- .progress-metric-label svg { width: 15px; height: 15px; }
- .progress-metric-value b { font-size: 28px; }
- .progress-metric p { font-size: 13px; }
- .progress-metric-value > span { font-size: 13px; }
  .student-progress .workspace-tabs { gap: 24px; margin-bottom: 20px; }
  .progress-chart-card .progress-card-heading { flex-direction: column; }
  .progress-card-heading h2 { font-size: 15px; }

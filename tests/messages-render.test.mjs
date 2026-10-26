@@ -21,6 +21,7 @@ test('messages in all three workspaces start with actions and chats without the 
     assert.match(html,/class="workspace-page-actions"/);
     assert.ok(html.includes(language==='en'?'New message':'Tin nhắn mới'));
     assert.match(html,/class="chat-directory"/);
+    if(role==='admin'){assert.match(html,/<a[^>]*href="\/admin\/messages"[^>]*aria-current="page"/);assert.match(html,/class="nav-count"/)}
   }
 });
 

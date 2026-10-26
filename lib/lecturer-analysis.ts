@@ -1,5 +1,5 @@
 import { analyze } from './ai';
-import { AppError, configFor, id, isLocal, log, now, prepare, reflection, session, str } from './server';
+import { AppError, configFor, id, isLocal, log, now, prepare, reflection, session, str, assertPermission } from './server';
 import { wordCount, type User } from './domain';
 
 export async function lecturerAnalysis(request: Request,user: User,body: Record<string,unknown>) {
@@ -11,7 +11,7 @@ export async function lecturerAnalysis(request: Request,user: User,body: Record<
   if(wordCount(content)<20)throw new AppError('Hãy viết ít nhất 20 từ để Coach có bối cảnh gợi mở.');
   const rubric=await configFor(row);
   const {result,provider}=await analyze(user.id,reflectionId,String(row.title),content,rubric,body.language==='en'?'en':'vi',body.includeAttachments===true,{local:isLocal(request),provider:body.aiProvider});
-  const live=(await session(request))!,latest=await reflection(live,reflectionId,'review');
+  const live=(await session(request))!;assertPermission(live,live.role==='admin'?'courses.manage':'ai.use');const latest=await reflection(live,reflectionId,'review');
   if(latest.rev!==row.rev||!['submitted','final'].includes(String(latest.status)))throw new AppError('Bài đã thay đổi. Tải lại trước khi phân tích.',409);
   const analysisId=id();
   const saved=await prepare("INSERT INTO analyses (id,reflection_id,version_id,kind,provider,result_json,rubric_json,created_at) SELECT ?,id,latest_version,'feedback',?,?,?,? FROM reflections WHERE id=? AND rev=? AND latest_version=? AND status IN ('submitted','final')",analysisId,provider,JSON.stringify(result),JSON.stringify(rubric),now(),reflectionId,row.rev,row.latest_version).run();

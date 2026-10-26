@@ -61,9 +61,10 @@ test('authenticated chat works between all roles, renders names/roles in both la
     for(const language of ['en','vi'])for(const actor of actors){
       const other=actor===student?lecturer:student;
       const html=(await page(`/${actor.role}/messages?peer=${other.id}`,`${actor.cookie}; thinkup-language=${language}`)).replace(/<script\b[^>]*>[\s\S]*?<\/script>/g,'');
-      assert.ok(html.includes('<h1>'+(language==='en'?'Messages':'Tin nhắn')+'</h1>'));
+      assert.match(html,new RegExp('<h1\\b[^>]*>'+(language==='en'?'Messages':'Tin nhắn')+'</h1>'));
       assert.ok(html.includes(other.name));assert.ok(html.includes('class="chat-role '+other.role+'"'));
-      assert.ok(html.includes(`href="/${actor.role}/messages"`));
+      if(actor.role==='admin'){for(const section of ['users','courses','settings','messages'])assert.ok(html.includes(`href="/admin/${section}"`))}
+      else assert.ok(html.includes(`href="/${actor.role}/messages"`));
       if(actor!==admin){assert.ok(html.includes('&lt;script&gt;hello&lt;/script&gt;'));assert.ok(!html.includes('Spoofed sender'))}
       if(language==='en')assert.ok(html.includes('Compose a message')&&!html.includes('Soạn tin nhắn'));
       await page(`/${actor.role}/messages`,null,307,'/login');

@@ -37,20 +37,35 @@ test('lecturer pages, assessments, course settings, progress and similarity resp
       assert.ok(!html.includes('TEST student-outside'));assert.ok(!html.includes('lecturer-tabs'));
       if(language==='en')assert.ok(!nav.includes('Bài nộp')&&!nav.includes('Học phần'));
     }
-    await access('/lecturer',lecturer.cookie,307,'/lecturer/submissions');
+    await access('/lecturer',lecturer.cookie,307,'/lecturer/overview');
     await access('/lecturer?tab=progress',lecturer.cookie,307,'/lecturer/progress');
     await access('/lecturer/submissions',a.cookie,307,'/student');
     const detailPath=`/lecturer/submissions/${second.id}?course=${courses[0]}`;
     for(let reload=0;reload<2;reload++){
       const detail=await page(detailPath,lecturer.cookie,'en');assert.ok(detail.includes('TEST student-b'));
       const numbers=detail.match(/<input\b[^>]*type="number"[^>]*>/g)||[];assert.equal(numbers.length,4);assert.ok(numbers.every(input=>input.includes('value=""')));
-      assert.ok(detail.includes('Select a Kember level'));assert.ok(detail.includes('TEST V15 Reflection'));
+      assert.ok(detail.includes('Kember level for the whole reflection'));assert.ok(detail.includes('TEST V15 Reflection'));
     }
     await page(`/lecturer/students?student=${a.id}&course=${courses[0]}`,lecturer.cookie,'en');
     await page(`/lecturer/courses?course=${courses[0]}`,lecturer.cookie,'en');
     for(const path of [`/lecturer/submissions/${external.id}`,`/lecturer/submissions/${draft.id}`,`/lecturer/students?student=${outside.id}`,`/lecturer/courses?course=${courses[1]}`,`/lecturer/submissions/${second.id}?course=${courses[1]}`])await access(path,lecturer.cookie,404);
     const report=await scan(lecturer.cookie,{courseId:courses[0]});assert.equal(report.documents,3);assert.equal(report.comparedPairs,2);assert.equal(report.matches.length,2);assert.ok(report.matches.every(m=>m.left.courseId===courses[0]&&m.right.courseId===courses[0]&&m.left.userId!==m.right.userId));
     assert.ok(!JSON.stringify(report).includes(draft.id));assert.ok(!JSON.stringify(report).includes(external.id));
+    const focused=await scan(lecturer.cookie,{courseIds:[courses[0]],studentId:a.id});
+    assert.equal(focused.comparedPairs,2);assert.equal(focused.studentId,a.id);
+    assert.ok(focused.matches.every(m=>m.left.userId===a.id||m.right.userId===a.id));
+    const weekly=await scan(lecturer.cookie,{courseIds:[courses[0]],week:1});
+    assert.equal(weekly.documents,2);assert.equal(weekly.comparedPairs,1);assert.equal(weekly.week,1);
+    assert.ok(!JSON.stringify(weekly).includes(sameAuthor.id));
+    assert.equal((await scan(admin,{courseIds:[courses[0]]})).documents,3,'Explicit course scope never expands to the admin’s other courses');
+    assert.equal((await scan(lecturer.cookie,{courseIds:[]})).documents,0,'Empty scope never falls back to all assigned courses');
+    await scan(lecturer.cookie,{courseIds:[courses[1]]},403);
+    await scan(lecturer.cookie,{courseIds:[courses[0]],studentId:outside.id},403);
+    await scan(lecturer.cookie,{courseId:courses[0],courseIds:[]},400);
+    await scan(lecturer.cookie,{courseIds:'invalid'},400);
+    await scan(lecturer.cookie,{week:10},400);
+    await scan(lecturer.cookie,{week:true},400);
+    await scan(lecturer.cookie,{reflectionId:first.id,week:2},400);
     assert.equal((await scan(lecturer.cookie,{reflectionId:first.id})).matches.length,1);
     const system=await scan(admin,{reflectionId:external.id});assert.ok(system.matches.some(m=>m.left.courseId!==m.right.courseId));
     await scan(a.cookie,{courseId:courses[0]},403);await scan(otherLecturer.cookie,{courseId:courses[0]},403);await scan(lecturer.cookie,{reflectionId:external.id},403);await scan(lecturer.cookie,{reflectionId:draft.id},403);
@@ -63,7 +78,7 @@ test('lecturer pages, assessments, course settings, progress and similarity resp
     assert.equal((await state(lecturer.cookie)).classReflections.find(r=>r.id===first.id).rev,first.rev);
     await mutate(lecturer.cookie,{action:'review',id:first.id,rev:first.rev,decision:'returned',comment:'TEST Revise with your own experience.'});await scan(lecturer.cookie,{reflectionId:first.id},409);assert.equal((await scan(lecturer.cookie)).documents,2);
     const returned=(await state(lecturer.cookie)).classReflections.find(r=>r.id===first.id);assert.equal(returned.reviews[0].total,null);assert.deepEqual(returned.reviews[0].scores,[]);
-    const returnedPage=await page(`/lecturer/submissions/${first.id}`,lecturer.cookie,'en');assert.ok(returnedPage.includes('Wait for resubmission'));assert.ok(!returnedPage.includes('type="radio"'));
+    const returnedPage=await page(`/lecturer/submissions/${first.id}`,lecturer.cookie,'en');assert.ok(returnedPage.includes('Waiting for the student to resubmit'));assert.ok(!returnedPage.includes('type="radio"'));
     await mutate(lecturer.cookie,{action:'review-analyze',id:first.id,rev:first.rev+1},409);
     await mutate(lecturer.cookie,{action:'review',id:second.id,rev:second.rev,decision:'final',comment:'TEST Missing Kember level.',scores:[2,3,3,4]},400);
     assert.equal((await state(lecturer.cookie)).classReflections.find(r=>r.id===second.id).rev,second.rev);
@@ -77,9 +92,9 @@ test('lecturer pages, assessments, course settings, progress and similarity resp
     const changedRubric=await page(detailPath,lecturer.cookie,'en');const cleared=changedRubric.match(/<input\b[^>]*type="number"[^>]*>/g)||[];assert.equal(cleared.length,4);assert.ok(cleared.every(input=>input.includes('value=""')));
     for(const language of ['en','vi']){
       const progress=await page('/lecturer?tab=progress',lecturer.cookie,language),similarity=await page('/lecturer?tab=similarity',lecturer.cookie,language);
-      assert.ok(progress.includes(language==='en'?'Students needing support by criterion':'Sinh viên cần hỗ trợ theo tiêu chí'));
+      assert.ok(progress.includes(language==='en'?'Students below 5.1':'SV dưới 5,1'));
       assert.ok(similarity.includes(language==='en'?'Similarity check':'Kiểm tra trùng lặp'));
-      if(language==='en'){assert.ok(!similarity.includes('Kiểm tra ngay'));assert.ok(!progress.includes('Sinh viên cần hỗ trợ theo tiêu chí'));}
+      if(language==='en'){assert.ok(!similarity.includes('Kiểm tra ngay'));assert.ok(!progress.includes('SV dưới 5,1'));}
     }
     assert.equal((await state(a.cookie)).reflections.find(r=>r.id===sameAuthor.id).status,'submitted');
   }finally{for(const cookie of cookies)await fetch(root+'/api/auth/logout',{method:'POST',headers:{Origin:root,cookie}})}

@@ -1,3 +1,4 @@
+import {assertPermission} from '../../../lib/server';
 import {assertStudent} from '../../../lib/learning-actions';
 import { all, AppError, content, failure, id, isLocal, now, one, prepare, reflection, session, str } from '../../../lib/server';
 import { chatReply, type CoachTurn } from '../../../lib/reflection-chat-ai';
@@ -21,7 +22,7 @@ export async function POST(request:Request) {
   let pendingId:string|undefined;
   try {
     const origin=request.headers.get('origin');if(origin&&origin!==new URL(request.url).origin)throw new AppError('Yêu cầu không cùng nguồn.',403);
-    const user=(await session(request))!;assertStudent(user);
+    const user=(await session(request))!;assertStudent(user);assertPermission(user,'ai.use');
     const body=await request.json() as Record<string,unknown>;
     const thinking=body.mode==='thinking';
     const reflectionId=str(body.reflectionId,100,true),clientId=str(body.clientId,100,true),question=thinking?thinkingRequest:str(body.question,2000,true);
@@ -42,7 +43,7 @@ export async function POST(request:Request) {
     if(inserted.meta.changes!==1)throw new AppError('AI đang trả lời câu hỏi của bài này. Hãy chờ rồi thử lại.',409);
     pendingId=turnId;
     const result=await chatReply(user.id,reflectionId,title,value,question,thinking?[]:await history(reflectionId,user.id),body.language==='en'?'en':'vi',includeAttachments,{local:isLocal(request),provider:body.aiProvider,thinking});
-    await session(request); // Account access must still be active when the response is saved.
+    assertPermission((await session(request))!,'ai.use'); // Account access must still be active when the response is saved.
     const updated=await prepare("UPDATE reflection_coach_turns SET status='completed',reply=?,provider=? WHERE id=? AND status='pending'",result.reply,result.provider,turnId).run();
     if(updated.meta.changes!==1)throw new AppError('Lượt trò chuyện đã hết hạn. Hãy thử lại.',409);
     pendingId=undefined;

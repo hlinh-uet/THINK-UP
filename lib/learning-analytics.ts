@@ -4,8 +4,8 @@ import {finalReview,currentFeedback} from './progress.ts';
 export function classAnalytics(reflections:Reflection[],actions:Action[],rubric:Criterion[]){
  const final=reflections.filter(r=>finalReview(r));
  const criteria=rubric.map(c=>{
-  const points=final.flatMap(r=>{const g=finalReview(r)!,index=g.rubric.findIndex(x=>x.key===c.key);if(index<0)return [];return [{score:reviewScoresOnTen(g)[index],level:g.criteria?.[index]?.level||(g.scoreScale===10?criterionLevel(g.scores[index]):g.scores[index]),legacy:g.scoreScale!==10}];});
-  return {...c,count:points.length,missing:reflections.length-points.length,average:points.length?points.reduce((s,p)=>s+p.score,0)/points.length:null,legacy:points.filter(p=>p.legacy).length,distribution:[1,2,3,4].map(level=>points.filter(p=>p.level===level).length)};
+  const points=final.flatMap(r=>{const g=finalReview(r)!,index=g.rubric.findIndex(x=>x.key===c.key);if(index<0)return [];const score=reviewScoresOnTen(g)[index];if(!Number.isFinite(score))return [];return [{userId:r.userId,score,level:g.criteria?.[index]?.level||(g.scoreScale===10?criterionLevel(g.scores[index]):g.scores[index]),legacy:g.scoreScale!==10}];});
+  return {...c,count:points.length,students:new Set(points.map(p=>p.userId)).size,missing:reflections.length-points.length,average:points.length?points.reduce((s,p)=>s+p.score,0)/points.length:null,legacy:points.filter(p=>p.legacy).length,distribution:[1,2,3,4].map(level=>points.filter(p=>p.level===level).length)};
  });
  const done=actions.filter(a=>a.status==='done').length;
  const difficulties=new Map<string,{text:string;count:number;reflectionIds:string[]}>();

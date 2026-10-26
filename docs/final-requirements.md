@@ -1,4 +1,4 @@
-# Triển khai theo Final Requirements ngày 17 tháng 10 năm 2026
+# Triển khai theo Final Requirements — cập nhật 25/10/2026
 
 Bản này sử dụng hai tài liệu sinh viên và giảng viên trong `../../Final_Requirements` làm chuẩn. Tài liệu PDF rubric cũ và ghi chú phiên bản 1.5 chỉ mô tả lịch sử. Không dùng mô hình điểm /4 của bản cũ cho các lượt đánh giá mới.
 
@@ -18,13 +18,13 @@ Mỗi bản ghi học phần là một **lớp học phần/đợt mở** có ro
 
 Dashboard có tìm tên/email/bài, lọc lớp, học phần, tuần, trạng thái, tiêu chí/Level và sắp xếp. Bảng chín tuần phân biệt chưa bắt đầu, nháp, đang sửa, đã nộp/chờ duyệt, hoàn tất. Với bản nháp chưa nộp, giảng viên chỉ nhận metadata số lượng/trạng thái; không nhận ID, tiêu đề, nội dung hoặc phiên bản riêng tư qua bảng này.
 
-Trợ lý đọc có bốn nhóm nhận định: trải nghiệm, suy nghĩ/cảm xúc/nguyên nhân, bài học/hành động, điểm cần xem xét. Mỗi nhận định phải có trích dẫn thực sự trong bài; nút Xem đoạn gốc đánh dấu đoạn tương ứng. Kết quả gắn phiên bản; server kiểm tra lại quyền và revision sau khi AI trả về. AI Reading có schema riêng cho cả OpenAI API và Codex local.
+Trợ lý đọc có bốn nhóm nhận định: trải nghiệm, suy nghĩ/cảm xúc/nguyên nhân, bài học/hành động, điểm cần xem xét. Mỗi nhận định phải có trích dẫn thực sự trong bài; nút Xem đoạn gốc đánh dấu đoạn tương ứng. Kết quả gắn phiên bản; server kiểm tra lại quyền và revision sau khi AI trả về. AI Reading có schema riêng cho cả OpenAI API và Codex local, gồm thêm nhận định và trích dẫn theo đủ bốn tiêu chí rubric hoặc trạng thái thiếu căn cứ. Báo cáo cũ thiếu phần tiêu chí vẫn đọc được và nhắc phân tích lại. Báo cáo Reading chưa duyệt chỉ trả cho chính tác giả còn quyền, không trả cho Student hoặc Admin khác.
 
-Màn hình bài nộp đọc được snapshot, Coach/Feedback, các lượt Tư duy cùng AI đã hoàn tất của bài được chia sẻ, tự đánh giá và nhận xét đã phát hành. Sau khi nộp, sinh viên được thông báo phạm vi chia sẻ này. Nhận xét nháp của GV nằm riêng, chỉ chính GV đó truy cập được khi còn quyền học phần; sinh viên và admin khác không tự đọc được bản nháp chỉ vì có quyền quản trị.
+Màn hình bài nộp đọc được snapshot, đủ năm nhóm Coach (bốn nhóm gợi mở và mức phản tư, kèm lý do/minh chứng khi có), Feedback, các lượt Tư duy cùng AI đã hoàn tất của bài được chia sẻ, tự đánh giá và nhận xét đã phát hành. Sau khi nộp, sinh viên được thông báo phạm vi chia sẻ này. Nhận xét nháp của GV nằm riêng, chỉ chính GV đó truy cập được khi còn quyền học phần; sinh viên và admin khác không tự đọc được bản nháp chỉ vì có quyền quản trị.
 
 Giảng viên có trình soạn nhận xét năm phần, thư viện mẫu riêng theo học phần/tiêu chí, lưu nháp chưa gửi, duyệt gửi cuối hoặc trả bài kèm nhận xét. Lưu nháp kiểm tra revision; gửi cuối kiểm tra cả version bài và version rubric. Bài cũ, bài đang trả về và bài của chính người chấm bị chặn xác nhận.
 
-Trang tiến độ có trung bình/phân bố bốn Level từng tiêu chí, số bài/sinh viên, mẫu số, trường thiếu dữ liệu, chuỗi điểm qua bài, so sánh giai đoạn, tỷ lệ hành động và nội dung phát triển được đếm từ feedback hiện hành. Không dùng AI tạo số liệu. Có đối chiếu AI–GV theo cặp điểm khi cùng bài/nội dung/rubric; đây chưa phải nghiên cứu hiệu chuẩn độc lập. CSV xuất đủ điểm, Level, căn cứ và cải thiện từng tiêu chí; xử lý ô bắt đầu bằng ký tự công thức.
+Trang tiến độ có trung bình/phân bố bốn Level từng tiêu chí, số bài/sinh viên, mẫu số, trường thiếu dữ liệu, chuỗi điểm qua bài, so sánh giai đoạn, tỷ lệ hành động và nội dung phát triển được đếm từ feedback hiện hành. Bảng giai đoạn hiển thị cả hai trung bình, số bài/SV có điểm, số bài/SV chưa có điểm, cạnh chênh lệch; dữ liệu trống hiện —. Số SV đếm phân biệt, không coi nhiều bài của một người là nhiều SV. Không dùng AI tạo số liệu. Có đối chiếu AI–GV theo cặp điểm khi cùng bài/nội dung/rubric; đây chưa phải nghiên cứu hiệu chuẩn độc lập. CSV xuất đủ điểm, Level, căn cứ và cải thiện từng tiêu chí; xử lý ô bắt đầu bằng ký tự công thức.
 
 Cam kết chỉ chia sẻ qua bài nguồn đã nộp thuộc phạm vi được phân công. Bài cá nhân, cam kết chưa gắn bài và minh chứng ngoài quyền không được cung cấp cho GV. Liên kết bài tiếp nối còn nháp không lộ ID qua dữ liệu cam kết lớp. Việc chưa hoàn thành hành động không tự trừ điểm reflection.
 
@@ -49,14 +49,14 @@ Migration `0005_final_requirements.sql` chỉ thêm bảng/index `learning_recor
 
 ## Admin và vận hành
 
-Admin quản lý người dùng, lớp học phần, phân công, cấu hình và bài nộp toàn hệ thống bằng cùng màn hình chấm của GV. Không tự chấm bài của mình. API viết/AI Coach/Feedback/nộp bài/cam kết chỉ dành Student; hạ role hoặc gỡ phân công được kiểm tra lại ở mỗi yêu cầu. Riêng review draft/template còn phải nằm trong phạm vi học phần hiện tại, không dựa vào quyền cũ hoặc chỉ quyền sở hữu bản nháp.
+Admin quản lý người dùng, lớp học phần, phân công và cấu hình. Menu admin có Người dùng, Học phần, Cài đặt và Tin nhắn; không có màn hình giám sát/chấm bài của giảng viên. Các công cụ API quản trị cũ vẫn kiểm tra quyền cấu hình học phần và không cho tự chấm bài. API viết/AI Coach/Feedback/nộp bài/cam kết chỉ dành Student; hạ role hoặc gỡ phân công được kiểm tra lại ở mỗi yêu cầu. Riêng review draft/template còn phải nằm trong phạm vi học phần hiện tại, không dựa vào quyền cũ hoặc chỉ quyền sở hữu bản nháp.
 
-Cài đặt có chính sách thời gian lưu hồ sơ (30–3650 ngày), nội dung lưu trữ/xóa, nhật ký gần nhất, ghi nhận và cập nhật xử lý sự cố. Lưu trữ bài là thao tác khôi phục được, không xóa R2 hay lịch sử điểm. Chính sách hiện phục vụ rà soát thủ công: **không có job tự xóa dữ liệu**.
+Cài đặt có cấu hình mặc định, bật/tắt quyền theo vai trò và nhật ký. Kết nối AI do dev cấu hình. Mục Lưu trữ & sự cố được ẩn theo yêu cầu; dữ liệu và chính sách cũ được giữ nguyên. Lưu trữ bài là thao tác khôi phục được, không xóa R2 hay lịch sử điểm. Chính sách hiện phục vụ rà soát thủ công: **không có job tự xóa dữ liệu**.
 
 Quy trình vận hành:
 
 1. Admin chốt thời hạn lưu, người phụ trách và phạm vi hồ sơ học phần trước khi đưa lớp thật vào hệ thống.
-2. Khi có sự cố, ghi phạm vi và biện pháp xử lý trong Cài đặt, tạm ngừng tài khoản/phân công liên quan nếu cần, kiểm tra audit và quyền minh chứng; ghi kết quả rồi đánh dấu đã xử lý.
+2. Khi có sự cố, ghi phạm vi và biện pháp xử lý vào hồ sơ vận hành riêng, tạm ngừng tài khoản/phân công liên quan nếu cần, kiểm tra audit và quyền minh chứng; ghi kết quả rồi đánh dấu đã xử lý.
 3. Yêu cầu xóa dữ liệu: xác minh chủ dữ liệu và nghĩa vụ giữ hồ sơ của học phần, lưu trữ trước trong ứng dụng để ngừng đưa vào danh sách; quyết định xóa vĩnh viễn phải được người phụ trách phê duyệt riêng. Không có endpoint xóa vĩnh viễn được bật tự động.
 4. Sao lưu/khôi phục và xóa vĩnh viễn ở hạ tầng cần runbook riêng của môi trường hosting, gồm D1 và R2 nhất quán, kiểm tra phục hồi trước khi thay dữ liệu thật. Đợt cập nhật này không thao tác backup, secret hoặc production của hosting.
 
@@ -64,6 +64,8 @@ Quy trình vận hành:
 
 `npm test`, `npm run typecheck`, `npm run lint`, `npm run build` và `npm run db:generate` kiểm tra logic, type, lint, build và schema. Store tests gồm seed preservation, D1/R2 và bridge schemas; không gọi mô hình thật.
 
-`npm run test:integration` tạo thư mục tạm, sao chép source, symlink dependencies, bỏ secrets và dùng D1/R2 riêng; chạy nối tiếp tám workflow cho ba role, grading, cam kết/minh chứng, lịch sử, nhắn tin, hồ sơ và quản trị. Giới hạn đăng nhập chỉ được dọn trong database tạm giữa các suite; giới hạn ứng dụng giữ nguyên. Script in đường dẫn để tra log và dừng dev server sau khi chạy.
+`npm run test:integration` tạo thư mục tạm, sao chép source, symlink dependencies, bỏ secrets và dùng D1/R2 riêng; chạy nối tiếp mười workflow cho ba role, grading, cam kết/minh chứng, lịch sử, nhắn tin, hồ sơ và quản trị. Giới hạn đăng nhập chỉ được dọn trong database tạm giữa các suite; giới hạn ứng dụng giữ nguyên. Script in đường dẫn để tra log và dừng dev server sau khi chạy.
 
-Chưa xác minh chất lượng nội dung của AI thực tế, chưa nghiệm thu tương tác/screenshot desktop-mobile. Công cụ Computer Use không được cấp quyền trong lần kiểm tra trước; đợt này kiểm tra UI bằng SSR và kiểm tra logic bằng tests. Các tích hợp LMS, kho tương đồng bên ngoài và nghiên cứu hiệu chuẩn bằng tập bài GV chấm độc lập vẫn thuộc phần mở rộng/giai đoạn 3, không được giả lập thành đã có kết quả. Quy trình backup/khôi phục hạ tầng chưa được triển khai hoặc thử trên môi trường người dùng.
+Ngày 25/10: 76 unit/component tests, chín workflow tích hợp, typecheck/lint/build, 10 test Codex và năm test host đã qua. `npm run test:reading:live` gọi AI thật bằng Codex/ChatGPT của máy (tốn hạn mức gói): đã qua một mẫu có đủ bốn tiêu chí và thiếu action plan, các trích dẫn được xác thực. Đây chưa phải đánh giá sư phạm diện rộng. Chưa nghiệm thu tương tác/screenshot desktop-mobile: Computer Use vẫn chờ quyền Accessibility/Screen Recording; đợt này kiểm tra UI bằng render component thật và HTTP. Người dùng chưa dùng LMS. Các tích hợp LMS, kho tương đồng bên ngoài và nghiên cứu hiệu chuẩn bằng tập bài GV chấm độc lập vẫn thuộc phần mở rộng/giai đoạn 3, không được giả lập thành đã có kết quả. Quy trình backup/khôi phục hạ tầng chưa được triển khai hoặc thử trên môi trường người dùng.
+
+Chi tiết khắc phục F1–F6 và bằng chứng: [báo cáo ngày 25/10/2026](requirements-audit-2026-10-25.md).

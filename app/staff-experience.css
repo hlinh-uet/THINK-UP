@@ -1,33 +1,75 @@
-/* Shared materials for administration and teaching, on the student frame. */
-.app-shell:is(.admin-workspace,.lecturer-workspace) .main-shell > main { max-width: 1400px; padding-top: 32px; }
+/* Administration and teaching inherit the shared student frame and palette. */
+.app-shell:is(.admin-workspace,.lecturer-workspace) .main-shell > main { max-width: 1360px; padding-top: 40px; }
 .app-shell:is(.admin-workspace,.lecturer-workspace) .page-heading { align-items: center; gap: 20px; margin-bottom: 28px; }
-.app-shell:is(.admin-workspace,.lecturer-workspace) .page-heading h1 { font-size: 36px; line-height: 1.25; letter-spacing: -.9px; }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .page-heading h1 { font-family: var(--font-sans); font-size: 28px; font-weight: 700; line-height: 1.25; letter-spacing: -.02em; }
 .app-shell:is(.admin-workspace,.lecturer-workspace) .page-heading .eyebrow { display: none; }
 .app-shell:is(.admin-workspace,.lecturer-workspace) .page-heading p { margin-top: 10px; font-size: 15px; line-height: 1.7; }
-.app-shell:is(.admin-workspace,.lecturer-workspace) .button { min-height: 42px; padding: 10px 17px; border-radius: 9px; font-size: 14px; }
-.app-shell:is(.admin-workspace,.lecturer-workspace) .panel { border: 1px solid var(--line); border-radius: 14px; box-shadow: none; }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .button { min-height: 40px; padding: 8px 16px; border-radius: 10px; font-size: 14px; font-weight: 600; }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .panel { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); }
 .app-shell:is(.admin-workspace,.lecturer-workspace) .course-grid { gap: 20px; }
-:is(.admin-workspace,.lecturer-workspace) .course-card h3 { font-size: 20px; line-height: 1.45; }
+:is(.admin-workspace,.lecturer-workspace) .course-card h3 { font-size: 19px; line-height: 1.45; }
 :is(.admin-workspace,.lecturer-workspace) .course-card p { font-size: 15px; }
 :is(.admin-workspace,.lecturer-workspace) .course-card small { font-size: 13px; line-height: 1.7; }
 :is(.admin-workspace,.lecturer-workspace) .course-card .button-group { gap: 16px; margin-top: auto; }
 :is(.admin-workspace,.lecturer-workspace) .course-card .text-button { font-size: 14px; }
 .app-shell:is(.admin-workspace,.lecturer-workspace) .field { font-size: 14px; }
-.app-shell:is(.admin-workspace,.lecturer-workspace) .field :is(input,textarea,select),.app-shell:is(.admin-workspace,.lecturer-workspace) .toolbar :is(input,select) { min-height: 44px; border-radius: 8px; background-color: var(--surface); font-size: 15px; }
-.app-shell:is(.admin-workspace,.lecturer-workspace) :is(.field,.toolbar) select { appearance: none; padding-right: 36px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2375618d' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .field :is(input,textarea,select),.app-shell:is(.admin-workspace,.lecturer-workspace) .toolbar :is(input,select) { min-height: 44px; border-radius: 10px; background-color: var(--surface); font-size: 15px; }
+.app-shell:is(.admin-workspace,.lecturer-workspace) :is(.field,.toolbar) select { appearance: none; padding-right: 36px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%236d6a63' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
 .app-shell:is(.admin-workspace,.lecturer-workspace) table { font-size: 14px; }
 :is(.admin-workspace,.lecturer-workspace) .workspace-tabs > button { min-height: 44px; font-size: 14px; }
 :is(.admin-workspace,.lecturer-workspace) .workspace-side-navigation .admin-monitoring-start { margin-top: 22px; }
 :is(.admin-workspace,.lecturer-workspace) .workspace-side-navigation .admin-monitoring-start::before { top: -15px; left: 12px; right: 12px; }
+
+/* Paper cards, typography and data views follow the student components. */
+.app-shell:is(.admin-workspace,.lecturer-workspace) .panel :is(h2,h3),
+.app-shell:is(.admin-workspace,.lecturer-workspace) .section-head h3 { font-family: var(--font-sans); color: var(--ink); font-size: 17px; font-weight: 600; line-height: 1.4; letter-spacing: -.01em; }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .section-head { gap: 16px; flex-wrap: wrap; }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .course-card h3 { font-size: 19px; }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .course-card { transition: border-color .2s,box-shadow .2s; }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .course-card:hover { border-color: var(--hl-line); box-shadow: 0 8px 24px #22211f0d; }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .stat { padding: 22px 24px; border-color: var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .stat > b { color: var(--ink); font-size: 28px; font-weight: 600; letter-spacing: -.02em; }
+.app-shell:is(.admin-workspace,.lecturer-workspace) th { background: var(--surface-soft); color: var(--muted); font-size: 12px; font-weight: 600; }
+.app-shell:is(.admin-workspace,.lecturer-workspace) :is(th,td) { padding: 15px 16px; border-color: var(--line); }
+.app-shell:is(.admin-workspace,.lecturer-workspace) tbody tr:hover { background: var(--hl-soft); }
+.app-shell:is(.admin-workspace,.lecturer-workspace) td small { font-size: 13px; }
+.app-shell:is(.admin-workspace,.lecturer-workspace) :is(.meter,.trend-track) { background-color: var(--surface-soft); }
+.app-shell:is(.admin-workspace,.lecturer-workspace) :is(.meter i,.trend-track i) { background: var(--hl); }
+.app-shell:is(.admin-workspace,.lecturer-workspace) :is(.support-count,.trend-value,.similarity-summary b) { color: var(--ink); font-weight: 600; }
+.app-shell:is(.admin-workspace,.lecturer-workspace) :is(.support-grid article,.review-total,.teacher-ai-tools,.prompt-card) { background: var(--hl-soft); border-color: var(--hl-line); border-radius: 12px; color: var(--ink); }
+.app-shell:is(.admin-workspace,.lecturer-workspace) :is(.review-disclosure > summary,.grade-criterion legend,.review-heading) { color: var(--ink); font-family: var(--font-sans); }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .review-heading { font-size: 25px; font-weight: 650; letter-spacing: -.02em; }
+.app-shell:is(.admin-workspace,.lecturer-workspace) :is(.review-ai-criterion,.kember-explanation) blockquote { background: var(--hl-soft); border-left-color: var(--hl-line); color: var(--ink); }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .grade-choices label { background: var(--surface); border-color: var(--line); color: var(--muted); }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .grade-choices label.selected { border-color: var(--hl); background: var(--hl-soft); color: var(--hl-deep); }
+.app-shell:is(.admin-workspace,.lecturer-workspace) :is(.week-config-index,.pill) { background: var(--hl-soft); color: var(--hl-deep); border-color: var(--hl-line); }
+.app-shell:is(.admin-workspace,.lecturer-workspace) :is(.course-config-toggle:hover,.course-config-toggle[aria-expanded="true"]) { background: var(--hl-soft); }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .avatar { background: var(--hl-soft); color: var(--hl-deep); }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .student-row:hover { background: var(--hl-soft); }
+.app-shell:is(.admin-workspace,.lecturer-workspace) :is(.field,.toolbar) :is(input,textarea,select):focus { border-color: var(--hl); box-shadow: 0 0 0 3px var(--hl-soft); }
+.app-shell:is(.admin-workspace,.lecturer-workspace) input:is([type="checkbox"],[type="radio"]) { accent-color: var(--hl-deep); min-height: 0; }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .modal { border-color: var(--line); border-radius: var(--radius); background: var(--surface); }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .modal-header h2 { font-family: var(--font-sans); color: var(--ink); font-size: 21px; font-weight: 600; }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .modal-footer { border-color: var(--line); background: var(--surface); }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .user-role-tabs { border-color: var(--line); border-radius: 12px; background: var(--surface-soft); }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .user-role-tabs button { font-size: 14px; border-radius: 9px; }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .user-role-tabs button.selected { background: var(--surface); color: var(--ink); box-shadow: var(--shadow); }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .user-role-tabs button > span { background: var(--hl-soft); color: var(--hl-deep); border-radius: 99px; }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .tab-bar > button { min-height: 44px; font-size: 14px; }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .tab-bar > button.selected { color: var(--ink); border-bottom-color: var(--hl); }
+.app-shell:is(.admin-workspace,.lecturer-workspace) .workspace-tabs > button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--hl); }
 @media (max-width: 1000px) {
- :is(.admin-workspace,.lecturer-workspace) .workspace-menu-toggle { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; padding: 0; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); color: var(--accent); }
+ :is(.admin-workspace,.lecturer-workspace) .workspace-menu-toggle { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; padding: 0; border: 1px solid var(--rail-line); border-radius: 10px; background: var(--rail-2); color: var(--rail-strong); }
  :is(.admin-workspace,.lecturer-workspace) .workspace-side-navigation { z-index: 60; width: min(280px,calc(100vw - 56px)); padding: 26px 18px; visibility: hidden; transform: translateX(-100%); transition: transform .22s ease,visibility .22s; }
  :is(.admin-workspace,.lecturer-workspace) .workspace-side-navigation.is-open { visibility: visible; transform: translateX(0); }
- :is(.admin-workspace,.lecturer-workspace) .workspace-navigation-backdrop { position: fixed; inset: var(--workspace-header-height) 0 0; z-index: 55; display: block; border: 0; background: #39323f30; backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }
+ :is(.admin-workspace,.lecturer-workspace) .workspace-navigation-backdrop { position: fixed; inset: var(--workspace-header-height) 0 0; z-index: 55; display: block; border: 0; background: #21201e60; backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }
 }
 @media (max-width: 760px) {
+ .app-shell:is(.admin-workspace,.lecturer-workspace) .main-shell > main { padding-top: 24px; }
+ .app-shell:is(.admin-workspace,.lecturer-workspace) .course-grid { grid-template-columns: minmax(0,1fr); }
+ .app-shell:is(.admin-workspace,.lecturer-workspace) .stat { padding: 18px; }
  .app-shell:is(.admin-workspace,.lecturer-workspace) .page-heading { align-items: flex-start; }
- .app-shell:is(.admin-workspace,.lecturer-workspace) .page-heading h1 { font-size: 30px; }
+ .app-shell:is(.admin-workspace,.lecturer-workspace) .page-heading h1 { font-size: 25px; }
  .app-shell:is(.admin-workspace,.lecturer-workspace) .page-heading p { font-size: 15px; }
  :is(.admin-workspace,.lecturer-workspace) .workspace-header-actions { gap: 8px; }
  :is(.admin-workspace,.lecturer-workspace) .workspace-header.has-side-navigation { gap: 10px; padding-inline: 16px; }

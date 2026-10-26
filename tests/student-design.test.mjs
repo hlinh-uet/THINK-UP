@@ -22,7 +22,7 @@ test('course menu preserves one selected filter and exposes the current course w
     assert.equal(selected.length,1);
     assert.ok(selected[0].includes(courses.find(course=>course.id===value)?.name||(language==='en'?'All courses':'Tất cả học phần')));
     const trigger=html.match(/<button[^>]*class="course-picker-trigger"[^>]*>[\s\S]*?<\/button>/)?.[0]||'';
-    assert.match(trigger,/<span>Course<\/span>/);assert.match(trigger,/aria-expanded="false"/);
+    assert.ok(trigger.includes(language==='en'?'<span>Course</span>':'<span>Học phần</span>'));assert.match(trigger,/aria-expanded="false"/);
     assert.match(html,/popover="auto" role="menu"/);
     assert.equal((html.match(/role="menuitemradio"/g)||[]).length,courses.length+1);
   }
@@ -50,9 +50,13 @@ test('student home renders empty, completed and bilingual states using actual re
   const empty=render({});assert.match(empty,/Write your first page/);assert.match(empty,/aria-valuenow="0"/);
   const rows=[reflection('one','final',1,'2026-10-13T12:00:00Z'),reflection('two','final',1,'2026-10-14T12:00:00Z'),reflection('three','draft',2,'2026-10-15T12:00:00Z')];
   const actions=[{id:'done',status:'done',text:'Completed commitment',due:''},{id:'todo',status:'todo',text:'My next step',due:''}];
-  const english=render({reflections:rows,actions});assert.match(english,/aria-valuenow="1"/);assert.match(english,/My next step/);assert.doesNotMatch(english,/Completed commitment/);
-  assert.ok(english.indexOf('A reflection three')<english.indexOf('A reflection two'),'Reading list shows recent work first');
-  const vietnamese=render({language:'vi',reflections:rows,actions});assert.match(vietnamese,/Bài viết gần đây/);assert.match(vietnamese,/Cam kết/);assert.match(vietnamese,/My next step/);
+  const english=render({reflections:rows,actions});assert.match(english,/aria-valuenow="1"/);
+  const tile=(html,name)=>html.match(new RegExp(`<span class="space-tile-name">${name}</span>[\\s\\S]*?</button>`))?.[0]||'';
+  assert.match(tile(english,'My writing'),/space-tile-value">3</);assert.match(tile(english,'My writing'),/1 draft/);
+  assert.match(tile(english,'Commitments'),/space-tile-value">1</,'Only open commitments are counted');
+  assert.match(tile(english,'Progress'),/space-tile-value">2</);
+  assert.doesNotMatch(english,/My next step|Completed commitment|A reflection two/,'The home page summarises other pages instead of repeating their lists');
+  const vietnamese=render({language:'vi',reflections:rows,actions});assert.match(vietnamese,/Mở nhanh/);assert.match(vietnamese,/Cam kết/);
 });
 
 test('student home matches server and browser when ICU abbreviates September differently',()=>{

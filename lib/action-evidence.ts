@@ -1,9 +1,10 @@
+import {assertPermission} from './server';
 import {one,session,reflection,AppError,prepare,runtime,id,now,log,str} from './server';
 import {assertStudent} from './learning-actions';
 import type {User} from './domain';
 const allowed=['image/png','image/jpeg','image/webp','application/pdf','text/plain'];
 export async function uploadActionEvidence(request:Request,user:User){
- assertStudent(user);
+ assertStudent(user);assertPermission(user,'actions.manage');
  const form=await request.formData(),actionId=str(form.get('actionId'),100,true),action=await one<{user_id:string;reflection_id:string|null}>('SELECT user_id,reflection_id FROM actions WHERE id=?',actionId);
  if(!action||action.user_id!==user.id)throw new AppError('Không có quyền thêm minh chứng cam kết.',403);
  const file=form.get('file');if(!(file instanceof File)||!file.size||file.size>5*1024*1024||!allowed.includes(file.type))throw new AppError('Chọn ảnh PNG/JPG/WebP, PDF hoặc TXT, tối đa 5 MB.');
@@ -13,7 +14,7 @@ export async function uploadActionEvidence(request:Request,user:User){
  const fileId=id(),objectKey=`actions/${user.id}/${actionId}/${fileId}`,name=file.name.replace(/[\r\n\\/]/g,'_').slice(0,150),stamp=now();
  await runtime.FILES.put(objectKey,bytes,{httpMetadata:{contentType:file.type}});
  try{
-  const live=(await session(request))!;assertStudent(live);if(live.id!==user.id)throw new AppError('Phiên đăng nhập đã thay đổi.',403);
+  const live=(await session(request))!;assertStudent(live);assertPermission(live,'actions.manage');if(live.id!==user.id)throw new AppError('Phiên đăng nhập đã thay đổi.',403);
   const saved=await prepare("INSERT INTO learning_records (id,kind,owner_id,reflection_id,payload_json,revision,created_at,updated_at) SELECT ?,'action-evidence',?,reflection_id,?,1,?,? FROM actions WHERE id=? AND user_id=? AND (SELECT count(*) FROM learning_records WHERE kind='action-evidence' AND json_extract(payload_json,'$.actionId')=?)<3",fileId,user.id,JSON.stringify({actionId,objectKey,name,type:file.type,size:file.size}),stamp,stamp,actionId,user.id,actionId).run();
   if(saved.meta.changes!==1)throw new AppError('Mỗi cam kết hỗ trợ tối đa ba tệp minh chứng.',409);
  }catch(e){await runtime.FILES.delete(objectKey);throw e;}

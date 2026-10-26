@@ -11,7 +11,11 @@ export function rubricVersion(rubric:Criterion[]){
 export function blankAssessment(rubric:Criterion[]):AssessmentCriterion[]{return rubric.map(c=>({key:c.key,level:null,score:null,evidence:'',reason:'',improvement:'',attachmentNames:[],missingReason:''}));}
 export function validateAssessment(value:unknown,content:Content,rubric:Criterion[],attachments:string[]):AssessmentCriterion[]{
  if(!Array.isArray(value)||value.length!==4)throw new Error('Cần đủ bốn tiêu chí, Level, điểm và căn cứ đánh giá.');
- return value.map((raw,i)=>{
+ return value.map((raw,i)=>validateAssessmentCriterion(raw,i,content,rubric,attachments));
+}
+
+/** Shared by the complete assessment and the lecturer's one-criterion-at-a-time editor. */
+export function validateAssessmentCriterion(raw:unknown,i:number,content:Content,rubric:Criterion[],attachments:string[]):AssessmentCriterion{
   const c=raw as AssessmentCriterion;
   if(!c||c.key!==criterionKeys[i]||c.key!==rubric[i].key)throw new Error('Tiêu chí đánh giá không khớp rubric.');
   validateScores([c.score,c.score,c.score,c.score]);
@@ -24,5 +28,4 @@ export function validateAssessment(value:unknown,content:Content,rubric:Criterio
   if(quote&&!sectionKeys.some(k=>content[k].includes(quote)))throw new Error('Minh chứng cần là trích đoạn nguyên văn trong bài.');
   if(!quote&&!names.length&&!(c.level===1&&(c.missingReason?.trim().length||0)>=10))throw new Error('Hãy chọn minh chứng hoặc xác nhận rõ thành phần còn thiếu ở Level 1.');
   return {...c,score:c.score!,evidence:quote,reason:c.reason.trim(),improvement:c.improvement.trim(),attachmentNames:names,missingReason:c.missingReason?.trim()||''};
- });
 }

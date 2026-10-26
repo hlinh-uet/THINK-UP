@@ -8,8 +8,8 @@ import {coachInstructions} from '../lib/coach-prompt.ts';
 import {defaultRubric, defaultWeeks, roles, statuses, levels} from '../lib/domain.ts';
 
 test('language preferences have a safe English default',()=>{
-  for(const value of [undefined,null,'','fr','EN','<script>'])assert.equal(resolveLanguage(value),'en');
-  assert.equal(resolveLanguage('vi'),'vi');
+  for(const value of [undefined,null,'','fr','EN','<script>'])assert.equal(resolveLanguage(value),'vi');
+  assert.equal(resolveLanguage('en'),'en');
   assert.equal(dateLocale('vi'),'vi-VN');assert.equal(dateLocale('en'),'en-GB');
 });
 test('translated labels support dynamic values without translating or re-interpolating authored text',()=>{

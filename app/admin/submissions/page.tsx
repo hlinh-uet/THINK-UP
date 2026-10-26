@@ -1,6 +1,7 @@
-import AdminPageFrame from '../../AdminPageFrame';
-import type { AdminQuery } from '../../../lib/admin-pages';
+import { redirect } from 'next/navigation';
+import { adminHref, type AdminQuery } from '../../../lib/admin-pages';
 export const dynamic='force-dynamic';
-export default function Page({searchParams}:{searchParams:Promise<AdminQuery>}) {
-  return <AdminPageFrame section='submissions' searchParams={searchParams}/>;
+export default async function Page({searchParams}:{searchParams:Promise<AdminQuery>}) {
+  const query=await searchParams;
+  redirect(adminHref('courses',{course:query.course}));
 }

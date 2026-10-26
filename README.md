@@ -1,4 +1,4 @@
-> Cập nhật ngày 17/10/2026 theo `Final_Requirements`: xem [chức năng, role, migration và giới hạn kiểm chứng](docs/final-requirements.md). Lượt đánh giá mới dùng điểm từng tiêu chí /10; các ghi chú 1.5/PDF cũ chỉ dùng để tra lịch sử. Chạy `npm run test:integration` để kiểm tra trên database tạm, không ghi dữ liệu TEST vào workspace đang dùng.
+> Cập nhật ngày 25/10/2026 theo `Final_Requirements`: xem [chức năng, role, migration và giới hạn kiểm chứng](docs/final-requirements.md). Lượt đánh giá mới dùng điểm từng tiêu chí /10; các ghi chú 1.5/PDF cũ chỉ dùng để tra lịch sử. Chạy `npm run test:integration` để kiểm tra trên database tạm, không ghi dữ liệu TEST vào workspace đang dùng.
 
 # THINK UP
 
@@ -10,7 +10,7 @@
 - **Tin nhắn:** chat riêng 1–1 giữa sinh viên, giảng viên và admin, hiện tên/vai trò, lịch sử D1 và số tin chưa đọc. Mở mục **Tin nhắn** → **Mọi người** để bắt đầu. Xem [docs/messages.md](docs/messages.md).
 - **Menu admin:** Học phần, Người dùng, Cài đặt & quyền truy cập và các công cụ giám sát mở thành trang riêng. Xem [docs/admin-workspace.md](docs/admin-workspace.md).
 
-- **Ngôn ngữ:** chọn English / Tiếng Việt trên thanh phía trên, đổi ngay và ghi nhớ trên thiết bị bằng cookie trong một năm. Mặc định English. Menu, biểu mẫu, trợ giúp, rubric mặc định, ngày tháng, tên bước và xuất báo cáo theo lựa chọn. Nội dung demo có bản Việt/Anh cho tên học phần, bài viết, Coach/Feedback, nhận xét và cam kết; chuyển ngôn ngữ chỉ thay cách hiển thị. Nội dung người dùng tự viết hoặc sửa giữ nguyên. Khi đã kết nối AI, Coach/Feedback mới theo ngôn ngữ được chọn, trích dẫn minh chứng vẫn nguyên văn.
+- **Ngôn ngữ:** chọn English / Tiếng Việt trên thanh phía trên, đổi ngay và ghi nhớ trên thiết bị bằng cookie trong một năm. Mặc định Tiếng Việt. Menu, biểu mẫu, trợ giúp, rubric mặc định, ngày tháng, tên bước và xuất báo cáo theo lựa chọn. Nội dung demo có bản Việt/Anh cho tên học phần, bài viết, Coach/Feedback, nhận xét và cam kết; chuyển ngôn ngữ chỉ thay cách hiển thị. Nội dung người dùng tự viết hoặc sửa giữ nguyên. Khi đã kết nối AI, Coach/Feedback mới theo ngôn ngữ được chọn, trích dẫn minh chứng vẫn nguyên văn.
 - **Reflection Editor:** một vùng viết tự do, tiêu đề tùy chọn, thêm ảnh/sơ đồ/tài liệu làm bối cảnh và khung Trợ lý phản tư bên cạnh. Tự lưu sau 1,8 giây, lịch sử phiên bản và xuất văn bản. Không bắt buộc viết bốn phần; nộp bài cần nội dung và học phần. Minh chứng PNG/JPG/WebP/PDF/TXT tối đa 3 tệp, 5 MB/tệp. Chi tiết ở [docs/student-editor.md](docs/student-editor.md).
 - **Tư duy cùng AI:** bấm nút để AI đọc bản viết hiện tại (kể cả chưa tự lưu) và ảnh/tài liệu đã upload, rồi gợi ý hướng phát triển và câu hỏi để viết tiếp. Không cần nhập prompt, không tự gọi AI khi gõ bài, không viết hộ/chấm điểm. Gợi ý riêng theo bài, vẫn viết được trong lúc chờ. Khung “Trợ lý phản tư của bạn” giữ ba tab Tư duy cùng AI / AI Coach / Feedback & rubric.
 - **AI Coach:** chức năng riêng đọc bài đã viết và trả năm nhóm: điểm mạnh, điểm cần phát triển, câu hỏi gợi mở, gợi ý hành động, mức độ phản tư. Có nút yêu cầu Coach, kết quả/lịch sử riêng và cảnh báo phản hồi cũ. Không thay thế Tư duy cùng AI hoặc Feedback & rubric. Cả ba dùng được với Codex local hoặc OpenAI API.
@@ -18,7 +18,7 @@
 - **9-Week Journey:** nội dung, câu hỏi và hạn nộp của từng tuần tùy chỉnh theo học phần; trạng thái các bước dựa trên dữ liệu bài viết thực tế.
 - **9-Week Journey & Action Tracker:** một mục “Hành trình & hành động”, hiển thị reflection, cam kết và kết quả thực hiện ngay trong từng tuần. Cam kết gắn với bài reflection gốc; người học tự chỉnh sửa và xác nhận trước khi lưu. Khi viết reflection tiếp theo trong cùng học phần, editor nhắc các cam kết từ bài trước, gồm cả cam kết đã hoàn thành để nhìn lại kết quả. Bộ lọc học phần áp dụng cho cam kết qua bài gốc; cam kết cá nhân chưa gắn bài vẫn được giữ trong phần riêng của hành trình khi xem tất cả học phần. Đường dẫn cũ `?view=actions` mở hành trình hợp nhất.
 - **My Progress:** số bài, số revision, tuần hoàn thành, xu hướng mức độ, điểm từng tiêu chí, điểm mạnh/điểm cần phát triển; xuất CSV. Không tạo số liệu bằng AI.
-- **Không gian giảng viên:** menu có 5 trang riêng: Bài nộp & đánh giá, Sinh viên, Tiến độ lớp, Kiểm tra trùng lặp, Học phần. Mỗi bài có trang đọc/chấm riêng và URL mở lại được. Điểm không tự điền; giảng viên chọn đủ bốn tiêu chí và mức Kember trước khi xác nhận. Trả bài chỉ cần nhận xét. Có hồ sơ sinh viên, tiến độ 9 tuần, hỗ trợ theo tiêu chí, xuất CSV và cấu hình học phần được phân công. Xem luồng sử dụng tại `docs/lecturer-workspace.md`.
+- **Không gian giảng viên:** menu gồm Tổng quan, Bài nộp, Sinh viên, Phân tích lớp, Kiểm tra trùng lặp, Học phần và Tin nhắn. Có bộ chọn lớp/học phần, đủ năm nhóm Coach cho giảng viên và AI Reading kèm căn cứ từng tiêu chí rubric. Mỗi bài có trang đọc/chấm riêng và URL mở lại được. Điểm không tự điền; giảng viên chọn đủ bốn tiêu chí và mức Kember trước khi xác nhận. Trả bài chỉ cần nhận xét. Có hồ sơ sinh viên, tiến độ 9 tuần, hỗ trợ theo tiêu chí, xuất CSV và cấu hình học phần được phân công. Xem luồng sử dụng tại `docs/lecturer-workspace.md`.
 - **Kiểm tra trùng lặp:** đối chiếu bài đã nộp/hoàn thành của những sinh viên khác nhau trong phạm vi học phần được cấp quyền. Hiển thị tỷ lệ từ trùng của từng bài và các đoạn nguyên văn để giảng viên xem xét. Không dùng AI, không gửi bài ra ngoài, không tự giảm điểm; chưa đối chiếu Internet hoặc kho bài liên trường.
 - **Admin:** học phần; quản lý sinh viên và giảng viên với bộ lọc vai trò, trạng thái, tìm theo tên/email; tạo tài khoản trực tiếp với mật khẩu và phân công nhiều học phần; chỉnh sửa tài khoản, phân công bằng email, rubric và nội dung 9 tuần mặc định.
 
@@ -32,6 +32,45 @@ npm run dev
 Mở địa chỉ Local được in ra (thường là http://localhost:3000). Trang chủ giới thiệu ứng dụng, có nút đăng ký/đăng nhập bằng email và mật khẩu. Để thiết lập admin local, mở `/setup`, đặt mật khẩu cho `owner@thinkup.local`. Không có mật khẩu mặc định. Danh tính owner local chỉ được dùng để kích hoạt và kiểm thử khi NODE_ENV là development và hostname là localhost/127.0.0.1; trang làm việc vẫn yêu cầu đăng nhập.
 
 Dữ liệu local được lưu bằng D1/SQLite và R2 trong `.wrangler/state`. Không xóa thư mục này nếu muốn giữ các bài và minh chứng đã tạo. Các tệp `.env`, `.dev.vars` và `.wrangler` không được đưa vào source triển khai.
+
+## Mở HTTPS từng đợt trên máy Mac (cả backend)
+
+Cần Codex CLI đã đăng nhập ChatGPT (`codex login`). Máy này đã có Codex và `cloudflared`. Để mở đợt test, chạy:
+
+```bash
+npm run host
+```
+
+Lệnh dùng database và tệp hiện có trong `.wrangler/state`, build bản production và in link HTTPS. Lệnh thử Cloudflare trước (`https://….trycloudflare.com`), tự chuyển sang localhost.run (`https://….lhr.life`) nếu đường đó không truy cập được. Chỉ in sẵn sàng sau khi kiểm tra được backend qua HTTPS thật. Mọi tài khoản và mật khẩu hiện tại được giữ nguyên, gồm cả admin demo.
+
+Host kiểm tra link qua DNS công cộng (chờ tối đa 90 giây cho link Cloudflare mới) và kiểm tra lại mỗi phút; nếu link không truy cập được 3 lần liên tiếp hoặc tunnel/backend dừng, host tự mở lại và in link mới. Link hiện tại luôn nằm trong `.wrangler/host-url.txt`. Không chạy `npm run dev`/`dev:codex` cùng lúc với host vì cả hai dùng chung database.
+
+Giữ Terminal mở, máy có mạng và nắp máy mở trong suốt đợt sử dụng. Lệnh tự giữ macOS không idle sleep bằng `caffeinate`. Bấm **Ctrl+C** để dừng backend, AI bridge và tunnel. Đợt sau chạy lại cùng lệnh; link thay đổi, dữ liệu giữ nguyên. Không chạy đồng thời các bản host cùng database. Hai tunnel có chế độ miễn phí, không bảo đảm uptime; xem [Cloudflare](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/) và [localhost.run](https://localhost.run/docs/forever-free/).
+
+Tunnel miễn phí phù hợp để test, chưa bảo đảm giữ nguyên link và kết nối liên tục 2–3 ngày. localhost.run cho biết tên miền miễn phí thay đổi sau vài giờ; nếu tunnel ngắt, chạy lại `npm run host` và gửi link mới. Xem [FAQ của localhost.run](https://localhost.run/docs/faq/).
+
+Giao diện, API, D1/SQLite và R2 đều chạy trên máy; không deploy hoặc chuyển dữ liệu lên Cloudflare Workers. Chế độ này chặn trang debug, trang `/setup` và header danh tính nền tảng từ Internet. Người test đăng nhập bằng đúng tài khoản và mật khẩu đang dùng trên local.
+
+AI mặc định dùng phiên Codex đăng nhập ChatGPT của người host. Người test chỉ đăng nhập THINK UP, không cần tài khoản ChatGPT hay API key. Các lượt AI dùng chung hạn mức Codex của gói ChatGPT trên máy host; hết hạn mức sẽ báo lỗi, không tự chuyển sang API tính tiền. Chế độ host không dùng API key kể cả khi `.dev.vars` có cấu hình. Bridge chỉ nhận kết nối nội bộ với token trong bộ nhớ; xử lý một lượt AI tại một thời điểm, cho tối đa bốn lượt đợi. Kiểm tra bằng `npm run test:host` và `npm run test:codex`.
+
+## Dữ liệu dùng thử (cho người test)
+
+Dừng dev server, rồi dựng lại toàn bộ database local bằng bộ dữ liệu giống thật:
+
+```bash
+npm run db:seed:showcase -- --replace
+npm run dev:codex   # hoặc npm run host khi chia sẻ cho người dùng thử
+```
+
+Lệnh chuyển dữ liệu hiện có sang `.wrangler/backups/<thời điểm>/` (không xóa), rồi tạo database mới. Mật khẩu chung: **`ThinkUp@2026`**.
+
+| Email | Vai trò |
+| --- | --- |
+| `sinhvien@thinkup.test` | Sinh viên Nguyễn Minh Anh: 3 học phần, 15 bài ở đủ trạng thái (nháp, chờ chấm, cần sửa, hoàn thành), cam kết, tự đánh giá, tin nhắn chưa đọc |
+| `giangvien@thinkup.test` | Giảng viên TS. Nguyễn Thu Hà: 2 lớp, 19 sinh viên, 11 bài chờ chấm, 1 cặp bài trùng lặp để thử kiểm tra |
+| `admin@thinkup.test` | Quản trị Phạm Quốc Huy: 4 học phần, 26 tài khoản (1 tạm ngừng), 2 phân công chờ |
+
+Bộ dữ liệu có 3 giảng viên, 22 sinh viên, 4 học phần đang ở tuần 6, 87 bài reflection viết riêng theo trình độ từng sinh viên, lịch sử phiên bản (có bài bị trả rồi nộp lại), 72 lượt đánh giá kèm minh chứng, 63 cam kết, 3 tệp minh chứng, mẫu nhận xét và 5 cuộc trò chuyện. Mọi người và sự kiện đều hư cấu; ngày tháng tính theo ngày chạy lệnh. Đề xuất AI có sẵn được đánh dấu "Phản hồi mẫu" trên giao diện; bấm phân tích lại để AI thật đọc bài. Các workflow test (`test:v15`, `test:demo`…) dùng bộ demo cũ bên dưới và ghi vào database, không chạy chúng trên dữ liệu dùng thử.
 
 ## Dữ liệu demo để kiểm thử local
 
@@ -97,7 +136,7 @@ CODEX_MODEL=gpt-5.6-luna npm run dev:codex
 
 Lệnh chạy một cầu nối Node chỉ lắng nghe `127.0.0.1`, dùng token ngẫu nhiên trong bộ nhớ, rồi khởi động web trên loopback. Cầu nối chỉ chấp nhận phiên đăng nhập ChatGPT, xử lý một lượt một lúc, tắt công cụ shell/web/plugin và xóa các tệp tạm khi hoàn tất. Phản hồi được kiểm tra theo cùng rubric, trích dẫn và cách tính điểm của kết nối API. Không tự chuyển sang API khi Codex lỗi hoặc hết hạn mức.
 
-Chế độ này chỉ hoạt động trong development qua localhost/127.0.0.1, không qua tunnel hoặc bản deploy. Cấu hình cầu nối không được thêm vào bản build. `npm run dev` tiếp tục dùng kết nối API như trước. Kiểm tra cầu nối bằng `npm run test:codex`.
+`npm run dev:codex` dùng qua localhost/127.0.0.1. Để cho nhóm dùng qua HTTPS trên máy này, dùng `npm run host` như hướng dẫn phía trên. Thông tin xác thực cầu nối không được thêm vào bản build; bản deploy Sites không tự nhận phiên ChatGPT trên máy. `npm run dev` tiếp tục dùng kết nối API như trước. Kiểm tra cầu nối bằng `npm run test:codex`.
 
 Kiểm thử thực tế bằng `npm run test:codex:live` khi bản local chạy ở cổng 3011 (hoặc đặt `THINKUP_TEST_URL`). Lệnh này dùng hạn mức ChatGPT cho ba lượt phân tích, tạo tài khoản/bài/học phần có nhãn TEST và cần admin demo đã nạp. Không chạy cùng kiểm thử đơn vị thông thường.
 
@@ -165,3 +204,5 @@ Khi sửa schema, chạy `npm run db:generate`, kiểm tra migration và build l
 Giao diện tham khảo Reflection.app: nền ngà nhẹ, màu tím trầm, font Manrope lưu tại dự án, menu nổi có nền mờ khi cuộn và footer nhiều cột. Trang giới thiệu có minh họa bốn phần reflection có thể bấm thử, hiệu ứng xuất hiện khi cuộn và FAQ thu gọn. Sinh viên, giảng viên và admin dùng chung màu sắc, nút, biểu mẫu và khoảng cách; menu mobile giữ nhãn, nút đăng xuất và liên kết thật. Hiệu ứng tắt khi người dùng chọn giảm chuyển động. Ảnh nhận diện liên kết hiện tại: `public/og-v2.png`, tạo bằng ImageGen tích hợp với motif nhật ký phản tư, đồng bộ bảng màu mới; ảnh cũ `public/og.png` được giữ lại. Chi tiết thiết kế và prompt trong `docs/design.md`.
 
 Reflection Editor đã được kiểm tra trên Chrome headless ở desktop/mobile; Tư duy cùng AI qua Codex local đã được xác minh với ảnh được gửi tự động và bản viết chưa lưu. Để dùng cho lớp, cần chủ sở hữu phân công tài khoản/học phần và cấu hình nhà cung cấp AI phù hợp với môi trường triển khai.
+
+Đã sửa F1–F6 của audit ngày 25/10; xem [kết quả và kiểm thử](docs/requirements-audit-2026-10-25.md). `npm run test:reading:live` là kiểm tra tùy chọn bằng tài khoản Codex/ChatGPT đang đăng nhập và sử dụng hạn mức gói.
