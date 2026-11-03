@@ -25,6 +25,7 @@ export default async function WorkspacePage({workspaceRole:role, requestedView, 
   if (!data.user) redirect('/login');
   if (data.user.role !== role) redirect(homePath(data.user.role as Role));
   if(requestedView==='messages'||lecturerSection==='messages')redirect(`/${role}/messages`);
+  if(requestedView==='community'||lecturerSection==='community')redirect(`/${role}/community`);
   if(role==='lecturer'){
     const required:Permission=lecturerSection==='courses'?'courses.manage':lecturerSection==='similarity'?'similarity.run':'submissions.read';
     if(!hasPermission(data.user,required))return <main className="access-screen"><h1>{translate('Không thể mở không gian',language)}</h1><p role="alert">{translate('Vai trò của bạn chưa được cấp quyền thực hiện thao tác này.',language)}</p><Link href="/lecturer/profile">{translate('Hồ sơ cá nhân',language)}</Link></main>;

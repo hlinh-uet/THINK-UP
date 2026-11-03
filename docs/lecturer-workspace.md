@@ -18,6 +18,14 @@ Trang chấm `/lecturer/submissions/<id>` theo cách trình bày của student e
 
 Bộ chọn lớp và học phần dùng chung thành phần popover `ScopePicker`, cùng kiểu nút, trạng thái chọn và thao tác bàn phím (mũi tên, Home/End, Escape). Cả hai giữ phạm vi khi chuyển giữa các trang giảng dạy; liên kết vào/ra cấu hình học phần cũng giữ lớp đang chọn. Bộ chọn lớp luôn có toàn bộ lớp được phân công và lựa chọn Tất cả lớp; mỗi học phần hiện thêm tên lớp để phân biệt các đợt mở cùng mã. Đổi lớp sẽ bỏ học phần đang chọn nếu không thuộc lớp mới. Mỗi bài mở tại `/lecturer/submissions/<id>`, có thể tải lại và chia sẻ URL với giảng viên được phân quyền. Trở về danh sách giữ bộ lọc; bài mở từ hồ sơ sinh viên có liên kết trở về hồ sơ đó. Các lớp ngoài quyền, bài nháp và hồ sơ sinh viên ngoài phạm vi trả 404; API kiểm tra quyền độc lập.
 
+## Deadline cam kết theo môn học
+
+Trong **Học phần & rubric → chọn môn → Hạn cam kết**, giảng viên chọn số ngày tính từ thời điểm tạo cam kết (1–365 ngày) hoặc một ngày giờ cố định theo múi giờ Việt Nam. Quy định này độc lập với hạn nộp reflection theo tuần. Chưa cấu hình thì các hạn đã lưu được giữ lại; sinh viên không tự sửa hạn của cam kết thuộc môn học. Cam kết cá nhân vẫn có hạn do sinh viên chọn.
+
+Thay đổi quy định áp dụng cho cam kết chưa hoàn thành. Cam kết đã hoàn thành giữ deadline đã lưu và thời điểm hoàn thành do máy chủ ghi nhận. Chỉnh sửa kết quả của một cam kết đã hoàn thành không làm đổi thời điểm đó; mở lại để tiếp tục thực hiện sẽ ghi một lần hoàn thành mới khi cập nhật xong, với lịch sử đầy đủ. Với cam kết cũ không có thời điểm hoàn thành, hệ thống không suy diễn là đúng hạn hay muộn.
+
+**Quản lý lớp → Cam kết & hành động** có tìm kiếm, lọc sinh viên, trạng thái, quá hạn và hoàn thành muộn; mỗi mục mở ra kết quả, minh chứng và lịch sử. Có thể mở trực tiếp `/lecturer/progress?course=<id>&tab=actions` hoặc theo liên kết từ cấu hình deadline. GV chỉ thấy cam kết từ bài nguồn đã được chia sẻ trong môn mình phụ trách, không đọc nội dung bài nháp riêng tư. Hoàn thành là trạng thái do SV báo cáo, không phải một lần GV xác nhận và không tự động thay đổi điểm.
+
 ## Đánh giá và trả bài
 
 1. Mở bài cần đánh giá, đọc bài viết và mở **Thông tin & minh chứng** để tải tệp khi cần. Xem các phiên bản, AI Coach, feedback và lịch sử nhận xét khi cần.

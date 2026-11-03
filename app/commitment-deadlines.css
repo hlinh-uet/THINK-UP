@@ -1,0 +1,45 @@
+/* Shared deadline language: gold for the course rule, red for overdue work, green for completion. */
+.lecturer-workspace .lx-deadline-settings { max-width:820px; padding:26px; border:1px solid #e1d9c7; border-radius:14px; background:#fffefa; }
+.lecturer-workspace .lx-deadline-settings > header { display:flex; align-items:flex-start; gap:14px; margin-bottom:24px; }
+.lecturer-workspace .lx-deadline-icon { display:grid; place-items:center; flex-shrink:0; width:46px; height:46px; border-radius:10px; background:#f4e8c4; color:#82601d; }
+.lecturer-workspace .lx-deadline-settings h3 { margin:0 0 6px; font-size:20px; font-weight:650; color:#4d3b25; }
+.lecturer-workspace .lx-deadline-settings header p { margin:0; color:#776e60; font-size:14px; line-height:1.6; }
+.lecturer-workspace .lx-deadline-modes { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:22px; }
+.lecturer-workspace .lx-deadline-modes button { min-height:43px; padding:10px 16px; border:1px solid #dfd9cc; border-radius:8px; background:#fff; color:#686052; font:inherit; font-size:14px; cursor:pointer; }
+.lecturer-workspace .lx-deadline-modes button[aria-pressed="true"] { border-color:#a78a48; background:#f6edcf; color:#624a20; font-weight:600; }
+.lecturer-workspace .lx-deadline-modes button:hover { background:#f0efec; }
+.lecturer-workspace .lx-deadline-input { max-width:440px; }
+.lecturer-workspace .lx-deadline-input input { min-height:46px; }
+.lecturer-workspace .lx-deadline-input small { color:#777064; line-height:1.7; font-size:12px; }
+.lecturer-workspace .lx-deadline-note { display:flex; align-items:flex-start; gap:9px; margin:20px 0; padding-top:18px; border-top:1px solid #e8e1d2; color:#776e60; font-size:13px; line-height:1.7; }
+.lecturer-workspace .lx-deadline-note svg { flex-shrink:0; margin-top:3px; color:#9a7c3d; }
+.app-shell.student-workspace .action-assigned-deadline { align-self:start; gap:8px; }
+.app-shell.student-workspace .action-assigned-deadline > strong { display:flex; gap:9px; align-items:center; min-height:46px; padding:12px 14px; border:1px solid #e2d5b5; border-radius:9px; background:#fbf5e5; color:#674e28; font-size:15px; font-weight:650; line-height:1.6; }
+.app-shell.student-workspace .action-assigned-deadline small { color:#7a7265; font-size:12px; line-height:1.6; }
+.app-shell.student-workspace .action-completion-record { display:flex; align-items:center; flex-wrap:wrap; gap:7px; color:#4c7057; font-size:13px; }
+.app-shell.student-workspace .commit-card-deadline time { line-height:1.65; }
+.app-shell.student-workspace .commit-row-status.is-completed-late { background:#f6ead7; color:#966226; }
+.app-shell.student-workspace .jr-chip.is-late { background:#fbf2df; border-color:#e7d1a4; color:#8b6424; }
+.app-shell.student-workspace .jr-chip.is-late:hover { background:#efeeeb; }
+.lecturer-workspace .lx-action-filters { display:grid; grid-template-columns:minmax(200px,1fr) minmax(180px,260px); gap:12px; }
+.lecturer-workspace .lx-action-search { display:flex; gap:9px; align-items:center; padding:0 13px; min-height:44px; border:1px solid #e2dccf; border-radius:8px; background:#fff; color:#9c917e; }
+.lecturer-workspace .lx-action-search input { width:100%; min-width:0; min-height:42px; padding:0; border:0; outline:none; box-shadow:none; background:transparent; font:inherit; font-size:14px; }
+.lecturer-workspace .lx-action-search:focus-within { outline:2px solid #d6c18d; outline-offset:2px; }
+.lecturer-workspace .lx-action-filters .lx-field { margin:0; }
+.lecturer-workspace .lx-action-filters select { min-height:44px; }
+.lecturer-workspace .lx-action-monitor .lx-tabs { flex-wrap:wrap; overflow:visible; gap:4px 18px; }
+.lecturer-workspace .lx-action-monitor .lx-tabs .is-overdue,.lecturer-workspace .lx-overdue-text { color:#ad3c34; }
+.lecturer-workspace .lx-action-monitor .lx-tabs .is-completed-late,.lecturer-workspace .lx-late-completion-text { color:#966226; }
+.lecturer-workspace .lx-done-text { color:#4c7057; }
+.lecturer-workspace .lx-plan-dot.is-overdue { background:#b74339; }
+.lecturer-workspace .lx-action-timing { display:flex; flex-wrap:wrap; gap:20px 40px; padding:15px 20px; border:1px solid #e6ded0; border-radius:10px; background:#fcfaf5; }
+.lecturer-workspace .lx-action-timing > span { display:flex; align-items:baseline; gap:10px; color:#746858; font-size:14px; }
+.lecturer-workspace .lx-action-timing b { color:#ad3c34; font-size:26px; font-weight:650; }
+.lecturer-workspace .lx-action-timing > span + span b { color:#966226; }
+@media (max-width:640px) {
+ .lecturer-workspace .lx-deadline-settings { padding:18px; }
+ .lecturer-workspace .lx-action-filters { grid-template-columns:minmax(0,1fr); }
+ .lecturer-workspace .lx-action-monitor .lx-plans summary { grid-template-columns:8px minmax(0,1fr) 16px; gap:10px; }
+ .lecturer-workspace .lx-action-monitor .lx-plan-due { grid-column:2; grid-row:2; justify-items:start; }
+ .lecturer-workspace .lx-action-monitor .lx-plans summary > .ui-icon { grid-column:3; grid-row:1; }
+}

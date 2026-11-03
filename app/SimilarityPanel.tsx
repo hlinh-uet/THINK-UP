@@ -3,12 +3,12 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { translate, type Language } from '../lib/i18n';
 import { demoText } from '../lib/demo-i18n';
-import { writingSections, type Course, type Data, type Reflection, type User } from '../lib/domain';
+import type { Course, Data, Reflection, User } from '../lib/domain';
 import type { SimilarityReport, SimilaritySource } from '../lib/similarity';
 import UiIcon from './UiIcon';
+import ScopePicker from './ScopePicker';
 import { formatDate } from './LecturerKit';
 
-const sectionName=(key:string,language:Language)=>{const section=writingSections.find(s=>s.key===key);return section?language==='en'?section.label:section.name:key};
 type Props={language:Language;courseId:string;courseName?:string;courses:Course[];students:User[];memberships:Data['memberships'];reflections:Reflection[];reflectionId?:string;onOpen:(id:string)=>void};
 
 export default function SimilarityPanel({language,courseId,courses,students,memberships,reflections,reflectionId,onOpen}:Props) {
@@ -49,38 +49,39 @@ export default function SimilarityPanel({language,courseId,courses,students,memb
     }catch(caught){if(controller.current===abort&&!abort.signal.aborted)setError(caught instanceof Error?caught.message:'Không thể kiểm tra trùng lặp.')}
     finally{if(controller.current===abort)setBusy(false)}
   }
-  const count=studentId?tr('{0} bài nguồn · {1} bài đối chiếu',[sources.length,peers.length]):tr('{0} bài · {1} sinh viên',[documents.length,new Set(documents.map(r=>r.userId)).size]);
   return <div className="lx-stack lx-similarity">
     <form className="lx-scan" id="similarity-settings" onSubmit={scan}>
       <fieldset className="lx-scan-fields" disabled={busy}><legend className="sr-only">{tr('Bộ lọc kiểm tra trùng lặp')}</legend>
-        <label><span>{tr('Học phần')}</span><select value={selectedCourse} onChange={e=>changeCourse(e.target.value)}><option value="">{tr('Tất cả học phần trong phạm vi')}</option>{courses.map(c=><option key={c.id} value={c.id}>{c.code} · {demoText(c.name,c.id,language)}{c.className&&c.className!==c.code?` · ${c.className}`:''}</option>)}</select></label>
-        <label><span>{tr('Sinh viên')}</span><select value={studentId} onChange={e=>{setStudentId(e.target.value);setTargetId('')}}><option value="">{tr('Tất cả sinh viên')}</option>{roster.map(u=><option key={u.id} value={u.id}>{u.name}</option>)}</select></label>
-        <label><span>{tr('Tuần')}</span><select value={week} onChange={e=>{setWeek(e.target.value);setTargetId('')}}><option value="">{tr('Tất cả tuần')}</option>{Array.from({length:9},(_,i)=><option key={i} value={i+1}>{tr('Tuần {0}',[i+1])}</option>)}</select></label>
+        <ScopePicker label={tr('Học phần')} ariaLabel={tr('Học phần')} icon="journey" value={selectedCourse} disabled={busy} onChange={changeCourse}
+          options={[{value:'',label:tr('Tất cả học phần trong phạm vi')},...courses.map(c=>({value:c.id,label:demoText(c.name,c.id,language),code:[c.code,c.className&&c.className!==c.code?c.className:''].filter(Boolean).join(' · ')}))]}/>
+        <ScopePicker label={tr('Sinh viên')} ariaLabel={tr('Sinh viên')} icon="users" value={studentId} disabled={busy} onChange={value=>{setStudentId(value);setTargetId('')}}
+          options={[{value:'',label:tr('Tất cả sinh viên')},...roster.map(u=>({value:u.id,label:u.name}))]}/>
+        <ScopePicker label={tr('Tuần')} ariaLabel={tr('Tuần')} icon="progress" value={week} disabled={busy} onChange={value=>{setWeek(value);setTargetId('')}}
+          options={[{value:'',label:tr('Tất cả tuần')},...Array.from({length:9},(_,i)=>({value:String(i+1),label:tr('Tuần {0}',[i+1])}))]}/>
         <button className="lx-btn is-primary" type="submit" aria-busy={busy} disabled={busy||!ready}>{busy&&<UiIcon name="spinner" size={15}/>}{tr(busy?'Đang đối chiếu…':currentReport?'Kiểm tra lại':'Đối chiếu')}</button>
       </fieldset>
-      <p className="lx-scan-meta">{ready?<>{count} · {tr('chỉ bài đã nộp hoặc hoàn tất')}</>:tr('Cần bài từ ít nhất hai sinh viên khác nhau. Hãy đổi bộ lọc để mở rộng phạm vi.')}</p>
+      {!ready&&<p className="lx-scan-meta">{tr('Cần bài từ ít nhất hai sinh viên khác nhau. Hãy đổi bộ lọc để mở rộng phạm vi.')}</p>}
       {target&&<p className="lx-scan-target">{tr('Bài được chọn')}: <b>{demoText(target.title,target.id,language)||tr('Reflection chưa đặt tên')}</b><button className="lx-icon-btn" type="button" disabled={busy} aria-label={tr('Bỏ chọn bài')} onClick={()=>setTargetId('')}><UiIcon name="close" size={13}/></button></p>}
     </form>
     {error&&<p className="lx-notice is-error" role="alert">{tr(error)}</p>}
     {busy?<p className="lx-scan-wait" role="status">{tr('Đang tìm các đoạn tương đồng…')}</p>
       :currentReport?<section className="lx-sim-results" ref={results} tabIndex={-1} aria-label={tr('Kết quả đối chiếu')}>
         {stale&&<p className="lx-notice is-warn" role="alert">{tr('Một bài đã đổi phiên bản sau khi kiểm tra. Hãy kiểm tra lại trước khi sử dụng kết quả.')}</p>}
-        <SimilarityResults report={currentReport} language={language} scopeLabel={scopeLabel} stale={stale} onOpen={onOpen}/>
+        <SimilarityResults report={currentReport} language={language} scopeLabel={scopeLabel} stale={stale} reflections={reflections} onOpen={onOpen}/>
       </section>
       :<p className="lx-scan-wait">{tr('Chọn phạm vi rồi bấm Đối chiếu. Các cặp bài tương đồng sẽ hiện tại đây.')}</p>}
-    <details className="lx-disclosure"><summary>{tr('Cách đối chiếu và giới hạn')}</summary><p>{tr('Đối chiếu cụm 5 từ liên tiếp, bỏ qua khác biệt hoa/thường và dấu câu, cùng các câu hướng dẫn tuần. Hiển thị khi có ít nhất 8 cụm chung và ít nhất 10% từ của một bài trùng. Không so sánh các bài của cùng một sinh viên.')}</p><p>{tr('Chỉ kiểm tra bài đã nộp hoặc hoàn thành. Chưa đối chiếu Internet, trường khác, nội dung ảnh hay văn bản được diễn đạt lại. Không dùng kết quả để tự động trừ điểm.')}</p></details>
+    <details className="lx-disclosure"><summary>{tr('Cách đối chiếu và giới hạn')}</summary><p>{tr('Tỷ lệ trùng là tín hiệu để xem xét, không phải kết luận đạo văn.')}</p><p>{tr('Đối chiếu cụm 5 từ liên tiếp, bỏ qua khác biệt hoa/thường và dấu câu, cùng các câu hướng dẫn tuần. Hiển thị khi có ít nhất 8 cụm chung và ít nhất 10% từ của một bài trùng. Không so sánh các bài của cùng một sinh viên.')}</p><p>{tr('Chỉ kiểm tra bài đã nộp hoặc hoàn thành. Chưa đối chiếu Internet, trường khác, nội dung ảnh hay văn bản được diễn đạt lại. Không dùng kết quả để tự động trừ điểm.')}</p></details>
   </div>;
 }
 
-export function SimilarityResults({report,language,scopeLabel,stale=false,onOpen}:{report:SimilarityReport;language:Language;scopeLabel:string;stale?:boolean;onOpen:(id:string)=>void}){
+export function SimilarityResults({report,language,scopeLabel,stale=false,reflections=[],onOpen}:{report:SimilarityReport;language:Language;scopeLabel:string;stale?:boolean;reflections?:Reflection[];onOpen:(id:string)=>void}){
   const tr=(text:string,args:readonly unknown[]=[])=>translate(text,language,args);
   const title=(doc:SimilaritySource)=>demoText(doc.title,doc.id,language)||tr('Reflection chưa đặt tên');
   return <>
-    <header className="lx-sim-summary" title={scopeLabel}>
+    <header className="lx-sim-summary" title={`${scopeLabel} · ${tr('{0} bài · {1} cặp đã đối chiếu',[report.documents,report.comparedPairs])}`}>
       <h2>{report.matchedPairs?tr('{0} cặp bài cần xem xét',[report.matchedPairs]):tr(report.comparedPairs?'Chưa thấy đoạn trùng đáng chú ý':'Chưa đủ bài để đối chiếu')}</h2>
-      <p>{tr('{0} bài · {1} cặp đã đối chiếu',[report.documents,report.comparedPairs])}{report.skipped>0&&<> · {tr('{0} bài quá ngắn bị bỏ qua',[report.skipped])}</>} · {formatDate(report.checkedAt,language,true)}</p>
+      <p>{tr('Kiểm tra lúc {0}',[formatDate(report.checkedAt,language,true)])}</p>
     </header>
-    {report.matches.length>0&&<p className="lx-footnote">{tr('Tỷ lệ trùng là tín hiệu để xem xét, không phải kết luận đạo văn.')}</p>}
     {report.matchedPairs>report.matches.length&&<p className="lx-notice">{tr('Hiển thị 200 cặp có tỷ lệ trùng cao nhất. Chọn học phần cụ thể để thu hẹp kết quả.')}</p>}
     {report.matches.length>0&&<ol className="lx-sim-list">{report.matches.map((match,index)=>{
       const flip=report.reflectionId?match.right.id===report.reflectionId:!!report.studentId&&match.right.userId===report.studentId;
@@ -89,13 +90,21 @@ export function SimilarityResults({report,language,scopeLabel,stale=false,onOpen
       return <li key={`${match.left.id}:${match.right.id}`}><details open={index===0}>
         <summary>
           <span className="lx-sim-no">{index+1}</span>
-          {docs.map(doc=><span className="lx-sim-doc" key={doc.id}><b>{doc.studentName}</b><small>{title(doc)}</small></span>)}
-          <span className="lx-sim-rate" title={tr('{0}% và {1}% số từ của mỗi bài',rates)}><b>{top}%</b><i><s style={{width:`${top}%`}}/></i></span>
+          <span className="lx-sim-pair">{docs.map(doc=><b key={doc.id}><i aria-hidden="true"/>{doc.studentName}</b>)}</span>
+          <span className={`lx-sim-rate is-${top>=50?'high':top>=25?'mid':'low'}`} title={tr('{0}% và {1}% số từ của mỗi bài',rates)}><b><small className="lx-sim-rate-label">{tr('Trùng lặp')}</small>{top}%</b><i><s style={{width:`${top}%`}}/></i></span>
           <UiIcon name="chevron" size={16}/>
         </summary>
         <div className="lx-sim-body">
-          {docs.map((doc,i)=><div className="lx-sim-col-head" key={doc.id}><span><b>{doc.studentName}</b> · {tr('{0}% từ trùng',[rates[i]])}</span><button type="button" className="lx-link" disabled={stale} onClick={()=>onOpen(doc.id)}>{tr('Mở bài')}<UiIcon name="arrow" size={13}/></button></div>)}
-          {match.excerpts.flatMap((excerpt,i)=>(flip?[excerpt.right,excerpt.left]:[excerpt.left,excerpt.right]).map((part,j)=><blockquote key={`${i}-${j}`}><small><span className="lx-sim-who">{docs[j].studentName} · </span>{sectionName(part.section,language)}</small><p>{part.text}</p></blockquote>))}
+          {docs.map((doc,j)=>{const own=match.excerpts.map(e=>(flip?[e.right,e.left]:[e.left,e.right])[j]),content=reflections.find(r=>r.id===doc.id)?.content;
+            // Seeded demo work has an English version of each whole section, not of single passages; authored work stays verbatim.
+            const sections=[...new Set(own.map(part=>part.section))];
+            const english=language==='en'&&content?sections.map(section=>demoText(content[section],doc.id,language)).filter((text,i)=>text!==content[sections[i]]):[];
+            const passages=english.length&&english.length===sections.length?english:own.map(part=>part.text);
+            return <section className="lx-sim-side" key={doc.id}>
+              <header><span><b>{doc.studentName}</b><small>{title(doc)}</small></span>
+                <button type="button" className="lx-link" disabled={stale} onClick={()=>onOpen(doc.id)}>{tr('Mở bài')}<UiIcon name="arrow" size={13}/></button></header>
+              <div className="lx-sim-passages">{passages.map((text,i)=><p key={i}>{text}</p>)}</div>
+            </section>})}
         </div>
       </details></li>;
     })}</ol>}

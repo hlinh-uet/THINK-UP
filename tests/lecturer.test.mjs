@@ -141,3 +141,33 @@ test('assessment begins without assumed scores, preserves matching final grades 
 test('CSV protects authored spreadsheet formulas without changing numeric grades or quoted content',()=>{
   assert.equal(safeCsv([['=HYPERLINK("x")','  @SUM(1)',7.13,'A, B\n"C"']]),'"\'=HYPERLINK(""x"")","\'  @SUM(1)","7.13","A, B\n""C"""');
 });
+
+test('work desk prioritises pending work, keeps only own active drafts and preserves course links',async()=>{
+ const {default:Overview}=await import(componentModule(new URL('../app/LecturerOverview.tsx',import.meta.url)));
+ const reflection=(id,status,updatedAt)=>({id,status,updatedAt,title:id,userId:'student',studentName:'Student',week:1,reviews:[],analyses:[]});
+ const reflections=[reflection('newer','submitted','2026-10-05'),reflection('oldest','submitted','2026-10-01'),reflection('returned','returned','2026-09-01'),reflection('final','final','2026-08-01')];
+ const records=[{kind:'review-draft',ownerId:'teacher',reflectionId:'newer'},{kind:'review-draft',ownerId:'another-teacher',reflectionId:'oldest'},{kind:'review-draft',ownerId:'teacher',reflectionId:'returned'}];
+ const props={query:{course:'course',cohort:'Class A'},userId:'teacher',students:[],courses:[],memberships:[],reflections,actions:[],records,rubric:defaultRubric,detailHref:id=>`/lecturer/submissions/${id}?course=course`,studentHref:id=>`/lecturer/students?student=${id}`};
+ for(const language of ['vi','en']){
+  const html=renderToStaticMarkup(createElement(Overview,{...props,language}));
+  const cards=html.match(/<article class="lecturer-task[^"]*">[\s\S]*?<\/article>/g);
+  assert.equal(cards.length,3);assert.match(cards[0],/<b>2<\/b>/);assert.match(cards[1],/<b>1<\/b>/);
+  assert.match(cards[0],/course=course&amp;cohort=Class\+A&amp;status=submitted/);
+  assert.match(cards[1],/\/submissions\/newer\?course=course/);
+  const queue=html.match(/<ul class="lecturer-queue-list">[\s\S]*?<\/ul>/)[0];
+  assert.ok(queue.indexOf('oldest')<queue.indexOf('newer'));assert.doesNotMatch(queue,/\/submissions\/(returned|final)/);
+  assert.match(html,/status=returned/,'Returned work remains reachable');
+ }
+ const empty=renderToStaticMarkup(createElement(Overview,{...props,language:'en',reflections:[],records:[]}));
+ assert.doesNotMatch(empty,/lecturer-queue-list/);assert.match(empty,/Nothing is awaiting review/);
+});
+
+test('submission filters expose active criteria and show result counts without hiding state',async()=>{
+ const {default:Submissions}=await import(componentModule(new URL('../app/LecturerSubmissions.tsx',import.meta.url)));
+ const props={language:'en',rows:[],all:[],courses:[],rubric:defaultRubric,onFilters(){},detailHref:id=>id,studentHref:id=>id};
+ const filters={status:'submitted',week:'',q:'',criterion:'',level:'',sort:'oldest'};
+ const plain=renderToStaticMarkup(createElement(Submissions,{...props,filters}));
+ assert.match(plain,/id="submission-advanced-filters" hidden=""/);assert.match(plain,/Showing 0 \/ 0 submissions/);
+ const active=renderToStaticMarkup(createElement(Submissions,{...props,filters:{...filters,criterion:defaultRubric[0].key,level:'2'}}));
+ assert.doesNotMatch(active,/id="submission-advanced-filters" hidden/);assert.match(active,/aria-expanded="true"/);assert.match(active,/value="2" selected=""/);
+});

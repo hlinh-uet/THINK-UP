@@ -30,6 +30,12 @@ export function daysSince(value:string,now:number) {
   return Math.max(0,Math.floor((now-new Date(value).getTime())/864e5));
 }
 
+/** How long a submission has waited for review: under 3 days, 3–5 days, 6 days or more. */
+export function waitTone(days:number) {return days>=6?'late':days>=3?'due':'fresh'}
+export function WaitTag({days,language}:{days:number;language:Language}) {
+  return <span className={`lx-wait is-${waitTone(days)}`}><i aria-hidden="true"/>{days?translate('{0} ngày',language,[days]):translate('Hôm nay',language)}</span>;
+}
+
 export function StatusTag({status,language}:{status:string;language:Language}) {
   return <span className={`lx-status is-${status}`}><i aria-hidden="true"/>{translate(lecturerStatuses[status]||status,language)}</span>;
 }

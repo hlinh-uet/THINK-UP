@@ -10,12 +10,13 @@ import { useUnsavedChanges } from './useUnsavedChanges';
 import DefaultConfigurationFields from './DefaultConfigurationFields';
 import UiIcon from './UiIcon';
 import { formatDate } from './LecturerKit';
+import {deadlineFromInput,deadlineInput,formatActionDeadline,validateCommitmentDeadline} from '../lib/commitment-deadline';
 
 type Props={query?:LecturerQuery;courses:Course[];memberships:{courseId:string;userId:string}[];records:LearningRecord[];selectedCourseId:string;language:Language;busy:string;onMutate:LecturerMutation};
 export default function LecturerCourses({query={},courses,memberships,records,selectedCourseId,language,busy,onMutate}:Props) {
   const tr=(text:string,args:readonly unknown[]=[])=>translate(text,language,args);
   const selected=courses.find(c=>c.id===selectedCourseId);
-  if(selected)return <CourseSettings key={selected.id+language} course={selected} listHref={lecturerHref('courses',{cohort:query.cohort})} records={records.filter(r=>r.kind==='course-history'&&r.courseId===selected.id)} language={language} busy={busy} onMutate={onMutate}/>;
+  if(selected)return <CourseSettings key={selected.id+language} initialSection={query.tab==='commitments'?'commitments':undefined} course={selected} listHref={lecturerHref('courses',{cohort:query.cohort})} records={records.filter(r=>r.kind==='course-history'&&r.courseId===selected.id)} language={language} busy={busy} onMutate={onMutate}/>;
   return <div className="lx-stack">
     <div className="lx-table-wrap"><table className="lx-table">
       <thead><tr><th>{tr('Học phần')}</th><th>{tr('Lớp học phần')}</th><th className="is-num">{tr('Sinh viên')}</th><th>{tr('Hạn nộp gần nhất')}</th><th/></tr></thead>
@@ -31,19 +32,21 @@ export default function LecturerCourses({query={},courses,memberships,records,se
 }
 
 /** One course's journey, rubric and history. `system` edits the defaults new courses start from (administrator only). */
-export function CourseSettings({course,listHref,records,language,busy,onMutate,system=false}:{course:Course;listHref?:string;records:LearningRecord[];language:Language;busy:string;onMutate:LecturerMutation;system?:boolean}) {
+export function CourseSettings({course,listHref,records,language,busy,onMutate,system=false,initialSection='journey'}:{course:Course;listHref?:string;records:LearningRecord[];language:Language;busy:string;onMutate:LecturerMutation;system?:boolean;initialSection?:'journey'|'commitments'}) {
   const tr=(text:string,args:readonly unknown[]=[])=>translate(text,language,args);
   const [draft,setDraft]=useState(()=>({...structuredClone(course),name:demoText(course.name,course.id,language),weeks:course.weeks.map(w=>({...w,title:tr(w.title),prompt:tr(w.prompt)})),rubric:course.rubric.map(c=>({...c,name:tr(c.name),descriptions:c.descriptions.map(d=>tr(d))}))}));
-  const [section,setSection]=useState<'journey'|'rubric'|'history'>('journey'),[openWeek,setOpenWeek]=useState(system?0:-1),[criterionIndex,setCriterionIndex]=useState(0);
+  const [section,setSection]=useState<'journey'|'commitments'|'rubric'|'history'>(initialSection),[openWeek,setOpenWeek]=useState(system?0:-1),[criterionIndex,setCriterionIndex]=useState(0);
   const [error,setError]=useState(''),[changed,setChanged]=useState(false);
   const {markChanged,markSaved}=useUnsavedChanges();
   function edit(next:Course){setDraft(next);setChanged(true);markChanged();setError('')}
   const editWeek=(i:number,value:Partial<Week>)=>edit({...draft,weeks:draft.weeks.map((w,j)=>i===j?{...w,...value}:w)});
   const editCriterion=(i:number,value:Partial<Criterion>)=>edit({...draft,rubric:draft.rubric.map((c,j)=>i===j?{...c,...value}:c)});
+  function describeDeadline(value:unknown){const policy=validateCommitmentDeadline(value);return policy?.kind==='days'?tr('{0} ngày từ khi tạo cam kết',[policy.days]):policy?.kind==='fixed'?`${formatActionDeadline({due:'',dueAt:policy.at},language)} · UTC+7`:tr('Chưa quy định')}
   async function save(event:FormEvent) {
     event.preventDefault();setError('');
     try{validateWeeks(draft.weeks)}catch(e){setSection('journey');setOpenWeek(draft.weeks.findIndex(w=>!w.title.trim()||!w.prompt.trim()||(w.due!==''&&!/^\d{4}-\d{2}-\d{2}$/.test(w.due))));setError(e instanceof Error?e.message:'Thông tin chưa hợp lệ.');return}
     try{validateRubric(draft.rubric)}catch(e){setSection('rubric');setCriterionIndex(Math.max(0,draft.rubric.findIndex(c=>!c.name.trim()||c.descriptions.some(d=>!d.trim()))));setError(e instanceof Error?e.message:'Thông tin chưa hợp lệ.');return}
+    try{validateCommitmentDeadline(draft.commitmentDeadline)}catch(e){setSection('commitments');setError(e instanceof Error?e.message:'Quy định hạn cam kết chưa hợp lệ.');return}
     if(await onMutate(system?{action:'config-save',weeks:draft.weeks,rubric:draft.rubric}:{action:'course-save',...draft},tr(system?'Đã lưu cấu hình mặc định.':'Đã lưu cấu hình học phần.'))){setChanged(false);markSaved()}
   }
   return <form className={`lx-stack${system?' admin-defaults':''}`} onSubmit={save}>
@@ -60,7 +63,7 @@ export function CourseSettings({course,listHref,records,language,busy,onMutate,s
         <label className="lx-field"><span>{tr('Mã học phần')}</span><input required maxLength={40} value={draft.code} onChange={e=>edit({...draft,code:e.target.value})}/></label>
       </div>}
       <nav className="lx-tabs" aria-label={tr('Cấu hình học phần')}>
-        {(([['journey','Nội dung & hạn nộp'],['rubric','Rubric đánh giá'],['history','Lịch sử thay đổi']] as const).filter(([key])=>!system||key!=='history')).map(([key,label])=><button key={key} type="button" aria-pressed={section===key} onClick={()=>setSection(key)}>{tr(label)}{key==='history'&&records.length>0&&<span>{records.length}</span>}</button>)}
+        {(([['journey','Nội dung & hạn nộp'],['commitments','Hạn cam kết'],['rubric','Rubric đánh giá'],['history','Lịch sử thay đổi']] as const).filter(([key])=>!system||(key!=='history'&&key!=='commitments'))).map(([key,label])=><button key={key} type="button" aria-pressed={section===key} onClick={()=>setSection(key)}>{tr(label)}{key==='history'&&records.length>0&&<span>{records.length}</span>}</button>)}
       </nav>
 
       {system&&(section==='journey'||section==='rubric')&&<DefaultConfigurationFields draft={draft} section={section} weekIndex={Math.max(0,openWeek)} criterionIndex={criterionIndex} onWeek={setOpenWeek} onCriterion={setCriterionIndex} editWeek={editWeek} editCriterion={editCriterion} language={language}/>}
@@ -78,6 +81,17 @@ export function CourseSettings({course,listHref,records,language,busy,onMutate,s
         </div>}
       </li>)}</ol>}
 
+      {!system&&section==='commitments'&&<section className="lx-deadline-settings">
+        <header><span className="lx-deadline-icon"><UiIcon name="actions" size={23}/></span><div><h3>{tr('Thời hạn thực hiện cam kết')}</h3><p>{tr('Đặt mốc hoàn thành chung cho các cam kết trong học phần này.')}</p></div></header>
+        <div className="lx-deadline-modes" role="group" aria-label={tr('Cách đặt hạn cam kết')}>
+          {([['none','Chưa quy định'],['days','Theo số ngày'],['fixed','Ngày giờ cố định']] as const).map(([kind,label])=><button type="button" key={kind} aria-pressed={(draft.commitmentDeadline?.kind||'none')===kind} onClick={()=>edit({...draft,commitmentDeadline:kind==='none'?null:kind==='days'?{kind,days:7}:{kind,at:new Date(Date.now()+7*864e5).toISOString()}})}>{tr(label)}</button>)}
+        </div>
+        {draft.commitmentDeadline?.kind==='days'&&<label className="lx-field lx-deadline-input"><span>{tr('Số ngày tính từ khi tạo cam kết')}</span><input type="number" required min={1} max={365} step={1} value={draft.commitmentDeadline.days} onChange={e=>edit({...draft,commitmentDeadline:{kind:'days',days:Number(e.target.value)}})}/><small>{tr('Ví dụ: tạo lúc 10:00 ngày 01/11, hạn 7 ngày là 10:00 ngày 08/11.')}</small></label>}
+        {draft.commitmentDeadline?.kind==='fixed'&&<label className="lx-field lx-deadline-input"><span>{tr('Ngày giờ hết hạn')}</span><input type="datetime-local" required value={draft.commitmentDeadline.at?deadlineInput(draft.commitmentDeadline.at):''} onChange={e=>edit({...draft,commitmentDeadline:{kind:'fixed',at:deadlineFromInput(e.target.value)}})}/><small>{tr('Múi giờ Việt Nam (UTC+7).')}</small></label>}
+        <p className="lx-deadline-note"><UiIcon name="help" size={17}/>{tr(draft.commitmentDeadline?'Hạn mới áp dụng cho cam kết chưa hoàn thành. Cam kết đã hoàn thành giữ hạn và lịch sử cũ. Sinh viên không tự thay đổi hạn do giảng viên đặt.':'Chưa giao hạn mới. Cam kết đã có hạn vẫn giữ hạn đã lưu; sinh viên không tự sửa hạn của môn học.')}</p>
+        <a className="lx-link" href={lecturerHref('progress',{course:course.id,tab:'actions'})}>{tr('Theo dõi cam kết của sinh viên')}<UiIcon name="next" size={15}/></a>
+      </section>}
+
       {!system&&section==='rubric'&&<div className="lx-stack is-tight">
         <p className="lx-notice">{tr('Trọng số cố định theo đặc tả: 35% / 25% / 20% / 20%. Có thể điều chỉnh mô tả từng mức điểm; đánh giá cũ giữ nguyên rubric đã dùng.')}</p>
         {draft.rubric.map((c,i)=><section className="lx-rubric" key={c.key}>
@@ -92,6 +106,7 @@ export function CourseSettings({course,listHref,records,language,busy,onMutate,s
         <details className="lx-disclosure"><summary>{tr('Xem cấu hình tại thời điểm này')}</summary>
           {(r.payload.rubric as Criterion[]||[]).map(c=><p key={c.key}><b>{tr(c.name)} · {c.weight}%</b></p>)}
           <ul>{(r.payload.weeks as Week[]||[]).map(w=><li key={w.week}>{tr('T{0}',[w.week])} · {w.title} · {w.due||'—'}</li>)}</ul>
+          <p>{tr('Hạn cam kết')}: {describeDeadline(r.payload.commitmentDeadline)}</p>
         </details>
       </li>)}</ol>:<p className="lx-empty-line">{tr('Các thay đổi cấu hình sẽ được lưu tại đây khi học phần được cập nhật.')}</p>}</div>}
     </fieldset>

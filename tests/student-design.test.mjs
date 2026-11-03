@@ -52,11 +52,22 @@ test('student home renders empty, completed and bilingual states using actual re
   const actions=[{id:'done',status:'done',text:'Completed commitment',due:''},{id:'todo',status:'todo',text:'My next step',due:''}];
   const english=render({reflections:rows,actions});assert.match(english,/aria-valuenow="1"/);
   const tile=(html,name)=>html.match(new RegExp(`<span class="space-tile-name">${name}</span>[\\s\\S]*?</button>`))?.[0]||'';
-  assert.match(tile(english,'My writing'),/space-tile-value">3</);assert.match(tile(english,'My writing'),/1 draft/);
-  assert.match(tile(english,'Commitments'),/space-tile-value">1</,'Only open commitments are counted');
+  assert.match(tile(english,'All reflections'),/space-tile-value">3</);assert.match(tile(english,'All reflections'),/1 draft/);
+  assert.match(tile(english,'Personal goals'),/space-tile-value">1</,'Only open commitments are counted');
   assert.match(tile(english,'Progress'),/space-tile-value">2</);
   assert.doesNotMatch(english,/My next step|Completed commitment|A reflection two/,'The home page summarises other pages instead of repeating their lists');
-  const vietnamese=render({language:'vi',reflections:rows,actions});assert.match(vietnamese,/Mở nhanh/);assert.match(vietnamese,/Cam kết/);
+  const vietnamese=render({language:'vi',reflections:rows,actions});assert.match(vietnamese,/Mở nhanh/);assert.match(vietnamese,/Mục tiêu cá nhân/);
+});
+
+test('home keeps four shortcuts alongside reflection level and skill insight, without the streak',()=>{
+ const html=render({onMessages(){}}),navigation=html.match(/<nav class="book-tabs"[\s\S]*?<\/nav>/)?.[0]||'';
+ assert.equal((navigation.match(/<button /g)||[]).length,4);
+ for(const name of ['All reflections','Personal goals','Progress','Messages'])assert.ok(navigation.includes(name));
+ for(const heading of ['Reflection level','Skill insight'])assert.ok(html.includes(heading));
+ assert.doesNotMatch(html,/Streak|space-streak/,'The streak card is removed from the home page');
+ assert.doesNotMatch(html,/space-attention|space-skill-list/,'The former attention panel and four-criterion chart are replaced');
+ const vi=render({language:'vi'});
+ for(const heading of ['Mức phản tư','Góc nhìn kỹ năng'])assert.ok(vi.includes(heading));
 });
 
 test('student home matches server and browser when ICU abbreviates September differently',()=>{

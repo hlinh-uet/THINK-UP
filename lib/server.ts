@@ -7,6 +7,7 @@ import chatMigration from '../drizzle/0002_unusual_ben_parker.sql?raw';
 import profileMigration from '../drizzle/0003_whole_psylocke.sql?raw';
 import reflectionChatMigration from '../drizzle/0004_friendly_energizer.sql?raw';
 import finalMigration from '../drizzle/0005_final_requirements.sql?raw';
+import communityMigration from '../drizzle/0006_community.sql?raw';
 import {enrichReflections} from './learning-store';
 import { attachAvatars } from './profile-store';
 import { readCookie, sessionCookie, sessionDigest } from './security';
@@ -16,7 +17,7 @@ export const runtime=env as unknown as {DB:D1Database;FILES:R2Bucket;OPENAI_API_
 export const id=()=>crypto.randomUUID();export const now=()=>new Date().toISOString();
 const initialized=new WeakSet<object>();
 export function database(){if(!runtime.DB)throw new AppError('Không thể kết nối nơi lưu bài. Hãy thử lại sau.',503);return runtime.DB}
-export async function initialize(){const db=database();if(initialized.has(db))return;const statements=(migration+'\n--> statement-breakpoint\n'+authMigration+'\n--> statement-breakpoint\n'+chatMigration+'\n--> statement-breakpoint\n'+profileMigration+'\n--> statement-breakpoint\n'+reflectionChatMigration+'\n--> statement-breakpoint\n'+finalMigration).split('--> statement-breakpoint').map(s=>s.trim()).filter(Boolean).map(s=>s.replace(/^CREATE TABLE /,'CREATE TABLE IF NOT EXISTS ').replace(/^CREATE UNIQUE INDEX /,'CREATE UNIQUE INDEX IF NOT EXISTS ').replace(/^CREATE INDEX /,'CREATE INDEX IF NOT EXISTS '));await db.batch(statements.map(s=>db.prepare(s)));await db.batch([db.prepare('INSERT OR IGNORE INTO settings (key,value) VALUES (?,?)').bind('rubric',JSON.stringify(defaultRubric)),db.prepare('INSERT OR IGNORE INTO settings (key,value) VALUES (?,?)').bind('weeks',JSON.stringify(defaultWeeks))]);await upgradeRubricSettings(db);await db.prepare('PRAGMA optimize').run();initialized.add(db)}
+export async function initialize(){const db=database();if(initialized.has(db))return;const statements=(migration+'\n--> statement-breakpoint\n'+authMigration+'\n--> statement-breakpoint\n'+chatMigration+'\n--> statement-breakpoint\n'+profileMigration+'\n--> statement-breakpoint\n'+reflectionChatMigration+'\n--> statement-breakpoint\n'+finalMigration+'\n--> statement-breakpoint\n'+communityMigration).split('--> statement-breakpoint').map(s=>s.trim()).filter(Boolean).map(s=>s.replace(/^CREATE TABLE /,'CREATE TABLE IF NOT EXISTS ').replace(/^CREATE UNIQUE INDEX /,'CREATE UNIQUE INDEX IF NOT EXISTS ').replace(/^CREATE INDEX /,'CREATE INDEX IF NOT EXISTS '));await db.batch(statements.map(s=>db.prepare(s)));await db.batch([db.prepare('INSERT OR IGNORE INTO settings (key,value) VALUES (?,?)').bind('rubric',JSON.stringify(defaultRubric)),db.prepare('INSERT OR IGNORE INTO settings (key,value) VALUES (?,?)').bind('weeks',JSON.stringify(defaultWeeks))]);await upgradeRubricSettings(db);await db.prepare('PRAGMA optimize').run();initialized.add(db)}
 export async function all<T=Record<string,unknown>>(sql:string,...args:unknown[]){const result=await database().prepare(sql).bind(...args).all<T>();return result.results}
 export async function one<T=Record<string,unknown>>(sql:string,...args:unknown[]){return database().prepare(sql).bind(...args).first<T>()}
 export const prepare=(sql:string,...args:unknown[])=>database().prepare(sql).bind(...args);

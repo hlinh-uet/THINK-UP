@@ -25,7 +25,7 @@
 /* The one "do this next" block, shared by home and the selected journey week. */
 .app-shell.student-workspace .overview-feature, .app-shell.student-workspace .journey-workspace .journey-week-intro { display: block; margin: 0; padding: 26px 28px; border: 0; border-radius: var(--radius); background: var(--accent-soft); box-shadow: none; }
 .app-shell.student-workspace :is(.overview-week-label,.journey-week-eyebrow) { display: block; margin: 0 0 6px; color: var(--accent); font-size: 13px; font-weight: 600; }
-.app-shell.student-workspace :is(.overview-feature,.journey-week-intro) h2 { margin: 0; font-family: var(--font-sans); font-size: 21px; font-weight: 700; line-height: 1.35; letter-spacing: -.4px; color: var(--ink); }
+.app-shell.student-workspace :is(.overview-feature,.journey-week-intro) h2 { margin: 0; font-family: var(--font-sans); font-size: 21px; font-weight: 700; line-height: 1.35; letter-spacing: 0; color: var(--ink); }
 .app-shell.student-workspace :is(.overview-feature,.journey-week-intro) > p { display: block; max-width: 60ch; margin: 6px 0 0; color: var(--muted); font-size: 15px; line-height: 1.7; -webkit-line-clamp: unset; }
 .app-shell.student-workspace .overview-feature > .button { margin-top: 18px; }
 
@@ -80,7 +80,7 @@
 .app-shell.student-workspace .student-writing-workspace .writing-canvas.panel { padding: 6px 48px 0; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); box-shadow: 0 1px 2px #22211f0a, 0 10px 32px #2a29270d; }
 .app-shell.student-workspace .student-writing-workspace .writing-canvas:focus-within { border-color: var(--accent-line); box-shadow: 0 1px 2px #22211f0a, 0 12px 40px #2a292717; }
 .app-shell.student-workspace .student-writing-workspace .writing-settings > summary { padding-block: 16px; color: var(--muted); font-size: 13px; border-bottom: 1px solid var(--line); }
-.app-shell.student-workspace .student-writing-workspace .title-input { padding: 28px 0 6px; font-family: var(--font-sans); font-weight: 700; letter-spacing: -.6px; font-size: 28px; line-height: 1.3; }
+.app-shell.student-workspace .student-writing-workspace .title-input { padding: 28px 0 6px; font-family: var(--font-sans); font-weight: 700; letter-spacing: 0; font-size: 28px; line-height: 1.3; }
 .app-shell.student-workspace .student-writing-workspace .with-support .title-input { font-size: 25px; }
 .app-shell.student-workspace .student-writing-workspace .writing-body-heading { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 .app-shell.student-workspace .student-writing-workspace .writing-canvas .free-writing-area textarea { min-height: max(420px, 56vh); padding: 14px 0 24px; font-size: 16px; font-weight: 400; line-height: 1.95; letter-spacing: 0; color: var(--text); }
@@ -152,7 +152,7 @@
 .app-shell.student-workspace .progress-metric-label { color: var(--muted); font-size: 13px; line-height: 1.4; }
 .app-shell.student-workspace .progress-metric-label svg, .app-shell.student-workspace .progress-metric > p { display: none; }
 .app-shell.student-workspace .progress-metric-value { display: flex; align-items: baseline; gap: 5px; margin: 0; }
-.app-shell.student-workspace .progress-metric-value b { font-family: var(--font-sans); font-size: 26px; font-weight: 700; line-height: 1.2; letter-spacing: -.6px; color: var(--ink); }
+.app-shell.student-workspace .progress-metric-value b { font-family: var(--font-sans); font-size: 26px; font-weight: 700; line-height: 1.2; letter-spacing: 0; color: var(--ink); }
 .app-shell.student-workspace .progress-metric-value span { color: var(--muted); font-size: 13px; }
 .app-shell.student-workspace .personal-progress-grid, .app-shell.student-workspace .progress-bottom-grid { display: grid; grid-template-columns: minmax(0,1fr); gap: var(--gap); margin: 0; }
 .app-shell.student-workspace .student-progress :is(.progress-chart-card,.progress-focus,.progress-course-panel) > h2 { margin-bottom: 14px; }
@@ -197,7 +197,7 @@
  .app-shell.student-workspace .main-shell > main { padding: 32px 28px 56px; }
  .app-shell.student-workspace .workspace-side-navigation { padding-inline: 6px; }
  .app-shell.student-workspace .workspace-side-navigation nav { gap: 2px; }
- .app-shell.student-workspace .workspace-side-navigation nav a { min-height: 52px; padding: 6px 0; font-size: 11px; letter-spacing: -.2px; white-space: nowrap; }
+ .app-shell.student-workspace .workspace-side-navigation nav a { min-height: 52px; padding: 6px 0; font-size: 11px; letter-spacing: 0; white-space: nowrap; }
 }
 @media (max-width: 760px) {
  .app-shell.student-workspace { --gap: 14px; }
@@ -303,7 +303,7 @@
 
 /* ───────── Home and My writing: notes, a path and a to-do list instead of boxed lists ───────── */
 .app-shell.student-workspace .student-page-title h1 { font-size: 30px; }
-.app-shell.student-workspace .space-label { margin: 0 0 14px; font-family: var(--font-sans); font-size: 15px; font-weight: 600; letter-spacing: -.1px; color: var(--muted); }
+.app-shell.student-workspace .space-label { margin: 0 0 14px; font-family: var(--font-sans); font-size: 15px; font-weight: 600; letter-spacing: 0; color: var(--muted); }
 .app-shell.student-workspace .space-section { margin: 12px 0 0; }
 
 /* Next step with its drawing */
@@ -406,7 +406,7 @@
 .app-shell.student-workspace .progress-criteria-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
 .app-shell.student-workspace .student-progress .progress-criterion-card .progress-card-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
 .app-shell.student-workspace .student-progress .progress-criterion-card .progress-card-heading h2 { color: var(--ink); font-size: 15px; }
-.app-shell.student-workspace .progress-criterion-value b { font-size: 28px; font-weight: 700; letter-spacing: -.6px; }
+.app-shell.student-workspace .progress-criterion-value b { font-size: 28px; font-weight: 700; letter-spacing: 0; }
 .app-shell.student-workspace .progress-criterion-card > p { margin: 8px 0 0; color: var(--muted); font-size: 13px; }
 .app-shell.student-workspace .progress-detailed-report { margin-top: 18px; padding: 0; border: 0; background: none; color: var(--muted); }
 .app-shell.student-workspace .student-progress .progress-portfolio { display: grid; gap: 10px; padding: 0; border: 0; background: none; box-shadow: none; }
@@ -455,15 +455,15 @@
 @media (max-width: 760px) { .app-shell.student-workspace .student-progress .progress-metric:nth-child(odd) { padding-left: 0; } }
 
 /* ───────── Manrope: clear titles, comfortable reading and quiet supporting text ───────── */
-.app-shell.student-workspace .student-page-title h1 { font-size: 30px; font-weight: 650; line-height: 1.4; letter-spacing: -.025em; color: var(--ink); }
+.app-shell.student-workspace .student-page-title h1 { font-size: 30px; font-weight: 650; line-height: 1.4; letter-spacing: 0; color: var(--ink); }
 .app-shell.student-workspace .space-label,
-.app-shell.rail-workspace :is(.journey-section-heading,.student-progress section,.profile-section-head) :is(h2,h3) { color: var(--ink); font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
-.app-shell.student-workspace :is(.journey-section-heading,.student-progress section,.profile-section-head) :is(h2,h3) { line-height: 1.55; letter-spacing: -.015em; }
+.app-shell.rail-workspace :is(.journey-section-heading,.student-progress section,.profile-section-head) :is(h2,h3) { color: var(--ink); font-size: 17px; font-weight: 600; letter-spacing: 0; }
+.app-shell.student-workspace :is(.journey-section-heading,.student-progress section,.profile-section-head) :is(h2,h3) { line-height: 1.55; letter-spacing: 0; }
 .app-shell.student-workspace .note-title { font-weight: 600; }
 .app-shell.student-workspace .note-excerpt { color: var(--muted); }
 .app-shell.student-workspace .note-week { color: var(--faint); font-size: 13px; font-weight: 500; }
 .app-shell.student-workspace .student-progress .progress-metric-value b,
-.app-shell.student-workspace .progress-criterion-value b { font-size: 28px; font-weight: 600; letter-spacing: -.02em; color: var(--ink); }
+.app-shell.student-workspace .progress-criterion-value b { font-size: 28px; font-weight: 600; letter-spacing: 0; color: var(--ink); }
 .app-shell.student-workspace .progress-metric-value span { color: var(--faint); font-weight: 400; }
 .app-shell.student-workspace .progress-metric-label { color: var(--muted); font-size: 13px; }
 .app-shell.student-workspace .student-progress .progress-criterion-card .progress-card-heading h2 { font-weight: 600; font-size: 15px; }
@@ -474,12 +474,12 @@
 .app-shell.student-workspace .workspace-tabs > button[aria-selected="true"],
 .app-shell.student-workspace .library-filters > button[aria-pressed="true"],
 .app-shell.student-workspace .workspace-side-navigation nav a.active > span:not(.nav-count) { font-weight: 600; }
-.app-shell.student-workspace .student-writing-workspace .title-input { color: var(--ink); font-weight: 600; line-height: 1.5; letter-spacing: -.02em; }
+.app-shell.student-workspace .student-writing-workspace .title-input { color: var(--ink); font-weight: 600; line-height: 1.5; letter-spacing: 0; }
 .app-shell.student-workspace :is(.button,.text-button,.workspace-side-navigation nav a) { letter-spacing: 0; }
 .app-shell.student-workspace .workspace-side-navigation nav a { line-height: 1.65; }
 .app-shell.student-workspace :is(.space-empty,.library-empty,.journey-quiet-empty) { font-size: 14px; line-height: 1.75; }
 .app-shell.student-workspace .student-writing-workspace .writing-preview > p { color: var(--text); line-height: 1.95; }
-.app-shell.student-workspace .profile-hero h2 { font-weight: 600; letter-spacing: -.02em; }
+.app-shell.student-workspace .profile-hero h2 { font-weight: 600; letter-spacing: 0; }
 .app-shell.student-workspace .chat-message p { color: var(--text); line-height: 1.8; }
 
 /* ───────── Feedback & rubric panel: a score summary, one line per criterion, extras folded below ───────── */
@@ -493,7 +493,7 @@
 
 .app-shell.student-workspace .analysis-results.is-compact { display: grid; gap: 10px; }
 .app-shell.student-workspace .rubric-summary { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 12px; }
-.app-shell.student-workspace .rubric-summary > b { font-size: 30px; font-weight: 600; letter-spacing: -.02em; line-height: 1.1; color: var(--ink); }
+.app-shell.student-workspace .rubric-summary > b { font-size: 30px; font-weight: 600; letter-spacing: 0; line-height: 1.1; color: var(--ink); }
 .app-shell.student-workspace .rubric-summary > b small { margin-left: 2px; color: var(--faint); font-size: 14px; font-weight: 400; }
 .app-shell.student-workspace .rubric-kember { padding: 2px 10px; border-radius: 99px; background: var(--accent-soft); color: var(--accent-hover); font-size: 12px; font-weight: 600; }
 .app-shell.student-workspace .rubric-provider { margin-left: auto; color: var(--faint); font-size: 12px; }
@@ -619,7 +619,7 @@
 
 .app-shell.student-workspace .space-welcome { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 30px; animation: space-settle .45s var(--ease) backwards; }
 .app-shell.student-workspace .space-welcome > div { min-width: 0; }
-.app-shell.student-workspace .space-welcome h1 { margin: 0; color: var(--ink); font-size: 28px; font-weight: 600; line-height: 1.45; letter-spacing: -.025em; }
+.app-shell.student-workspace .space-welcome h1 { margin: 0; color: var(--ink); font-size: 28px; font-weight: 600; line-height: 1.45; letter-spacing: 0; }
 .app-shell.student-workspace .space-salutation { color: var(--muted); font-weight: 400; }
 .app-shell.student-workspace .space-name { color: var(--ink); font-weight: 600; }
 .app-shell.student-workspace .space-welcome .space-new-page { flex-shrink: 0; border-color: var(--line); background: var(--surface); color: var(--ink); font-size: 13px; box-shadow: none; }
@@ -685,40 +685,24 @@
 .app-shell.student-workspace .book-arrow:is(:hover,:focus-visible):not(:disabled) { background: var(--ink); color: var(--surface); transform: scale(1.08); }
 .app-shell.student-workspace .book-arrow:disabled { opacity: 0; pointer-events: none; }
 
-/* Index tabs: the four areas of Think Up tucked under the book like coloured dividers, pulled out on hover. */
-.app-shell.student-workspace .book-tabs { position: relative; z-index: 1; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0,1fr); gap: 24px; margin: 46px 24px 0; }
-.app-shell.student-workspace .book-tab { --tint: #f8ecc4; --tint-ink: var(--hl-deep); --tint-bar: var(--hl);
- display: flex; flex-direction: column; align-items: stretch; position: relative; gap: 10px; min-width: 0; margin: 0; padding: 18px 20px 18px; border: 0; border-radius: 4px 16px 16px 16px;
- background: var(--tint); color: var(--ink); font: inherit; text-align: left; cursor: pointer;
- box-shadow: 0 8px 18px #8a6a1a14, inset 0 -1px 0 #0000000a; transform-origin: top; transition: transform .45s cubic-bezier(.34,1.4,.64,1), box-shadow .4s var(--ease);
- animation: book-tab-in .6s cubic-bezier(.22,1,.36,1) backwards; }
-.app-shell.student-workspace .book-tab.is-actions { --tint: #f7e1d4; --tint-ink: #9b4a28; --tint-bar: #d98f69; }
-.app-shell.student-workspace .book-tab.is-progress { --tint: #dfe9d8; --tint-ink: #44653b; --tint-bar: #8fb183; }
-.app-shell.student-workspace .book-tab.is-messages { --tint: #dde5f1; --tint-ink: #44587b; --tint-bar: #93a6c6; }
-.app-shell.student-workspace .book-tab:nth-child(1) { animation-delay: .35s; } .app-shell.student-workspace .book-tab:nth-child(2) { animation-delay: .42s; }
-.app-shell.student-workspace .book-tab:nth-child(3) { animation-delay: .49s; } .app-shell.student-workspace .book-tab:nth-child(4) { animation-delay: .56s; }
-@keyframes book-tab-in { from { opacity: 0; transform: translateY(14px); } }
-.app-shell.student-workspace .book-tab::before { content: ''; position: absolute; left: 0; bottom: 100%; width: 42%; height: 13px; border-radius: 10px 14px 0 0; background: var(--tint); transition: width .4s var(--ease); }
-.app-shell.student-workspace .book-tab:is(:hover,:focus-visible)::before { width: 58%; }
-.app-shell.student-workspace .book-tab:is(:hover,:focus-visible) { transform: translateY(-5px); box-shadow: 0 16px 28px #8a6a1a24, inset 0 -1px 0 #0000000a; }
-.app-shell.student-workspace .book-tab-head { display: flex; align-items: center; gap: 10px; }
-.app-shell.student-workspace .book-tab-icon { display: grid; place-items: center; flex-shrink: 0; width: 30px; height: 30px; border-radius: 9px; background: #ffffffa6; color: var(--tint-ink); transition: transform .45s cubic-bezier(.34,1.56,.64,1); }
-.app-shell.student-workspace .book-tab:is(:hover,:focus-visible) .book-tab-icon { transform: rotate(-10deg) scale(1.08); }
-.app-shell.student-workspace .book-tab .space-tile-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); font-size: 14.5px; font-weight: 650; }
-.app-shell.student-workspace .book-tab .space-tile-value { flex-shrink: 0; color: var(--tint-ink); font-size: 22px; font-weight: 700; line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-.app-shell.student-workspace .book-tab-head > .ui-icon:last-child { color: var(--tint-ink); transition: transform .3s var(--ease); }
-.app-shell.student-workspace .book-tab:hover .book-tab-head > .ui-icon:last-child { transform: translateX(3px); }
-.app-shell.student-workspace .book-tab .space-tile-bar { display: flex; gap: 3px; height: 4px; margin: 2px 0 0; }
-.app-shell.student-workspace .book-tab .space-tile-bar > i { min-width: 4px; border-radius: 2px; background: #ffffff99; transform-origin: left; animation: space-bar-in .9s var(--ease) 1s backwards; }
-.app-shell.student-workspace .book-tab .space-tile-bar > i:is(.is-final,.is-open) { background: var(--tint-bar); }
-.app-shell.student-workspace .book-tab.is-writing .space-tile-bar > i.is-final { background: var(--note-final); }
-.app-shell.student-workspace .book-tab.is-writing .space-tile-bar > i.is-submitted { background: var(--note-submitted); }
-.app-shell.student-workspace .book-tab.is-writing .space-tile-bar > i.is-returned { background: var(--note-returned); }
-.app-shell.student-workspace .book-tab.is-writing .space-tile-bar > i.is-draft { background: #fffaf0; }
-.app-shell.student-workspace .book-tab .space-tile-bar > i.is-overdue { background: var(--warn); opacity: .7; }
+/* Four distinct, clickable areas beneath the notebook. */
+.app-shell.student-workspace .main-shell > main > .student-overview,
+.app-shell.student-workspace .student-overview > :is(.space-welcome,.space-book,.book-tabs) { animation:none; opacity:1; }
+.app-shell.student-workspace .book-tabs { position:relative; z-index:1; display:grid; grid-auto-flow:column; grid-auto-columns:minmax(0,1fr); gap:16px; margin:30px 0 0; padding:0; border:0; background:transparent; }
+.app-shell.student-workspace .book-tab { --tile-ink:#82632f; display:flex; flex-direction:column; align-items:stretch; justify-content:space-between; position:relative; gap:13px; min-width:0; min-height:122px; margin:0; padding:19px 20px; border:1px solid #eadbb4; border-radius:14px; background:#faf1d7; color:var(--ink); font:inherit; text-align:left; cursor:pointer; box-shadow:none; transition:background-color .18s ease; }
+.app-shell.student-workspace .book-tab.is-actions { --tile-ink:#9b6549; border-color:#ead9cb; background:#fbf0e7; }
+.app-shell.student-workspace .book-tab.is-progress { --tile-ink:#617d54; border-color:#dce5d3; background:#eff4e8; }
+.app-shell.student-workspace .book-tab.is-messages { --tile-ink:#67788b; border-color:#dde2e7; background:#f0f3f6; }
+.app-shell.student-workspace .book-tab:is(:hover,:focus-visible) { background:#efeeeb; transform:none; box-shadow:none; }
+.app-shell.student-workspace .book-tab:focus-visible { outline:2px solid #a18a58; outline-offset:3px; }
+.app-shell.student-workspace .book-tab-head { display:flex; align-items:center; gap:8px; }
+.app-shell.student-workspace .book-tab-icon { display:grid; place-items:center; flex-shrink:0; width:30px; height:32px; border-radius:9px; background:#ffffffb3; color:var(--tile-ink); }
+.app-shell.student-workspace .book-tab .space-tile-name { flex:1; min-width:0; color:#4e483b; font-size:13.5px; font-weight:600; line-height:1.4; }
+.app-shell.student-workspace .book-tab-head > .ui-icon:last-child { flex-shrink:0; color:var(--tile-ink); }
+.app-shell.student-workspace .book-tab .space-tile-value { flex-shrink:0; margin-left:4px; color:var(--tile-ink); font-size:24px; font-weight:650; line-height:1.1; font-variant-numeric:tabular-nums; }
+.app-shell.student-workspace .book-tab-note { display:block; color:#8b8070; font-size:12px; line-height:1.6; }
+.app-shell.student-workspace .book-tab-note.is-overdue { color:#a35e42; font-weight:500; }
 @keyframes space-bar-in { from { transform: scaleX(0); } }
-.app-shell.student-workspace .book-tab > small { color: color-mix(in srgb, var(--tint-ink) 70%, var(--muted)); font-size: 12.5px; line-height: 1.5; }
-.app-shell.student-workspace .book-tab > small.is-overdue { color: var(--warn); }
 
 /* Page contents. */
 .app-shell.student-workspace .space-book section.overview-feature { display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: 0; min-height: 0; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; overflow: visible; transform: none; animation: none; }
@@ -728,7 +712,7 @@
 .app-shell.student-workspace .space-paper-meta > span:first-child::before, .app-shell.student-workspace .book-status > i { content: ''; width: 6px; height: 6px; flex-shrink: 0; border-radius: 50%; background: var(--space-status-dot); }
 .app-shell.student-workspace .space-book .overview-week-label { margin: 0; color: var(--muted); font-size: 12px; font-weight: 400; }
 .app-shell.student-workspace .space-book .overview-week-label::before { display: none; }
-.app-shell.student-workspace .space-book .overview-feature h2 { max-width: none; margin: 18px 0 10px; color: var(--ink); font-size: 27px; font-weight: 650; line-height: 1.3; letter-spacing: -.025em; overflow-wrap: anywhere; }
+.app-shell.student-workspace .space-book .overview-feature h2 { max-width: none; margin: 18px 0 10px; color: var(--ink); font-size: 27px; font-weight: 650; line-height: 1.3; letter-spacing: 0; overflow-wrap: anywhere; }
 .app-shell.student-workspace .space-book :is(.space-paper-excerpt,.book-latest > p) { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; margin: 0; color: var(--text); font-size: 14.5px; line-height: 2.2; }
 .app-shell.student-workspace .space-paper-context { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
 .app-shell.student-workspace .space-book .overview-task-due { margin: 0; color: var(--warn); font-size: 13px; }
@@ -744,7 +728,7 @@
 .app-shell.student-workspace .book-empty { margin: 0; color: var(--muted); font-size: 14.5px; font-style: italic; line-height: 2.2; }
 
 .app-shell.student-workspace .space-journey-week { display: flex; align-items: baseline; gap: 6px; margin: 0; color: var(--muted); font-size: 13px; }
-.app-shell.student-workspace .space-journey-week > b { color: var(--ink); font-size: 46px; font-weight: 650; line-height: 1; letter-spacing: -.045em; font-variant-numeric: tabular-nums; }
+.app-shell.student-workspace .space-journey-week > b { color: var(--ink); font-size: 46px; font-weight: 650; line-height: 1; letter-spacing: 0; font-variant-numeric: tabular-nums; }
 .app-shell.student-workspace .space-journey-week > span:last-child { color: var(--faint); }
 .app-shell.student-workspace .space-journey-theme { margin: 10px 0 0; color: var(--ink); font-size: 17px; font-weight: 600; line-height: 1.5; }
 .app-shell.student-workspace .space-journey-prompt { margin: 8px 0 0; padding-left: 12px; border-left: 2px solid var(--hl); color: var(--muted); font-size: 14px; font-style: italic; line-height: 1.7; }
@@ -774,7 +758,7 @@
 .app-shell.student-workspace .book-todo-text { font-size: 15px; line-height: 1.55; }
 .app-shell.student-workspace .book-todos small { color: var(--muted); font-size: 12px; }
 .app-shell.student-workspace .book-todos small.is-overdue { color: var(--warn); }
-.app-shell.student-workspace .book-latest h3 { margin: 16px 0 6px; color: var(--ink); font-size: 22px; font-weight: 650; line-height: 1.35; letter-spacing: -.02em; }
+.app-shell.student-workspace .book-latest h3 { margin: 16px 0 6px; color: var(--ink); font-size: 22px; font-weight: 650; line-height: 1.35; letter-spacing: 0; }
 
 @media (prefers-reduced-motion: reduce) {
  .app-shell.student-workspace .student-overview *, .app-shell.student-workspace .student-overview *::before, .app-shell.student-workspace .student-overview *::after { animation: none !important; transition: none !important; }
@@ -791,8 +775,9 @@
  .app-shell.student-workspace .book-spread { padding: 8px 8px 26px; border-radius: 14px; }
  .app-shell.student-workspace .book-arrow { top: auto; bottom: -6px; width: 38px; height: 38px; }
  .app-shell.student-workspace .book-arrow.is-prev { left: 14px; } .app-shell.student-workspace .book-arrow.is-next { right: 14px; }
- .app-shell.student-workspace .book-tabs { grid-auto-flow: row; grid-template-columns: 1fr 1fr; margin: 40px 0 0; gap: 26px 14px; }
- .app-shell.student-workspace .book-tab { padding: 16px 14px 14px; }
+ .app-shell.student-workspace .book-tabs { margin-top:26px; }
+ .app-shell.student-workspace .book-tab { gap:13px; padding:16px 12px; }
+ .app-shell.student-workspace .book-tab .space-tile-name { font-size:12.5px; }
  .app-shell.student-workspace .book-page { min-height: 380px; padding: 28px 24px 46px; }
  .app-shell.student-workspace .book-page.is-right .book-folio { right: 24px; }
  .app-shell.student-workspace .book-corner { display: none; }
@@ -800,7 +785,9 @@
 }
 .app-shell.student-workspace .book-page.is-left .book-page-label { padding-right: 0; }
 @media (max-width: 760px) { .app-shell.student-workspace .book-page .book-page-label { padding-right: 52px; } }
-@media (min-width: 761px) and (max-width: 1100px) { .app-shell.student-workspace .book-tabs { gap: 16px; margin-inline: 0; } .app-shell.student-workspace .book-tab { padding-inline: 16px; } .app-shell.student-workspace .book-tab-icon { display: none; } }
+@media (max-width:1100px) {
+ .app-shell.student-workspace .book-tabs { grid-auto-flow:row; grid-auto-columns:auto; grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
 
 /* Progress: a growth journal. Pastel index tabs for the headline figures, then graph-paper sheets for the
    Kember curve and the criteria radar, and ruled ledgers for courses and the evidence portfolio. */
@@ -824,7 +811,7 @@
 .app-shell.student-workspace .growth-metric-label { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; color: #b3afa5; font-size: 12.5px; font-weight: 500; letter-spacing: .01em; }
 .app-shell.student-workspace .growth-metric-label > .ui-icon { color: var(--hl); opacity: .9; }
 .app-shell.student-workspace .growth-metric-value { display: flex; align-items: baseline; gap: 6px; min-width: 0; }
-.app-shell.student-workspace .growth-metric-number { color: #fbfaf6; font-size: 40px; font-weight: 600; line-height: 1.05; letter-spacing: -.045em; font-variant-numeric: tabular-nums; }
+.app-shell.student-workspace .growth-metric-number { color: #fbfaf6; font-size: 40px; font-weight: 600; line-height: 1.05; letter-spacing: 0; font-variant-numeric: tabular-nums; }
 .app-shell.student-workspace .growth-metric-value > span { color: #8f8b82; font-size: 14px; }
 .app-shell.student-workspace .growth-metric > small { grid-column: 1; color: #9d998f; font-size: 12px; line-height: 1.5; }
 .app-shell.student-workspace .growth-metric-ring { grid-column: 2; grid-row: 2 / span 2; align-self: center; width: 52px; height: 52px; transform: rotate(-90deg); }
@@ -865,7 +852,7 @@
 
 .app-shell.student-workspace .growth-now { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; padding-left: 32px; border-left: 1px dashed #ddd0a9; }
 .app-shell.student-workspace .growth-now-value { display: flex; align-items: baseline; gap: 6px; margin: 0; }
-.app-shell.student-workspace .growth-now-value b { color: var(--ink); font-size: 64px; font-weight: 700; line-height: .95; letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
+.app-shell.student-workspace .growth-now-value b { color: var(--ink); font-size: 64px; font-weight: 700; line-height: .95; letter-spacing: 0; font-variant-numeric: tabular-nums; }
 .app-shell.student-workspace .growth-now-value span { color: var(--faint); font-size: 16px; }
 .app-shell.student-workspace .growth-now-name { margin: 8px 0 0; color: var(--ink); font-size: 16px; font-weight: 600; }
 .app-shell.student-workspace .growth-delta { display: inline-flex; align-items: center; gap: 6px; margin: 12px 0 0; padding: 4px 10px; border-radius: 99px; background: #e1ecd9; color: #44653b; font-size: 12px; font-weight: 600; }
@@ -901,7 +888,7 @@
 .app-shell.student-workspace .growth-track > span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #edd48a, #d6ad42); transform-origin: left; animation: space-bar-in 1s var(--ease) .5s backwards; }
 .app-shell.student-workspace .growth-criterion-copy small { color: var(--muted); font-size: 12.5px; }
 .app-shell.student-workspace .growth-criterion-score { color: var(--faint); font-size: 13px; white-space: nowrap; }
-.app-shell.student-workspace .growth-criterion-score b { color: var(--ink); font-size: 24px; font-weight: 700; letter-spacing: -.03em; }
+.app-shell.student-workspace .growth-criterion-score b { color: var(--ink); font-size: 24px; font-weight: 700; letter-spacing: 0; }
 
 /* Ruled ledgers. */
 .app-shell.student-workspace .growth-ledgers { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 28px; align-items: start; }
@@ -974,10 +961,34 @@
 .app-shell.student-workspace .library-filters > button::after { display: none; }
 .app-shell.student-workspace .library-filters > button:hover { color: var(--ink); }
 .app-shell.student-workspace .library-filters > button[aria-pressed="true"] { background: var(--ink); color: var(--surface); box-shadow: 0 2px 6px #22211f26; }
-.app-shell.student-workspace .library-search { min-width: 240px; min-height: 42px; padding: 0 16px; border: 1px solid var(--sheet-edge); border-radius: 99px; background: var(--sheet); transition: border-color .25s var(--ease), box-shadow .25s var(--ease); }
+.app-shell.student-workspace .library-filter-row { display:grid; grid-template-columns:minmax(220px,2.1fr) minmax(170px,1fr) minmax(170px,1.1fr) minmax(130px,.75fr); align-items:stretch; gap:14px; padding:4px 0 22px; border-bottom:1px solid var(--sheet-edge); }
+.app-shell.student-workspace .library-filter-row .library-search { order:0; width:100%; min-width:0; min-height:48px; margin:0; padding:0 16px; border:1px solid #ded9cc; border-radius:10px; background:#fff; transition:border-color .2s,box-shadow .2s; }
+.app-shell.student-workspace .library-filter-row .course-picker-trigger { min-height:48px; height:100%; padding:11px 14px; border:1px solid #ded9cc; border-radius:10px; background:#fff; color:var(--ink); font-size:14px; font-weight:500; line-height:1.5; box-shadow:none; }
+.app-shell.student-workspace .library-filter-row .course-picker-trigger > span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.app-shell.student-workspace .library-filter-row .course-picker-trigger > .ui-icon { color:#8a8170; }
+.app-shell.student-workspace .library-filter-row .course-picker-trigger:hover:not(:disabled),.app-shell.student-workspace .library-filter-row .course-picker-trigger[aria-expanded="true"] { background:#f2f1ee; border-color:#c8b99a; color:var(--ink); box-shadow:none; }
+.app-shell.student-workspace .library-filter-row .course-picker-trigger:focus-visible { outline:2px solid #b79850; outline-offset:3px; }
+.app-shell.student-workspace .library-filter-row .course-picker-menu { border-color:#e2daca; background:#fffefa; color:var(--ink); }
+.app-shell.student-workspace .library-filter-row .course-picker-option { min-height:44px; gap:8px; padding:10px 12px; }
+.app-shell.student-workspace .library-filter-row .course-option-icon { display:none; }
+.app-shell.student-workspace .library-filter-row .course-option-copy > span { font-size:14px; }
+.app-shell.student-workspace .library-filter-row .course-option-copy > small { color:#8a7450; font-size:11px; }
+.app-shell.student-workspace .library-filter-row .course-option-check { color:#8b681e; }
+.app-shell.student-workspace .library-filter-row .course-picker-option[aria-checked="true"] { background:#f6edd4; color:#624b25; }
+.app-shell.student-workspace .library-filter-row .course-picker-option:hover,.app-shell.student-workspace .library-filter-row .course-picker-option:focus-visible { background:#f0efec; }
+@media (max-width:1200px) {
+ .app-shell.student-workspace .library-filter-row { grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+ .app-shell.student-workspace .library-filter-row .library-search { grid-column:1 / -1; }
+}
+@media (max-width:600px) {
+ .app-shell.student-workspace .library-filter-row { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; padding-bottom:18px; }
+ .app-shell.student-workspace .library-filter-row > .course-picker:last-child { grid-column:1 / -1; }
+ .app-shell.student-workspace .library-filter-row .course-picker-trigger { gap:7px; padding:10px; font-size:13px; }
+}
 .app-shell.student-workspace .library-search:focus-within { border-color: var(--hl-line); box-shadow: 0 0 0 4px var(--hl-soft); color: var(--hl-deep); }
 .app-shell.student-workspace .library-search input { border: 0; background: none; box-shadow: none; }
 .app-shell.student-workspace .note-grid { gap: 18px; }
+.app-shell.student-workspace .reflection-library,.app-shell.student-workspace .reflection-library :is(.student-page-title,.note-grid,.reflection-note) { animation:none; }
 .app-shell.student-workspace .reflection-note { overflow: hidden; gap: 8px; min-height: 190px; padding: 20px 20px 18px; border: 1px solid var(--sheet-edge); border-radius: 16px;
  background: var(--sheet);
  box-shadow: 0 1px 2px #8a6a1a0d; transition: transform .4s cubic-bezier(.34,1.3,.64,1), box-shadow .35s var(--ease), border-color .3s var(--ease); }
@@ -986,10 +997,51 @@
 .app-shell.student-workspace .reflection-note:hover { transform: translateY(-4px); border-color: var(--hl-line); box-shadow: 0 16px 30px #8a6a1a17; }
 .app-shell.student-workspace .reflection-note:hover::after { width: 30px; height: 30px; }
 .app-shell.student-workspace .note-week { color: var(--hl-deep); font-size: 11px; font-weight: 650; letter-spacing: .1em; text-transform: uppercase; }
-.app-shell.student-workspace .note-title { color: var(--ink); font-size: 16px; font-weight: 600; line-height: 1.45; letter-spacing: -.01em; }
+.app-shell.student-workspace .note-title { color: var(--ink); font-size: 16px; font-weight: 600; line-height: 1.45; letter-spacing: 0; }
 .app-shell.student-workspace .note-excerpt { color: var(--muted); font-size: 13.5px; line-height: 1.65; }
 .app-shell.student-workspace .note-status { margin-top: auto; padding: 3px 10px; border: 1px solid var(--sheet-edge); border-radius: 99px; background: #fff; color: var(--muted); font-size: 11.5px; font-weight: 500; }
 .app-shell.student-workspace .reflection-note.is-new { border: 1.5px dashed var(--hl-line); background: #fdf8e8; color: var(--hl-deep); }
+.app-shell.student-workspace .reflection-library { --ink:#38352d; --text:#514b40; --muted:#817968; --faint:#9c9381; --line:#e6dfd1; }
+.app-shell.student-workspace .reflection-library .student-page-title .button.primary { background:#765a32; border-color:#765a32; color:#fffdf7; box-shadow:0 2px 4px #57401d0d; }
+.app-shell.student-workspace .reflection-library .student-page-title .button.primary:hover { background:#efeeeb; border-color:#d8d0c0; color:#6d522d; box-shadow:none; }
+/* Surface colour indicates workflow status. Completed work uses one sage surface; level is a labelled four-step meter. */
+.app-shell.student-workspace .reflection-library .note-grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px 18px}
+.app-shell.student-workspace .reflection-library .reflection-note{--tile:#fffdfa;--tile-edge:#ddd7cb;--tile-bar:#c9c2b2;--tile-ink:#8b8271;gap:4px;min-height:104px;padding:12px 14px 12px 16px;border:1px solid var(--tile-edge);border-left:5px solid var(--tile-bar);border-radius:14px;background:var(--tile);box-shadow:none;transition:background-color .18s var(--ease),border-color .18s var(--ease)}
+.app-shell.student-workspace .reflection-library .reflection-note::after{display:none}
+.app-shell.student-workspace .reflection-library .reflection-note:hover{transform:none;background:#f1f0ed;border-color:var(--tile-edge);border-left-color:var(--tile-bar);box-shadow:none}
+.app-shell.student-workspace .reflection-library .reflection-note.is-draft{border-style:dashed;border-left-style:solid}
+.app-shell.student-workspace .reflection-library .reflection-note.is-submitted{--tile:#fff5d0;--tile-edge:#edddac;--tile-bar:#d6b654;--tile-ink:#866624}
+.app-shell.student-workspace .reflection-library .reflection-note.is-returned{--tile:#ffeae5;--tile-edge:#edc8be;--tile-bar:#cf9787;--tile-ink:#9d5d4c}
+.app-shell.student-workspace .reflection-library .reflection-note:is(.is-final,.is-level-1,.is-level-2,.is-level-3,.is-level-4){--tile:#e8f1df;--tile-edge:#c4d7b2;--tile-bar:#8fac76;--tile-ink:#4c7038}
+.app-shell.student-workspace .reflection-library .reflection-note.is-level-1{--tile-bar:#c2d0b5;--tile-edge:#d7e2ce}
+.app-shell.student-workspace .reflection-library .reflection-note.is-level-2{--tile-bar:#a0b889;--tile-edge:#cad9bd}
+.app-shell.student-workspace .reflection-library .reflection-note.is-level-3{--tile-bar:#719553;--tile-edge:#bacda9}
+.app-shell.student-workspace .reflection-library .reflection-note.is-level-4{--tile-bar:#3f6733;--tile-edge:#9db68b}
+.app-shell.student-workspace .reflection-library .note-head{display:flex;align-items:center;gap:8px;width:100%;font-size:11.5px;font-weight:600;letter-spacing:.04em;color:var(--muted)}
+.app-shell.student-workspace .reflection-library .note-week{color:inherit;font-size:inherit;font-weight:inherit;letter-spacing:inherit;text-transform:uppercase}
+.app-shell.student-workspace .reflection-library .note-date{margin-left:auto;letter-spacing:0}
+.app-shell.student-workspace .reflection-library .reflection-note.is-level-4{overflow:visible}
+/* The badge sits on the tile's top-right corner, above the date line. */
+.app-shell.student-workspace .reflection-library .note-star{position:absolute;top:-10px;right:12px;z-index:1;display:inline-flex;align-items:center;gap:3px;padding:1px 8px;border-radius:99px;background:#8c6c28;color:#fff9e6;font-size:11px;font-weight:700;letter-spacing:0;box-shadow:0 2px 6px #70572b0d}
+.app-shell.student-workspace .reflection-library .note-title{font-size:14px;font-weight:600;line-height:1.4;-webkit-line-clamp:2}
+.app-shell.student-workspace .reflection-library .note-title.is-untitled{color:var(--faint);font-style:italic;font-weight:500}
+.app-shell.student-workspace .reflection-library .note-foot{display:flex;align-items:center;gap:8px;width:100%;margin-top:auto;padding-top:4px}
+.app-shell.student-workspace .reflection-library .note-status{display:block;flex:1;min-width:0;margin:0;padding:0;border:0;border-radius:0;background:none;color:var(--tile-ink);font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.app-shell.student-workspace .reflection-library .note-dots{display:inline-flex;flex-shrink:0;gap:3px;margin-left:auto;align-self:center}
+.app-shell.student-workspace .reflection-library .note-dots i{width:12px;height:5px;border-radius:2px;background:#ccdcbc;opacity:1}
+.app-shell.student-workspace .reflection-library .note-dots i.is-on{background:#52763e;opacity:1}
+.app-shell.student-workspace .library-legend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;margin:0 0 14px;padding:0;list-style:none;font-size:12.5px;color:var(--muted)}
+.app-shell.student-workspace .library-legend li{display:inline-flex;align-items:center;gap:6px}
+.app-shell.student-workspace .library-legend li.is-group{margin-left:10px;font-weight:600;color:#4c7038}
+.app-shell.student-workspace .library-legend i{width:14px;height:14px;border-radius:4px;border:1px solid var(--tile-edge);border-left:4px solid var(--tile-bar);background:var(--tile)}
+.app-shell.student-workspace .library-legend .is-draft i{--tile:#fffdfa;--tile-edge:#ddd7cb;--tile-bar:#c9c2b2;border-style:dashed;border-left-style:solid}
+.app-shell.student-workspace .library-legend .is-submitted i{--tile:#fff5d0;--tile-edge:#edddac;--tile-bar:#d6b654}
+.app-shell.student-workspace .library-legend .is-returned i{--tile:#ffeae5;--tile-edge:#edc8be;--tile-bar:#cf9787}
+.app-shell.student-workspace .library-legend .is-group i{--tile:#e8f1df;--tile-edge:#c4d7b2;--tile-bar:#8fac76}
+.app-shell.student-workspace .library-level-key{padding-left:12px;border-left:1px solid #ded7c7;color:#8b806a;font-size:11.5px}
+.app-shell.student-workspace .reflection-library .note-level-code{display:block;color:#456632;font-size:15px;font-weight:700;line-height:1.3}
+.app-shell.student-workspace .reflection-library .note-level-name{display:block;margin-top:3px;color:#6b805a;font-size:11px;font-weight:500;line-height:1.4}
+@media (max-width:640px){.app-shell.student-workspace .reflection-library .note-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 12px}.app-shell.student-workspace .reflection-library :is(.note-level-name,.note-star>span){display:none}.app-shell.student-workspace .reflection-library .note-star{padding:1px 6px}.app-shell.student-workspace .reflection-library .note-head{gap:6px}}
 .app-shell.student-workspace .library-more { border-radius: 99px; }
 
 /* Editor toolbar */
@@ -1009,7 +1061,7 @@
 .app-shell.student-workspace .writing-settings > summary { color: var(--muted); font-size: 12px; letter-spacing: .02em; }
 .app-shell.student-workspace .writing-settings > summary > span:first-child { color: var(--hl-deep); font-weight: 650; letter-spacing: .08em; text-transform: uppercase; font-size: 11.5px; }
 .app-shell.student-workspace .writing-settings { border-bottom-color: var(--sheet-edge); }
-.app-shell.student-workspace .student-writing-workspace .title-input { color: var(--ink); font-size: 28px; font-weight: 650; letter-spacing: -.025em; }
+.app-shell.student-workspace .student-writing-workspace .title-input { color: var(--ink); font-size: 28px; font-weight: 650; letter-spacing: 0; }
 .app-shell.student-workspace .student-writing-workspace .title-input::placeholder { color: #c9c0a6; }
 .app-shell.student-workspace .student-writing-workspace .writing-canvas .free-writing-area :is(textarea,textarea:focus) { color: #3a3833; font-size: 16px; line-height: 32px; padding-top: 14px;
  background-image: repeating-linear-gradient(180deg, transparent 0 31px, var(--sheet-rule) 31px 32px); background-size: 100% 32px; background-attachment: local; background-origin: content-box; background-clip: content-box; }
@@ -1037,7 +1089,7 @@
 
 /* Dialogs */
 .app-shell.student-workspace .modal { border: 0; border-radius: 24px; box-shadow: 0 30px 80px #22211f40; }
-.app-shell.student-workspace .modal-header h2, .app-shell.student-workspace .modal-header h3 { color: var(--ink); font-size: 22px; font-weight: 650; letter-spacing: -.02em; }
+.app-shell.student-workspace .modal-header h2, .app-shell.student-workspace .modal-header h3 { color: var(--ink); font-size: 22px; font-weight: 650; letter-spacing: 0; }
 .app-shell.student-workspace :is(.modal-footer,.action-editor-footer) { background: #fbf8ef; border-top-color: var(--sheet-edge); border-radius: 0 0 24px 24px; }
 .app-shell.student-workspace .modal-footer .button { border-radius: 99px; padding-inline: 18px; }
 .app-shell.student-workspace .modal .field :is(input,textarea,select), .app-shell.student-workspace .action-editor .field :is(input,textarea) { border-color: var(--sheet-edge); border-radius: 14px; background: var(--sheet); transition: border-color .25s var(--ease), box-shadow .25s var(--ease); }
@@ -1066,45 +1118,6 @@
 .app-shell.student-workspace .commit-recall-copy em { color: var(--warn); font-style: normal; font-weight: 600; }
 .app-shell.student-workspace .commit-recall-trigger > .ui-icon:last-child { color: #7a6630; transition: transform .3s var(--ease); }
 .app-shell.student-workspace .commit-recall-trigger:hover > .ui-icon:last-child { transform: translateX(3px); }
-.app-shell.student-workspace .commit-recall-backdrop { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 24px; background: #22211f66; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); animation: tu-fade .25s ease; }
-.app-shell.student-workspace .commit-recall-scrim { position: absolute; inset: 0; padding: 0; border: 0; background: none; cursor: default; }
-.app-shell.student-workspace .commit-recall-sheet { position: relative; display: grid; grid-template-columns: 340px minmax(0,1fr); width: min(1040px, 100%); height: min(720px, calc(100vh - 48px)); overflow: hidden; border-radius: 24px; background: var(--surface); box-shadow: 0 30px 80px #22211f40; animation: space-settle .35s var(--ease); }
-.app-shell.student-workspace .commit-recall-guide { display: flex; flex-direction: column; gap: 16px; min-height: 0; padding: 28px 24px 24px 28px; overflow-y: auto; border-right: 1px solid var(--sheet-edge); background: #fbf8ef; }
-.app-shell.student-workspace .commit-recall-guide h2 { margin: 0; color: var(--ink); font-size: 20px; font-weight: 650; line-height: 1.3; letter-spacing: -.02em; }
-.app-shell.student-workspace .commit-recall-source { margin: -10px 0 0; color: var(--muted); font-size: 12.5px; line-height: 1.5; }
-.app-shell.student-workspace .commit-recall-list { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
-.app-shell.student-workspace .commit-recall-list button { display: grid; grid-template-columns: 10px minmax(0,1fr); gap: 4px 12px; width: 100%; margin: 0; padding: 12px 14px; border: 1px solid transparent; border-radius: 14px; background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; transition: background .2s, border-color .2s, box-shadow .2s; }
-.app-shell.student-workspace .commit-recall-list button:hover { background: #fff; }
-.app-shell.student-workspace .commit-recall-list button[aria-pressed="true"] { border-color: var(--hl-line); background: #fff; box-shadow: 0 2px 10px #8a6a1a17; }
-.app-shell.student-workspace .commit-recall-list i { width: 8px; height: 8px; margin-top: 6px; border-radius: 50%; background: var(--note-draft); }
-.app-shell.student-workspace .commit-recall-list button.is-in_progress i { background: var(--note-submitted); }
-.app-shell.student-workspace .commit-recall-list button.is-done i { background: var(--note-final); }
-.app-shell.student-workspace .commit-recall-list button.is-needs_adjustment i { background: var(--note-returned); }
-.app-shell.student-workspace .commit-recall-list span { font-size: 14px; font-weight: 500; line-height: 1.45; }
-.app-shell.student-workspace .commit-recall-list small { grid-column: 2; color: var(--muted); font-size: 12px; }
-.app-shell.student-workspace .commit-recall-list q { grid-column: 2; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; color: var(--muted); font-size: 12.5px; font-style: italic; }
-.app-shell.student-workspace .commit-recall-prompts { padding: 16px 16px 14px; border: 1px dashed #e2d6b2; border-radius: 14px; background: #fff; }
-.app-shell.student-workspace .commit-recall-prompts b { display: block; margin-bottom: 8px; color: var(--ink); font-size: 13.5px; font-weight: 600; line-height: 1.45; }
-.app-shell.student-workspace .commit-recall-prompts ul { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
-.app-shell.student-workspace .commit-recall-prompts li { position: relative; padding-left: 16px; color: var(--muted); font-size: 13px; line-height: 1.55; }
-.app-shell.student-workspace .commit-recall-prompts li::before { content: '?'; position: absolute; left: 0; color: var(--hl-deep); font-weight: 700; }
-.app-shell.student-workspace .commit-recall-hint { margin-top: auto; color: var(--faint); font-size: 12px; line-height: 1.5; }
-.app-shell.student-workspace .commit-recall-form { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
-.app-shell.student-workspace .commit-recall-form > header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px 28px 6px; }
-.app-shell.student-workspace .commit-recall-form > header h3 { margin: 0; color: var(--ink); font-size: 20px; font-weight: 650; letter-spacing: -.02em; }
-.app-shell.student-workspace .commit-recall-close { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 1px solid var(--sheet-edge); border-radius: 50%; background: #fff; color: var(--muted); cursor: pointer; }
-.app-shell.student-workspace .commit-recall-close:hover { border-color: var(--ink); color: var(--ink); }
-.app-shell.student-workspace .commit-recall-form .action-editor { display: flex; flex: 1; flex-direction: column; min-height: 0; }
-.app-shell.student-workspace .commit-recall-form .action-editor-scroll { flex: 1; min-height: 0; overflow-y: auto; padding: 8px 28px 20px; }
-.app-shell.student-workspace .commit-recall-form .action-editor-footer { display: flex; justify-content: flex-end; gap: 10px; padding: 14px 28px; border-top: 1px solid var(--sheet-edge); background: #fbf8ef; }
-.app-shell.student-workspace .commit-recall-form .action-editor-footer .button { border-radius: 99px; padding-inline: 18px; }
-@media (max-width: 860px) {
- .app-shell.student-workspace .commit-recall-backdrop { place-items: end stretch; padding: 0; }
- .app-shell.student-workspace .commit-recall-sheet { grid-template-columns: minmax(0,1fr); height: auto; max-height: 92vh; overflow-y: auto; border-radius: 22px 22px 0 0; }
- .app-shell.student-workspace .commit-recall-guide { overflow: visible; border-right: 0; border-bottom: 1px solid var(--sheet-edge); }
- .app-shell.student-workspace .commit-recall-form .action-editor-scroll { overflow: visible; }
-}
-
 /* Course and week pickers: soft cream selects with their own chevron. */
 .app-shell.student-workspace .editor-selectors { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.3fr); gap: 14px; margin-top: 14px; }
 .app-shell.student-workspace .editor-selectors label { display: grid; gap: 6px; color: var(--muted); font-size: 11.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
@@ -1163,7 +1176,7 @@
 .app-shell.student-workspace .journey-workspace .journey-week-links::before { display: none; }
 .app-shell.student-workspace .journey-workspace .journey-week-links > button { position: relative; display: grid; align-content: start; gap: 6px; width: auto; height: auto; min-height: 86px; margin: 0; padding: 12px 12px 10px; border: 1px solid #ffffff12; border-radius: 14px; background: #ffffff0a; color: #d8d3c6; text-align: left; box-shadow: none; animation: none; transform: none; transition: background .25s var(--ease), border-color .25s var(--ease), transform .25s var(--ease); }
 .app-shell.student-workspace .journey-workspace .journey-week-links > button:hover:not(.selected) { border-color: #ffffff2e; background: #ffffff14; transform: translateY(-2px); }
-.app-shell.student-workspace .journey-workspace .journey-week-links .journey-nav-number { display: flex; align-items: center; width: auto; height: 22px; padding: 0; border: 0; background: none; color: #fbfaf6; font-size: 18px; font-weight: 700; letter-spacing: -.02em; }
+.app-shell.student-workspace .journey-workspace .journey-week-links .journey-nav-number { display: flex; align-items: center; width: auto; height: 22px; padding: 0; border: 0; background: none; color: #fbfaf6; font-size: 18px; font-weight: 700; letter-spacing: 0; }
 .app-shell.student-workspace .journey-workspace .journey-week-links .journey-nav-copy { display: block; min-width: 0; }
 .app-shell.student-workspace .journey-workspace .journey-week-links .journey-nav-copy b { display: none; }
 .app-shell.student-workspace .journey-workspace .journey-week-links .journey-nav-copy small { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; padding: 0; background: none; color: #9d998f; font-size: 11.5px; line-height: 1.35; }
@@ -1180,13 +1193,13 @@
 /* Chapter page for the selected week */
 .app-shell.student-workspace .journey-workspace .journey-week-intro { position: relative; display: grid; grid-template-columns: auto minmax(0,1fr) auto; grid-template-areas: "num top foot" "num title foot" "num prompt foot" "num req foot" "num steps steps"; column-gap: 28px; align-items: start; padding: 28px 32px; border: 1px solid var(--sheet-edge); border-radius: 22px; background: var(--sheet); box-shadow: 0 1px 2px #8a6a1a0d, 0 16px 36px #8a6a1a0f; }
 .app-shell.student-workspace .journey-workspace .journey-week-intro > * { grid-column: auto; grid-row: auto; }
-.app-shell.student-workspace .journey-workspace .journey-intro-number { grid-area: num; color: var(--hl); font-size: 76px; font-weight: 750; line-height: .9; letter-spacing: -.06em; font-variant-numeric: tabular-nums; }
+.app-shell.student-workspace .journey-workspace .journey-intro-number { grid-area: num; color: var(--hl); font-size: 76px; font-weight: 750; line-height: .9; letter-spacing: 0; font-variant-numeric: tabular-nums; }
 .app-shell.student-workspace .journey-workspace .journey-intro-top { grid-area: top; display: flex; align-items: center; gap: 10px; }
 .app-shell.student-workspace .journey-workspace .journey-intro-top .badge { border-radius: 99px; }
 .app-shell.student-workspace .journey-workspace .journey-week-eyebrow { display: inline-flex; align-items: center; gap: 8px; margin: 0; color: var(--hl-deep); font-size: 11.5px; font-weight: 650; letter-spacing: .1em; text-transform: uppercase; }
 .app-shell.student-workspace .journey-workspace .journey-week-eyebrow::before { display: none; }
 .app-shell.student-workspace .journey-workspace .journey-week-eyebrow i { padding: 2px 8px; border-radius: 99px; background: var(--ink); color: var(--hl); font-size: 10.5px; font-style: normal; letter-spacing: .04em; }
-.app-shell.student-workspace .journey-workspace .journey-week-intro h2 { grid-area: title; margin: 8px 0 0; color: var(--ink); font-size: 26px; font-weight: 650; letter-spacing: -.025em; }
+.app-shell.student-workspace .journey-workspace .journey-week-intro h2 { grid-area: title; margin: 8px 0 0; color: var(--ink); font-size: 26px; font-weight: 650; letter-spacing: 0; }
 .app-shell.student-workspace .journey-workspace .journey-week-intro > p { grid-area: prompt; margin: 10px 0 0; padding-left: 12px; border-left: 3px solid var(--hl); color: var(--muted); font-size: 15px; font-style: italic; }
 .app-shell.student-workspace .journey-workspace .journey-week-requirements { grid-area: req; margin-top: 10px; }
 .app-shell.student-workspace .journey-workspace .journey-intro-footer { grid-area: foot; flex-direction: column; align-items: flex-end; gap: 8px; margin: 0; }
@@ -1215,6 +1228,7 @@
 .app-shell.student-workspace .journey-workspace .journey-task-icon.needs_adjustment { background: var(--warn-soft); color: var(--warn); }
 .app-shell.student-workspace .journey-workspace .journey-commitment-heading h4 { margin: 6px 0 0; color: var(--ink); font-size: 15.5px; font-weight: 600; line-height: 1.45; }
 .app-shell.student-workspace .journey-workspace .journey-commitment-heading .badge { margin-top: 4px; border-radius: 99px; }
+.app-shell.student-workspace .journey-commitment-heading .badge.overdue { background: #d93a2f; color: #fff; font-weight: 600; }
 .app-shell.student-workspace .journey-workspace :is(.journey-commitment-meta,.journey-commitment-source,.journey-commitment-details,.journey-commitment-footer) { margin-left: 46px; }
 .app-shell.student-workspace .journey-workspace .journey-commitment-meta { display: flex; flex-wrap: wrap; gap: 6px; color: var(--muted); font-size: 12px; }
 .app-shell.student-workspace .journey-workspace .journey-commitment-meta > span { display: inline-flex; align-items: center; gap: 5px; padding: 2px 9px; border-radius: 99px; background: #f3eee1; }
@@ -1416,3 +1430,825 @@
 .app-shell.student-workspace .journey-workspace .journey-week-links > button.selected .journey-nav-copy small { color: #3d2e08; }
 .app-shell.student-workspace .journey-workspace .journey-nav-state.current { background: var(--honey-light); }
 .app-shell.student-workspace .journey-workspace .journey-week-links > button.selected .journey-nav-state.current { background: var(--ink); }
+
+/* Commitments as compact rows (status dot · text and due date · status · action) */
+.app-shell.student-workspace .journey-workspace .journey-all-actions .journey-commitments { padding: 4px 18px; border: 1px solid var(--sheet-edge); border-radius: 18px; background: var(--sheet); }
+.app-shell.student-workspace .journey-workspace .journey-commitments > .commit-row { display: grid; grid-template-columns: minmax(0,1fr) auto auto; grid-template-areas: "main status action"; align-items: start; gap: 6px 12px; padding: 12px 2px; }
+.app-shell.student-workspace .journey-workspace .journey-commitments > .commit-row + .commit-row { border-top: 1px solid var(--sheet-edge); }
+.app-shell.student-workspace .commit-row-dot { display: none; grid-area: dot; margin-top: 7px; width: 10px; height: 10px; border-radius: 50%; background: var(--hl); }
+.app-shell.student-workspace .commit-row.is-done .commit-row-dot { background: #8fb183; }
+.app-shell.student-workspace .commit-row.is-adjust .commit-row-dot { background: #d98f69; }
+.app-shell.student-workspace .commit-row.is-overdue .commit-row-dot { background: #d93a2f; }
+.app-shell.student-workspace .commit-row-main { grid-area: main; min-width: 0; }
+.app-shell.student-workspace .commit-row-main h4 { margin: 0; font-size: 14px; font-weight: 500; line-height: 1.5; }
+.app-shell.student-workspace .commit-row-title { display: block; max-width: 100%; padding: 0; border: 0; background: none; color: #34405a; font: inherit; font-weight: 500; text-align: left; cursor: pointer; }
+.app-shell.student-workspace .commit-row-title:hover { text-decoration: underline; text-decoration-color: var(--hl); text-underline-offset: 3px; }
+.app-shell.student-workspace .commit-row.is-done .commit-row-title { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--faint); }
+.app-shell.student-workspace .commit-row-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0 6px; margin: 1px 0 0; color: #8b9097; font-size: 12px; line-height: 1.6; }
+.app-shell.student-workspace .commit-row-meta > span + span::before { content: '·'; margin-right: 6px; color: var(--faint); }
+.app-shell.student-workspace .commit-row-meta > .journey-course-tag { padding: 0 7px; border-radius: 99px; background: var(--ink); color: var(--hl); font-size: 11px; font-style: normal; }
+.app-shell.student-workspace .commit-row-late { color: #c2362b; font-weight: 500; }
+.app-shell.student-workspace .commit-row-more { display: inline-flex; align-items: center; gap: 3px; margin-left: 4px; padding: 0; border: 0; background: none; color: #8b9097; font: inherit; font-weight: 400; cursor: pointer; }
+.app-shell.student-workspace .commit-row-more::after { content: ''; width: 5px; height: 5px; margin-top: -2px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); transition: transform .2s var(--ease); }
+.app-shell.student-workspace .commit-row-more[aria-expanded="true"]::after { margin-top: 3px; transform: rotate(-135deg); }
+.app-shell.student-workspace .commit-row-more:hover { color: var(--ink); }
+.app-shell.student-workspace .commit-row-details:not([hidden]) { display: grid; justify-items: start; gap: 6px; margin-top: 8px; padding: 10px 12px; border-radius: 10px; background: #f6f0de; font-size: 12.5px; }
+.app-shell.student-workspace .commit-row-details p { margin: 0; color: var(--ink); line-height: 1.6; white-space: pre-wrap; }
+.app-shell.student-workspace .commit-row-details p > b { display: block; color: var(--muted); font-size: 11.5px; font-weight: 600; }
+.app-shell.student-workspace .commit-row-details .text-button { font-size: 12.5px; }
+.app-shell.student-workspace .journey-week-actions .commit-row-week { display: none; }
+.app-shell.student-workspace .journey-week-actions .commit-row-week + span::before { content: none; }
+.app-shell.student-workspace .commit-row-status { grid-area: status; margin-top: 10px; display: inline-flex; align-items: center; justify-self: start; padding: 2px 10px; border-radius: 99px; background: #f3efe5; color: #7a7f86; font-size: 11.5px; font-weight: 500; line-height: 1.6; white-space: nowrap; }
+.app-shell.student-workspace .commit-row-status.is-overdue { background: #d93a2f; color: #fff; }
+.app-shell.student-workspace .commit-row-status.is-done { background: #e1ecd9; color: #44653b; }
+.app-shell.student-workspace .commit-row-status.is-adjust { background: var(--warn-soft); color: var(--warn); }
+.app-shell.student-workspace .commit-row-action.button { grid-area: action; margin-top: 6px; min-height: 30px; padding: 0 13px; border: 1px solid var(--sheet-edge); border-radius: 99px; background: #fff; color: #34405a; font-size: 12.5px; font-weight: 500; white-space: nowrap; box-shadow: none; }
+.app-shell.student-workspace .commit-row-action.button.is-quiet { border-color: transparent; background: none; color: #8b9097; }
+.app-shell.student-workspace .commit-row-action.button:hover:not(:disabled) { transform: none; background: var(--hl-soft); border-color: var(--hl); color: var(--ink); }
+/* The week column is narrow: status and button sit on a second line under the text. */
+.app-shell.student-workspace .journey-week-actions .journey-commitments > .commit-row { grid-template-columns: auto minmax(0,1fr); grid-template-areas: "main main" "status action"; }
+.app-shell.student-workspace .journey-week-actions :is(.commit-row-status,.commit-row-action.button) { justify-self: start; align-self: center; margin-top: 2px; }
+@media (max-width: 640px) {
+ .app-shell.student-workspace .journey-workspace .journey-all-actions .journey-commitments { padding: 2px 12px; }
+ .app-shell.student-workspace .journey-workspace .journey-commitments > .commit-row { grid-template-columns: auto minmax(0,1fr); grid-template-areas: "main main" "status action"; }
+ .app-shell.student-workspace :is(.commit-row-status,.commit-row-action.button) { justify-self: start; align-self: center; margin-top: 2px; }
+}
+
+/* Journey page — week tab: contents list on the left, the chosen week as stacked cards on the right */
+.app-shell.student-workspace .jr-card { padding: 18px 20px; border: 1px solid var(--sheet-edge); border-radius: 16px; background: var(--sheet); }
+.app-shell.student-workspace .jr-weeks { display: grid; grid-template-columns: 260px minmax(0,1fr); gap: 22px; align-items: start; }
+.app-shell.student-workspace .jr-week-nav { position: sticky; top: 16px; padding: 14px 10px; border: 1px solid var(--sheet-edge); border-radius: 16px; background: var(--sheet); }
+.app-shell.student-workspace .jr-progress-label { margin: 0 10px 6px; color: var(--muted); font-size: 12.5px; }
+.app-shell.student-workspace .jr-progress { height: 5px; margin: 0 10px 12px; border-radius: 9px; background: var(--sheet-edge); overflow: hidden; }
+.app-shell.student-workspace .jr-progress > span { display: block; height: 100%; border-radius: 9px; background: var(--hl); }
+.app-shell.student-workspace .jr-week-list { display: grid; gap: 2px; }
+.app-shell.student-workspace .jr-week { display: flex; align-items: center; gap: 10px; width: 100%; padding: 8px 10px; border: 0; border-radius: 10px; background: none; color: #8b9097; font: inherit; font-size: 13px; line-height: 1.4; text-align: left; cursor: pointer; }
+.app-shell.student-workspace .jr-week:hover { background: var(--hl-soft); color: var(--ink); }
+.app-shell.student-workspace .jr-week > i { display: grid; place-items: center; flex: 0 0 22px; height: 22px; border: 1.5px solid var(--sheet-edge); border-radius: 50%; background: #fff; font-size: 11px; font-style: normal; font-weight: 500; }
+.app-shell.student-workspace .jr-week.is-done > i { border-color: var(--hl-line); background: var(--hl-soft); color: var(--hl-deep); }
+.app-shell.student-workspace .jr-week.is-current:not(.is-selected) > i { border-color: var(--ink); color: var(--ink); }
+.app-shell.student-workspace .jr-week b { margin-right: 5px; color: #4a5468; font-weight: 500; }
+.app-shell.student-workspace .jr-week.is-selected { background: var(--hl-soft); color: #5d6470; box-shadow: inset 3px 0 0 var(--hl); }
+.app-shell.student-workspace .jr-week.is-selected b { color: var(--ink); font-weight: 600; }
+.app-shell.student-workspace .jr-week.is-selected > i { border-color: var(--hl); background: var(--hl); color: var(--ink); }
+.app-shell.student-workspace .jr-week-content, .app-shell.student-workspace .jr-week-detail:not([hidden]) { display: grid; gap: 14px; min-width: 0; }
+.app-shell.student-workspace .jr-eyebrow { color: #9a8a5a; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.app-shell.student-workspace .jr-week-head h2 { margin: 4px 0 2px; color: var(--ink); font-size: 19px; font-weight: 600; line-height: 1.4; }
+.app-shell.student-workspace .jr-prompt { margin: 0; color: #7a7f86; font-size: 14px; font-style: italic; }
+.app-shell.student-workspace .jr-requirements { margin-top: 8px; font-size: 13px; }
+.app-shell.student-workspace .jr-requirements > summary { width: max-content; color: var(--hl-deep); font-weight: 600; cursor: pointer; }
+.app-shell.student-workspace .jr-requirements > p { margin: 6px 0 0; color: var(--text); white-space: pre-wrap; }
+.app-shell.student-workspace .jr-week-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; margin-top: 14px; }
+.app-shell.student-workspace .jr-steps { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 0; padding: 0; list-style: none; }
+.app-shell.student-workspace .jr-steps li { display: inline-flex; align-items: center; gap: 4px; color: #a9aaa3; font-size: 12px; }
+.app-shell.student-workspace .jr-steps li.is-done { color: var(--hl-deep); }
+.app-shell.student-workspace .jr-next { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+.app-shell.student-workspace .jr-next small { color: var(--muted); font-size: 12.5px; white-space: nowrap; }
+.app-shell.student-workspace .jr-next-button.button { min-height: 36px; padding: 0 16px; border: 0; border-radius: 99px; background: var(--ink); color: #fff; font-size: 13px; font-weight: 600; white-space: nowrap; box-shadow: none; }
+.app-shell.student-workspace .jr-next-button.button:hover:not(:disabled) { transform: none; background: var(--hl); color: var(--ink); }
+.app-shell.student-workspace .jr-card-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+.app-shell.student-workspace .jr-card-heading h3 { margin: 0; color: #5d6470; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.app-shell.student-workspace .jr-card-heading h3 > span { color: #a9aaa3; font-weight: 500; }
+.app-shell.student-workspace .jr-link { display: inline-flex; align-items: center; gap: 4px; padding: 0; border: 0; background: none; color: var(--hl-deep); font: inherit; font-size: 12.5px; font-weight: 500; cursor: pointer; }
+.app-shell.student-workspace .jr-link:hover { color: var(--ink); }
+.app-shell.student-workspace .jr-empty { margin: 6px 0 2px; color: var(--muted); font-size: 13.5px; }
+.app-shell.student-workspace .jr-reflections { margin: 0; padding: 0; list-style: none; }
+.app-shell.student-workspace .jr-reflections li + li { border-top: 1px solid var(--sheet-edge); }
+.app-shell.student-workspace .jr-reflections button { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 4px; border: 0; background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+.app-shell.student-workspace .jr-reflections button > i { display: none; }
+.app-shell.student-workspace .jr-reflections button.is-submitted > i { background: var(--note-submitted); }
+.app-shell.student-workspace .jr-reflections button.is-returned > i { background: var(--note-returned); }
+.app-shell.student-workspace .jr-reflections button.is-final > i { background: #8fb183; }
+.app-shell.student-workspace .jr-reflections b { flex: 1; min-width: 0; color: #34405a; font-size: 14px; font-weight: 500; }
+.app-shell.student-workspace .jr-reflection-status { padding: 1px 10px; border-radius: 99px; background: #f3efe5; color: #7a7f86; font-size: 11.5px; font-weight: 500; white-space: nowrap; }
+.app-shell.student-workspace .jr-reflections button.is-final .jr-reflection-status { background: #e1ecd9; color: #44653b; }
+.app-shell.student-workspace .jr-reflections button.is-returned .jr-reflection-status { background: var(--warn-soft); color: var(--warn); }
+.app-shell.student-workspace .jr-reflections .ui-icon { color: var(--faint); }
+.app-shell.student-workspace .jr-reflections button:hover b { text-decoration: underline; text-decoration-color: var(--hl); text-underline-offset: 3px; }
+.app-shell.student-workspace .jr-week-commitments .commit-row-week { display: none; }
+.app-shell.student-workspace .jr-week-commitments .commit-row-week + span::before { content: none; }
+
+/* Journey page — commitments tab: status chips, then commitments grouped by week on a timeline */
+.app-shell.student-workspace .jr-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 18px; }
+.app-shell.student-workspace .jr-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.app-shell.student-workspace .jr-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 14px; border: 1px solid var(--sheet-edge); border-radius: 99px; background: #fff; color: var(--muted); font: inherit; font-size: 13px; font-weight: 500; cursor: pointer; }
+.app-shell.student-workspace .jr-chip > i { font-style: normal; font-weight: 600; opacity: .75; }
+.app-shell.student-workspace .jr-chip.is-overdue > i { color: #d93a2f; opacity: 1; }
+.app-shell.student-workspace .jr-chip:hover { border-color: var(--hl); color: var(--ink); }
+.app-shell.student-workspace .jr-chip[aria-pressed="true"] { border-color: var(--hl); background: var(--hl-soft); color: var(--ink); font-weight: 600; }
+.app-shell.student-workspace .jr-chip[aria-pressed="true"] > i { color: var(--hl-deep); }
+.app-shell.student-workspace .jr-search { display: flex; align-items: center; gap: 6px; width: 240px; min-height: 34px; margin-left: auto; padding: 0 12px; border: 1px solid var(--sheet-edge); border-radius: 99px; background: #fff; color: var(--faint); }
+.app-shell.student-workspace .jr-search:focus-within { border-color: var(--hl); color: var(--ink); }
+.app-shell.student-workspace .jr-search input { flex: 1; min-width: 0; min-height: 0; padding: 0; border: 0; background: none; box-shadow: none; font-size: 13px; outline: none; }
+.app-shell.student-workspace .jr-timeline { position: relative; margin: 0; padding: 0 0 0 34px; list-style: none; }
+.app-shell.student-workspace .jr-timeline::before { content: ''; position: absolute; top: 12px; bottom: 12px; left: 11px; width: 2px; background: var(--sheet-edge); }
+.app-shell.student-workspace .jr-tl-item { position: relative; padding-bottom: 18px; }
+.app-shell.student-workspace .jr-tl-item > i { position: absolute; top: 0; left: -34px; display: grid; place-items: center; width: 24px; height: 24px; border: 2px solid var(--sheet-edge); border-radius: 50%; background: #fff; color: var(--muted); font-size: 11px; font-style: normal; font-weight: 700; }
+.app-shell.student-workspace .jr-tl-item.is-done > i { border-color: var(--hl-line); background: var(--hl-soft); color: var(--hl-deep); }
+.app-shell.student-workspace .jr-tl-item.is-current > i { border-color: var(--hl); background: var(--hl); color: var(--ink); }
+.app-shell.student-workspace .jr-tl-head { display: flex; align-items: baseline; gap: 8px; min-height: 24px; margin-bottom: 6px; font-size: 13.5px; }
+.app-shell.student-workspace .jr-tl-head b { color: #4a5468; font-weight: 600; }
+.app-shell.student-workspace .jr-tl-head span { color: #8b9097; font-size: 12.5px; }
+.app-shell.student-workspace .jr-timeline .journey-commitments.jr-card { padding: 2px 16px; }
+.app-shell.student-workspace .jr-timeline .commit-row-week { display: none; }
+.app-shell.student-workspace .jr-timeline .commit-row-week + span::before { content: none; }
+.app-shell.student-workspace .jr-none { text-align: center; }
+.app-shell.student-workspace .jr-none h3 { margin: 0 0 4px; font-size: 15px; }
+.app-shell.student-workspace .jr-none p { margin: 0 0 12px; color: var(--muted); }
+@media (max-width: 860px) {
+ .app-shell.student-workspace .jr-weeks { grid-template-columns: 1fr; }
+ .app-shell.student-workspace .jr-week-nav { position: static; padding: 12px 8px 8px; }
+ .app-shell.student-workspace .jr-week-list { display: flex; gap: 6px; overflow-x: auto; padding: 0 2px 6px; }
+ .app-shell.student-workspace .jr-week { flex: 0 0 auto; width: auto; padding: 6px 12px 6px 8px; border: 1px solid var(--sheet-edge); border-radius: 99px; }
+ .app-shell.student-workspace .jr-week > span:not(.sr-only) { font-size: 0; }
+ .app-shell.student-workspace .jr-week b { margin: 0; font-size: 13px; }
+}
+@media (max-width: 640px) {
+ .app-shell.student-workspace .jr-card { padding: 14px; }
+ .app-shell.student-workspace .jr-search { width: 100%; margin-left: 0; }
+ .app-shell.student-workspace .jr-next { margin-left: 0; }
+ .app-shell.student-workspace .jr-timeline { padding-left: 30px; }
+ .app-shell.student-workspace .jr-timeline::before { left: 10px; }
+ .app-shell.student-workspace .jr-tl-item > i { left: -30px; width: 22px; height: 22px; }
+}
+
+/* Typography matches the lecturer workspace: Be Vietnam Pro for text, Georgia for page titles, no tight tracking. */
+.app-shell.student-workspace { --font-sans: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; --font-display: var(--font-sans); --serif: var(--font-sans); font-family: var(--font-sans); letter-spacing: 0; }
+.app-shell.student-workspace :is(button,input,select,textarea) { font-family: var(--font-sans); }
+.app-shell.student-workspace :is(.student-page-title h1,.space-welcome h1) { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(30px,3vw,38px); font-weight: 400; line-height: 1.3; letter-spacing: -.5px; }
+.app-shell.student-workspace :is(h2,h3,h4) { line-height: 1.45; }
+.app-shell.student-workspace .commit-row-meta { margin-top: 3px; }
+.app-shell.student-workspace .book-tab .space-tile-name { overflow: visible; white-space: normal; line-height: 1.35; }
+@media (max-width: 600px) { .app-shell.student-workspace :is(.student-page-title h1,.space-welcome h1) { font-size: 30px; } }
+
+/* My progress: warm neutral type, muted chart colours and open supporting sections. */
+.student-workspace .pg{--pg-ink:#3e392f;--pg-edge:#e8e2d6;--pg-muted:#777166;--pg-yellow:#dcc175;--pg-yellow-d:#a88938;--pg-yellow-s:#f7f0dd;--pg-green:#87a48b;--pg-green-d:#4e7057;--pg-green-s:#edf3ed;--pg-orange:#c69978;--pg-orange-s:#f6eee7;--pg-grey:#eeebe4;--pg-grey-d:#dcd6c9;color:var(--pg-ink);font-family:var(--font-sans);font-size:14px;line-height:1.75}
+.app-shell.student-workspace .progress-journal.pg{gap:24px}
+.student-workspace .pg-card{background:transparent;border:0;border-radius:0;padding:24px 26px;margin:0}
+.student-workspace .pg-skill-section{padding-top:28px;border-top:1px solid var(--pg-edge)}
+.student-workspace .pg-card h2{font-size:18px;font-weight:600;line-height:1.5;margin:0 0 6px;color:var(--pg-ink)}
+.student-workspace .pg-sub{color:var(--pg-muted);margin:0 0 24px;font-size:13px;line-height:1.75}
+.student-workspace .pg h3{margin:0}
+.student-workspace .pg-summary-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:32px;padding:20px 26px 0;align-items:start}
+.student-workspace .pg-summary-layout>.pg-card{min-width:0;padding:0}
+.student-workspace .pg-summary-layout>.pg-statistics{padding-left:32px;border-left:1px solid var(--pg-edge)}
+.student-workspace .pg-summary-layout .pg-tiles{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 20px;margin:0;padding:0;border:0}
+.student-workspace .pg-summary-layout .pg-tile{display:grid;grid-template-columns:24px minmax(0,1fr);gap:4px 8px}
+.student-workspace .pg-summary-layout .pg-tile>div{display:contents}
+.student-workspace .pg-summary-layout .pg-tile-icon{width:24px;height:24px;flex-basis:24px;border-radius:6px;font-size:14px}
+.student-workspace .pg-summary-layout .pg-tile b{margin:0}
+.student-workspace .pg-summary-layout .pg-tile>div>span{grid-column:1/-1;align-self:start;min-height:34px;font-size:11px;line-height:1.55}
+.student-workspace .pg-summary-layout .pg-node{font-size:10px}
+.student-workspace .pg-summary-layout .pg-node i{width:34px;height:34px;font-size:14px}
+.student-workspace .pg-summary-layout .pg-path::before,.student-workspace .pg-summary-layout .pg-path::after{left:21px;top:23px;height:3px}
+.student-workspace .pg-summary-layout .pg-path::before{right:21px}
+.student-workspace .pg-summary-layout .pg-path::after{width:calc((100% - 42px)*var(--pg-done))}
+.student-workspace .pg-summary-layout .pg-now{gap:12px;margin-top:22px;padding-top:16px}
+.student-workspace .pg-chart-section{padding-top:26px;border-top:1px solid var(--pg-edge)}
+
+.student-workspace .pg-hero{display:grid;grid-template-columns:auto minmax(0,1fr);gap:32px;align-items:center;padding:28px 26px;border:1px solid #d9c9a6;border-radius:12px;background:#fff}
+.student-workspace .pg-badge{position:relative;width:120px;height:120px}
+.student-workspace .pg-badge svg{width:100%;height:100%;transform:rotate(-90deg)}
+.student-workspace .pg-badge-copy{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.student-workspace .pg-badge-copy b{font-size:36px;font-weight:600;line-height:1.2;color:#725a2d}
+.student-workspace .pg-badge-copy span{font-size:12px;color:var(--pg-muted);font-weight:600}
+.student-workspace .pg-level-eyebrow{display:block;margin-bottom:3px;color:var(--pg-muted);font-size:11px;line-height:1.6}
+.student-workspace .pg-hero h2{font-size:26px;font-weight:600;margin:0;color:#51452f;line-height:1.35}
+.student-workspace .pg-hero p{margin:0;color:var(--pg-muted);font-size:14px;line-height:1.8}
+.student-workspace .pg-hero p b{color:#625744;font-weight:500}
+.student-workspace .pg-chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:20px}
+.student-workspace .pg-chip{display:flex;align-items:center;gap:10px;min-width:0;padding:0;border:0;background:transparent}
+.student-workspace .pg-chip>svg{flex:none;color:#94805b}
+.student-workspace .pg-chip:last-child>svg{color:#63816b}
+.student-workspace .pg-chip-copy{display:grid;gap:2px;min-width:0}
+.student-workspace .pg-chip-copy b{color:#514a3d;font-size:28px;line-height:1.25;font-weight:600;font-variant-numeric:tabular-nums}
+.student-workspace .pg-chip.is-up b{color:#4e7057}
+.student-workspace .pg-chip.is-down b{color:#aa655b}
+.student-workspace .pg-chip small{font-weight:400;color:var(--pg-muted);font-size:11px;line-height:1.6}
+.student-workspace .pg-ladder{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:20px 0 0;padding:0;list-style:none}
+.student-workspace .pg-ladder li{padding:6px 0;background:transparent;color:var(--pg-muted);font-size:12px;font-weight:400;line-height:1.6;border-bottom:2px solid var(--pg-grey-d)}
+.student-workspace .pg-ladder b{display:block;font-size:10px;font-weight:400}
+.student-workspace .pg-ladder li>span{display:block;margin-top:3px;font-size:12px;line-height:1.55}
+.student-workspace .pg-ladder .is-done{color:#8a7448;border-bottom-color:#dfd1a7}
+.student-workspace .pg-ladder .is-now{color:#72592b;border-bottom-color:var(--pg-yellow-d)}
+.student-workspace .pg-ladder .is-now b{font-weight:600}
+.student-workspace .pg-ladder .is-now>span{font-weight:500}
+
+.student-workspace .pg-section-heading{display:flex;align-items:center;gap:20px;margin-bottom:8px}
+.student-workspace .pg-section-heading::after{content:"";flex:1;min-width:24px;height:1px;background:#d9d0be}
+.student-workspace .pg-section-heading h2{display:flex;align-items:center;gap:10px;flex:none;margin:0;color:#6c512f;font-size:22px;font-weight:600;line-height:1.45}
+.student-workspace .pg-section-heading h2>svg{flex:none;color:#987b42}
+.student-workspace .pg-journey-heading{margin-bottom:26px}
+.student-workspace .pg-journey-count{color:var(--pg-muted);font-size:12px;line-height:1.6;white-space:nowrap}
+.student-workspace .pg-section-heading .pg-journey-count{order:1}
+.student-workspace .pg-journey-count b{margin-right:4px;color:var(--pg-green-d);font-weight:600;font-variant-numeric:tabular-nums}
+.student-workspace .pg-path{display:flex;justify-content:space-between;align-items:center;position:relative;margin:0;padding:6px 4px 0;list-style:none}
+.student-workspace .pg-path::before,.student-workspace .pg-path::after{content:"";position:absolute;left:28px;top:30px;height:4px;border-radius:4px}
+.student-workspace .pg-path::before{right:28px;background:var(--pg-grey)}
+.student-workspace .pg-path::after{width:calc((100% - 56px)*var(--pg-done));background:var(--pg-green)}
+.student-workspace .pg-node{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--pg-muted)}
+.student-workspace .pg-node i{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:17px;font-weight:600;background:var(--pg-grey);color:#8a8376;border-bottom:2px solid var(--pg-grey-d)}
+.student-workspace .pg-node.is-done i{background:#e2ece2;color:var(--pg-green-d);border-bottom-color:var(--pg-green-d)}
+.student-workspace .pg-node.is-now{color:var(--pg-ink)}
+.student-workspace .pg-node.is-now i{background:var(--pg-yellow);color:#72592b;border-bottom-color:var(--pg-yellow-d);box-shadow:0 0 0 4px #fff,0 0 0 6px #dfcea3}
+.student-workspace .pg-now{display:flex;align-items:center;justify-content:space-between;gap:16px 24px;margin:24px 0 0;padding:18px 0 0;border:0;border-top:1px solid var(--pg-edge);background:transparent;font-size:13px;line-height:1.6}
+.student-workspace .pg-now-context{display:flex;align-items:center;gap:14px;min-width:0}
+.student-workspace .pg-now-context>svg{flex:none;color:#8c7c5c}
+.student-workspace .pg-now-copy{display:grid;gap:3px}
+.student-workspace .pg-now-copy b{color:#514a3d;font-size:15px;font-weight:500;line-height:1.5}
+.student-workspace .pg-now-copy>span{color:var(--pg-muted);font-size:12px}
+.student-workspace .pg-button{display:inline-flex;align-items:center;justify-content:center;gap:10px;flex:none;min-height:42px;margin:0;padding:10px 16px;border-radius:7px;background:#705634;color:#fffefa;border:0;font:inherit;font-size:13px;font-weight:500;cursor:pointer}
+.student-workspace .pg-button:hover{background:#eeede8;color:#735831}
+.student-workspace .pg-button:focus-visible{outline:3px solid var(--pg-yellow);outline-offset:2px}
+
+.student-workspace .pg-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 24px;margin:0 0 26px;padding:0 0 24px;border-bottom:1px solid var(--pg-edge);list-style:none}
+.student-workspace .pg-tile{display:flex;gap:12px;align-items:center;padding:4px 0}
+.student-workspace .pg-tile-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex:0 0 40px}
+.student-workspace .pg-tile b{display:block;margin-bottom:3px;color:#534b3c;font-size:25px;font-weight:600;line-height:1.2;font-variant-numeric:tabular-nums}
+.student-workspace .pg-tile span{font-size:12.5px;color:var(--pg-muted)}
+.student-workspace .pg-stat-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:28px;align-items:start}
+.student-workspace .pg-stat-grid>div{min-width:0}
+.student-workspace .pg-stat-grid>div+div{padding-left:24px;border-left:1px solid var(--pg-edge)}
+.student-workspace .pg-stat-grid h3{font-size:14px;font-weight:600;margin:0 0 5px}
+.student-workspace .pg-stat-grid .pg-chart-heading{display:flex;align-items:center;gap:9px;color:#6c512f;font-size:17px;margin-bottom:7px}
+.student-workspace .pg-chart-heading>svg{color:#987b42;flex:none}
+.student-workspace .pg-mini{font-size:12.5px;color:var(--pg-muted);min-height:38px;line-height:1.7;margin:0 0 14px}
+.student-workspace .pg-bars{position:relative;height:190px;display:grid;grid-template-columns:repeat(9,1fr);gap:10px;align-items:end;border-bottom:1px solid var(--pg-edge);padding:0 4px}
+.student-workspace .pg-goal{position:absolute;left:0;right:0;border-top:1px dashed #a2b6a3}
+.student-workspace .pg-goal em{position:absolute;right:0;top:-20px;font-style:normal;font-size:11.5px;font-weight:500;color:var(--pg-green-d);padding:0 4px}
+.student-workspace .pg-bar{position:relative;height:100%;display:flex;align-items:flex-end;justify-content:center}
+.student-workspace .pg-bar span{width:100%;max-width:38px;border-radius:6px 6px 2px 2px;background:var(--pg-yellow);border-bottom:2px solid #c5ad6d}
+.student-workspace .pg-bar.is-now span{background:var(--pg-green);border-bottom-color:var(--pg-green-d)}
+.student-workspace .pg-bar.is-off span{height:14px;background:var(--pg-grey);border-bottom-color:var(--pg-grey-d)}
+.student-workspace .pg-bar em{position:absolute;z-index:1;font-style:normal;font-size:11px;font-weight:500;transform:translateY(-22px);padding:0 4px}
+.student-workspace .pg-bar-axis{display:grid;grid-template-columns:repeat(9,1fr);gap:10px;padding:6px 4px 0;font-size:12px;color:var(--pg-muted);text-align:center;font-weight:600}
+.student-workspace .pg-bar-axis .is-now{color:var(--pg-ink)}
+.student-workspace .pg-donut-wrap{display:flex;gap:18px;align-items:center;min-height:190px}
+.student-workspace .pg-donut{position:relative;width:120px;height:120px;flex:0 0 120px}
+.student-workspace .pg-donut svg{width:100%;height:100%;transform:rotate(-90deg)}
+.student-workspace .pg-donut-copy{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.student-workspace .pg-donut-copy b{font-size:27px;font-weight:600;line-height:1.2}
+.student-workspace .pg-donut-copy span{font-size:11.5px;color:var(--pg-muted)}
+.student-workspace .pg-legend{list-style:none;margin:0;padding:0;font-size:13px;flex:1}
+.student-workspace .pg-legend li{display:flex;align-items:center;gap:8px;padding:4px 0}
+.student-workspace .pg-legend i{width:12px;height:12px;border-radius:4px}
+.student-workspace .pg-legend b{margin-left:auto;font-weight:600;font-variant-numeric:tabular-nums}
+
+.student-workspace .pg-skills{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:0;padding:12px 0 0;list-style:none}
+.student-workspace .pg-skill{position:relative;text-align:center;padding:18px 14px 16px}
+.student-workspace .pg-skill + .pg-skill{border-left:1px solid var(--pg-edge)}
+.student-workspace .pg-ring{position:relative;width:92px;height:92px;margin:0 auto 10px}
+.student-workspace .pg-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.student-workspace .pg-ring span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px}
+.student-workspace .pg-ring span>.ui-icon{width:25px;height:25px;transform:none;color:#746b5c}
+.student-workspace .pg-skill h3{display:flex;align-items:center;justify-content:center;min-height:44px;font-size:14px;font-weight:500;line-height:1.55}
+.student-workspace .pg-skill p{margin:4px 0 0;font-size:21px;font-weight:600;line-height:1.3;color:#605847;font-variant-numeric:tabular-nums}
+.student-workspace .pg-flag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);white-space:nowrap;padding:3px 12px;border-radius:99px;font-size:10px;font-weight:500;color:var(--pg-green-d)}
+.student-workspace .pg-flag.is-best{background:var(--pg-green-s);color:var(--pg-green-d)}
+.student-workspace .pg-flag.is-work{background:var(--pg-orange-s);color:#8b6348}
+.student-workspace .pg-spark{display:flex;justify-content:center;align-items:flex-end;gap:4px;height:44px;margin:10px 0 2px}
+.student-workspace .pg-spark i{width:12px;border-radius:4px 4px 2px 2px}
+.student-workspace .pg-trend{font-size:11px;font-weight:500;color:var(--pg-green-d)}
+.student-workspace .pg-trend.is-down{color:#aa655b}
+.student-workspace .pg-trend.is-flat{display:block;margin-top:8px;font-weight:500;color:var(--pg-muted)}
+.student-workspace .pg-advice{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:26px}
+.student-workspace .pg-advice>div{border:0;border-radius:8px;padding:16px 18px;color:#6b6458;font-size:13px;line-height:1.85}
+.student-workspace .pg-advice b{display:flex;align-items:center;gap:8px;margin-bottom:5px;color:#554d3f;font-size:13px;font-weight:600}
+.student-workspace .pg-advice .is-good{background:#eef4ef}
+.student-workspace .pg-advice .is-good b{color:#4e7057}
+.student-workspace .pg-advice .is-tip{background:#faf4e9}
+.student-workspace .pg-export{display:flex;justify-content:flex-end;margin-bottom:12px}
+.app-shell.student-workspace .progress-journal.pg .growth-details{border:0;border-top:1px solid var(--pg-edge);border-bottom:1px solid var(--pg-edge);border-radius:0;background:transparent}
+.app-shell.student-workspace .progress-journal.pg .progress-advanced-content .growth-sheet{border:0;border-radius:0;background:transparent;padding:20px 0}
+
+@media (max-width:1100px){
+ .student-workspace .pg-summary-layout{grid-template-columns:minmax(0,1fr);gap:26px}
+ .student-workspace .pg-summary-layout>.pg-statistics{padding:24px 0 0;border-left:0;border-top:1px solid var(--pg-edge)}
+ .student-workspace .pg-summary-layout .pg-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:720px){
+ .student-workspace .pg-card{padding:20px 18px}
+ .student-workspace .pg-summary-layout{padding:12px 18px 0}
+ .student-workspace .pg-summary-layout .pg-tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 14px}
+ .student-workspace .pg-summary-layout .pg-node{font-size:0}
+ .student-workspace .pg-summary-layout .pg-node i{width:30px;height:30px;font-size:12px}
+ .student-workspace .pg-summary-layout .pg-path::before,.student-workspace .pg-summary-layout .pg-path::after{top:21px;left:19px}
+ .student-workspace .pg-summary-layout .pg-path::before{right:19px}
+ .student-workspace .pg-summary-layout .pg-path::after{width:calc((100% - 38px)*var(--pg-done))}
+ .student-workspace .pg-section-heading{justify-content:space-between;flex-wrap:wrap;gap:8px 12px;padding-bottom:12px;border-bottom:1px solid #d9d0be}
+ .student-workspace .pg-section-heading h2{font-size:20px;flex:0 1 auto}
+ .student-workspace .pg-section-heading::after{display:none}
+ .student-workspace .pg-now{flex-direction:column;align-items:stretch;gap:14px;padding:18px 0 0}
+ .student-workspace .pg-now-copy b{font-size:15px}
+ .student-workspace .pg-now .pg-button{width:100%}
+ .student-workspace .pg-hero{grid-template-columns:1fr;text-align:center}
+ .student-workspace .pg-badge{margin:0 auto}
+ .student-workspace .pg-chips{gap:12px}
+ .student-workspace .pg-ladder{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .student-workspace .pg-node{font-size:0}
+ .student-workspace .pg-node i{width:30px;height:30px;font-size:12px;border-bottom-width:2px}
+ .student-workspace .pg-node.is-now i{box-shadow:0 0 0 3px #fff,0 0 0 5px #dfcea3}
+ .student-workspace .pg-path::before,.student-workspace .pg-path::after{top:21px;left:19px}
+ .student-workspace .pg-path::before{right:19px}
+ .student-workspace .pg-path::after{width:calc((100% - 38px)*var(--pg-done))}
+ .student-workspace .pg-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .student-workspace .pg-tiles{gap:18px 14px}
+ .student-workspace .pg-tile{gap:10px;padding:0}
+ .student-workspace .pg-tile-icon{width:34px;height:34px;flex-basis:34px;font-size:17px}
+ .student-workspace .pg-stat-grid,.student-workspace .pg-advice{grid-template-columns:minmax(0,1fr)}
+ .student-workspace .pg-hero{grid-template-columns:minmax(0,1fr)}
+ .student-workspace .pg-hero h2{font-size:24px}
+ .student-workspace .pg-hero p{font-size:13px}
+ .student-workspace .pg-chip{flex-direction:column;align-items:center;gap:7px}
+ .student-workspace .pg-chip-copy b{font-size:24px}
+ .student-workspace .pg-chip small{font-size:11px}
+ .student-workspace .pg-stat-grid>div+div{padding:22px 0 0;border-left:0;border-top:1px solid var(--pg-edge)}
+ .student-workspace .pg-donut-wrap{min-height:150px}
+ .student-workspace .pg-mini{min-height:0}
+ .student-workspace .pg-tile b{font-size:23px}
+ .student-workspace .pg-tile span{font-size:11px}
+ .student-workspace .pg-bars,.student-workspace .pg-bar-axis{gap:5px}
+ .student-workspace .pg-skills{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:24px}
+ .student-workspace .pg-skill:nth-child(odd){border-left:0}
+}
+
+/* Kember scale under the rubric table */
+.kember-scale{margin-top:22px}
+.kember-scale h3{margin:0 0 4px;font-size:16px;font-weight:700}
+.kember-scale>p{margin:0 0 14px;color:var(--muted,#6d6a63);font-size:13.5px}
+.kember-scale ol{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0;padding:0;list-style:none}
+.kember-scale li{display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:14px;background:#faf8f2;border:1px solid #ece4cf}
+.kember-scale li>span{flex:0 0 30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;background:#e9e5dc;color:#6d6a63}
+.kember-scale li.is-level-2>span{background:#fff1c7;color:#86681a}
+.kember-scale li.is-level-3>span{background:#f2c94c;color:#4a3a08}
+.kember-scale li.is-level-4>span{background:#58b368;color:#fff}
+.kember-scale b{display:block;font-size:14px;line-height:1.4}
+.kember-scale small{display:block;font-weight:500;color:var(--muted,#6d6a63);font-size:12px}
+.kember-scale li p{margin:4px 0 0;font-size:13px;line-height:1.55;color:#50483c}
+@media (max-width:900px){.kember-scale ol{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.kember-scale ol{grid-template-columns:minmax(0,1fr)}}
+
+/* ── Writing sidebar: one AI Assistant tab (suggestions while writing, Coach once finished) ── */
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .writing-support-panel .reflection-support-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}
+.student-workspace .ai-assistant{--ai-edge:#ece5d4;--ai-muted:#837f76;--ai-hl:#e8c766;--ai-hl-soft:#fdf6e1;--ai-green:#3f8a52;--ai-green-s:#eaf5ec;padding:14px 16px 18px}
+.student-workspace .ai-assistant-head{display:flex;align-items:center;gap:12px;margin:0 0 14px}
+.student-workspace .ai-orb{width:40px;height:40px;flex:0 0 40px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f6dc8c,#e8c766 55%,#d9a92a);color:#5a430f;box-shadow:inset 0 -2px 0 #0000001a}
+.student-workspace .ai-assistant-head b{display:block;font-size:15px;line-height:1.35;color:#2b2f38}
+.student-workspace .ai-assistant-head small{display:flex;align-items:center;gap:6px;color:var(--ai-muted);font-size:12px}
+.student-workspace .ai-assistant-head small i{width:7px;height:7px;border-radius:50%;background:#58b368;box-shadow:0 0 0 3px #58b36826}
+.student-workspace .ai-stage{display:flex;width:100%;align-items:center;gap:12px;margin:0 0 12px;padding:12px 14px;border-radius:16px;background:#faf8f2;border:1px solid var(--ai-edge);font:inherit;color:#2b2f38;text-align:left;cursor:pointer;transition:background .2s,border-color .2s}
+.student-workspace .ai-stage>span{flex:1;min-width:0}
+.student-workspace .ai-stage b{display:block;font-size:13.5px;font-weight:600}
+.student-workspace .ai-stage small{display:block;font-size:12px;color:var(--ai-muted)}
+.student-workspace .ai-stage>i{position:relative;flex:0 0 42px;height:24px;border-radius:99px;background:#ddd5c2;transition:background .2s}
+.student-workspace .ai-stage>i::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0003;transition:left .2s}
+.student-workspace .ai-stage.is-on{background:var(--ai-green-s);border-color:#cfe6d5}
+.student-workspace .ai-stage.is-on>i{background:var(--ai-green)}
+.student-workspace .ai-stage.is-on>i::after{left:21px}
+.student-workspace .ai-stage:focus-visible{outline:2px solid var(--ai-hl);outline-offset:2px}
+.app-shell.student-workspace .ai-assistant .button.ai-ask{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:46px;border-radius:14px;font-size:14px;font-weight:600}
+.app-shell.student-workspace .ai-assistant .button.ai-ask.is-coach:not(:disabled){background:var(--ai-green);border-color:var(--ai-green);color:#fff}
+.app-shell.student-workspace .ai-assistant .button.ai-ask.is-coach:not(:disabled):hover{background:#367a48}
+.student-workspace .ai-assistant .reflection-thinking,.student-workspace .ai-assistant .coach-panel{display:block;margin:0;padding:0;border:0;background:none;box-shadow:none}
+.student-workspace .ai-assistant .writing-ai-hint,.student-workspace .ai-assistant .support-caption{margin:8px 0 0;text-align:center;font-size:12.5px;color:var(--ai-muted)}
+.student-workspace .ai-assistant .notice{margin-top:12px}
+.student-workspace .ai-empty{margin-top:16px;padding:22px 14px;text-align:center;border:1.5px dashed var(--ai-edge);border-radius:16px;color:var(--ai-muted);font-size:13px}
+.student-workspace .ai-empty>span{display:flex;width:52px;height:52px;margin:0 auto 8px;border-radius:50%;align-items:center;justify-content:center;background:var(--ai-hl-soft);font-size:24px}
+.student-workspace .ai-empty b{display:block;margin-bottom:2px;color:#2b2f38;font-size:14px}
+.student-workspace .ai-empty p{margin:0;line-height:1.55}
+.student-workspace .ai-message{display:flex;gap:10px;margin-top:16px;padding:0;border:0;background:none}
+.student-workspace .ai-avatar{width:30px;height:30px;flex:0 0 30px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f6dc8c,#e8c766);color:#5a430f}
+.student-workspace .ai-bubble{flex:1;min-width:0;padding:12px 14px;border-radius:4px 16px 16px 16px;background:var(--ai-hl-soft)}
+.student-workspace .ai-bubble small{display:block;margin-bottom:3px;font-size:11.5px;color:var(--ai-muted)}
+.student-workspace .ai-bubble p{margin:0;font-size:14.5px;line-height:1.6;color:#2b2f38;white-space:pre-line}
+.student-workspace .ai-bubble.is-typing p{font-size:13px;color:var(--ai-muted)}
+.student-workspace .ai-bubble .notice{margin:4px 0 8px}
+.student-workspace .ai-history{margin-top:12px;padding-top:10px;border-top:1px solid var(--ai-edge)}
+.student-workspace .ai-history summary{display:flex;justify-content:space-between;cursor:pointer;list-style:none;font-size:12.5px;color:var(--ai-muted)}
+.student-workspace .ai-history summary::-webkit-details-marker{display:none}
+.student-workspace .ai-history summary b{color:#6b5320;font-weight:600}
+.student-workspace .ai-history[open] summary b{visibility:hidden}
+.student-workspace .ai-history article{margin-top:10px;padding:10px 12px;border-radius:12px;background:#faf8f2}
+.student-workspace .ai-history article small{display:block;font-size:11px;color:var(--ai-muted)}
+.student-workspace .ai-history article p{margin:2px 0 0;font-size:13px;line-height:1.55}
+.student-workspace .ai-result-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:18px 0 10px}
+.student-workspace .ai-result-head b{font-size:13.5px;color:#2b2f38}
+.student-workspace .ai-result-head small{font-size:11.5px;color:var(--ai-muted)}
+.student-workspace .ai-assistant .feedback-provenance{margin:0 0 10px}
+.app-shell.student-workspace .ai-assistant .ai-level{margin:0 0 10px;padding:12px 14px;border-radius:14px;background:#faf8f2;border:1px solid var(--ai-edge)}
+.app-shell.student-workspace .ai-assistant .ai-level summary{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 8px;cursor:pointer;list-style:none;font-size:12.5px;color:var(--ai-muted)}
+.student-workspace .ai-level summary::-webkit-details-marker{display:none}
+.student-workspace .ai-level summary b{font-size:14px;color:#2b2f38}
+.student-workspace .ai-level-steps{display:grid;flex:1 0 100%;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:6px}
+.student-workspace .ai-level-steps i{height:6px;border-radius:9px;background:#e9e3d4}
+.student-workspace .ai-level-steps i.is-on{background:var(--ai-hl)}
+.student-workspace .ai-level p,.student-workspace .ai-level blockquote{margin:10px 0 0;font-size:13px;line-height:1.55}
+.student-workspace .ai-items{margin:0;padding:2px 14px;list-style:none;border:1px solid var(--ai-edge);border-radius:16px}
+.student-workspace .ai-item{display:flex;gap:10px;padding:11px 0;border-top:1px solid #f1ecdf}
+.student-workspace .ai-item:first-child{border-top:0}
+.student-workspace .ai-item>div{min-width:0}
+.student-workspace .ai-item-icon{width:28px;height:28px;flex:0 0 28px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.student-workspace .ai-item b{display:block;font-size:12.5px;font-weight:600}
+.student-workspace .ai-item p{margin:2px 0 0;font-size:13.5px;line-height:1.55;color:#2b2f38}
+.student-workspace .ai-item p+p{margin-top:6px}
+.student-workspace .ai-item.is-strengths .ai-item-icon{background:#eaf5ec}.student-workspace .ai-item.is-strengths b{color:#3f8a52}
+.student-workspace .ai-item.is-development .ai-item-icon{background:#fcefe5}.student-workspace .ai-item.is-development b{color:#b5622f}
+.student-workspace .ai-item.is-questions .ai-item-icon{background:#eaf1fa}.student-workspace .ai-item.is-questions b{color:#3f6fa6}
+.student-workspace .ai-item.is-suggestedActions .ai-item-icon{background:#f1ecfa}.student-workspace .ai-item.is-suggestedActions b{color:#7556b8}
+.student-workspace .ai-commit{display:block;margin-top:4px;padding:0;border:0;background:none;font:inherit;font-size:12.5px;font-weight:600;color:#7556b8;cursor:pointer}
+.student-workspace .ai-commit:hover{text-decoration:underline}
+.student-workspace .ai-context{margin:10px 0 0;font-size:13px;line-height:1.55;color:var(--ai-muted)}
+.student-workspace .ai-context b{display:block;font-size:12.5px;color:#2b2f38}
+/* Older sidebar rules pad and colour the inner panels; inside the assistant they sit flush and follow the mockup. */
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .writing-support-panel .ai-assistant{padding:16px 20px 22px}
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .writing-support-panel .ai-assistant :is(.coach-panel,.reflection-thinking){display:block;min-height:0;padding:0;margin:0;border:0;background:none;box-shadow:none}
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .writing-support-panel .ai-assistant .reflection-thinking-output{min-height:0;padding-top:0}
+.app-shell.student-workspace .writing-context-column .writing-support-panel .ai-assistant .button.primary.full.ai-ask{min-height:46px;padding:11px 14px;border:0;border-radius:14px;background:#2f3a4f;color:#fff;font-size:14px;font-weight:600;box-shadow:0 2px 0 #1d2533}
+.app-shell.student-workspace .writing-context-column .writing-support-panel .ai-assistant .button.primary.full.ai-ask:hover:not(:disabled){background:#26303f}
+.app-shell.student-workspace .writing-context-column .writing-support-panel .ai-assistant .button.primary.full.ai-ask.is-coach:not(:disabled){background:#3f8a52;box-shadow:0 2px 0 #2f6c3f}
+.app-shell.student-workspace .writing-context-column .writing-support-panel .ai-assistant .button.primary.full.ai-ask.is-coach:hover:not(:disabled){background:#367a48}
+.app-shell.student-workspace .writing-context-column .writing-support-panel .ai-assistant .button.primary.full.ai-ask:disabled{background:#f1efea;color:#a19889;box-shadow:none}
+.student-workspace .ai-result-head.is-first{margin-top:0}
+
+/* ── Feedback & grades: result, lecturer comment, next step, then details ── */
+.student-workspace .fb-hero{position:relative;display:flex;gap:16px;align-items:center;margin:0 0 4px;padding:18px;border-radius:18px;border:1px solid #c8f0b2;background:linear-gradient(135deg,#e8fbdc,#f8fff3 70%)}
+.student-workspace .fb-hero.is-returned{border-color:#ffc9d1;background:linear-gradient(135deg,#ffe9ec,#fff8f9 70%)}
+.student-workspace .fb-hero.is-waiting{border-color:#ece5d4;background:linear-gradient(135deg,#fdf6e1,#fffdf7 70%)}
+.student-workspace .fb-ring{position:relative;width:96px;height:96px;flex:0 0 96px}
+.student-workspace .fb-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.student-workspace .fb-ring>div{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.app-shell.student-workspace .fb-ring .teacher-feedback-score{display:block;margin:0;padding:0;background:none;border:0;color:#2b2f38;font-size:26px;font-weight:800;line-height:1}
+.student-workspace .fb-ring span{font-size:11px;color:#837f76}
+.student-workspace .fb-hero-icon{width:60px;height:60px;flex:0 0 60px;border-radius:20px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #ffc9d1;font-size:26px}
+.student-workspace .fb-hero.is-waiting .fb-hero-icon{border-color:#ece5d4}
+.student-workspace .fb-hero-copy{min-width:0}
+.student-workspace .fb-hero-copy small{display:inline-flex;align-items:center;gap:6px;padding:2px 10px;border-radius:99px;background:#fff;border:1px solid #c8f0b2;color:#2f8f3a;font-size:12px;font-weight:600}
+.student-workspace .fb-hero.is-returned .fb-hero-copy small{border-color:#ffc9d1;color:#c8344c}
+.student-workspace .fb-hero.is-waiting .fb-hero-copy small{border-color:#ece5d4;color:#8a6a00}
+.app-shell.student-workspace .fb-hero-copy h4{margin:6px 0 2px;font-size:17px;font-weight:700;line-height:1.35;color:#2b2f38}
+.app-shell.student-workspace .fb-hero-copy p{margin:0;font-size:12.5px;line-height:1.5;color:#837f76}
+.student-workspace .fb-steps{display:inline-flex;align-items:center;gap:3px;margin-top:6px}
+.student-workspace .fb-steps i{width:16px;height:6px;border-radius:9px;background:#d9ecd0}
+.student-workspace .fb-steps i.is-on{background:#2f8f3a}
+.student-workspace .fb-steps em{margin-left:6px;font-style:normal;font-size:12px;color:#837f76}
+.student-workspace .fb-star{position:absolute;top:-10px;right:14px;padding:2px 10px;border-radius:99px;background:#ffd23f;color:#5c4300;font-size:11.5px;font-weight:700;box-shadow:0 2px 6px #c99a0040}
+.student-workspace .fb-message{display:flex;gap:10px;margin-top:14px}
+.student-workspace .fb-avatar{width:34px;height:34px;flex:0 0 34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#e9e2d0;color:#6b5320}
+.student-workspace .fb-bubble{flex:1;min-width:0;padding:12px 14px;border-radius:4px 16px 16px 16px;background:#faf8f2;border:1px solid #ece5d4}
+.student-workspace .fb-bubble>small{display:block;margin-bottom:3px;font-size:11.5px;color:#837f76}
+.app-shell.student-workspace .fb-bubble .teacher-feedback-comment{margin:0;font-size:14px;line-height:1.6;color:#2b2f38;white-space:pre-line}
+.student-workspace .fb-next{margin-top:14px;padding:12px 14px;border-radius:14px;background:#fff4d6}
+.student-workspace .fb-next>b{display:block;font-size:12.5px;color:#8a6a00}
+.student-workspace .fb-next>p{margin:2px 0 0;font-size:13.5px;line-height:1.55;color:#2b2f38}
+.student-workspace .fb-next-button{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:10px;padding:11px;border:0;border-radius:14px;background:#2f3a4f;color:#fff;font:inherit;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 2px 0 #1d2533}
+.student-workspace .fb-next-button:hover{background:#26303f}
+.student-workspace .fb-next-button.is-green{background:#2f8f3a;box-shadow:0 2px 0 #23702c}
+.student-workspace .fb-next-button.is-green:hover{background:#287c32}
+.student-workspace .fb-next-button:focus-visible{outline:3px solid #ffd23f;outline-offset:2px}
+.student-workspace .fb-section-head{margin:18px 0 8px;font-size:14px}
+.app-shell.student-workspace .lecturer-feedback .fb-bars{display:block;margin:0;padding:4px 14px;border:1px solid #ece5d4;border-radius:16px;background:#fff}
+.app-shell.student-workspace .lecturer-feedback .fb-bars>div{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:4px 8px;margin:0;padding:11px 0;border:0;border-top:1px solid #f1ecdf;background:none}
+.app-shell.student-workspace .lecturer-feedback .fb-bars>div:first-child{border-top:0}
+.app-shell.student-workspace .lecturer-feedback .fb-bars dt{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0;font-size:13.5px;color:#2b2f38}
+.app-shell.student-workspace .lecturer-feedback .fb-bars dd{margin:0;font-size:15px;font-weight:700;color:#2b2f38}
+.app-shell.student-workspace .lecturer-feedback .fb-bars dd small{margin-left:2px;font-size:11.5px;font-weight:400;color:#837f76}
+.student-workspace .fb-tag{padding:1px 8px;border-radius:99px;font-size:11px;font-weight:700}
+.student-workspace .fb-tag.is-best{background:#e8fbdc;color:#2f8f3a}
+.student-workspace .fb-tag.is-low{background:#fff4d6;color:#8a6a00}
+.student-workspace .fb-bar{grid-column:1/-1;height:8px;border-radius:9px;background:#f1ece0;overflow:hidden}
+.student-workspace .fb-bar i{display:block;height:100%;border-radius:9px;background:#b9eaa0}
+.student-workspace .fb-bar.is-level-2 i{background:#8fdd6c}
+.student-workspace .fb-bar.is-level-3 i{background:#5fcf3c}
+.student-workspace .fb-bar.is-level-4 i{background:#1fa012}
+.app-shell.student-workspace .lecturer-feedback .teacher-feedback-criteria{margin-top:10px;border:1px solid #ece5d4;border-radius:14px;background:#fff}
+.app-shell.student-workspace .lecturer-feedback .teacher-feedback-criteria>summary{padding:11px 14px;color:#6b5320;font-size:13px;font-weight:600}
+.app-shell.student-workspace .student-feedback-panel .ai-rubric-section{border:1px dashed #d9d0bb;border-radius:14px}
+.app-shell.student-workspace .lecturer-feedback.is-compact .fb-message{margin-top:0}
+/* Older sidebar rules frame the lecturer section and lay scores out in a row; the redesign sits flush instead. */
+.app-shell.student-workspace .writing-context-column .student-feedback-panel > .lecturer-feedback:not(.is-compact){margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none}
+.app-shell.student-workspace .writing-context-column .lecturer-feedback .fb-bubble p.teacher-feedback-comment{margin:0;color:#2b2f38;font-size:14px;line-height:1.6;white-space:pre-line}
+.app-shell.student-workspace .writing-context-column .lecturer-feedback .fb-bars{margin:0;padding:4px 14px}
+.app-shell.student-workspace .writing-context-column .lecturer-feedback .fb-bars>div{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:6px 8px;padding:11px 0}
+.app-shell.student-workspace .writing-context-column .lecturer-feedback .fb-bars dt{display:flex;flex-wrap:wrap;align-items:center;gap:6px;color:#2b2f38;font-size:13.5px}
+.app-shell.student-workspace .writing-context-column .lecturer-feedback .fb-bars dd{color:#2b2f38;font-size:15px;font-weight:700}
+.app-shell.student-workspace .writing-context-column .lecturer-feedback .fb-hero-copy h4{color:#2b2f38}
+.app-shell.student-workspace .writing-context-column .lecturer-feedback details.teacher-feedback-criteria{margin-top:10px;padding:0;border:1px solid #ece5d4;border-radius:14px;background:#fff}
+.app-shell.student-workspace .writing-context-column .lecturer-feedback details.teacher-feedback-criteria>summary{padding:11px 14px}
+.app-shell.student-workspace .writing-context-column .lecturer-feedback details.teacher-feedback-criteria>div{padding:0 14px 12px}
+.app-shell.student-workspace .fb-ring .teacher-feedback-score{font-size:22px}
+.app-shell.student-workspace .writing-context-column .lecturer-feedback .fb-ring strong.teacher-feedback-score{display:block;margin:0;padding:0;border:0;background:none;color:#2b2f38;font-size:22px;font-weight:800;line-height:1;letter-spacing:0}
+.app-shell.student-workspace .writing-context-column .student-feedback-panel > .lecturer-feedback:is(.is-returned,.is-final):not(.is-compact){margin:0;padding:0;border:0;background:none}
+
+/* ── AI Assistant stages: Viết → Nhận xét → Chấm thử → Tự đánh giá → Nộp bài ── */
+.student-workspace .ai-orb{width:36px;height:36px;flex:0 0 36px;border-radius:12px;background:linear-gradient(140deg,#3b4a66,#2f3a4f);color:#ffe58a;box-shadow:inset 0 -2px 0 #0003}
+.student-workspace .ai-avatar{background:linear-gradient(140deg,#3b4a66,#2f3a4f);color:#ffe58a}
+.student-workspace .ai-steps-head{display:flex;justify-content:space-between;align-items:baseline;margin:0 0 8px;font-size:12px;color:#837f76}
+.student-workspace .ai-steps-head b{font-size:13px;color:#2b2f38}
+.student-workspace .ai-steps{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));margin:0 0 14px;padding:0;list-style:none}
+.student-workspace .ai-steps::before,.student-workspace .ai-steps::after{content:"";position:absolute;left:10%;top:13px;height:4px;border-radius:9px}
+.student-workspace .ai-steps::before{right:10%;background:#efe9da}
+.student-workspace .ai-steps::after{width:var(--ai-fill);background:#2f8f3a;transition:width .3s var(--ease,ease)}
+.student-workspace .ai-steps li{position:relative;z-index:1;display:flex;justify-content:center}
+.app-shell.student-workspace .ai-step{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0;padding:0;border:0;background:none;font:inherit;font-size:11px;font-weight:600;line-height:1.25;color:#a39d90;text-align:center;cursor:pointer}
+.student-workspace .ai-step i{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;font-weight:800;background:#fff;color:#b3ad9f;border:1.5px solid #e3dccb;transition:transform .15s}
+.student-workspace .ai-step:hover i{transform:scale(1.06)}
+.student-workspace .ai-step.is-done i{background:#2f8f3a;border-color:#2f8f3a;color:#fff}
+.student-workspace .ai-step.is-redo i{background:#fff4d6;border-color:#f2c14e;color:#a87a00}
+.app-shell.student-workspace .ai-step.is-now{color:#2b2f38}
+.student-workspace .ai-step.is-now i{border:2px solid #2f8f3a;color:#2f8f3a;box-shadow:0 0 0 4px #e3f3e5}
+.student-workspace .ai-step.is-now.is-done i{background:#fff;color:#2f8f3a}
+.student-workspace .ai-step:focus-visible{outline:none}.student-workspace .ai-step:focus-visible i{outline:3px solid #ffd23f;outline-offset:2px}
+.student-workspace .ai-stale{display:flex;gap:8px;margin:0 0 10px;padding:8px 10px;border-radius:10px;background:#fff4d6;font-size:12px;line-height:1.45;color:#7a5a00}
+.student-workspace .ai-stale b{flex:0 0 auto;font-weight:800}
+.student-workspace .ai-stage-pane .coach-panel,.student-workspace .ai-stage-pane .rubric-check,.student-workspace .ai-stage-pane .self-step{display:block}
+.student-workspace .ai-step-title{display:flex;align-items:center;gap:6px;margin:0 0 10px;font-size:13.5px;font-weight:700;color:#2b2f38}
+.student-workspace .ai-step-title em{margin-left:auto;padding:1px 8px;border-radius:99px;background:#f3eee2;color:#8a7650;font-size:10.5px;font-style:normal;font-weight:600}
+.student-workspace .ai-step-empty{margin:0 0 10px;padding:12px;border:1.5px dashed #ece5d4;border-radius:12px;color:#837f76;font-size:12.5px;line-height:1.5}
+.app-shell.student-workspace .ai-assistant .button.ai-step-next,.app-shell.student-workspace .ai-assistant .button.ai-step-back,.app-shell.student-workspace .ai-assistant .button.ai-step-run.is-again{display:flex;align-items:center;justify-content:center;gap:6px;min-height:40px;margin-top:10px;border:1px solid #ece5d4;border-radius:12px;background:#fff;color:#2b2f38;font-size:13px;font-weight:600;box-shadow:none}
+.app-shell.student-workspace .ai-assistant .button.ai-step-run:not(.is-again),.app-shell.student-workspace .ai-assistant .button.ai-step-forward{display:flex;align-items:center;justify-content:center;gap:6px;min-height:40px;border:0;border-radius:12px;background:#2f3a4f;color:#fff;font-size:13px;font-weight:600;box-shadow:0 2px 0 #1d2533}
+.app-shell.student-workspace .ai-assistant .button.ai-step-run:disabled{background:#f1efea;color:#a19889;box-shadow:none}
+.student-workspace .ai-step-nav{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.app-shell.student-workspace .ai-step-nav .button.ai-step-back{margin-top:0}
+.app-shell.student-workspace .ai-assistant .coach-panel>.button.ai-ask{min-height:42px}
+/* rubric trial */
+.student-workspace .rubric-check-total{display:flex;align-items:baseline;gap:5px;margin:0 0 8px}
+.student-workspace .rubric-check-total b{font-size:22px;font-weight:800;color:#2b2f38}
+.student-workspace .rubric-check-total span{font-size:11.5px;color:#837f76}
+.app-shell.student-workspace .rubric-check-bars{display:block;margin:0 0 6px;padding:0}
+.app-shell.student-workspace .rubric-check-bars>div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px;margin:0 0 8px;padding:0;border:0}
+.app-shell.student-workspace .rubric-check-bars dt{margin:0;font-size:12.5px;color:#2b2f38}
+.app-shell.student-workspace .rubric-check-bars dd{margin:0;font-size:12.5px;font-weight:700;color:#2b2f38}
+.student-workspace .rubric-check-bars span{grid-column:1/-1;height:5px;border-radius:9px;background:#f1ece0;overflow:hidden}
+.student-workspace .rubric-check-bars span i{display:block;height:100%;border-radius:9px;background:#e8c766}
+/* self-assessment */
+.student-workspace .self-step-list{margin:0;padding:0;list-style:none;border:1px solid #ece5d4;border-radius:14px}
+.student-workspace .self-step-list>li{padding:8px 12px;border-top:1px solid #f1ecdf}
+.student-workspace .self-step-list>li:first-child{border-top:0}
+.student-workspace .self-step-row{display:flex;align-items:center;gap:8px}
+.app-shell.student-workspace .self-step-name{display:flex;flex:1;min-width:0;align-items:center;gap:4px;padding:0;border:0;background:none;font:inherit;font-size:12.5px;color:#2b2f38;text-align:left;cursor:pointer}
+.student-workspace .self-step-name svg{flex:0 0 auto;color:#b3ad9f;transition:transform .2s}
+.student-workspace .is-open .self-step-name svg{transform:rotate(180deg)}
+.student-workspace .self-step-levels{display:inline-flex;gap:3px}
+.app-shell.student-workspace .self-step-levels button{width:26px;height:26px;padding:0;border:1px solid #ece5d4;border-radius:8px;background:#fff;color:#837f76;font:inherit;font-size:12px;font-weight:700;cursor:pointer}
+.app-shell.student-workspace .self-step-levels button.is-on{background:#2f3a4f;border-color:#2f3a4f;color:#fff}
+.student-workspace .self-step-detail{display:grid;gap:8px;margin-top:8px}
+.student-workspace .self-step-desc{margin:0;font-size:12px;line-height:1.5;color:#837f76}
+.student-workspace .self-step-detail label{display:grid;gap:3px;font-size:11.5px;font-weight:600;color:#6b5320}
+.student-workspace .self-step-detail textarea{width:100%;padding:7px 9px;border:1px solid #ece5d4;border-radius:9px;font:inherit;font-size:12.5px;font-weight:400;color:#2b2f38;resize:vertical}
+.student-workspace .self-step-compare{display:flex;justify-content:space-between;margin:10px 0 0;padding:8px 10px;border-radius:10px;background:#faf8f2;font-size:12px;color:#837f76}
+.student-workspace .self-step-compare b{color:#2b2f38}
+.student-workspace .self-step-message{margin:8px 0 0;font-size:12px;color:#2f8f3a}
+.student-workspace .self-step-message.is-error{color:#c8344c}
+/* submit */
+.student-workspace .ai-send{padding:12px;border:1px solid #ece5d4;border-radius:14px}
+.student-workspace .ai-send-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.student-workspace .ai-send-head>span{width:34px;height:34px;flex:0 0 34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#eaf5ec;color:#2f8f3a}
+.student-workspace .ai-send-head b{display:block;font-size:13.5px;color:#2b2f38}
+.student-workspace .ai-send-head small{font-size:12px;color:#837f76}
+.app-shell.student-workspace .ai-send-list{display:grid;grid-template-columns:1fr auto;gap:4px 8px;margin:0 0 12px;padding:0}
+.app-shell.student-workspace .ai-send-list>div{display:contents}
+.app-shell.student-workspace .ai-send-list dt{margin:0;font-size:12.5px;color:#2b2f38}
+.app-shell.student-workspace .ai-send-list dd{margin:0;font-size:12.5px;font-weight:700;text-align:right;color:#a39d90}
+.app-shell.student-workspace .ai-send-list dd.is-done{color:#2f8f3a}
+.app-shell.student-workspace .ai-send-list dd.is-redo{color:#a87a00}
+.app-shell.student-workspace .ai-assistant .button.ai-send-button{display:flex;align-items:center;justify-content:center;gap:7px;min-height:42px;border:0;border-radius:12px;background:#2f8f3a;color:#fff;font-size:13.5px;font-weight:600;box-shadow:0 2px 0 #23702c}
+.app-shell.student-workspace .ai-assistant .button.ai-send-button:hover:not(:disabled){background:#287c32}
+.student-workspace .ai-send-course{margin:0 0 8px;padding:8px 10px;border-radius:10px;background:#faf8f2;font-size:12.5px;line-height:1.5;color:#2b2f38}
+.student-workspace .ai-send-course b{display:block;font-size:11px;font-weight:600;color:#837f76}
+.student-workspace .ai-send-course.is-missing{background:#fff4d6;color:#7a5a00}
+.student-workspace .ai-send-note{margin:0 0 12px;font-size:11.5px;line-height:1.5;color:#837f76}
+/* The confirmation is the last decision before submitting, so it stands out from the other stages. */
+.student-workspace .ai-send.is-confirm{padding:14px;border:2px solid #7fc98a;background:linear-gradient(160deg,#eaf8ec,#fbfffb 65%);box-shadow:0 10px 24px -14px #2f8f3a66;animation:ai-confirm-in .35s var(--ease,ease)}
+.student-workspace .ai-send.is-confirm .ai-send-head>span{width:40px;height:40px;flex-basis:40px;background:#2f8f3a;color:#fff;box-shadow:0 0 0 5px #d6efda}
+.student-workspace .ai-send.is-confirm .ai-send-head b{font-size:16px}
+.student-workspace .ai-send.is-confirm .ai-send-course:not(.is-missing){background:#fff;border:1px solid #cfe6d5}
+.student-workspace .ai-send.is-confirm .ai-send-course.is-missing{border:1px solid #f2c14e}
+.app-shell.student-workspace .ai-assistant .ai-send.is-confirm .button.ai-send-button{min-height:48px;font-size:14.5px}
+@keyframes ai-confirm-in{from{transform:translateY(6px);opacity:.4}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.student-workspace .ai-send.is-confirm{animation:none}}
+/* Stages bar above the writing: always visible, the assistant beside it follows the chosen stage. */
+.student-workspace .ai-steps-bar{display:flex;align-items:center;gap:18px;margin:0 0 16px;padding:10px 18px 8px;border:1px solid #ece5d4;border-radius:16px;background:#fff}
+.student-workspace .ai-steps-label{flex:0 0 auto;font-size:12.5px;font-weight:700;color:#837f76}
+.student-workspace .ai-steps-bar .ai-steps{flex:1;max-width:720px;margin:0 auto}
+.student-workspace .ai-steps-bar .ai-step{font-size:12px}
+.student-workspace .ai-steps-count{flex:0 0 auto;font-size:12px;color:#837f76}
+@media (max-width:760px){
+ .student-workspace .ai-steps-bar{flex-wrap:wrap;gap:6px 10px;padding:10px 12px}
+ .student-workspace .ai-steps-bar .ai-steps{flex-basis:100%;order:3}
+ .student-workspace .ai-steps-count{margin-left:auto}
+ .student-workspace .ai-steps-bar .ai-step{font-size:10.5px}
+}
+/* Unframed stages bar; a warmer assistant panel whose header names the current stage. */
+.student-workspace .ai-steps-bar{margin:4px 0 18px;padding:0 4px;border:0;border-radius:0;background:none}
+.student-workspace .ai-steps-bar .ai-step:not(.is-done):not(.is-redo) i{background:#fffdf7}
+.student-workspace .ai-steps-bar .ai-step.is-now.is-done i{background:#fff}
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .writing-support-panel{border:1px solid #ece5d4;border-radius:22px;background:#fff;box-shadow:0 14px 34px -24px #6b532066;overflow:hidden}
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .writing-support-panel .ai-assistant{padding:0 0 20px}
+.student-workspace .ai-assistant-head{margin:0 0 16px;padding:16px 18px;background:linear-gradient(135deg,#fdf6e1,#fffdf7 70%);border-bottom:1px solid #f1e9d2}
+.student-workspace .ai-assistant-head b{font-size:15.5px;letter-spacing:0}
+.student-workspace .ai-assistant-head small{display:block;margin-top:2px;font-size:12px;line-height:1.45;color:#837f76}
+.student-workspace .ai-assistant-head small i{display:inline-block;margin-right:6px;vertical-align:1px}
+.student-workspace .ai-assistant-head small strong{color:#6b5320;font-weight:700}
+.student-workspace .ai-orb{width:42px;height:42px;flex:0 0 42px;border-radius:14px;box-shadow:inset 0 -2px 0 #0003,0 6px 14px -8px #2f3a4f99}
+.app-shell.student-workspace .student-writing-workspace .writing-support-panel .ai-assistant>:not(.ai-assistant-head){margin-left:18px;margin-right:18px}
+.student-workspace .ai-assistant .ai-empty{background:#fffdf8}
+.student-workspace .ai-assistant .ai-items{background:#fff;box-shadow:0 1px 0 #f1ecdf}
+/* A larger stages bar. */
+.student-workspace .ai-steps-bar{margin:8px 0 22px}
+.student-workspace .ai-steps-bar .ai-steps{max-width:820px}
+.student-workspace .ai-steps-bar .ai-steps::before,.student-workspace .ai-steps-bar .ai-steps::after{top:20px;height:5px}
+.app-shell.student-workspace .ai-steps-bar .ai-step{gap:7px;font-size:13.5px}
+.student-workspace .ai-steps-bar .ai-step i{width:44px;height:44px;border-width:2px}
+.student-workspace .ai-steps-bar .ai-step i svg{width:19px;height:19px}
+.student-workspace .ai-steps-bar .ai-step.is-now i{border-width:2.5px;box-shadow:0 0 0 6px #e3f3e5}
+.student-workspace .ai-steps-bar .ai-steps-label{font-size:13.5px}
+.student-workspace .ai-steps-bar .ai-steps-count{font-size:13px}
+@media (max-width:760px){.student-workspace .ai-steps-bar .ai-step i{width:34px;height:34px}.student-workspace .ai-steps-bar .ai-steps::before,.student-workspace .ai-steps-bar .ai-steps::after{top:15px}.app-shell.student-workspace .ai-steps-bar .ai-step{font-size:11px}}
+/* Full-width stages bar, no label. */
+.student-workspace .ai-steps-bar .ai-steps{max-width:none;margin:0}
+.student-workspace .ai-steps-bar .ai-steps::before,.student-workspace .ai-steps-bar .ai-steps::after{left:10%}
+.student-workspace .ai-steps-bar .ai-steps::before{right:10%}
+/* AI Assistant, style A: a navy header with a yellow robot, a stage chip, then white content. */
+.student-workspace .ai-assistant-head{margin:0;padding:16px 18px;background:linear-gradient(135deg,#34415a,#2a3346);border-bottom:0}
+.student-workspace .ai-assistant-head b{color:#fff;font-size:15.5px}
+.student-workspace .ai-assistant-head small{display:block;margin-top:1px;font-size:12px;color:#c9d0de}
+.student-workspace .ai-assistant .ai-orb{width:42px;height:42px;flex:0 0 42px;border-radius:14px;background:#ffe58a;color:#2f3a4f;box-shadow:0 6px 14px -8px #00000080}
+.student-workspace .ai-stage-chip{display:inline-flex;align-items:center;gap:6px;width:auto;margin:14px 18px 12px;padding:4px 11px;border-radius:99px;background:#eef1f6;color:#3f4a60;font-size:12px;font-weight:600;cursor:default}
+.app-shell.student-workspace .student-writing-workspace .writing-support-panel .ai-assistant>.ai-stage-chip{margin-left:18px;margin-right:auto}
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .writing-support-panel{box-shadow:0 14px 30px -24px #2f3a4f88}
+.student-workspace .ai-item-icon{color:inherit}
+.student-workspace .ai-item.is-strengths .ai-item-icon{color:#2f8f3a}
+.student-workspace .ai-item.is-development .ai-item-icon{color:#b5622f}
+.student-workspace .ai-item.is-questions .ai-item-icon{color:#3f6fa6}
+.student-workspace .ai-item.is-suggestedActions .ai-item-icon{color:#7556b8}
+.student-workspace .ai-item b{text-transform:uppercase;letter-spacing:.03em;font-size:11.5px}
+.student-workspace .ai-assistant .ai-items{border:0;padding:0;box-shadow:none}
+/* Stages bar: a little smaller, more room below, and a stronger colour for the current step. */
+.student-workspace .ai-steps-bar{margin:6px 0 30px}
+.student-workspace .ai-steps-bar .ai-steps::before,.student-workspace .ai-steps-bar .ai-steps::after{top:17px;height:4px}
+.student-workspace .ai-steps-bar .ai-steps::before{background:#e8dfc8}
+.student-workspace .ai-steps-bar .ai-steps::after{background:linear-gradient(90deg,#3fa34d,#2f8f3a)}
+.app-shell.student-workspace .ai-steps-bar .ai-step{gap:6px;font-size:13px;color:#9a917d}
+.student-workspace .ai-steps-bar .ai-step i{width:38px;height:38px;border:2px solid #e3d8bd}
+.student-workspace .ai-steps-bar .ai-step i svg{width:17px;height:17px}
+.student-workspace .ai-steps-bar .ai-step.is-done i{background:linear-gradient(140deg,#43a851,#2f8f3a);border-color:#2f8f3a;color:#fff;box-shadow:0 4px 10px -5px #2f8f3a99}
+.app-shell.student-workspace .ai-steps-bar .ai-step.is-done{color:#2f6b35}
+.student-workspace .ai-steps-bar .ai-step.is-now i,.student-workspace .ai-steps-bar .ai-step.is-now.is-done i{background:linear-gradient(140deg,#3b4a66,#2f3a4f);border-color:#2f3a4f;color:#ffe58a;box-shadow:0 0 0 5px #ffe58a80,0 6px 14px -6px #2f3a4f99}
+.app-shell.student-workspace .ai-steps-bar .ai-step.is-now{color:#2b2f38;font-weight:700}
+.student-workspace .ai-steps-bar .ai-step.is-redo i{background:#fff4d6;border-color:#f2c14e;color:#a87a00}
+.student-workspace .ai-steps-bar .ai-steps-count{padding:4px 12px;border-radius:99px;background:#e6f4e8;color:#2f6b35;font-weight:600}
+@media (max-width:760px){.student-workspace .ai-steps-bar .ai-step i{width:32px;height:32px}.student-workspace .ai-steps-bar .ai-steps::before,.student-workspace .ai-steps-bar .ai-steps::after{top:14px}}
+/* Stages bar, final: one green, slightly bolder than the mockup. */
+.student-workspace .ai-steps-bar .ai-steps::before{background:#e6dfcd}
+.student-workspace .ai-steps-bar .ai-steps::after{background:#2f8f3a}
+.student-workspace .ai-steps-bar .ai-steps::before,.student-workspace .ai-steps-bar .ai-steps::after{top:18px;height:4px}
+.student-workspace .ai-steps-bar .ai-step i{width:40px;height:40px;background:#fff;border:2px solid #e3dccb;color:#a39d90;box-shadow:none}
+.app-shell.student-workspace .ai-steps-bar .ai-step{font-size:13.5px;color:#a39d90}
+.student-workspace .ai-steps-bar .ai-step.is-done i{background:#2f8f3a;border-color:#2f8f3a;color:#fff;box-shadow:0 4px 10px -4px #2f8f3a80}
+.app-shell.student-workspace .ai-steps-bar .ai-step.is-done{color:#2f6b35}
+.student-workspace .ai-steps-bar .ai-step.is-now i,.student-workspace .ai-steps-bar .ai-step.is-now.is-done i{background:#fff;border:3px solid #2f8f3a;color:#2f8f3a;box-shadow:0 0 0 6px #d8efdb,0 6px 14px -6px #2f8f3a80}
+.app-shell.student-workspace .ai-steps-bar .ai-step.is-now{color:#1f5a26;font-weight:700}
+.student-workspace .ai-steps-bar .ai-step.is-redo i{background:#fff4d6;border-color:#f2c14e;color:#a87a00;box-shadow:none}
+.student-workspace .ai-steps-bar .ai-steps-count{background:#e6f4e8;color:#2f6b35}
+/* Stages bar: compact size. */
+.student-workspace .ai-steps-bar .ai-steps::before,.student-workspace .ai-steps-bar .ai-steps::after{top:14px;height:3px}
+.student-workspace .ai-steps-bar .ai-step i{width:32px;height:32px}
+.student-workspace .ai-steps-bar .ai-step i svg{width:15px;height:15px}
+.student-workspace .ai-steps-bar .ai-step.is-now i,.student-workspace .ai-steps-bar .ai-step.is-now.is-done i{border-width:2.5px;box-shadow:0 0 0 5px #d8efdb,0 4px 10px -5px #2f8f3a80}
+.app-shell.student-workspace .ai-steps-bar .ai-step{gap:5px;font-size:12.5px}
+.student-workspace .ai-steps-bar .ai-steps-count{padding:3px 10px;font-size:12px}
+.student-workspace .ai-steps-bar{margin:4px 0 26px}
+
+/* Overview below the notebook: an unboxed shortcut strip, then reflection level and skill insight side by side. */
+.app-shell.student-workspace .book-tabs { gap:0; margin:34px 0 0; border-top:1px solid #e6dfcd; border-bottom:1px solid #e6dfcd; }
+.app-shell.student-workspace .book-tabs .book-tab { justify-content:flex-start; gap:3px; min-height:0; padding:15px 20px 14px; border:0; border-radius:0; background:transparent; }
+.app-shell.student-workspace .book-tab + .book-tab { border-left:1px solid #e6dfcd; }
+.app-shell.student-workspace .book-tabs .book-tab:is(:hover,:focus-visible) { background:#fbf8ef; }
+.app-shell.student-workspace .book-tab-head { gap:8px; color:#9c8a5c; }
+.app-shell.student-workspace .book-tab .space-tile-name { color:#5d5748; font-size:13px; }
+.app-shell.student-workspace .book-tab .space-tile-value { margin:2px 0 0; color:var(--ink); font:600 30px/1.1 Georgia,serif; }
+.app-shell.student-workspace .book-tab-go { display:flex; height:35px; align-items:center; color:var(--ink); }
+.app-shell.student-workspace .book-tab-note { font-size:12px; line-height:1.5; }
+.app-shell.student-workspace .space-growth { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); margin-top:40px; }
+.app-shell.student-workspace .space-growth > section { min-width:0; padding:0 36px; }
+.app-shell.student-workspace .space-growth > section:first-child { padding-left:0; border-right:1px solid #e6dfcd; }
+.app-shell.student-workspace .space-growth > section:last-child { padding-right:0; }
+.app-shell.student-workspace .space-rule-label { display:flex; align-items:center; gap:12px; margin:0 0 18px; color:#4a5568; font-size:11px; font-weight:700; letter-spacing:.14em; line-height:1.4; text-transform:uppercase; }
+.app-shell.student-workspace .space-rule-label::after { content:""; flex:1; height:1px; background:#e6dfcd; }
+.app-shell.student-workspace .space-rule-label .text-button { order:2; display:inline-flex; align-items:center; gap:4px; padding:0; color:#2f3a4f; font-size:12px; font-weight:600; letter-spacing:0; text-transform:none; }
+.app-shell.student-workspace .space-stairs { display:flex; align-items:flex-end; gap:8px; height:170px; margin:0 0 14px; padding:0; list-style:none; }
+.app-shell.student-workspace .space-stairs li { position:relative; display:flex; flex:1; flex-direction:column; justify-content:flex-end; min-width:0; padding:8px 10px; border-radius:10px 10px 4px 4px; background:#f1ebdb; color:#b9b3a5; font-size:11px; line-height:1.3; }
+.app-shell.student-workspace .space-stairs li:nth-child(1) { height:24%; }
+.app-shell.student-workspace .space-stairs li:nth-child(2) { height:40%; }
+.app-shell.student-workspace .space-stairs li:nth-child(3) { height:58%; }
+.app-shell.student-workspace .space-stairs li:nth-child(4) { height:76%; }
+.app-shell.student-workspace .space-stairs li b { color:#cbbf9f; font:600 18px/1.2 Georgia,serif; }
+.app-shell.student-workspace .space-stairs li.is-past { background:#ecdcae; color:#8f7840; }
+.app-shell.student-workspace .space-stairs li.is-past b { color:#a88a3f; }
+.app-shell.student-workspace .space-stairs li.is-current { background:#c9a24a; color:#fff8e0; font-weight:600; }
+.app-shell.student-workspace .space-stairs li.is-current b { color:#fff; }
+.app-shell.student-workspace .space-stairs-pin { position:absolute; bottom:calc(100% + 4px); left:50%; display:flex; flex-direction:column; align-items:center; gap:1px; transform:translateX(-50%); color:#8a6a1e; font-size:11px; font-weight:700; white-space:nowrap; }
+.app-shell.student-workspace .space-stairs-pin .ui-icon { order:2; color:#b4553e; fill:#f8ddd4; filter:drop-shadow(0 2px 2px #b4553e40); }
+.app-shell.student-workspace .space-level-caption { margin:0; color:#8a857a; font-size:12.5px; }
+.app-shell.student-workspace .space-level-caption b { color:var(--ink); font:600 20px Georgia,serif; }
+.app-shell.student-workspace .space-skill-pick { display:flex; align-items:center; gap:14px; padding:14px 0; }
+.app-shell.student-workspace .space-skill-pick + .space-skill-pick { border-top:1px dashed #e6dfcd; }
+.app-shell.student-workspace .space-insight-icon { display:grid; place-items:center; flex-shrink:0; width:42px; height:42px; border-radius:50%; background:#e3efdc; color:#4c7340; }
+.app-shell.student-workspace .space-skill-pick.is-focus .space-insight-icon { background:#f6ead0; color:#93681c; }
+.app-shell.student-workspace .space-skill-pick strong { flex-shrink:0; min-width:66px; color:#5f8a4f; font:600 32px/1 Georgia,serif; }
+.app-shell.student-workspace .space-skill-pick.is-focus strong { color:#a5772a; }
+.app-shell.student-workspace .space-skill-pick strong small { color:#8a857a; font:500 12px var(--font-sans,system-ui); }
+.app-shell.student-workspace .space-skill-pick div { min-width:0; }
+.app-shell.student-workspace .space-skill-pick em { display:block; color:#5f8a4f; font-size:11px; font-style:normal; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+.app-shell.student-workspace .space-skill-pick.is-focus em { color:#a5772a; }
+.app-shell.student-workspace .space-skill-pick b { display:block; color:var(--ink); font-size:15px; }
+.app-shell.student-workspace .space-skill-pick p { margin:2px 0 0; color:#8a857a; font-size:12.5px; line-height:1.5; }
+.app-shell.student-workspace .space-insight-empty { margin:0; color:#8a857a; font-size:13px; }
+.app-shell.student-workspace .space-growth .space-growth-note { margin:10px 0 0; color:#b9b3a5; font-size:11.5px; }
+@media (max-width:900px) {
+ .app-shell.student-workspace .book-tabs { grid-auto-flow:row; grid-auto-columns:auto; grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .app-shell.student-workspace .book-tab:nth-child(3) { border-left:0; }
+ .app-shell.student-workspace .book-tab:nth-child(n+3) { border-top:1px solid #e6dfcd; }
+}
+@media (max-width:760px) {
+ .app-shell.student-workspace .space-growth { grid-template-columns:minmax(0,1fr); gap:34px; margin-top:32px; }
+ .app-shell.student-workspace .space-growth > section { padding:0; border:0 !important; }
+ .app-shell.student-workspace .book-tab { padding:13px 14px; }
+}
+
+/* Overview colours: a bright accent per shortcut, pale yellow stairs with the current level in green. */
+.app-shell.student-workspace .book-tabs .book-tab.is-writing { --c:#c9922e; --cs:#fbf1d8; }
+.app-shell.student-workspace .book-tabs .book-tab.is-actions { --c:#c86b4c; --cs:#f9e8df; }
+.app-shell.student-workspace .book-tabs .book-tab.is-progress { --c:#5e9161; --cs:#e8f1e3; }
+.app-shell.student-workspace .book-tabs .book-tab.is-messages { --c:#5a7ea6; --cs:#e6edf4; }
+.app-shell.student-workspace .book-tabs .book-tab { box-shadow:inset 0 3px 0 var(--c); }
+.app-shell.student-workspace .book-tabs .book-tab:is(:hover,:focus-visible) { background:var(--cs); }
+.app-shell.student-workspace .book-tabs .book-tab-head,
+.app-shell.student-workspace .book-tabs .book-tab .space-tile-value,
+.app-shell.student-workspace .book-tabs .book-tab-go { color:var(--c); }
+.app-shell.student-workspace .space-stairs li,
+.app-shell.student-workspace .space-stairs li.is-past { background:#f8edcd; color:#9a8143; }
+.app-shell.student-workspace .space-stairs li b,
+.app-shell.student-workspace .space-stairs li.is-past b { color:#c5a35a; }
+.app-shell.student-workspace .space-stairs li.is-current { background:linear-gradient(180deg,#72a876,#5e9161); color:#fff; box-shadow:0 8px 18px -8px #5e916188; }
+.app-shell.student-workspace .space-stairs li.is-current b { color:#fff; }
+.app-shell.student-workspace .space-stairs-pin { color:#4f7f52; }
+.app-shell.student-workspace .space-stairs-pin .ui-icon { color:#fff; fill:#c8573f; filter:drop-shadow(0 3px 3px #c8573f44); }
+.app-shell.student-workspace .space-level-caption b { color:#4f7f52; }
+.app-shell.student-workspace .space-insight-icon { background:#6a9a6c; color:#fff; box-shadow:0 4px 10px -5px #5e916188; }
+.app-shell.student-workspace .space-skill-pick.is-focus .space-insight-icon { background:#d6a248; color:#fff; box-shadow:0 4px 10px -5px #c9922e88; }
+.app-shell.student-workspace .space-skill-pick :is(strong,em) { color:#4f7f52; }
+.app-shell.student-workspace .space-skill-pick.is-focus :is(strong,em) { color:#b07a26; }
+
+/* Overview depth: raised shortcut cards, box-shaped level stairs and coin-like skill icons. */
+.app-shell.student-workspace .book-tabs { gap:12px; border:0; }
+.app-shell.student-workspace .book-tabs .book-tab { border:0; border-radius:14px; background:#fffdf6; box-shadow:inset 0 3px 0 var(--c),0 0 0 1px #ebe3cf,0 5px 0 #e6dcc4; transition:transform .12s ease,box-shadow .12s ease; }
+.app-shell.student-workspace .book-tabs .book-tab:is(:hover,:focus-visible) { transform:translateY(2px); box-shadow:inset 0 3px 0 var(--c),0 0 0 1px #ebe3cf,0 3px 0 #e6dcc4; }
+.app-shell.student-workspace .book-tabs .book-tab:active { transform:translateY(5px); box-shadow:inset 0 3px 0 var(--c),0 0 0 1px #ebe3cf; }
+.app-shell.student-workspace .space-stairs { gap:18px; height:185px; padding-right:14px; }
+.app-shell.student-workspace .space-stairs li { --top:#fdf6e1; --side:#e8d7a6; overflow:visible; border-radius:0; }
+.app-shell.student-workspace .space-stairs li.is-current { --top:#8dbd90; --side:#45724a; border-radius:0; background:#5e9161; box-shadow:0 18px 22px -14px #45724a99; }
+.app-shell.student-workspace .space-stairs li::before { content:""; position:absolute; right:0; bottom:100%; left:0; height:14px; background:var(--top); transform:skewX(-45deg); transform-origin:0 100%; }
+.app-shell.student-workspace .space-stairs li::after { content:""; position:absolute; top:0; bottom:0; left:100%; width:14px; background:var(--side); transform:skewY(-45deg); transform-origin:0 0; }
+.app-shell.student-workspace .space-stairs li .space-stairs-pin { bottom:calc(100% + 16px); }
+.app-shell.student-workspace .space-insight .space-insight-icon { background:radial-gradient(circle at 35% 30%,#8dbd90,#5e9161 70%); box-shadow:0 6px 10px -4px #45724a99,inset 0 -3px 0 #45724a; }
+.app-shell.student-workspace .space-insight .space-skill-pick.is-focus .space-insight-icon { background:radial-gradient(circle at 35% 30%,#f0c876,#d6a248 70%); box-shadow:0 6px 10px -4px #a97a2a99,inset 0 -3px 0 #a97a2a; }
+@media (prefers-reduced-motion:reduce) { .app-shell.student-workspace .book-tabs .book-tab { transition:none; } }
+@media (max-width:760px) {
+ .app-shell.student-workspace .space-stairs { gap:14px; height:200px; }
+ .app-shell.student-workspace .space-stairs li { padding:6px 7px; font-size:10.5px; }
+ .app-shell.student-workspace .space-stairs li:nth-child(1) { height:38%; }
+ .app-shell.student-workspace .space-stairs li:nth-child(2) { height:52%; }
+ .app-shell.student-workspace .space-stairs li:nth-child(3) { height:66%; }
+ .app-shell.student-workspace .space-stairs li:nth-child(4) { height:80%; }
+}
+
+/* My Progress hero depth: a raised cream banner, a coin-like level badge, tinted stat chips and raised level steps. */
+.app-shell.student-workspace .progress-journal.pg .pg-overview .pg-hero { border:2px solid #ece2c8; background:#fffdf6; box-shadow:0 10px 0 #e6dcc4,0 24px 28px -14px #6b532044; }
+.app-shell.student-workspace .progress-journal.pg .pg-overview .pg-badge { border-radius:50%; background:radial-gradient(circle at 38% 30%,#fffdf5,#f6ead0 70%); box-shadow:0 8px 0 #c9a24a,0 16px 20px -8px #8a6a1e88; }
+.app-shell.student-workspace .progress-journal.pg .pg-overview .pg-chips { gap:12px; }
+.app-shell.student-workspace .progress-journal.pg .pg-overview .pg-chip { padding:10px 14px; border:2px solid #ece2c8; border-radius:14px; background:#fff; box-shadow:0 5px 0 #e6dcc4; }
+.app-shell.student-workspace .progress-journal.pg .pg-overview .pg-chip.is-streak { border-color:#f3d9b0; background:#fff6e6; box-shadow:0 5px 0 #ecc98f; }
+.app-shell.student-workspace .progress-journal.pg .pg-overview .pg-chip.is-up { border-color:#cfe3c8; background:#f0f7ec; box-shadow:0 5px 0 #b9d4b0; }
+.app-shell.student-workspace .progress-journal.pg .pg-overview .pg-chip.is-commitment { border-color:#cfdbe6; background:#eef3f8; box-shadow:0 5px 0 #b8c8d8; }
+.app-shell.student-workspace .progress-journal.pg .pg-overview .pg-ladder { gap:6px; margin-top:40px; }
+.app-shell.student-workspace .progress-journal.pg .pg-overview .pg-ladder li { position:relative; padding:22px 0 0; border:0; color:#8a857a; }
+.app-shell.student-workspace .progress-journal.pg .pg-overview .pg-ladder li::before { content:""; position:absolute; top:0; right:0; left:0; height:12px; border-radius:99px; background:#efe8d6; box-shadow:inset 0 2px 3px #0000000f; }
+.app-shell.student-workspace .progress-journal.pg .pg-overview .pg-ladder li.is-done { color:#8a6a1e; }
+.app-shell.student-workspace .progress-journal.pg .pg-overview .pg-ladder li.is-done::before { background:linear-gradient(180deg,#f5d77e,#e2b54a); box-shadow:0 3px 0 #c39532; }
+.app-shell.student-workspace .progress-journal.pg .pg-overview .pg-ladder li.is-now { color:#2f6b35; }
+.app-shell.student-workspace .progress-journal.pg .pg-overview .pg-ladder li.is-now > span { font-weight:700; }
+.app-shell.student-workspace .progress-journal.pg .pg-overview .pg-ladder li.is-now::before { background:linear-gradient(180deg,#7db381,#5e9161); box-shadow:0 3px 0 #3f6a43,0 0 0 4px #e3efdc; }
+.app-shell.student-workspace .progress-journal.pg .pg-overview .pg-ladder li:not(.is-now) { opacity:.5; }
+@media (max-width:760px) {
+ .app-shell.student-workspace .progress-journal.pg .pg-overview .pg-ladder { grid-template-columns:repeat(4,minmax(0,1fr)); gap:4px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-overview .pg-ladder li > span { display:none; }
+ .app-shell.student-workspace .progress-journal.pg .pg-overview .pg-ladder li { padding-top:18px; text-align:center; }
+ .app-shell.student-workspace .progress-journal.pg .pg-overview .pg-ladder b { font-size:11.5px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-overview .pg-hero-topline { justify-content:center; gap:10px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-overview .pg-chips { grid-template-columns:minmax(0,1fr); gap:10px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-overview .pg-chip { flex-direction:row; align-items:center; gap:12px; padding:10px 16px; text-align:left; }
+ .app-shell.student-workspace .progress-journal.pg .pg-overview .pg-chip-copy { display:flex; align-items:baseline; gap:10px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-overview .pg-chip-copy b { min-width:52px; font-size:22px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-overview .pg-chip small { font-size:12.5px; }
+}

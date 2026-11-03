@@ -1,9 +1,12 @@
 import { criterionKeys, sectionKeys, rubricSpecification, totalScore, validateLevel, validateRubric, type Content, type Criterion, type Feedback } from './domain.ts';
 import { criterionLevel } from './assessment.ts';
 import { translate, type Language } from './i18n.ts';
+import { feedbackTranslations } from './feedback-language.ts';
 
 const strings={type:'array',items:{type:'string',maxLength:1500},maxItems:8};
+const translationSchema={type:'object',additionalProperties:false,properties:{strengths:strings,development:strings,questions:strings,suggestedActions:strings,context:{type:'string',maxLength:2000},levelReason:{type:'string',maxLength:1500},criteria:{type:'array',minItems:4,maxItems:4,items:{type:'object',additionalProperties:false,properties:{key:{type:'string',enum:criterionKeys},behavior:{type:'string',maxLength:1500},improvement:{type:'string',maxLength:1500}},required:['key','behavior','improvement']}}},required:['strengths','development','questions','suggestedActions','context','levelReason','criteria']};
 export const feedbackSchema={type:'object',additionalProperties:false,properties:{
+ translations:{type:'object',additionalProperties:false,properties:{en:translationSchema,vi:translationSchema},required:['en','vi']},
  strengths:strings,development:strings,questions:strings,suggestedActions:strings,context:{type:'string',maxLength:2000},
  level:{type:'integer',minimum:1,maximum:4},levelReason:{type:'string',minLength:1,maxLength:1500},levelEvidence:{type:'string',minLength:1,maxLength:1500},
  criteria:{type:'array',minItems:4,maxItems:4,items:{type:'object',additionalProperties:false,properties:{
@@ -11,7 +14,7 @@ export const feedbackSchema={type:'object',additionalProperties:false,properties
   behavior:{type:'string',maxLength:1500},evidence:{type:'string',maxLength:1500},
   evidenceSection:{type:['string','null'],enum:[...sectionKeys,null]},attachmentNames:{type:'array',items:{type:'string'},maxItems:3},improvement:{type:'string',maxLength:1500},
  },required:['key','level','score','behavior','evidence','evidenceSection','attachmentNames','improvement']}},
-},required:['strengths','development','questions','suggestedActions','context','level','levelReason','levelEvidence','criteria']};
+},required:['strengths','development','questions','suggestedActions','context','level','levelReason','levelEvidence','criteria','translations']};
 
 export function normalizeFeedback(value:unknown,content:Content,rubric:Criterion[],suppliedAttachments:string[],language:Language):Feedback {
  validateRubric(rubric);
@@ -31,5 +34,5 @@ export function normalizeFeedback(value:unknown,content:Content,rubric:Criterion
   return {...c,evidence:evidenceSection?c.evidence:'',evidenceSection,attachmentNames,score:valid?numeric:null,level:valid?c.level:null,reviewRequired:!valid,behavior:valid?c.behavior:translate('Chưa đủ minh chứng. Cần giảng viên xem xét trước khi xác định điểm.',language)};
  });
  const reviewRequired=criteria.some(c=>c.reviewRequired),total=reviewRequired?null:totalScore(criteria.map(c=>c.score!),rubric);
- return {...data,criteria,scoreScale:10,reviewRequired,language,level,levelReason:data.levelReason.trim(),total,weightedScore:total,rubricSpecification,levelMethod:'ai-classification'};
+ return {...data,translations:feedbackTranslations(data.translations,data),criteria,scoreScale:10,reviewRequired,language,level,levelReason:data.levelReason.trim(),total,weightedScore:total,rubricSpecification,levelMethod:'ai-classification'};
 }

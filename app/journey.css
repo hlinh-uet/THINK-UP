@@ -4,7 +4,7 @@
 .journey-week-layout { display: grid; grid-template-columns: 260px minmax(0,1fr); gap: 24px; align-items: start; }
 .app-shell .journey-workspace .journey-week-nav { padding: 0; overflow: hidden; }
 .journey-nav-heading { padding: 22px 20px 20px; border-bottom: 1px solid var(--line); }
-.journey-nav-heading h2 { font-size: 14px; margin: 0; font-weight: 650; letter-spacing: -.3px; }
+.journey-nav-heading h2 { font-size: 14px; margin: 0; font-weight: 650; letter-spacing: 0; }
 .journey-nav-heading p { font-size: 13px; color: var(--muted); margin: 7px 0 12px; }
 .journey-completion-track { height: 4px; border-radius: 100px; overflow: hidden; background: var(--line); }
 .journey-completion-track > span { display: block; height: 100%; background: var(--accent); border-radius: inherit; }
@@ -27,7 +27,7 @@
 .journey-intro-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px; }
 .journey-week-eyebrow { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 13px; color: var(--accent); font-weight: 650; }
 .journey-week-eyebrow i { font-style: normal; font-weight: 400; border-left: 1px solid #d6cce4; padding-left: 10px; }
-.journey-week-intro h2 { font-size: 23px; line-height: 1.5; letter-spacing: -.5px; margin: 0 0 10px; font-weight: 650; }
+.journey-week-intro h2 { font-size: 23px; line-height: 1.5; letter-spacing: 0; margin: 0 0 10px; font-weight: 650; }
 .journey-week-intro > p { color: var(--muted); font-size: 13px; line-height: 1.9; margin: 0; max-width: 660px; }
 .journey-week-requirements { margin-top: 14px; color: var(--muted); font-size: 13px; }
 .journey-week-requirements summary { cursor: pointer; font-weight: 550; }
@@ -37,7 +37,7 @@
 .journey-intro-footer .button { flex-shrink: 0; }
 .app-shell .journey-workspace .journey-week-work, .app-shell .journey-workspace .journey-week-actions, .app-shell .journey-workspace .journey-all-actions { padding: 24px; }
 .journey-section-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 16px; }
-.journey-section-heading h2, .journey-section-heading h3 { display: flex; align-items: center; gap: 9px; margin: 0; font-size: 16px; font-weight: 650; line-height: 1.6; letter-spacing: -.3px; }
+.journey-section-heading h2, .journey-section-heading h3 { display: flex; align-items: center; gap: 9px; margin: 0; font-size: 16px; font-weight: 650; line-height: 1.6; letter-spacing: 0; }
 .journey-section-heading p { font-size: 13px; line-height: 1.8; color: var(--muted); margin: 5px 0 0; }
 .journey-section-heading > .button, .journey-section-heading > .text-button { flex-shrink: 0; font-size: 13px; }
 .journey-section-heading > .button { padding: 8px 13px; min-height: 36px; }

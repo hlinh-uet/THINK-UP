@@ -12,7 +12,7 @@ const { Miniflare } = createRequire(require.resolve('wrangler/package.json'))('m
 const projectRoot = fileURLToPath(new URL('../', import.meta.url));
 
 export async function initializeDemoDatabase(db) {
-  for (const file of ['0000_polite_slyde.sql', '0001_heavy_the_watchers.sql', '0002_unusual_ben_parker.sql', '0003_whole_psylocke.sql', '0004_friendly_energizer.sql', '0005_final_requirements.sql']) {
+  for (const file of ['0000_polite_slyde.sql', '0001_heavy_the_watchers.sql', '0002_unusual_ben_parker.sql', '0003_whole_psylocke.sql', '0004_friendly_energizer.sql', '0005_final_requirements.sql', '0006_community.sql']) {
     const sql = await readFile(new URL(`../drizzle/${file}`, import.meta.url), 'utf8');
     const statements = sql.split('--> statement-breakpoint').map(s => s.trim()).filter(Boolean).map(s => s.replace(/^CREATE TABLE /, 'CREATE TABLE IF NOT EXISTS ').replace(/^CREATE UNIQUE INDEX /, 'CREATE UNIQUE INDEX IF NOT EXISTS ').replace(/^CREATE INDEX /, 'CREATE INDEX IF NOT EXISTS '));
     await db.batch(statements.map(s => db.prepare(s)));
@@ -36,7 +36,7 @@ export async function seedDemo(db, bucket, data, marker=demoMarker) {
     for (const file of data.files) {
       // Never overwrite a user's attachment if a prior interrupted run left it here.
       if (!await bucket.head(file.key)) {
-        await bucket.put(file.key, file.text, { httpMetadata: { contentType: 'text/plain' } });
+        await bucket.put(file.key, file.bytes ?? file.text, { httpMetadata: { contentType: file.type || 'text/plain' } });
         uploaded.push(file.key);
       }
     }

@@ -1,0 +1,543 @@
+/* Shared page palette and rhythm connect navigation, filters, weeks, and task cards. */
+.app-shell.student-workspace .journey-workspace { --journey-ink:#332f28; --journey-muted:#746f66; --journey-soft:#f7f5ef; --journey-card:#fffefa; --journey-gold:#826321; --journey-gold-soft:#f8f0d7; --journey-primary:#654b28; --journey-danger:#9d3d33; --journey-danger-soft:#f9e8e3; --journey-danger-line:#d7a097; --journey-success:#4d7057; --journey-success-soft:#eaf1e8; --ink:var(--journey-ink); --text:#50483c; --muted:var(--journey-muted); --faint:#8b8172; --sheet:var(--journey-card); --sheet-edge:#e3dfd5; --hl-deep:var(--journey-gold); width:100%; max-width:1040px; margin-inline:auto; }
+.app-shell.student-workspace .journey-workspace .student-page-title h1 { color:var(--journey-ink); }
+.app-shell.student-workspace .journey-workspace .journey-combined-note { align-items:flex-start; margin:0 0 24px; padding:0 0 0 12px; border:0; border-left:2px solid #dbc485; border-radius:0; background:transparent; color:var(--journey-muted); font-size:12px; line-height:1.7; }
+.app-shell.student-workspace .journey-workspace .journey-combined-note b { color:#64583f; font-weight:500; }
+.app-shell.student-workspace .journey-workspace .workspace-tabs { display:flex; gap:24px; padding:0; margin:0 0 24px; border:0; border-bottom:1px solid var(--sheet-edge); border-radius:0; background:transparent; }
+.app-shell.student-workspace .journey-workspace .workspace-tabs > button { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:8px 6px 12px; border-radius:6px 6px 0 0; background:transparent; color:var(--journey-muted); font-size:13px; font-weight:500; }
+.app-shell.student-workspace .journey-workspace .workspace-tabs > button[aria-selected="true"] { background:transparent; color:var(--journey-primary); font-weight:600; box-shadow:none; }
+.app-shell.student-workspace .journey-workspace .workspace-tabs > button::after { display:block; left:0; right:0; bottom:0; height:3px; border-radius:3px 3px 0 0; background:#b38b37; transform:scaleX(0); transition:none; }
+.app-shell.student-workspace .journey-workspace .workspace-tabs > button[aria-selected="true"]::after { transform:scaleX(1); }
+.app-shell.student-workspace .journey-workspace .workspace-tabs > button:hover { background:#eeede8; color:var(--journey-primary); }
+.app-shell.student-workspace .journey-workspace .workspace-tabs > button:focus-visible { outline:2px solid var(--journey-gold); outline-offset:-2px; }
+.app-shell.student-workspace .journey-workspace .workspace-tab-icon { display:inline-flex; align-items:center; flex:none; color:inherit; }
+.app-shell.student-workspace .journey-workspace .jr-filters { gap:12px; margin:0 0 24px; padding-bottom:16px; border-bottom:1px solid var(--sheet-edge); }
+.app-shell.student-workspace .journey-workspace .jr-chips { gap:8px; }
+.app-shell.student-workspace .journey-workspace .jr-chip { min-height:36px; padding:0 12px; border-radius:8px; border-color:var(--sheet-edge); background:var(--journey-card); color:var(--journey-muted); font-size:12px; }
+.app-shell.student-workspace .journey-workspace .jr-search { width:224px; min-height:36px; padding:0 12px; border-radius:8px; border-color:var(--sheet-edge); background:var(--journey-card); }
+.app-shell.student-workspace .journey-workspace .jr-search input { font-size:12px; }
+.app-shell.student-workspace .journey-workspace .jr-tl-head b { color:var(--journey-ink); font-size:13px; font-weight:600; }
+.app-shell.student-workspace .journey-workspace .jr-tl-head span { color:var(--journey-muted); font-size:12px; }
+.app-shell.student-workspace .journey-workspace .jr-week b { color:#625b4e; }
+.app-shell.student-workspace .journey-workspace .jr-week.is-selected b { color:#fff9e9; }
+.app-shell.student-workspace .journey-workspace .jr-week.is-selected { background:#70562f; border-color:#70562f; color:#fff9e9; box-shadow:none; }
+.app-shell.student-workspace .journey-workspace .jr-prompt { color:var(--journey-muted); }
+/* Journey card interiors: topic, next action, then optional detail. */
+.app-shell.student-workspace .journey-workspace .jr-card { padding:0; border:0; border-radius:0; background:transparent; box-shadow:none; }
+.app-shell.student-workspace .journey-workspace .jr-week-head h2 { margin:7px 0 8px; font-size:24px; font-weight:600; line-height:1.4; }
+.app-shell.student-workspace .journey-workspace .jr-eyebrow { color:var(--journey-gold); letter-spacing:.04em; }
+.app-shell.student-workspace .journey-workspace .jr-prompt { max-width:65ch; font-size:14px; line-height:1.8; font-style:normal; color:var(--journey-muted); }
+.app-shell.student-workspace .journey-workspace .jr-requirements { margin-top:14px; }
+.app-shell.student-workspace .journey-workspace .jr-requirements > summary { width:auto; font-size:12px; color:var(--journey-gold); font-weight:500; }
+.app-shell.student-workspace .journey-workspace .jr-requirements > p { padding-top:6px; line-height:1.8; }
+.app-shell.student-workspace .journey-workspace .jr-week-foot { display:flex; align-items:center; justify-content:space-between; gap:16px; margin:0; padding:18px 24px; border-top:1px solid #e8dfc8; background:var(--journey-card); }
+.app-shell.student-workspace .journey-workspace .jr-next-label { display:grid; gap:5px; min-width:0; flex:1; }
+.app-shell.student-workspace .journey-workspace .jr-next-label > span { color:var(--journey-gold); font-size:10px; font-weight:600; }
+.app-shell.student-workspace .journey-workspace .jr-next-label small { color:var(--journey-muted); font-size:11px; line-height:1.6; }
+.app-shell.student-workspace .journey-workspace .jr-next { margin:0; }
+.app-shell.student-workspace .journey-workspace .jr-next-button.button { min-height:40px; padding:8px 16px; border-radius:7px; background:var(--journey-primary); color:#fff; white-space:normal; text-align:left; }
+.app-shell.student-workspace .journey-workspace .jr-next-button.button:hover:not(:disabled) { background:#4b4a46; color:#fff; }
+.app-shell.student-workspace .journey-workspace .jr-process { margin:0; padding:0 24px 16px; background:var(--journey-card); }
+.app-shell.student-workspace .journey-workspace .jr-process > summary { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:4px 0; list-style:none; cursor:pointer; font-size:11px; color:var(--journey-muted); }
+.app-shell.student-workspace .journey-workspace .jr-process > summary::-webkit-details-marker { display:none; }
+.app-shell.student-workspace .journey-workspace .jr-process-count { display:inline-flex; align-items:center; gap:8px; font-variant-numeric:tabular-nums; }
+.app-shell.student-workspace .journey-workspace .jr-process[open] .jr-process-count > svg { transform:rotate(180deg); }
+.app-shell.student-workspace .journey-workspace .jr-steps { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 16px; padding:14px 0 0; margin:8px 0 0; border-top:1px solid var(--sheet-edge); }
+.app-shell.student-workspace .journey-workspace .jr-steps li { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--journey-muted); }
+.app-shell.student-workspace .journey-workspace .jr-steps li.is-done { color:#68521f; }
+.app-shell.student-workspace .journey-workspace .jr-step-mark { display:grid; place-items:center; width:17px; height:17px; border:1px solid #dad4c6; border-radius:50%; flex:none; }
+.app-shell.student-workspace .journey-workspace .jr-steps li.is-done .jr-step-mark { background:#f4e5b8; border-color:#d4b768; }
+.app-shell.student-workspace .journey-workspace .jr-card-heading { align-items:center; flex-wrap:wrap; gap:8px 16px; padding-bottom:6px; margin-bottom:0; border:0; }
+.app-shell.student-workspace .journey-workspace .jr-card-heading h3 { display:flex; align-items:center; gap:8px; color:var(--journey-ink); font-size:15px; font-weight:600; letter-spacing:0; text-transform:none; }
+.app-shell.student-workspace .journey-workspace .jr-card-heading h3 > span { display:inline-grid; place-items:center; min-width:21px; height:21px; padding:0 5px; border-radius:5px; color:#79694a; background:#f2ecdd; font-size:10px; font-weight:500; }
+.app-shell.student-workspace .journey-workspace .jr-link { min-height:32px; color:var(--journey-gold); font-size:12px; gap:5px; }
+.app-shell.student-workspace .journey-workspace .jr-empty { margin:14px 0 0; font-size:13px; line-height:1.8; color:var(--journey-muted); }
+.app-shell.student-workspace .journey-workspace .jr-reflections button { display:grid; grid-template-columns:32px minmax(0,1fr) auto 16px; align-items:center; gap:12px; padding:14px 0; border-radius:0; }
+.app-shell.student-workspace .journey-workspace .jr-reflection-copy { display:grid; gap:4px; min-width:0; justify-items:start; }
+.app-shell.student-workspace .journey-workspace .jr-reflection-copy b { font-size:13px; font-weight:500; line-height:1.6; color:var(--journey-ink); overflow-wrap:anywhere; }
+.app-shell.student-workspace .journey-workspace .jr-reflection-copy .journey-course-tag { margin:0; padding:0; background:transparent; color:#796027; font-size:10px; font-weight:500; letter-spacing:0; }
+.app-shell.student-workspace .journey-workspace .jr-reflection-status { font-size:10px; border-radius:5px; padding:3px 7px; }
+.app-shell.student-workspace .journey-workspace .jr-reflections button:hover { background:#f4f4f1; }
+.app-shell.student-workspace .journey-workspace .jr-reflections button:hover b { text-decoration:none; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments.jr-card { padding:0; border:0; border-radius:0; background:transparent; box-shadow:none; }
+
+/* A mix of warm emphasis, one outlined list, and a quiet commitment surface. */
+.app-shell.student-workspace .journey-workspace .jr-week-nav { border:0; border-radius:0; background:transparent; box-shadow:none; padding:8px 20px 8px 0; }
+.app-shell.student-workspace .journey-workspace .jr-week { display:flex; align-items:center; gap:10px; min-height:64px; padding:10px; border:0; border-radius:8px; color:var(--journey-muted); }
+.app-shell.student-workspace .journey-workspace .jr-week-head { padding:0; border:1px solid #e1d2a8; border-radius:12px; background:var(--journey-card); overflow:hidden; }
+.app-shell.student-workspace .journey-workspace .jr-week-reflections { padding:0; border:0; border-radius:0; background:transparent; overflow:visible; }
+.app-shell.student-workspace .journey-workspace .jr-week-reflections .jr-card-heading { padding:0 0 8px; border:0; background:transparent; }
+.app-shell.student-workspace .journey-workspace .jr-week-commitments { padding:22px 0 0; border:0; border-top:1px solid var(--sheet-edge); border-radius:0; background:transparent; }
+.app-shell.student-workspace .journey-workspace .jr-empty { margin-top:10px; }
+.app-shell.student-workspace .journey-workspace .jr-none { padding:24px; border:1px dashed #dfd8ca; border-radius:10px; background:#faf9f5; }
+
+/* Status accents provide landmarks while text labels carry the meaning. */
+.app-shell.student-workspace .journey-workspace .jr-week-commitments .jr-card-heading h3 { color:var(--journey-ink); }
+.app-shell.student-workspace .journey-workspace .jr-week-reflections .jr-card-heading h3 { color:var(--journey-ink); }
+.app-shell.student-workspace .journey-workspace .commit-row.is-open { --commit-accent:var(--journey-gold); --commit-tint:#f7edcc; --commit-edge:var(--sheet-edge); }
+.app-shell.student-workspace .journey-workspace .commit-row.is-overdue { --commit-accent:var(--journey-danger); --commit-tint:var(--journey-danger-soft); --commit-edge:var(--journey-danger-line); }
+.app-shell.student-workspace .journey-workspace .commit-row.is-done { --commit-accent:var(--journey-success); --commit-tint:var(--journey-success-soft); --commit-edge:var(--sheet-edge); }
+.app-shell.student-workspace .journey-workspace .commit-row.is-adjust { --commit-accent:#8b5c31; --commit-tint:#f5eadc; --commit-edge:var(--sheet-edge); }
+.app-shell.student-workspace .journey-workspace .jr-chip.is-active { --chip-accent:var(--journey-gold); --chip-tint:#f7edcc; }
+.app-shell.student-workspace .journey-workspace .jr-chip.is-overdue { --chip-accent:var(--journey-danger); --chip-tint:var(--journey-danger-soft); color:var(--chip-accent); }
+.app-shell.student-workspace .journey-workspace .jr-chip.is-done { --chip-accent:var(--journey-success); --chip-tint:var(--journey-success-soft); color:var(--chip-accent); }
+.app-shell.student-workspace .journey-workspace .jr-chip.is-all { --chip-accent:#645b4d; --chip-tint:#f1eee6; }
+.app-shell.student-workspace .journey-workspace .jr-chip > i { color:var(--chip-accent); opacity:1; }
+.app-shell.student-workspace .journey-workspace .jr-chip[aria-pressed="true"] { color:var(--chip-accent); border-color:var(--chip-accent); background:var(--chip-tint); box-shadow:none; }
+.app-shell.student-workspace .journey-workspace .jr-chip[aria-pressed="true"] > i { color:var(--chip-accent); }
+.app-shell.student-workspace .journey-workspace .jr-chip:is(.is-overdue,.is-done) { border-color:var(--chip-accent); background:var(--chip-accent); color:#fff; }
+.app-shell.student-workspace .journey-workspace .jr-chip:is(.is-overdue,.is-done) > i { color:inherit; }
+.app-shell.student-workspace .journey-workspace .jr-chip:is(.is-overdue,.is-done)[aria-pressed="true"] { outline:2px solid var(--chip-accent); outline-offset:2px; box-shadow:inset 0 0 0 1px #fff; }
+.app-shell.student-workspace .journey-workspace .jr-tl-head { margin-bottom:12px; gap:10px; }
+.app-shell.student-workspace .journey-workspace .jr-tl-item { padding-bottom:28px; }
+.app-shell.student-workspace .journey-workspace .jr-tl-item > i { border-color:#d9b75c; background:#f6e7ae; color:#7d5c1d; }
+.app-shell.student-workspace .journey-workspace .jr-tl-item.is-done > i { border-color:#d9b75c; background:#f6e7ae; color:#7d5c1d; }
+.app-shell.student-workspace .journey-workspace .jr-tl-item.is-current > i { border-color:#b68e32; background:#ebcf79; color:#644919; }
+
+/* Week status stays visible independently of the selected week's brown background. */
+.app-shell.student-workspace .journey-workspace .jr-week > i { border-color:#ccc6ba; background:#efede6; color:#726c60; }
+.app-shell.student-workspace .journey-workspace .jr-week.is-done > i { border-color:var(--journey-success); background:var(--journey-success); color:#fff; }
+.app-shell.student-workspace .journey-workspace .jr-week.is-done:not(.is-selected) b { color:var(--journey-success); }
+.app-shell.student-workspace .journey-workspace .jr-week.is-current:not(.is-done) > i { border-color:#a37c2d; background:#efd58c; color:#634819; }
+.app-shell.student-workspace .journey-workspace .jr-week.is-current:not(.is-done):not(.is-selected) b { color:var(--journey-gold); }
+.app-shell.student-workspace .journey-workspace .jr-timeline::before { background:#e3d7b6; }
+
+/* A group never inherits the status of an individual commitment. */
+.app-shell.student-workspace .journey-workspace .jr-week-commitments .journey-commitments { margin-top:4px; }
+
+/* Task cards: a contextual header, readable body, and a deadline/action footer. */
+.app-shell.student-workspace .journey-workspace .jr-all { max-width:none; }
+.app-shell.student-workspace .journey-workspace .journey-commitments { gap:16px; }
+.app-shell.student-workspace .journey-workspace .commit-row { --commit-edge:var(--sheet-edge); --commit-surface:var(--journey-soft); }
+.app-shell.student-workspace .journey-workspace .journey-commitments > .commit-row { display:block; margin:0; padding:0; border:1px solid var(--commit-edge); border-radius:12px; background:var(--journey-card); box-shadow:none; overflow:hidden; }
+.app-shell.student-workspace .journey-workspace .journey-commitments > .commit-row + .commit-row { border-top:1px solid var(--commit-edge); }
+.app-shell.student-workspace .journey-workspace .commit-card-header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; min-height:0; margin:0; padding:16px 20px 0; border:0; background:transparent; }
+.app-shell.student-workspace .journey-workspace .commit-card-context { display:flex; align-items:center; gap:10px; min-width:0; }
+.app-shell.student-workspace .journey-workspace .commit-card-mark { display:grid; place-items:center; flex:none; width:32px; height:32px; border-radius:8px; color:var(--commit-accent); background:var(--commit-tint); }
+.app-shell.student-workspace .journey-workspace .commit-card-context-copy { display:grid; gap:2px; min-width:0; line-height:1.4; }
+.app-shell.student-workspace .journey-workspace .commit-card-context-copy > span { color:var(--journey-muted); font-size:10px; font-weight:400; }
+.app-shell.student-workspace .journey-workspace .commit-card-context-copy > strong { color:var(--journey-ink); font-size:11px; font-weight:600; }
+.app-shell.student-workspace .journey-workspace .commit-card-context .journey-course-tag { margin:0; padding:0; border:0; border-radius:0; background:transparent; color:inherit; font:inherit; letter-spacing:.025em; }
+.app-shell.student-workspace .journey-workspace .commit-row-status { display:inline-flex; align-items:center; gap:6px; justify-self:auto; margin:0; padding:4px 8px; border:0; border-radius:6px; color:var(--commit-accent); background:var(--commit-tint); font-size:10px; font-weight:500; line-height:1.6; white-space:nowrap; }
+.app-shell.student-workspace .journey-workspace .commit-row-status > i { width:5px; height:5px; border-radius:50%; background:currentColor; flex:none; }
+.app-shell.student-workspace .journey-workspace .commit-row-main { min-width:0; padding:16px 20px 20px; }
+.app-shell.student-workspace .journey-workspace .commit-row-main h4 { margin:0; font-size:14px; font-weight:400; line-height:1.75; }
+.app-shell.student-workspace .journey-workspace .commit-row-title { display:block; width:100%; max-width:none; padding:0; border:0; background:transparent; color:var(--journey-ink); font:inherit; text-align:left; text-decoration:none; overflow-wrap:anywhere; }
+.app-shell.student-workspace .journey-workspace .commit-row-title:hover { color:var(--journey-primary); text-decoration:none; }
+.app-shell.student-workspace .journey-workspace .commit-row.is-done .commit-row-title { color:#606b62; text-decoration:none; }
+.app-shell.student-workspace .journey-workspace .commit-card-footer { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px 20px; margin:0; padding:12px 20px; border:0; border-top:1px solid #e9e5db; background:var(--journey-soft); color:var(--journey-muted); text-transform:none; letter-spacing:0; font-size:11px; }
+.app-shell.student-workspace .journey-workspace .commit-card-deadline { display:flex; align-items:center; gap:9px; min-width:0; color:#817968; }
+.app-shell.student-workspace .journey-workspace .commit-card-deadline > svg { flex:none; }
+.app-shell.student-workspace .journey-workspace .commit-card-deadline > span { display:grid; gap:2px; line-height:1.4; }
+.app-shell.student-workspace .journey-workspace .commit-card-deadline small { color:#797267; font-size:10px; }
+.app-shell.student-workspace .journey-workspace .commit-card-deadline time { color:#534b3e; font-size:11px; font-weight:500; font-variant-numeric:tabular-nums; }
+.app-shell.student-workspace .journey-workspace .commit-row.is-overdue .commit-card-deadline { color:#a6564b; }
+.app-shell.student-workspace .journey-workspace .commit-row.is-overdue .commit-card-deadline time { color:#9b3e33; }
+.app-shell.student-workspace .journey-workspace .commit-card-controls { display:flex; align-items:center; gap:18px; margin-left:auto; }
+.app-shell.student-workspace .journey-workspace .commit-row-more { display:inline-flex; align-items:center; margin:0; padding:6px 0; min-height:36px; border:0; background:transparent; color:#756749; font-size:11px; font-weight:500; }
+.app-shell.student-workspace .journey-workspace .commit-row-action.button { display:inline-flex; align-items:center; justify-content:center; gap:8px; grid-area:auto; margin:0; padding:8px 12px; min-height:36px; border:1px solid #e1cd9d; border-radius:8px; background:#f3e6c4; box-shadow:none; color:#644b22; font-size:11px; font-weight:500; line-height:1.6; white-space:normal; text-align:left; }
+.app-shell.student-workspace .journey-workspace .commit-row-action.button.is-quiet { border-color:var(--sheet-edge); background:var(--journey-card); color:#47634f; box-shadow:none; }
+.app-shell.student-workspace .journey-workspace .commit-row-action.button:hover:not(:disabled) { background:#efeeea; border-color:#dbd8d1; color:#393326; transform:none; }
+.app-shell.student-workspace .journey-workspace .commit-row-details:not([hidden]) { display:grid; justify-items:start; gap:16px; margin:0; padding:20px; border:0; border-top:1px solid var(--sheet-edge); border-radius:0; background:transparent; }
+.app-shell.student-workspace .journey-workspace .commit-row-details p { margin:0; color:#44413b; font-size:12px; line-height:1.8; white-space:pre-wrap; }
+.app-shell.student-workspace .journey-workspace .commit-row-details p > b { display:block; margin-bottom:4px; color:var(--journey-muted); font-size:11px; font-weight:500; }
+.app-shell.student-workspace .journey-workspace .commit-row-details .text-button { max-width:100%; font-size:12px; text-align:left; overflow-wrap:anywhere; }
+
+/* Action rows share one compact layout, whether alone or grouped within a week. */
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments.jr-card.is-grouped { gap:0; padding:0; border:1px solid #dcd6ca; border-radius:12px; background:var(--journey-card); overflow:hidden; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments > .commit-row { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px 28px; padding:18px 20px; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments.is-grouped > .commit-row { border:0; border-radius:0; background:transparent; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments.is-grouped > .commit-row + .commit-row { border-top:1px solid #dcd6ca; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .commit-card-header { grid-column:1; grid-row:1; justify-content:flex-start; gap:12px; padding:0; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .commit-card-context-copy > span { display:none; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .commit-card-mark { width:26px; height:26px; border-radius:50%; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .commit-card-mark > svg { width:16px; height:16px; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .commit-row-main { grid-column:1; grid-row:2; padding:0 0 0 36px; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .commit-row-main h4 { font-size:13px; line-height:1.7; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .is-done .commit-row-title { color:#424d43; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .commit-card-footer { display:contents; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .commit-card-deadline { grid-column:1; grid-row:3; gap:6px; margin-left:36px; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .commit-card-deadline > svg { width:14px; height:14px; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .commit-card-deadline > span { display:flex; align-items:baseline; flex-wrap:wrap; gap:6px; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .commit-card-deadline time { color:inherit; font-size:10px; font-weight:400; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .commit-card-controls { grid-column:2; grid-row:1 / 4; align-self:center; flex-direction:column-reverse; align-items:flex-end; gap:4px; width:auto; margin:0; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .commit-row-action.button { min-height:34px; padding:7px 12px; border:0; background:var(--journey-primary); color:#fffaf0; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .commit-row-action.button.is-quiet { background:var(--journey-success-soft); color:var(--journey-success); }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .commit-row-action.button:hover:not(:disabled) { background:#eeede8; color:var(--journey-ink); }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .commit-row-more { min-height:30px; padding:4px 0; font-size:10px; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .commit-row-details:not([hidden]) { grid-column:1 / -1; padding:14px 0 0 36px; margin-top:6px; }
+.app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments > .commit-row.is-overdue { background:#fffaf7; }
+@media(max-width:640px) {
+ .app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments > .commit-row { grid-template-columns:minmax(0,1fr); padding:16px; gap:10px; }
+ .app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .commit-card-controls { grid-column:1; grid-row:4; flex-direction:row; align-items:center; justify-content:flex-end; gap:16px; margin:0 0 0 36px; }
+ .app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .commit-row-action.button { min-height:38px; margin:0; }
+ .app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments .commit-row-more { min-height:38px; }
+}
+
+/* By week: a clear contents rail and one composed weekly introduction. */
+.app-shell.student-workspace .journey-workspace .jr-weeks { grid-template-columns:224px minmax(0,1fr); gap:28px; }
+.app-shell.student-workspace .journey-workspace .jr-progress-label { margin:4px 0 0; color:var(--journey-muted); font-size:10px; line-height:1.6; }
+.app-shell.student-workspace .journey-workspace .jr-progress { width:46px; height:46px; flex:none; padding:4px; margin:0; border:0; border-radius:50%; overflow:hidden; }
+.app-shell.student-workspace .journey-workspace .jr-week-list { position:relative; gap:4px; }
+.app-shell.student-workspace .journey-workspace .jr-week-copy { display:grid; gap:3px; min-width:0; }
+.app-shell.student-workspace .journey-workspace .jr-week-copy b { display:block; margin:0; font-size:11px; line-height:1.5; font-weight:600; }
+.app-shell.student-workspace .journey-workspace .jr-week-copy small { display:block; font-size:12px; line-height:1.5; color:var(--journey-muted); overflow-wrap:anywhere; }
+.app-shell.student-workspace .journey-workspace .jr-week.is-selected .jr-week-copy small { color:#f0dfb8; }
+.app-shell.student-workspace .journey-workspace .jr-week:hover:not(.is-selected) { background:#eeede8; }
+.app-shell.student-workspace .journey-workspace .jr-week-introduction { display:grid; grid-template-columns:56px minmax(0,1fr) 132px; align-items:start; gap:18px; padding:24px; background:var(--journey-gold-soft); }
+.app-shell.student-workspace .journey-workspace .jr-week-stamp { display:grid; justify-items:center; gap:2px; padding:10px 0; border-radius:10px; color:#7f5d20; background:#ebd085; line-height:1.25; }
+.app-shell.student-workspace .journey-workspace .jr-week-stamp small { font-size:9px; font-weight:500; }
+.app-shell.student-workspace .journey-workspace .jr-week-stamp b { font-size:27px; font-weight:500; letter-spacing:-1px; font-variant-numeric:tabular-nums; }
+.app-shell.student-workspace .journey-workspace .jr-week-topic { min-width:0; }
+.app-shell.student-workspace .journey-workspace .jr-week-head .jr-prompt { font-size:13px; line-height:1.8; }
+.app-shell.student-workspace .journey-workspace .jr-next-label > .jr-next-context { font-size:12px; font-weight:400; line-height:1.6; color:var(--journey-ink); overflow-wrap:anywhere; }
+.app-shell.student-workspace .journey-workspace .jr-next-button.button { flex:none; min-height:38px; padding:8px 13px; font-size:12px; border-radius:8px; }
+.app-shell.student-workspace .journey-workspace .jr-card-heading h3 > svg { color:#8f7540; }
+.app-shell.student-workspace .journey-workspace .jr-reflections button > i { display:grid; place-items:center; width:32px; height:36px; border-radius:7px; background:#f3eee2; font-style:normal; }
+.app-shell.student-workspace .journey-workspace .jr-reflections button:is(.is-submitted,.is-returned,.is-final) > i { background:#f3eee2; }
+
+/* Weekly landmarks: a real completion dial, a notebook motif, and an open summary strip. */
+
+
+@media(max-width:860px) {
+ .app-shell.student-workspace .journey-workspace .jr-week-nav { padding:0 0 12px; border:0; border-bottom:1px solid var(--sheet-edge); }
+}
+
+@media(max-width:640px) {
+ .app-shell.student-workspace .journey-workspace .jr-timeline .journey-commitments.jr-card { padding:0; }
+ .app-shell.student-workspace .journey-workspace .jr-week-reflections { padding:0; }
+ .app-shell.student-workspace .journey-workspace .jr-week-head h2 { font-size:21px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-foot { align-items:stretch; }
+ .app-shell.student-workspace .journey-workspace .jr-next { width:100%; }
+ .app-shell.student-workspace .journey-workspace .jr-next-button.button { width:100%; justify-content:space-between; }
+ .app-shell.student-workspace .journey-workspace .jr-card-heading { align-items:flex-start; }
+ .app-shell.student-workspace .journey-workspace .jr-reflections button { grid-template-columns:28px minmax(0,1fr) 16px; gap:6px 10px; }
+ .app-shell.student-workspace .journey-workspace .jr-reflection-copy { grid-column:2; grid-row:1; }
+ .app-shell.student-workspace .journey-workspace .jr-reflection-status { grid-column:2; grid-row:2; justify-self:start; }
+ .app-shell.student-workspace .journey-workspace .jr-reflections button > .ui-icon { grid-column:3; grid-row:1 / 3; }
+ .app-shell.student-workspace .journey-workspace .jr-tl-head { align-items:flex-start; flex-direction:column; gap:2px; }
+}
+
+@media(max-width:640px) {
+ .app-shell.student-workspace .journey-workspace .commit-card-header { padding:16px 16px 0; }
+ .app-shell.student-workspace .journey-workspace .commit-row-main { padding:15px 16px 18px; }
+ .app-shell.student-workspace .journey-workspace .commit-card-footer { padding:12px 16px; }
+ .app-shell.student-workspace .journey-workspace .commit-row-details:not([hidden]) { padding:16px; }
+ .app-shell.student-workspace .journey-workspace .commit-card-controls { gap:12px; }
+ .app-shell.student-workspace .journey-workspace .commit-card-mark { width:34px; height:34px; }
+}
+@media(max-width:480px) {
+ .app-shell.student-workspace .journey-workspace .commit-card-footer { display:grid; grid-template-columns:minmax(0,1fr); gap:12px; }
+ .app-shell.student-workspace .journey-workspace .commit-card-controls { display:flex; width:100%; justify-content:space-between; margin:0; }
+ .app-shell.student-workspace .journey-workspace .commit-row-action.button { margin-left:auto; min-height:40px; }
+ .app-shell.student-workspace .journey-workspace .commit-card-header { gap:10px; }
+}
+
+@media(max-width:640px) { .app-shell.student-workspace .journey-workspace .jr-search { width:100%; margin-left:0; } .app-shell.student-workspace .journey-workspace .commit-card-mark { width:32px; height:32px; } }
+
+/* Tab changes are immediate so the content keeps its contrast throughout navigation. */
+.app-shell.student-workspace .journey-workspace .workspace-section-content:not([hidden]) { animation:none; }
+.app-shell.student-workspace .journey-workspace .workspace-tabs > button { transition:none; }
+
+/* Weekly landmarks: a real completion dial, a notebook motif, and an open summary strip. */
+.app-shell.student-workspace .journey-workspace .jr-progress-overview { display:flex; align-items:center; gap:12px; padding:0 10px 22px; }
+.app-shell.student-workspace .journey-workspace .jr-progress-overview strong { display:block; color:var(--journey-ink); font-size:12px; font-weight:600; line-height:1.5; }
+.app-shell.student-workspace .journey-workspace .jr-progress > span { display:flex; align-items:center; justify-content:center; width:100%; height:100%; border-radius:50%; background:#f8f6f0; color:#73561f; font-size:16px; font-weight:600; line-height:1; }
+.app-shell.student-workspace .journey-workspace .jr-progress > span > small { padding-top:3px; color:#8a7a59; font-size:9px; font-weight:400; }
+.app-shell.student-workspace .journey-workspace .jr-week-list::before { content:""; position:absolute; top:20px; bottom:20px; left:21px; width:1px; background:#ded5bf; }
+.app-shell.student-workspace .journey-workspace .jr-week { position:relative; }
+.app-shell.student-workspace .journey-workspace .jr-week > i { position:relative; z-index:1; }
+.app-shell.student-workspace .journey-workspace .jr-week-art { width:132px; height:112px; align-self:center; justify-self:end; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); margin:0; padding:16px 0; border-block:1px solid var(--sheet-edge); }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot > div { display:flex; flex-direction:column; justify-content:space-between; gap:10px; min-width:0; padding:0 18px; border-right:1px solid var(--sheet-edge); }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot > div:first-child { padding-left:2px; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot > div:last-child { padding-right:0; border-right:0; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot dt { display:flex; align-items:center; gap:7px; color:var(--journey-muted); font-size:11px; line-height:1.5; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot dt > svg { flex:none; color:#9a7a36; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot .is-review dt > svg { color:#8b7760; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot .is-action dt > svg { color:#6b846d; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot dd { margin:0; color:var(--journey-ink); font-size:23px; font-weight:500; line-height:1.25; font-variant-numeric:tabular-nums; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot dd > small { color:#8a8170; font-size:13px; font-weight:400; }
+.app-shell.student-workspace .journey-workspace .jr-reflections { padding:0; }
+.app-shell.student-workspace .journey-workspace .jr-reflection-meta { display:flex; align-items:center; flex-wrap:wrap; gap:4px 10px; font-size:10px; line-height:1.6; }
+.app-shell.student-workspace .journey-workspace .jr-reflection-meta > time { color:#8a8172; }
+.app-shell.student-workspace .journey-workspace .jr-reflection-meta .journey-course-tag { color:#897752; }
+.app-shell.student-workspace .journey-workspace .jr-week-reflections > .jr-empty { padding:12px 0; margin:0; }
+.app-shell.student-workspace .journey-workspace .jr-week-reflections .jr-reflections button.is-final > i { background:#edf2e9; }
+.app-shell.student-workspace .journey-workspace .jr-week-reflections .jr-reflections button.is-final > i > svg { color:#728766; }
+.app-shell.student-workspace .journey-workspace .jr-week-reflections .jr-reflections button.is-returned > i { background:#f7eee6; }
+.app-shell.student-workspace .journey-workspace .jr-week-reflections .jr-reflections button.is-returned > i > svg { color:#b17d50; }
+
+@media(max-width:860px) {
+ .app-shell.student-workspace .journey-workspace .jr-weeks { grid-template-columns:minmax(0,1fr); gap:20px; }
+ .app-shell.student-workspace .journey-workspace .jr-week { min-height:40px; padding:6px 10px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-copy { display:block; }
+ .app-shell.student-workspace .journey-workspace .jr-week-copy small { display:none; }
+ .app-shell.student-workspace .journey-workspace .jr-week-copy b { font-size:12px; }
+}
+@media(max-width:640px) {
+ .app-shell.student-workspace .journey-workspace .jr-week-introduction { grid-template-columns:42px minmax(0,1fr); padding:18px 16px; gap:12px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-stamp { padding:8px 0; }
+ .app-shell.student-workspace .journey-workspace .jr-week-stamp b { font-size:23px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-head h2 { font-size:20px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-foot { flex-wrap:wrap; padding:16px; gap:12px; }
+ .app-shell.student-workspace .journey-workspace .jr-process { padding:0 16px 14px; }
+ .app-shell.student-workspace .journey-workspace .jr-reflections button > i { grid-column:1; grid-row:1 / 3; width:28px; height:32px; }
+}
+
+@media(max-width:1100px) and (min-width:861px) { .app-shell.student-workspace .journey-workspace .jr-week-introduction { grid-template-columns:56px minmax(0,1fr); } .app-shell.student-workspace .journey-workspace .jr-week-art { display:none; } }
+@media(max-width:860px) { .app-shell.student-workspace .journey-workspace .jr-week-list::before { display:none; } .app-shell.student-workspace .journey-workspace .jr-progress-overview { padding:0 0 16px; } }
+@media(max-width:640px) {
+ .app-shell.student-workspace .journey-workspace .jr-week-art { display:none; }
+ .app-shell.student-workspace .journey-workspace .jr-week-snapshot { padding:14px 0; }
+ .app-shell.student-workspace .journey-workspace .jr-week-snapshot > div { padding:0 10px; gap:8px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-snapshot dt { font-size:10px; align-items:flex-start; gap:5px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-snapshot dt > svg { width:13px; height:13px; margin-top:1px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-snapshot dd { font-size:21px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-reflections .jr-card-heading { padding:0 0 8px; }
+ .app-shell.student-workspace .journey-workspace .jr-reflections { padding:0; }
+ .app-shell.student-workspace .journey-workspace .jr-week-reflections > .jr-empty { padding:12px 0; }
+}
+
+@media(max-width:640px) { .app-shell.student-workspace .journey-workspace .jr-week-commitments .commit-row-action.button { min-height:40px; } }
+
+@media(max-width:1100px) { .app-shell.student-workspace .journey-workspace .jr-week-work { grid-template-columns:minmax(0,1fr); gap:24px; } }
+@media(max-width:640px) {
+ .app-shell.student-workspace .journey-workspace .jr-week-snapshot { gap:8px 16px; padding:0 16px 16px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-snapshot > div { padding:0; gap:6px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-snapshot dd { font-size:14px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-work { padding:0; }
+ .app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflections button > i { grid-column:1; grid-row:1; }
+ .app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflection-status { grid-column:auto; grid-row:auto; }
+ .app-shell.student-workspace .journey-workspace .is-week-task .commit-card-footer { display:flex; flex-wrap:wrap; }
+ .app-shell.student-workspace .journey-workspace .is-week-task .commit-card-controls { width:auto; justify-content:flex-start; margin-left:auto; }
+ .app-shell.student-workspace .journey-workspace .is-week-task .commit-row-action.button { min-height:38px; }
+ .app-shell.student-workspace .journey-workspace .is-week-task .commit-row-more { min-height:38px; }
+}
+
+/* Weekly composition: recent writing beside compact tasks, beneath one warm introduction. */
+.app-shell.student-workspace .journey-workspace .jr-weeks { grid-template-columns:228px minmax(0,1fr); gap:24px; }
+.app-shell.student-workspace .journey-workspace .jr-week-detail:not([hidden]) { gap:24px; }
+.app-shell.student-workspace .journey-workspace .jr-week-work { display:grid; grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr); align-items:start; gap:22px; padding:0; border:0; border-radius:0; background:transparent; }
+.app-shell.student-workspace .journey-workspace .jr-week-work > .jr-card { min-width:0; }
+.app-shell.student-workspace .journey-workspace .jr-week-work > .jr-week-reflections { padding:0; border:0; border-radius:0; background:transparent; }
+.app-shell.student-workspace .journey-workspace .jr-week-work > .jr-week-commitments { margin:0; padding:0; border:0; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-card-heading { align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px 10px; min-height:38px; padding:0; border:0; margin-bottom:12px; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-card-heading h3 { font-size:15px; color:var(--journey-primary); }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-card-heading h3 > svg { box-sizing:content-box; width:16px; height:16px; padding:7px; border-radius:8px; background:#ecdfbd; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-card-heading h3 > span { padding:2px 6px; min-width:20px; height:20px; border-radius:6px; background:#e6e0d2; color:#6f6248; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-link { font-size:11px; min-height:32px; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-week-reflections .jr-card-heading { margin-bottom:12px; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-week-reflections .jr-card-heading h3 { width:auto; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-week-reflections .jr-card-heading h3 > span { margin-left:0; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflections li + li { border-color:#e5dfd3; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflections button { grid-template-columns:minmax(0,1fr) 14px; padding:13px 0; gap:10px; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflections button > i { display:none; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflections button:is(.is-final,.is-returned,.is-submitted) > i { background:transparent; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflections button > .ui-icon { grid-column:2; grid-row:1; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflection-copy { grid-column:1; grid-row:1; gap:5px; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflection-copy b { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; font-size:13px; font-weight:500; line-height:1.65; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflection-meta { gap:5px 8px; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflection-status { grid-column:auto; grid-row:auto; padding:3px 6px; font-size:10px; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-empty { padding:14px 0; font-size:12px; line-height:1.8; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-writing-create { justify-content:center; width:auto; min-height:34px; margin:0; padding:6px 10px; border:1px solid #dfc992; border-radius:8px; background:#f5e8c4; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-week-commitments > .jr-card-heading > .jr-link { min-height:34px; padding:6px 10px; border:1px solid #dfc992; border-radius:8px; background:#f5e8c4; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-writing-create:hover,.app-shell.student-workspace .journey-workspace .jr-week-work .jr-week-commitments > .jr-card-heading > .jr-link:hover { background:#eeede8; border-color:#d7d3c9; color:var(--journey-ink); }
+.app-shell.student-workspace .journey-workspace .jr-week-commitments .journey-commitments { gap:12px; margin:0; }
+.app-shell.student-workspace .journey-workspace .jr-week-commitments .journey-commitments > .commit-row.is-week-task { display:block; margin:0; padding:0; border:1px solid var(--commit-edge); border-radius:10px; background:var(--journey-card); box-shadow:none; overflow:hidden; }
+.app-shell.student-workspace .journey-workspace .is-week-task .commit-card-header { padding:12px 14px 0; gap:8px; }
+.app-shell.student-workspace .journey-workspace .is-week-task .commit-card-mark { display:none; }
+.app-shell.student-workspace .journey-workspace .is-week-task .commit-card-context-copy > span { display:none; }
+.app-shell.student-workspace .journey-workspace .is-week-task .commit-card-context-copy > strong { font-size:10px; }
+.app-shell.student-workspace .journey-workspace .is-week-task .commit-row-status { grid-area:auto; padding:3px 6px; font-size:9px; }
+.app-shell.student-workspace .journey-workspace .is-week-task .commit-row-main { padding:12px 14px 14px; }
+.app-shell.student-workspace .journey-workspace .is-week-task .commit-row-main h4 { font-size:13px; font-weight:400; line-height:1.7; }
+.app-shell.student-workspace .journey-workspace .is-week-task:not(.is-expanded) .commit-preview { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; overflow:hidden; }
+.app-shell.student-workspace .journey-workspace .is-week-task .commit-card-footer { padding:9px 14px; gap:8px 12px; }
+.app-shell.student-workspace .journey-workspace .is-week-task .commit-card-deadline { gap:5px; }
+.app-shell.student-workspace .journey-workspace .is-week-task .commit-card-deadline > svg { width:13px; height:13px; }
+.app-shell.student-workspace .journey-workspace .is-week-task .commit-card-deadline small { display:none; }
+.app-shell.student-workspace .journey-workspace .is-week-task .commit-card-deadline time { font-size:10px; }
+.app-shell.student-workspace .journey-workspace .is-week-task .commit-card-controls { gap:12px; }
+.app-shell.student-workspace .journey-workspace .is-week-task .commit-row-more { min-height:30px; font-size:10px; padding:3px 0; }
+.app-shell.student-workspace .journey-workspace .is-week-task .commit-row-action.button { min-height:32px; padding:6px 10px; border:0; border-radius:7px; background:var(--journey-primary); color:#fffaf0; font-size:10px; box-shadow:none; transition:none; }
+.app-shell.student-workspace .journey-workspace .is-week-task .commit-row-action.button.is-quiet { border:0; background:var(--journey-success-soft); color:var(--journey-success); }
+.app-shell.student-workspace .journey-workspace .is-week-task .commit-row-action.button:hover:not(:disabled) { background:#efeeea; color:#393326; }
+.app-shell.student-workspace .journey-workspace .is-week-task .commit-row-details:not([hidden]) { padding:14px; gap:12px; }
+.app-shell.student-workspace .journey-workspace .jr-completed-actions { margin-top:12px; padding:0; border:0; }
+.app-shell.student-workspace .journey-workspace .jr-completed-actions > summary { display:flex; align-items:center; gap:7px; padding:10px 12px; border-radius:8px; background:var(--journey-success-soft); color:#637261; font-size:11px; line-height:1.6; list-style:none; cursor:pointer; }
+.app-shell.student-workspace .journey-workspace .jr-completed-actions > summary:hover { background:#eeede8; }
+.app-shell.student-workspace .journey-workspace .jr-completed-actions > summary::-webkit-details-marker { display:none; }
+.app-shell.student-workspace .journey-workspace .jr-completed-actions > summary > span { margin-left:auto; color:var(--journey-muted); font-size:10px; }
+.app-shell.student-workspace .journey-workspace .jr-completed-actions[open] > summary > svg:last-child { transform:rotate(180deg); }
+.app-shell.student-workspace .journey-workspace .jr-completed-actions .journey-commitments { margin-top:12px; }
+.app-shell.student-workspace .journey-workspace .jr-week-introduction { padding:20px 24px 16px; }
+.app-shell.student-workspace .journey-workspace .jr-week-head h2 { font-size:22px; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot { display:flex; flex-wrap:wrap; gap:10px 24px; padding:0 24px 18px; margin:0; border:0; background:var(--journey-gold-soft); }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot > div { display:flex; flex-direction:row; align-items:baseline; justify-content:flex-start; gap:8px; min-width:0; padding:0; border:0; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot > div:first-child { padding:0; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot dt { font-size:10px; line-height:1.6; gap:5px; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot dt > svg { display:none; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot dd { margin:0; font-size:14px; font-weight:600; line-height:1.4; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot dd > small { font-size:10px; }
+
+.app-shell.student-workspace .journey-workspace { animation:none; }
+.app-shell.student-workspace .journey-workspace .is-week-task .commit-row-title { display:block; }
+.app-shell.student-workspace .journey-workspace .commit-preview { display:block; }
+@media(max-width:1100px) { .app-shell.student-workspace .journey-workspace .jr-week-work { grid-template-columns:minmax(0,1fr); gap:24px; } }
+@media(max-width:860px) { .app-shell.student-workspace .journey-workspace .jr-weeks { grid-template-columns:minmax(0,1fr); gap:20px; } }
+@media(max-width:640px) {
+ .app-shell.student-workspace .journey-workspace .jr-week-snapshot { gap:8px 16px; padding:0 16px 16px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-snapshot > div { padding:0; gap:6px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-snapshot dt { font-size:10px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-snapshot dd { font-size:14px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-introduction { padding:18px 16px 14px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-head h2 { font-size:20px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-work { padding:0; }
+ .app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflections button > i { grid-column:1; grid-row:1; }
+ .app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflection-status { grid-column:auto; grid-row:auto; }
+ .app-shell.student-workspace .journey-workspace .is-week-task .commit-card-footer { display:flex; flex-wrap:wrap; }
+ .app-shell.student-workspace .journey-workspace .is-week-task .commit-card-controls { width:auto; justify-content:flex-start; margin-left:auto; }
+ .app-shell.student-workspace .journey-workspace .is-week-task .commit-row-action.button { min-height:38px; }
+ .app-shell.student-workspace .journey-workspace .is-week-task .commit-row-more { min-height:38px; }
+}
+
+.app-shell.student-workspace .main-shell > main > .journey-workspace { animation:none; opacity:1; }
+.app-shell.student-workspace .journey-workspace .student-page-title { animation:none; }
+
+/* Color hierarchy: warm emphasis, neutral work surfaces, and semantic status accents. */
+.app-shell.student-workspace .journey-workspace .jr-week-foot { background:var(--journey-card); }
+.app-shell.student-workspace .journey-workspace .jr-week-head .jr-prompt { color:#716852; }
+.app-shell.student-workspace .journey-workspace .jr-week-stamp { color:#684b18; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot dt { color:#827451; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot dd { color:#5b4721; }
+.app-shell.student-workspace .journey-workspace .commit-card-footer { background:#f7f6f1; border-top-color:#e9e5db; }
+.app-shell.student-workspace .journey-workspace .commit-row.is-overdue .commit-card-footer { background:#fcf3f0; border-top-color:#efd9d2; }
+.app-shell.student-workspace .journey-workspace .commit-row.is-done .commit-card-footer { background:#f3f6f1; }
+.app-shell.student-workspace .journey-workspace .commit-row.is-overdue .commit-card-deadline { color:var(--journey-danger); }
+.app-shell.student-workspace .journey-workspace .commit-row.is-overdue .commit-card-deadline time { color:var(--journey-danger); }
+.app-shell.student-workspace .journey-workspace .commit-row-more { color:#777166; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflection-status { color:#6f6b62; background:#eeece5; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflections button.is-submitted .jr-reflection-status { color:var(--journey-gold); background:#f6edce; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflections button.is-returned .jr-reflection-status { color:var(--journey-danger); background:var(--journey-danger-soft); }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflections button.is-final .jr-reflection-status { color:var(--journey-success); background:var(--journey-success-soft); }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflections button > i > svg { color:#9b9589; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflections button.is-submitted > i > svg { color:#a3874d; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflections button.is-returned > i > svg { color:#b17465; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflections button.is-final > i > svg { color:#77927b; }
+.app-shell.student-workspace .journey-workspace .jr-completed-actions > summary { color:var(--journey-success); }
+.app-shell.student-workspace .journey-workspace .jr-link,.app-shell.student-workspace .journey-workspace .jr-card-heading h3 > svg { color:var(--journey-gold); }
+
+/* Each action week can fold independently; native summaries support keyboard activation. */
+.app-shell.student-workspace .journey-workspace .jr-action-week > .jr-tl-head { display:flex; flex-direction:row; align-items:center; justify-content:space-between; gap:12px; min-height:28px; padding:2px 6px 2px 0; border-radius:6px; list-style:none; cursor:pointer; }
+.app-shell.student-workspace .journey-workspace .jr-action-week > .jr-tl-head::-webkit-details-marker { display:none; }
+.app-shell.student-workspace .journey-workspace .jr-action-week > .jr-tl-head::marker { content:""; }
+.app-shell.student-workspace .journey-workspace .jr-action-week > .jr-tl-head:hover { background:#eeede8; }
+.app-shell.student-workspace .journey-workspace .jr-action-week > .jr-tl-head:focus-visible { outline:2px solid var(--journey-gold); outline-offset:3px; }
+.app-shell.student-workspace .journey-workspace .jr-action-week:not([open]) > .jr-tl-head { margin-bottom:0; }
+.app-shell.student-workspace .journey-workspace .jr-tl-head .jr-tl-label { display:flex; align-items:baseline; flex-wrap:wrap; gap:3px 10px; min-width:0; }
+.app-shell.student-workspace .journey-workspace .jr-tl-head .jr-tl-toggle { display:inline-flex; align-items:center; gap:10px; flex:none; color:var(--journey-gold); }
+.app-shell.student-workspace .journey-workspace .jr-tl-head .jr-tl-count { display:inline-grid; place-items:center; min-width:22px; height:22px; padding:0 5px; border-radius:6px; background:#eae5d9; color:#6e624b; font-size:10px; font-variant-numeric:tabular-nums; }
+.app-shell.student-workspace .journey-workspace .jr-tl-toggle > svg { transform:rotate(-90deg); }
+.app-shell.student-workspace .journey-workspace .jr-action-week[open] > summary .jr-tl-toggle > svg { transform:none; }
+
+/* Frame the rail while keeping the original connected week timeline inside. */
+.app-shell.student-workspace .journey-workspace .jr-week-nav { padding:12px; border:1px solid #ded3b9; border-radius:14px; background:#fffefa; box-shadow:0 3px 14px #59442006; }
+.app-shell.student-workspace .journey-workspace .jr-progress-overview { gap:12px; margin:-12px -12px 10px; padding:18px 16px; border-bottom:1px solid #e4d7b5; border-radius:14px 14px 0 0; background:#f3ead1; }
+.app-shell.student-workspace .journey-workspace .jr-progress-overview strong { color:#654b28; font-size:15px; font-weight:600; line-height:1.55; letter-spacing:0; }
+.app-shell.student-workspace .journey-workspace .jr-progress-label { margin:6px 0 0; color:#73654b; font-size:12px; line-height:1.7; }
+.app-shell.student-workspace .journey-workspace .jr-progress { width:54px; height:54px; padding:4px; }
+.app-shell.student-workspace .journey-workspace .jr-progress > span { background:#fbf7eb; color:#765526; font-size:21px; font-weight:700; }
+.app-shell.student-workspace .journey-workspace .jr-progress > span > small { padding:2px 0 0 2px; color:#8c7854; font-size:11px; }
+@media(max-width:860px) {
+ .app-shell.student-workspace .journey-workspace .jr-week-nav { position:static; padding:10px; border-radius:12px; }
+ .app-shell.student-workspace .journey-workspace .jr-progress-overview { gap:12px; margin:-10px -10px 10px; padding:14px 16px; border-radius:12px 12px 0 0; }
+ .app-shell.student-workspace .journey-workspace .jr-progress { width:42px; height:42px; }
+ .app-shell.student-workspace .journey-workspace .jr-progress > span { font-size:17px; }
+ .app-shell.student-workspace .journey-workspace .jr-progress-label { margin-top:2px; }
+
+}
+
+/* A compact weekly cover, a quiet metric row, and one clearly marked next step. */
+.app-shell.student-workspace .journey-workspace .jr-week-head { border-color:#ded7c7; border-radius:14px; box-shadow:0 3px 16px #4b391107; }
+.app-shell.student-workspace .journey-workspace .jr-week-introduction { grid-template-columns:52px minmax(0,1fr) 92px; align-items:center; gap:18px; padding:20px; background:var(--journey-card); }
+.app-shell.student-workspace .journey-workspace .jr-week-stamp { align-self:stretch; align-content:center; justify-items:start; gap:3px; padding:0 16px 0 0; border:0; border-right:1px solid #e4ddce; border-radius:0; background:transparent; color:var(--journey-primary); }
+.app-shell.student-workspace .journey-workspace .jr-week-stamp small { color:#8a7d62; font-size:9px; letter-spacing:.08em; text-transform:uppercase; }
+.app-shell.student-workspace .journey-workspace .jr-week-stamp b { font-family:Georgia,'Times New Roman',serif; font-size:40px; line-height:1; font-weight:400; letter-spacing:-1.5px; }
+.app-shell.student-workspace .journey-workspace .jr-week-head .jr-eyebrow { display:inline-flex; align-items:center; gap:6px; font-size:9px; line-height:1.5; color:var(--journey-gold); letter-spacing:.07em; }
+.app-shell.student-workspace .journey-workspace .jr-eyebrow.is-current::before { content:""; width:5px; height:5px; flex:none; border-radius:50%; background:#b48c35; }
+.app-shell.student-workspace .journey-workspace .jr-week-head h2 { margin:6px 0 7px; font-size:22px; line-height:1.35; letter-spacing:-.5px; }
+.app-shell.student-workspace .journey-workspace .jr-week-head .jr-prompt { font-size:12px; line-height:1.65; color:var(--journey-muted); }
+.app-shell.student-workspace .journey-workspace .jr-week-art { width:92px; height:80px; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0; padding:12px 20px; border-top:1px solid #eee9df; background:#fbfaf6; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot > div { flex-direction:row-reverse; justify-content:flex-end; align-items:center; gap:9px; padding:0 18px; border-right:1px solid #e6e0d3; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot > div:first-child { padding-left:0; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot > div:last-child { padding-right:0; border-right:0; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot dt { color:#7b7466; font-size:10px; line-height:1.5; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot dd { flex:none; color:var(--journey-primary); font-size:19px; line-height:1.2; font-weight:600; }
+.app-shell.student-workspace .journey-workspace .jr-week-snapshot .is-action dd { color:var(--journey-success); }
+.app-shell.student-workspace .journey-workspace .jr-week-foot { padding:16px 20px; gap:18px; border-top:1px solid #e6ddc6; background:#f4eddc; }
+.app-shell.student-workspace .journey-workspace .jr-next-label { gap:4px; }
+.app-shell.student-workspace .journey-workspace .jr-next-label > span { font-size:9px; }
+.app-shell.student-workspace .journey-workspace .jr-next-label > .jr-next-context { font-size:13px; line-height:1.5; font-weight:500; }
+.app-shell.student-workspace .journey-workspace .jr-next-button.button { min-height:38px; padding:9px 14px; font-size:11px; }
+.app-shell.student-workspace .journey-workspace .jr-process { padding:10px 20px; border-top:1px solid #e8e1d1; background:var(--journey-card); }
+.app-shell.student-workspace .journey-workspace .jr-process > summary { min-height:24px; padding:0; font-size:10px; }
+.app-shell.student-workspace .journey-workspace .jr-process-track { display:block; width:60px; height:4px; overflow:hidden; border-radius:4px; background:#e8e3d7; }
+.app-shell.student-workspace .journey-workspace .jr-process-track > span { display:block; height:100%; border-radius:inherit; background:#b39a56; }
+@media(max-width:1100px) and (min-width:861px) { .app-shell.student-workspace .journey-workspace .jr-week-introduction { grid-template-columns:56px minmax(0,1fr); } }
+@media(max-width:640px) {
+ .app-shell.student-workspace .journey-workspace .jr-week-introduction { grid-template-columns:48px minmax(0,1fr); gap:14px; padding:20px 16px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-stamp { padding-right:10px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-stamp b { font-size:32px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-head h2 { font-size:19px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-snapshot { padding:12px 16px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-snapshot > div { flex-direction:column; align-items:flex-start; justify-content:flex-start; gap:5px; padding:0 10px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-snapshot dt { font-size:9px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-snapshot dd { font-size:17px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-foot { padding:16px; gap:12px; }
+ .app-shell.student-workspace .journey-workspace .jr-process { padding:10px 16px; }
+ .app-shell.student-workspace .journey-workspace .jr-process-track { width:32px; }
+}
+
+/* Keep the two work columns aligned and the connected timeline compact. */
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-week-reflections > .jr-reflections { margin:0; padding:0 16px; border:1px solid #e1dccf; border-radius:10px; background:var(--journey-card); }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-week-reflections > .jr-empty { margin:0; padding:20px 16px; border:1px solid #e1dccf; border-radius:10px; background:var(--journey-card); }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-reflection-meta { font-size:11px; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-card-heading h3 { gap:8px; font-size:15px; letter-spacing:0; }
+.app-shell.student-workspace .journey-workspace .jr-week-work .jr-card-heading h3 > svg { padding:6px; width:15px; height:15px; border-radius:7px; }
+@media(min-width:861px) {
+ .app-shell.student-workspace .journey-workspace .jr-week { min-height:60px; padding-block:8px; }
+ .app-shell.student-workspace .journey-workspace .jr-week-copy small { line-height:1.55; }
+ .app-shell.student-workspace .journey-workspace .jr-week-nav { top:20px; }
+}
+@media(max-width:860px) {
+ .app-shell.student-workspace .journey-workspace .jr-weeks { grid-template-columns:minmax(0,1fr); }
+}
+
+/* Week detail depth: raised cards, a raised week stamp and pressable buttons; the week list keeps its flat look. */
+.app-shell.student-workspace .journey-workspace.journey-workspace .jr-week-content :is(.jr-week-head,.jr-reflections,.jr-week-commitments .commit-row) { border:2px solid #e3d6b3; border-radius:18px; background:#fffdf6; box-shadow:0 10px 0 #dccb9c,0 22px 26px -12px #6b532066; }
+.app-shell.student-workspace .journey-workspace.journey-workspace .jr-week-content .jr-week-commitments .commit-row { margin-bottom:12px; }
+.app-shell.student-workspace .journey-workspace.journey-workspace .jr-week-content .jr-week-stamp { padding:10px 4px; border-radius:14px; background:linear-gradient(160deg,#ffd76a,#e5b23b); color:#5a4214; box-shadow:0 6px 0 #b88a1f,0 12px 16px -8px #b88a1f88; }
+.app-shell.student-workspace .journey-workspace.journey-workspace .jr-week-content .jr-week-snapshot { gap:10px; padding:14px 16px 18px; border:0; }
+.app-shell.student-workspace .journey-workspace.journey-workspace .jr-week-content .jr-week-snapshot > * { padding:8px 14px; border:2px solid #efe6cf; border-radius:14px; background:#fff; box-shadow:0 5px 0 #e2d4ad; }
+.app-shell.student-workspace .journey-workspace.journey-workspace .jr-week-content :is(.jr-next-button,.commit-row-action:not(.is-quiet)) { border-radius:14px; box-shadow:0 6px 0 #3e2d14; transform:translateY(-2px); transition:transform .12s ease,box-shadow .12s ease; }
+.app-shell.student-workspace .journey-workspace.journey-workspace .jr-week-content :is(.jr-next-button,.commit-row-action:not(.is-quiet)):active { box-shadow:0 2px 0 #3e2d14; transform:translateY(2px); }
+.app-shell.student-workspace .journey-workspace.journey-workspace .jr-week-content :is(.jr-writing-create,.jr-card-heading .jr-link) { border-radius:12px; box-shadow:0 4px 0 #dcc27a; }
+@media (prefers-reduced-motion:reduce) { .app-shell.student-workspace .journey-workspace.journey-workspace .jr-week-content :is(.jr-next-button,.commit-row-action) { transition:none; } }
+/* A larger week stamp. */
+.app-shell.student-workspace .journey-workspace.journey-workspace .jr-week-content .jr-week-introduction { grid-template-columns:88px minmax(0,1fr) 132px; gap:22px; }
+.app-shell.student-workspace .journey-workspace.journey-workspace .jr-week-content .jr-week-stamp { align-content:center; justify-items:center; text-align:center; min-height:96px; padding:12px 6px; border-radius:18px; box-shadow:0 7px 0 #b88a1f,0 14px 18px -8px #b88a1f88; }
+.app-shell.student-workspace .journey-workspace.journey-workspace .jr-week-content .jr-week-stamp small { font-size:11px; font-weight:700; letter-spacing:.12em; }
+.app-shell.student-workspace .journey-workspace.journey-workspace .jr-week-content .jr-week-stamp b { font-size:42px; line-height:1; }
+@media(max-width:1100px) and (min-width:861px) { .app-shell.student-workspace .journey-workspace.journey-workspace .jr-week-content .jr-week-introduction { grid-template-columns:88px minmax(0,1fr); } }
+@media(max-width:860px) and (min-width:641px) { .app-shell.student-workspace .journey-workspace.journey-workspace .jr-week-content .jr-week-introduction { grid-template-columns:80px minmax(0,1fr) 110px; gap:16px; } }
+@media(max-width:860px) {
+ .app-shell.student-workspace .journey-workspace.journey-workspace .jr-week-content .jr-week-stamp { min-height:76px; border-radius:14px; }
+ .app-shell.student-workspace .journey-workspace.journey-workspace .jr-week-content .jr-week-stamp b { font-size:32px; }
+}
+@media(max-width:640px) {
+ .app-shell.student-workspace .journey-workspace.journey-workspace .jr-week-content .jr-week-introduction { grid-template-columns:68px minmax(0,1fr); gap:14px; }
+ .app-shell.student-workspace .journey-workspace.journey-workspace .jr-week-content .jr-week-stamp { min-height:76px; border-radius:14px; }
+ .app-shell.student-workspace .journey-workspace.journey-workspace .jr-week-content .jr-week-stamp b { font-size:32px; }
+}

@@ -2,7 +2,8 @@ import english from './translations.en.json' with { type: 'json' };
 
 export type Language = 'en' | 'vi';
 export const languageCookie = 'thinkup-language';
-export function resolveLanguage(value: unknown): Language { return value === 'en' ? 'en' : 'vi'; }
+// English unless the visitor has chosen Vietnamese; the choice is kept in the language cookie.
+export function resolveLanguage(value: unknown): Language { return value === 'vi' ? 'vi' : 'en'; }
 const dictionary: Record<string, string> = english;
 const vietnamese = Object.fromEntries(Object.entries(dictionary).map(([vi, en]) => [en, vi]));
 export function translate(text: string, language: Language, parameters: readonly unknown[] = []): string {

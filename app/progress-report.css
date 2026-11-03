@@ -1,0 +1,173 @@
+/* Detailed progress reports: a clear disclosure, open sections and readable data. */
+.app-shell.student-workspace .progress-journal.pg .pg-report { border:0; border-radius:0; background:transparent; scroll-margin-top:90px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report > summary { display:flex; align-items:center; gap:16px; padding:22px 24px; border:1px solid #d8c7a1; border-radius:12px; background:#f7f2e6; color:#70562f; list-style:none; cursor:pointer; }
+.app-shell.student-workspace .progress-journal.pg .pg-report > summary:hover { background:#eeede8; }
+.app-shell.student-workspace .progress-journal.pg .pg-report > summary:focus-visible { outline:2px solid #a88938; outline-offset:4px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report > summary > svg { flex:none; }
+.app-shell.student-workspace .progress-journal.pg .pg-report-summary-copy { display:grid; gap:5px; min-width:0; }
+.app-shell.student-workspace .progress-journal.pg .pg-report-summary-copy b { font-size:17px; line-height:1.5; font-weight:600; }
+.app-shell.student-workspace .progress-journal.pg .pg-report-summary-copy small { color:#7d725d; font-size:12px; line-height:1.6; font-weight:400; }
+.app-shell.student-workspace .progress-journal.pg .pg-report > summary > svg:last-child { margin-left:auto; color:#8a7448; transition:transform .18s ease; }
+.app-shell.student-workspace .progress-journal.pg .pg-report[open] > summary { border:1px solid #cbb78d; }
+.app-shell.student-workspace .progress-journal.pg .pg-report[open] > summary > svg:last-child { transform:rotate(180deg); }
+.app-shell.student-workspace .progress-journal.pg .pg-report .progress-advanced-content { gap:26px; padding:26px 24px 0; }
+.app-shell.student-workspace .progress-journal.pg .pg-report-toolbar { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report-toolbar h2 { display:flex; align-items:center; gap:10px; margin:0; color:#6c512f; font-size:21px; line-height:1.5; font-weight:600; }
+.app-shell.student-workspace .progress-journal.pg .pg-report-toolbar .progress-export { min-height:38px; padding:8px 12px; border:1px solid #d8c7a1; border-radius:7px; background:#fff; color:#70562f; font-size:12px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report-toolbar .progress-export:hover { background:#eeede8; transform:none; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-label { gap:11px; margin:0 0 22px; color:#57462f; font-size:20px; font-weight:600; line-height:1.5; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-label > svg { flex:none; color:#987b42; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-label::after { display:block; min-width:16px; background:#e5dfd1; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-count { background:#f3eedf; color:#7b663e; font-size:12px; font-weight:500; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-ledgers { grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr); gap:28px; padding:0; border:0; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-course-list { padding:4px 16px; border-radius:8px; background:#f5f7f3; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-course { grid-template-columns:minmax(0,1fr) auto; gap:10px 12px; padding:16px 0; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-course-copy { grid-column:1/-1; gap:8px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-course-copy small { color:#66715d; font-size:12px; font-weight:600; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-course-copy b { white-space:normal; color:#45493e; font-size:15px; line-height:1.8; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-course-weeks { gap:5px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-course-weeks > i { width:8px; height:8px; border:1px solid #cdd6c7; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-course-weeks > i.complete { border-color:#87a48b; background:#87a48b; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-course-count b { color:#52715a; font-size:16px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report :is(.growth-course-list,.growth-portfolio) > li + li { border-top:1px solid #e5e7df; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-portfolio-row { gap:14px; padding:18px 8px; border-radius:7px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-portfolio-row:is(:hover,:focus-visible) { background:#eeede8; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-portfolio-week { color:#8a7448; background:#f7f2e6; font-size:11px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-portfolio-copy b { color:#4d463b; font-size:14px; line-height:1.75; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-portfolio-copy > span { color:#70695f; font-size:12px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .book-status { font-size:11px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-sheet { padding:26px 0 0; border:0; border-top:1px solid #e5dfd1; border-radius:0; background:transparent; box-shadow:none; animation:none; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-reflection { grid-template-columns:minmax(0,1fr) 250px; gap:28px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-level line { stroke:#e5dfd1; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-line { stroke:#ae8c43; stroke-width:3; animation:none; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-area { fill:#f4ead0; animation:none; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-dot { fill:#8b713f; stroke:#fff; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-point { animation:none; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-point-halo { fill:#dcc175; opacity:.2; animation:none; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-weeks > button { min-width:0; min-height:32px; border-radius:6px; font-size:11px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-weeks > button[aria-pressed="true"] { color:#70562f; background:#f3e6c5; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-weeks > button:hover:not(:disabled) { background:#eeede8; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-caption { border-top:1px solid #e5dfd1; font-size:12px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-caption-links .text-button { font-size:12px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-now { padding-left:22px; border-left:1px solid #e5dfd1; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-now .growth-label { font-size:16px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-now-value b { color:#70562f; font-size:40px; font-weight:600; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-now-name { font-size:14px; font-weight:500; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-note { margin:20px 0 0; padding:16px; border:0; border-radius:8px; background:#f7f3e8; box-shadow:none; transform:none; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-note::before { display:none; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-note blockquote { display:block; -webkit-line-clamp:unset; color:#665c4d; font-size:14px; font-style:normal; line-height:1.9; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-note .text-button { font-size:12px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-criteria-body { grid-template-columns:240px minmax(0,1fr); gap:28px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-radar { max-width:240px; padding:14px; border-radius:10px; background:#f5f7f3; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-radar-shape { fill:#dcc17540; stroke:#ad8d49; animation:none; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-radar-dot { fill:#8b713f; animation:none; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-criteria-list > li { gap:12px; border-bottom:1px solid #ece7de; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-criterion-copy b { font-size:15px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-criterion-copy small { font-size:12px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-track { height:7px; background:#f0eee8; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-track > span { background:var(--criterion-color); animation:none; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .growth-criterion-score b { font-size:22px; font-weight:600; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .learning-analytics { padding:26px 0 0; border:0; border-top:1px solid #e5dfd1; border-radius:0; background:transparent; box-shadow:none; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .learning-analytics > h3 { margin:0 0 14px; color:#57462f; font-size:20px; font-weight:600; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .learning-analytics p { font-size:14px; line-height:1.85; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .learning-analytics .muted { color:#70695f; font-size:12px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .table-scroll { min-width:0; max-width:100%; border:1px solid #e5dfd1; border-radius:8px; overflow-x:auto; }
+.app-shell.student-workspace .progress-journal.pg .pg-report table { width:100%; margin:0; border-collapse:collapse; font-size:13px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report :is(th,td) { padding:13px 16px; border-bottom:1px solid #ece7de; text-align:right; white-space:nowrap; }
+.app-shell.student-workspace .progress-journal.pg .pg-report th { background:#f6f2e8; color:#67583e; font-size:12px; font-weight:600; }
+.app-shell.student-workspace .progress-journal.pg .pg-report :is(th,td):first-child { min-width:160px; text-align:left; white-space:normal; }
+.app-shell.student-workspace .progress-journal.pg .pg-report td:nth-child(2) { color:#52715a; font-weight:600; }
+.app-shell.student-workspace .progress-journal.pg .pg-report tbody tr:last-child td { border-bottom:0; }
+.app-shell.student-workspace .progress-journal.pg .pg-report tbody tr:hover { background:#f4f4f1; }
+.app-shell.student-workspace .progress-journal.pg .pg-report td .text-button { white-space:normal; text-align:left; font-size:13px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .report-disclosure { margin-top:16px; padding:0; border:0; border-top:1px solid #e5dfd1; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .report-disclosure > summary { padding:16px 12px; color:#57462f; font-size:15px; line-height:1.6; font-weight:600; cursor:pointer; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .report-disclosure > summary:hover { background:#eeede8; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .report-disclosure[open] > summary { margin-bottom:14px; background:#f6f2e8; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .report-action-summary { padding:14px 16px; border:0; border-radius:7px; background:#eef4ef; color:#52715a; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .report-disclosure .field { font-size:13px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report .report-disclosure select { min-height:38px; font-size:13px; }
+@media(max-width:860px) {
+ .app-shell.student-workspace .progress-journal.pg .pg-report .growth-ledgers { grid-template-columns:minmax(0,1fr); }
+ .app-shell.student-workspace .progress-journal.pg .pg-report .growth-reflection { grid-template-columns:minmax(0,1fr); }
+ .app-shell.student-workspace .progress-journal.pg .pg-report .growth-now { padding:20px 0 0; border-left:0; border-top:1px solid #e5dfd1; }
+ .app-shell.student-workspace .progress-journal.pg .pg-report .growth-criteria-body { grid-template-columns:minmax(0,1fr); }
+}
+@media(max-width:640px) {
+ .app-shell.student-workspace .progress-journal.pg .pg-report > summary { gap:12px; padding:18px 16px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-report-summary-copy b { font-size:14px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-report-summary-copy small { font-size:11px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-report .progress-advanced-content { padding:22px 8px 0; gap:22px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-report .growth-label { font-size:16px; flex-wrap:wrap; }
+ .app-shell.student-workspace .progress-journal.pg .pg-report .growth-label::after { display:none; }
+ .app-shell.student-workspace .progress-journal.pg .pg-report .growth-portfolio-row { grid-template-columns:30px minmax(0,1fr); gap:8px; padding:12px 4px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-report .growth-portfolio-row .book-status { grid-column:2; justify-self:start; }
+ .app-shell.student-workspace .progress-journal.pg .pg-report .growth-portfolio-copy > span { display:flex; flex-wrap:wrap; }
+ .app-shell.student-workspace .progress-journal.pg .pg-report .growth-criteria-list > li { grid-template-columns:24px minmax(0,1fr) auto; gap:8px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-report .growth-criterion-copy b { font-size:12px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-report .growth-criterion-score b { font-size:20px; }
+}
+
+/* One report, five focused views. Tabs share the workspace's brown and gold. */
+.app-shell.student-workspace .progress-journal.pg .student-page-title { align-items:center; }
+.app-shell.student-workspace .progress-journal.pg .student-page-title p { margin:8px 0 0; color:#70695f; font-size:14px; line-height:1.7; }
+.app-shell.student-workspace .progress-journal.pg .student-page-title .progress-export { display:inline-flex; align-items:center; gap:8px; min-height:40px; padding:9px 14px; border:1px solid #d8c7a1; border-radius:8px; background:#fff; color:#70562f; font-size:12px; box-shadow:none; }
+.app-shell.student-workspace .progress-journal.pg .student-page-title .progress-export:hover { background:#f0efeb; transform:none; }
+.app-shell.student-workspace .progress-journal.pg .pg-tabs { display:flex; gap:12px 26px; min-width:0; padding:0 2px; overflow-x:auto; border-bottom:1px solid #e5dfd1; scrollbar-width:thin; scroll-margin-top:90px; }
+.app-shell.student-workspace .progress-journal.pg .pg-tabs > button { position:relative; display:inline-flex; align-items:center; justify-content:center; flex:none; gap:9px; min-height:56px; padding:10px 3px 16px; border:0; border-radius:0; background:transparent; color:#82796b; font-size:14px; line-height:1.6; font-weight:500; white-space:nowrap; transition:color .15s ease; }
+.app-shell.student-workspace .progress-journal.pg .pg-tabs > button::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; border-radius:3px 3px 0 0; background:transparent; }
+.app-shell.student-workspace .progress-journal.pg .pg-tabs > button.is-active { color:#70532c; font-weight:600; }
+.app-shell.student-workspace .progress-journal.pg .pg-tabs > button.is-active::after { background:#b99a48; }
+.app-shell.student-workspace .progress-journal.pg .pg-tabs > button:hover { color:#5c4930; background:#f3f2ef; }
+.app-shell.student-workspace .progress-journal.pg .pg-tabs > button:focus-visible { outline:2px solid #a88938; outline-offset:-3px; border-radius:4px; }
+.app-shell.student-workspace .progress-journal.pg .pg-tab-panel { display:grid; gap:28px; min-width:0; align-content:start; }
+.app-shell.student-workspace .progress-journal.pg .pg-tab-panel[hidden] { display:none; }
+.app-shell.student-workspace .progress-journal.pg .pg-summary-layout .pg-path { display:grid; grid-template-columns:repeat(9,minmax(0,1fr)); }
+.app-shell.student-workspace .progress-journal.pg .pg-tab-panel:focus-visible { outline:2px solid #d8c7a1; outline-offset:6px; }
+.app-shell.student-workspace .progress-journal.pg .pg-report > :is(.growth-sheet,.learning-analytics):first-child { padding-top:0; margin-top:0; border-top:0; }
+.app-shell.student-workspace .progress-journal.pg .pg-report > .pg-skill-section { padding-top:0; border-top:0; }
+.app-shell.student-workspace .progress-journal.pg .pg-report > .learning-analytics { margin:0; }
+.app-shell.student-workspace .progress-journal.pg .pg-report > .learning-analytics:first-child > .report-disclosure:first-child { margin:0; border-top:0; }
+.app-shell.student-workspace .progress-journal.pg .pg-report-link { display:flex; align-items:center; gap:12px; width:100%; padding:17px 20px; border:1px solid #ded1b6; border-radius:9px; background:#faf6ec; color:#70562f; font-size:13px; font-weight:500; text-align:left; }
+.app-shell.student-workspace .progress-journal.pg .pg-report-link > svg { flex:none; }
+.app-shell.student-workspace .progress-journal.pg .pg-report-link > svg:last-child { margin-left:auto; }
+.app-shell.student-workspace .progress-journal.pg .pg-report-link:hover { background:#f0efeb; }
+.app-shell.student-workspace .progress-journal.pg .pg-streak-summary { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px 32px; padding:28px 32px; border:1px solid #e4d6b5; border-radius:12px; background:#fbf7ed; }
+.app-shell.student-workspace .progress-journal.pg .pg-streak-lead { display:flex; align-items:center; gap:18px; }
+.app-shell.student-workspace .progress-journal.pg .pg-streak-icon { display:grid; place-items:center; flex:none; width:56px; height:56px; border-radius:50%; background:#f0e3bb; color:#92702b; }
+.app-shell.student-workspace .progress-journal.pg .pg-streak-lead span { color:#79643d; font-size:16px; }
+.app-shell.student-workspace .progress-journal.pg .pg-streak-lead p { display:flex; align-items:baseline; gap:9px; margin:0; color:#6d5730; font-size:14px; }
+.app-shell.student-workspace .progress-journal.pg .pg-streak-lead p b { font-size:42px; line-height:1.4; font-weight:600; }
+.app-shell.student-workspace .progress-journal.pg .pg-streak-summary > p { margin:4px 0 0 74px; color:#70695f; font-size:13px; line-height:1.8; }
+.app-shell.student-workspace .progress-journal.pg .pg-streak-total { grid-column:2; grid-row:1/3; display:grid; align-content:center; gap:4px; padding-left:32px; border-left:1px solid #e7dcc3; text-align:center; }
+.app-shell.student-workspace .progress-journal.pg .pg-streak-total > b { color:#52715a; font-size:32px; font-weight:600; line-height:1.4; }
+.app-shell.student-workspace .progress-journal.pg .pg-streak-total small { color:#999080; font-size:17px; font-weight:400; }
+.app-shell.student-workspace .progress-journal.pg .pg-streak-total > span { color:#70695f; font-size:13px; }
+.app-shell.student-workspace .progress-journal.pg .pg-activity-weeks { display:grid; grid-template-columns:repeat(9,minmax(0,1fr)); gap:0; margin:20px 0 16px; padding:18px 8px; border-radius:9px; background:#f7f7f3; list-style:none; }
+.app-shell.student-workspace .progress-journal.pg .pg-activity-weeks > li { display:flex; flex-direction:column; align-items:center; gap:3px; min-width:0; padding:8px 4px; text-align:center; }
+.app-shell.student-workspace .progress-journal.pg .pg-activity-weeks > li + li { border-left:1px solid #e7e6dd; }
+.app-shell.student-workspace .progress-journal.pg .pg-activity-weeks > li > span:first-child { color:#5d5548; font-size:13px; font-weight:500; }
+.app-shell.student-workspace .progress-journal.pg .pg-activity-weeks i { display:grid; place-items:center; width:36px; height:36px; margin:10px 0; border-radius:50%; background:#eae8e1; color:#a29b8d; font-size:14px; font-style:normal; }
+.app-shell.student-workspace .progress-journal.pg .pg-activity-weeks .is-done i { background:#e1ece2; color:#52715a; }
+.app-shell.student-workspace .progress-journal.pg .pg-activity-weeks .is-now i { background:#e9cf83; color:#70562f; }
+.app-shell.student-workspace .progress-journal.pg .pg-activity-weeks b { color:#574c3a; font-size:24px; font-weight:600; line-height:1.4; }
+.app-shell.student-workspace .progress-journal.pg .pg-activity-weeks small { color:#70695f; font-size:12px; }
+.app-shell.student-workspace .progress-journal.pg .pg-activity-status { margin-top:9px; color:#7c7466; font-size:12px; line-height:1.6; }
+.app-shell.student-workspace .progress-journal.pg .is-done .pg-activity-status { color:#52715a; }
+.app-shell.student-workspace .progress-journal.pg .is-now .pg-activity-status { color:#92702b; }
+@media(max-width:860px) {
+ .app-shell.student-workspace .progress-journal.pg .pg-tabs { gap:20px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-tabs > button { font-size:13px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-activity-weeks { grid-template-columns:repeat(3,minmax(0,1fr)); row-gap:12px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-activity-weeks > li:nth-child(3n+1) { border-left:0; }
+}
+@media(max-width:640px) {
+ .app-shell.student-workspace .progress-journal.pg .pg-tabs { gap:20px; margin-top:-4px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-tabs > button { min-height:50px; padding-bottom:13px; font-size:12px; gap:7px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-tab-panel { gap:24px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-report-link { padding:15px; font-size:12px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-streak-summary { grid-template-columns:minmax(0,1fr); padding:22px 20px; gap:12px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-streak-lead { gap:12px; }
+ .app-shell.student-workspace .progress-journal.pg .pg-streak-summary > p { margin:0; }
+ .app-shell.student-workspace .progress-journal.pg .pg-streak-total { grid-column:auto; grid-row:auto; grid-template-columns:auto 1fr; gap:12px; align-items:center; margin-top:4px; padding:14px 0 0; border-left:0; border-top:1px solid #e7dcc3; text-align:left; }
+}

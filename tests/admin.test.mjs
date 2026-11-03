@@ -49,7 +49,7 @@ test('role permissions revoke capabilities, preserve role boundaries and protect
 });
 
 test('admin workspace exposes management and personal messages in both languages',()=>{
-  for(const language of ['en','vi'])for(const {key:section} of adminPages.filter(p=>p.key!=='messages')){
+  for(const language of ['en','vi'])for(const {key:section} of adminPages.filter(p=>p.key!=='messages'&&p.key!=='community')){
     const query={course:undefined,role:'lecturer'};
     const html=renderToStaticMarkup(createElement(AdminWorkspace,{initialData:adminData,initialLanguage:language,section,query}));
     const header=html.match(/<header class="sidebar">[\s\S]*?<\/header>/)?.[0]||'';
@@ -57,7 +57,7 @@ test('admin workspace exposes management and personal messages in both languages
     assert.match(header,/<a class="brand" href="\/admin\/users"/);
     assert.doesNotMatch(header,/<nav|course-picker/);
     assert.match(header,/class="workspace-menu-toggle"[^>]*aria-controls="[^"]+" aria-expanded="false"/);
-    assert.equal((aside.match(/<a /g)||[]).length,4);
+    assert.equal((aside.match(/<a /g)||[]).length,5);
     assert.equal((aside.match(/aria-current="page"/g)||[]).length,1);
     for(const page of adminPages)assert.ok(aside.includes(`href="${adminHref(page.key,query).replaceAll('&','&amp;')}"`));
     assert.doesNotMatch(html,/\/admin\/(overview|submissions|progress|similarity)|\/lecturer|course-picker|lx-scope-controls|nav-count/);
@@ -66,7 +66,7 @@ test('admin workspace exposes management and personal messages in both languages
 });
 
 test('admin pages have distinct routes with relevant, safely encoded filters',()=>{
-  assert.deepEqual(adminPages.map(p=>p.key),['users','courses','settings','messages']);
+  assert.deepEqual(adminPages.map(p=>p.key),['users','courses','settings','community','messages']);
   for(const page of adminPages)assert.equal(adminHref(page.key),`/admin/${page.key}`);
   assert.equal(adminHref('users',{role:'lecturer',course:'ignored',reflection:'ignored'}),'/admin/users?role=lecturer');
   assert.equal(adminHref('users',{role:'invalid'}),'/admin/users');

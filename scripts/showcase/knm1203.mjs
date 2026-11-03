@@ -15,7 +15,7 @@ export default [
   so:'Tôi thấy áy náy ngay sau khi gửi tin. Tôi sợ góp ý thật sẽ làm Hà buồn và ảnh hưởng tình bạn. Nhưng cũng chính vì thân, tôi biết Hà sẽ khó chịu hơn nếu cả nhóm bị trừ điểm vì phần của bạn.',
   now:'Tôi nhầm giữa tử tế và dễ dãi. Góp ý thật lòng, cụ thể và đúng lúc mới là cách tôn trọng người khác.',
   act:'Sáng mai tôi sẽ gọi cho Hà, nói rõ hai chỗ cần thêm số liệu kèm ví dụ cách trình bày, và đề nghị cùng sửa trong 30 phút.'},
- {s:'minh-anh',w:4,st:'final*',sc:[7,6.8,6.9,7],k:3,t:'Vì sao buổi tập dượt bị kéo dài',
+ {s:'minh-anh',w:4,st:'final*',sc:[8.2,8.4,8,8.3],k:4,t:'Vì sao buổi tập dượt bị kéo dài',
   what:'Buổi tập dượt dự kiến 45 phút nhưng kéo dài gần hai tiếng. Mỗi lần có người nói sai, cả nhóm dừng lại góp ý ngay, và phần của Hà bị ngắt bốn lần.',
   so:'Tôi đã nghĩ nguyên nhân là mọi người chưa thuộc bài. Khi xem lại, tôi thấy nhóm không có quy tắc góp ý: ai thấy gì nói nấy, không ai giữ thời gian. Hà sau đó nói bạn càng bị ngắt càng run.',
   now:'Cách nhóm tổ chức góp ý có thể làm buổi tập kém hiệu quả hơn chính lỗi của người thuyết trình. Góp ý cần có thời điểm và người điều phối.',

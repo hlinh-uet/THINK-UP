@@ -4,6 +4,7 @@ import { useState } from 'react';
 import type { Action, Course, Criterion, Data, Reflection, User } from '../lib/domain';
 import { classAnalytics } from '../lib/learning-analytics';
 import { weeklyClassProgress } from '../lib/lecturer-pages';
+import {actionCompletedLate,actionOverdue} from '../lib/commitment-deadline';
 import { learnerProgress } from '../lib/progress';
 import { demoText } from '../lib/demo-i18n';
 import { translate, type Language } from '../lib/i18n';
@@ -12,7 +13,7 @@ import LecturerActions, { planLabels } from './LecturerActions';
 import { Empty, Metrics, Section, Tabbed } from './LecturerKit';
 
 type Props={language:Language;courses:Course[];students:User[];memberships:Data['memberships'];reflections:Reflection[];actions:Action[];
-  rubric:Criterion[];detailHref:(id:string)=>string;studentHref:(id:string)=>string};
+  initialTab?:string;rubric:Criterion[];detailHref:(id:string)=>string;studentHref:(id:string)=>string};
 const hints:Record<string,string>={
   reflectionDepth:'Thêm câu hỏi “vì sao” và yêu cầu sinh viên xem xét giả định ban đầu trước khi kết luận.',
   evidenceContext:'Yêu cầu nêu một tình huống cụ thể: ai, khi nào, điều gì đã xảy ra, kèm một chi tiết hoặc sản phẩm làm căn cứ.',
@@ -20,11 +21,11 @@ const hints:Record<string,string>={
   actionPlan:'Hướng dẫn viết kế hoạch theo SMART: việc làm cụ thể, thời hạn và cách tự kiểm tra kết quả.',
 };
 
-export default function LecturerAnalytics({language,courses,students,memberships,reflections,actions,rubric,detailHref,studentHref}:Props){
+export default function LecturerAnalytics({language,courses,students,memberships,reflections,actions,rubric,detailHref,studentHref,initialTab}:Props){
   const tr=(text:string,args:readonly unknown[]=[])=>translate(text,language,args);
   const weeks=weeklyClassProgress(reflections,memberships.filter(m=>m.role==='student'));
   const summary=classAnalytics(reflections,actions,rubric),progress=learnerProgress(reflections);
-  const [split,setSplit]=useState(4),[openWeak,setOpenWeak]=useState('');
+  const [split,setSplit]=useState(4),[openWeak,setOpenWeak]=useState(''),[tab,setTab]=useState(initialTab==='actions'?'actions':'weeks');
   const early=classAnalytics(reflections.filter(r=>r.week<=split),[],rubric),late=classAnalytics(reflections.filter(r=>r.week>split),[],rubric);
   const weak=rubric.map(c=>{
     const scored=students.map(user=>({user,avg:learnerProgress(reflections.filter(r=>r.userId===user.id)).criteria.find(x=>x.key===c.key)?.average??null})).filter(v=>v.avg!==null);
@@ -38,7 +39,7 @@ export default function LecturerAnalytics({language,courses,students,memberships
       {label:tr('Bài đã hoàn tất'),value:summary.graded,of:summary.articles,note:tr('Trên tổng số bài đã nộp')},
       {label:tr('Điểm cuối trung bình'),value:progress.average?.toFixed(2)??'—',of:10},
     ]}/>
-    <Tabbed label={tr('Phân tích lớp')} tabs={[
+    <Tabbed activeKey={tab} onChange={setTab} label={tr('Phân tích lớp')} tabs={[
       {key:'weeks',label:tr('Nhịp nộp bài'),content:<Section title={tr('Chín tuần, nhìn trong một trang')}>
         <p className="lx-muted">{tr('Theo dõi số sinh viên đã nộp bài và số bài còn chờ đánh giá theo từng tuần.')}</p>
         <div className="lx-table-wrap"><table className="lx-table lx-weekly-table">
@@ -85,7 +86,8 @@ export default function LecturerAnalytics({language,courses,students,memberships
           <p className="lx-muted">{tr('Theo dõi việc thực hiện cam kết sau mỗi bài reflection.')}</p>
           <ul className="lx-bars">{Object.entries(planLabels).map(([key,label])=><li key={key}><span>{tr(label)}</span><span className="lx-bar"><i className={`is-${key}`} style={{width:`${actions.length?actions.filter(a=>a.status===key).length/actions.length*100:0}%`}}/></span><b>{actions.filter(a=>a.status===key).length}</b></li>)}</ul>
         </Section>
-        <details className="lx-analysis-detail"><summary><span><b>{tr('Xem từng cam kết')}</b><small>{tr('Mở bài nguồn để đọc bối cảnh và kết quả thực hiện.')}</small></span><UiIcon name="chevron" size={18}/></summary><div className="lx-analysis-detail-body"><LecturerActions actions={actions} reflections={reflections} users={students} language={language} detailHref={detailHref} limit={6}/></div></details>
+        <div className="lx-action-timing"><span><b>{actions.filter(a=>actionOverdue(a)).length}</b>{tr('Quá hạn')}</span><span><b>{actions.filter(a=>actionCompletedLate(a)).length}</b>{tr('Hoàn thành muộn')}</span></div>
+        <Section title={tr('Theo dõi cam kết của sinh viên')}><LecturerActions actions={actions} reflections={reflections} users={students} language={language} detailHref={detailHref} limit={6}/></Section>
       </div>},
     ]}/>
   </div>;

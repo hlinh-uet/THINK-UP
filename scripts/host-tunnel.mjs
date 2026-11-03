@@ -31,7 +31,7 @@ export function publicFetch(url, { timeout = 8000 } = {}) {
   });
 }
 
-async function launchTunnel(command, args, pattern, { signal, onExit }) {
+async function launchTunnel(command, args, pattern, { signal, onExit, origin: fixedOrigin }) {
   let child, closing = false, closePromise, output = '', accepted = false;
   function close() {
     return closePromise ??= (async () => {
@@ -55,7 +55,7 @@ async function launchTunnel(command, args, pattern, { signal, onExit }) {
       for (const stream of [child.stdout, child.stderr]) stream.on('data', chunk => {
         output = (output + chunk).slice(-8000);
         const match = output.match(pattern);
-        if (match) done(null, match[0]);
+        if (match) done(null, fixedOrigin || match[0]);
       });
       child.once('error', error => done(error));
       child.once('exit', code => done(new Error(`Tunnel kết thúc (${code}). ${output.slice(-500)}`)));
@@ -90,10 +90,13 @@ async function verifyTunnel(tunnel, gateway, signal, waitSeconds) {
   throw new Error(`Chưa truy cập được link HTTPS sau ${waitSeconds} giây (${failure}).`);
 }
 
-export async function startPublicTunnel(gateway, { root, signal, onExit, log = console.log } = {}) {
+export async function startPublicTunnel(gateway, { root, signal, onExit, log = console.log, namedTunnel, fixedOrigin } = {}) {
   const localOrigin = `http://127.0.0.1:${gateway.port}`;
   const options = { signal, onExit };
-  const attempts = [
+  // A named tunnel keeps one fixed address; never fall back to a temporary link that would change it.
+  const attempts = namedTunnel ? [
+    { name: 'Cloudflare Tunnel', command: process.env.CLOUDFLARED_PATH || 'cloudflared', args: ['tunnel', '--no-autoupdate', '--protocol', 'http2', 'run', '--url', localOrigin, namedTunnel], pattern: /Registered tunnel connection/i, origin: fixedOrigin, wait: 60 },
+  ] : [
     { name: 'Cloudflare', command: process.env.CLOUDFLARED_PATH || 'cloudflared', args: ['tunnel', '--no-autoupdate', '--protocol', 'http2', '--url', localOrigin], pattern: /https:\/\/[a-z0-9-]+\.trycloudflare\.com\b/, wait: 90 },
     { name: 'localhost.run', command: 'ssh', args: ['-T', '-o', 'BatchMode=yes', '-o', 'PreferredAuthentications=none', '-o', 'IdentityAgent=none', '-o', 'IdentityFile=none', '-o', 'StrictHostKeyChecking=accept-new', '-o', `UserKnownHostsFile=${resolve(root, '.wrangler/tunnel-known-hosts')}`, '-o', 'ConnectTimeout=15', '-o', 'ServerAliveInterval=30', '-o', 'ServerAliveCountMax=3', '-o', 'ExitOnForwardFailure=yes', '-R', `80:127.0.0.1:${gateway.port}`, 'nokey@localhost.run'], pattern: /https:\/\/(?!admin\.|www\.)[a-z0-9-]+\.(?:lhr\.life|localhost\.run)\b/, wait: 30 },
   ];
@@ -104,7 +107,7 @@ export async function startPublicTunnel(gateway, { root, signal, onExit, log = c
     let tunnel;
     try {
       log(`Đang mở HTTPS qua ${attempt.name}…`);
-      tunnel = await launchTunnel(attempt.command, attempt.args, attempt.pattern, options);
+      tunnel = await launchTunnel(attempt.command, attempt.args, attempt.pattern, { ...options, origin: attempt.origin });
       await verifyTunnel(tunnel, gateway, signal, attempt.wait);
       tunnel.accept();
       return { ...tunnel, provider: attempt.name };

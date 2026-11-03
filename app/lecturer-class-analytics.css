@@ -1,0 +1,98 @@
+/* Class management: an editorial, restrained report. Serif figures, hairline rules and one bronze accent. */
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-metrics { gap:0; padding:26px 0 30px; margin-bottom:6px; border:0; border-top:1px solid #1f2328; border-bottom:1px solid #e4e0d6; border-radius:0}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-metric { padding:0 32px; border-color:#e4e0d6}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-metric:first-child { padding-left:0}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-metric-label { order:2; margin-top:6px; font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:#7b776d}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-metric { display:flex; flex-direction:column}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-metric-value { order:1}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-metric small { order:3; font-size:12px; color:#9a958a; font-style:italic}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-metric-value b { font:400 52px/1 Georgia,'Times New Roman',serif; letter-spacing:-1.5px; color:#1f2328}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-metric-value>span { font:400 16px Georgia,serif; color:#9a958a}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-tabbed>.lx-tabs { gap:30px; border-bottom:1px solid #e4e0d6; margin:18px 0 26px}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-tabbed>.lx-tabs button { padding:12px 0; border:0; border-bottom:2px solid transparent; border-radius:0; background:none; font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:#8a857a; box-shadow:none}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-tabbed>.lx-tabs button[aria-pressed=true] { color:#1f2328; border-bottom-color:#1f2a3d}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-tabbed>.lx-tabs button span { background:none; color:#1f2a3d; font-weight:700; padding:0 0 0 4px}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-section { border:0; border-radius:0; background:transparent; box-shadow:none; padding:0}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-section-head h2 { font:400 26px/1.2 Georgia,serif; color:#1f2328; letter-spacing:-.3px}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-section>.lx-muted { font-style:italic; color:#7b776d; margin-bottom:18px}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-table thead th { font-size:10.5px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:#8a857a; border-bottom:1px solid #1f2328; background:none}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-table td { border-color:#ece8df; padding-top:15px; padding-bottom:15px}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-week-index { font:italic 400 20px Georgia,serif; color:#8a857a}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-weekly-track { height:4px; border-radius:0; background:#ece8df}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-weekly-track i { border-radius:0; background:#b9c2d0}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-weekly-track i.is-final { background:#1f2a3d}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-weekly-progress>span { font:400 15px Georgia,serif; color:#1f2328}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-table td.is-num { font:400 16px Georgia,serif; color:#1f2328}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-pending-count { background:none; color:#9c5a1a; font:italic 400 16px Georgia,serif; padding:0; min-width:0; height:auto; box-shadow:none; display:inline-flex; align-items:center}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-pending-count::before { content:''; display:inline-block; width:6px; height:6px; margin:0 7px 2px 0; border-radius:50%; background:#c27a2c; vertical-align:middle}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-legend i.is-submitted { background:#b9c2d0; border-radius:0}.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-legend i.is-final{background:#1f2a3d; border-radius:0}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-legend,.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-footnote { font-size:12px; color:#8a857a; font-style:italic}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-analysis-context { font-style:italic; color:#7b776d}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-metric-label::before { content:''; display:inline-block; width:18px; height:2px; margin:0 8px 3px 0; background:#b0832d; vertical-align:middle}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-metric:first-child .lx-metric-value b { color:#1f2a3d}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-tabbed>.lx-tabs button[aria-pressed=true] { border-bottom-color:#b0832d}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-tabbed>.lx-tabs button span { color:#b0832d}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-section-head h2::before { content:''; display:block; width:32px; height:2px; margin-bottom:12px; background:#b0832d}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-table tbody tr:hover td { background:#faf7ef}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-table td.is-num:last-child { color:#7a5a24; font-style:italic}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-tabs.is-compact { gap:6px; flex-wrap:wrap; border:0; margin:4px 0 10px; padding:0; background:none}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-tabs.is-compact button { padding:6px 12px; border:1px solid #e4e0d6; border-radius:99px; background:none; font-size:13px; font-weight:500; letter-spacing:0; text-transform:none; color:#5d5a52; box-shadow:none}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-tabs.is-compact button span { margin-left:6px; padding:0; background:none; color:#9a958a; font-weight:600}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-tabs.is-compact button[aria-pressed=true] { border-color:#1f2328; background:#1f2328; color:#fff}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-tabs.is-compact button[aria-pressed=true] span { color:#e9c97f}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-tabs.is-compact button.is-overdue span { color:#9c3b2a}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-criteria-table td.is-num { white-space:nowrap}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-criteria-table td.is-num b { font:400 20px Georgia,serif; color:#1f2328}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-title-cell b { font:400 17px Georgia,serif; color:#1f2328}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-title-cell small { font-style:italic; color:#8a857a}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-dist { gap:2px; height:22px; border-radius:0; background:none}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-dist i { border-radius:0; font-size:11px; font-style:normal; font-weight:600; color:#1f2328}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-dist i.is-l1 { background:#ece8df}.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-dist i.is-l2{background:#cfd5de}.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-dist i.is-l3{background:#8a96ab; color:#fff}.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-dist i.is-l4{background:#1f2a3d; color:#fff}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-legend i.is-l1 { background:#ece8df}.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-legend i.is-l2{background:#cfd5de}.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-legend i.is-l3{background:#8a96ab}.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-legend i.is-l4{background:#1f2a3d}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-criteria-table .lx-link { font:400 16px Georgia,serif; color:#7a5a24}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics details.lx-analysis-detail { border:0; border-top:1px solid #e4e0d6; border-radius:0; background:none; box-shadow:none}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics details.lx-analysis-detail:last-of-type { border-bottom:1px solid #e4e0d6}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics details.lx-analysis-detail>summary { padding:20px 0}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics details.lx-analysis-detail>summary b { font:400 20px Georgia,serif; color:#1f2328}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics details.lx-analysis-detail>summary small { font-style:italic; color:#8a857a}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-bars { gap:12px}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-bars li>span:first-child { font-size:14px; color:#3d3b36}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-bars li>b { font:400 18px Georgia,serif; color:#1f2328}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-bar { height:4px; border-radius:0; background:#ece8df}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-bar i { border-radius:0}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-bar i.is-todo { background:#cfd5de}.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-bar i.is-in_progress{background:#8a96ab}.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-bar i.is-done{background:#1f2a3d}.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-bar i.is-needs_adjustment{background:#b0832d}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-action-completion { font:400 34px Georgia,serif; color:#1f2328}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-action-completion small { font:italic 400 14px Georgia,serif; color:#8a857a}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-action-timing { gap:56px; padding:22px 0; border:0; border-top:1px solid #e4e0d6; border-bottom:1px solid #e4e0d6; border-radius:0; background:none}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-action-timing span { display:flex; align-items:baseline; gap:10px; font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:#7b776d}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-action-timing b { font:400 40px/1 Georgia,serif; letter-spacing:-1px; color:#1f2328}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-action-timing span:first-child b { color:#9c3b2a}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-action-search { border:0; border-bottom:1px solid #c9c4b8; border-radius:0; background:none; box-shadow:none}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-action-search input { border:0; background:none; box-shadow:none; font-style:italic}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-action-filters select { border:0; border-bottom:1px solid #c9c4b8; border-radius:0; background-color:transparent}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-plans { border-top:1px solid #1f2328; margin-top:6px}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-plans>li { border-bottom:1px solid #ece8df}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-plans summary { display:grid; grid-template-columns:10px minmax(0,1fr) 140px 16px; align-items:center; column-gap:14px; padding:12px 6px}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-plans summary:hover { background:#faf7ef}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-plan-main { display:flex; flex-direction:column; gap:3px; min-width:0}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-plan-main small { order:-1; font-size:12.5px; color:#8a857a; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-plan-main small::first-line { color:#1f2328; font-weight:600}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-plan-main b { font-size:14.5px; font-weight:400; line-height:1.45; color:#2b2a27; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-plans details[open] .lx-plan-main b { white-space:normal}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-plan-due { display:block; text-align:right; font:400 15px Georgia,serif; color:#3d3b36; white-space:nowrap}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-plan-due.is-late { color:#9c3b2a}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-plan-due small { display:block; font:italic 400 11.5px system-ui; color:#9a958a; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-plan-dot { width:7px; height:7px}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-overdue-text { font-weight:600; color:#9c3b2a}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-plans .lx-facts { margin:0 6px 16px 30px; padding:12px 16px; border-left:2px solid #b0832d; background:#faf7ef; border-radius:0}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-plan-due small { display:none}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-plans summary { grid-template-columns:10px minmax(0,1fr) 150px 16px}
+.app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-plan-main small::first-line { font-weight:500}
+@media (max-width:760px) {
+ .app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-metrics { grid-template-columns:minmax(0,1fr); row-gap:0; padding:6px 0; }
+ .app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-metric, .app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-metric:first-child, .app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-metric:nth-child(3) { padding:16px 0; border-left:0; }
+ .app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-metric + .lx-metric { border-top:1px solid #ece8df; }
+ .app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-metric-value b { font-size:40px; }
+ .app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-tabbed>.lx-tabs { gap:20px; overflow-x:auto; }
+ .app-shell.lecturer-workspace main.lx .lx-stack.lx-analytics .lx-tabbed>.lx-tabs button { white-space:nowrap; }
+}

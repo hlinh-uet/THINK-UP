@@ -54,7 +54,7 @@
 .app-shell.student-learning .journey-workspace .journey-week-intro { padding: 28px 30px; margin-bottom: 30px; border-left: 3px solid #c3b1df; background: var(--accent-soft); }
 .student-learning .journey-week-links > button.selected { border-radius: 0; background: var(--accent-soft); }
 .app-shell.student-learning .journey-week-links > button.selected .journey-nav-number { background: transparent; border-color: var(--accent); color: var(--accent); }
-.student-learning .journey-section-heading :is(h2,h3) { font-family: var(--font-display); font-size: 25px; font-weight: 400; letter-spacing: -.5px; }
+.student-learning .journey-section-heading :is(h2,h3) { font-family: var(--font-display); font-size: 25px; font-weight: 400; letter-spacing: 0; }
 
 /* Progress: the chart and the latest feedback lead; totals stay secondary. */
 .student-learning .personal-progress-grid { grid-template-columns: minmax(0,1.8fr) minmax(290px,1fr); gap: 48px; align-items: start; }
@@ -135,6 +135,6 @@
  .student-learning .journey-section-heading :is(h2,h3) { font-size: 23px; }
  .student-learning .progress-reviewed-row .progress-document { display: none; }
 }
-.student-learning .progress-bottom-grid .progress-card-heading h2 { font-family: var(--font-display); font-size: 26px; font-weight: 400; letter-spacing: -.4px; }
+.student-learning .progress-bottom-grid .progress-card-heading h2 { font-family: var(--font-display); font-size: 26px; font-weight: 400; letter-spacing: 0; }
 .app-shell.student-learning .student-progress .progress-detailed-report { padding-top: 20px; }
 .app-shell.student-learning .progress-detailed-report .learning-analytics { padding: 24px 0 0; margin-top: 0; }

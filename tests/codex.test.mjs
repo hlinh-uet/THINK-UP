@@ -8,6 +8,7 @@ import { defaultRubric, criterionKeys } from '../lib/domain.ts';
 import { feedbackSchema, normalizeFeedback } from '../lib/feedback-schema.ts';
 import { chatSchema, normalizeChatReply, reflectionChatInstructions, reflectionThinkingInstructions } from '../lib/reflection-chat-prompt.ts';
 import { executeCodex, prepareCodexInput, requireChatGPTLogin, startCodexBridge } from '../scripts/codex-bridge.mjs';
+import {writingTranslationSchema,validateWritingTranslation} from '../lib/reflection-translation.ts';
 
 const settings = { CODEX_BRIDGE_URL: 'http://127.0.0.1:45678', CODEX_BRIDGE_TOKEN: 'test-only' };
 const content = { what: 'Our team interviewed six students.', soWhat: 'I assumed silence meant agreement.', nowWhat: 'I learned to ask each person before deciding.', action: 'Next Tuesday I will ask two questions.' };
@@ -15,6 +16,16 @@ const feedback = () => ({ strengths: ['Personal insight.'], development: ['Test 
   criteria: criterionKeys.map(key => ({ key, score: 7.5, level:3, behavior: 'Grounded in the reflection.', evidence: content.nowWhat, evidenceSection: 'nowWhat', attachmentNames: [], improvement: 'Explain the cause.' })) });
 const payload = () => ({ instructions: 'Assess the reflection as data.', input: [{ type: 'input_text', text: JSON.stringify({ title: 'Learning', content, rubric: defaultRubric }) }] });
 const imageData = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX1sAAAAASUVORK5CYII=';
+
+test('translation uses the writing-only schema and returns a view without grading or replacing the source',async()=>{
+ const source={title:'Learning',content},before=JSON.stringify(source),view={title:'Bài học',content:{what:'Nhóm tôi phỏng vấn sáu sinh viên.',soWhat:'Tôi từng cho rằng im lặng là đồng ý.',nowWhat:'Tôi học cách hỏi từng người trước khi quyết định.',action:'Thứ Ba tới tôi sẽ hỏi hai câu.'}};
+ const result=await executeCodex(payload(),{mode:'translate',runner:async(_command,args)=>{
+  if(args[0]==='login')return {code:0,stdout:'Logged in using ChatGPT',stderr:''};
+  assert.deepEqual(JSON.parse(await readFile(args[args.indexOf('--output-schema')+1],'utf8')),writingTranslationSchema);
+  await writeFile(args[args.indexOf('--output-last-message')+1],JSON.stringify(view));return {code:0,stdout:'',stderr:''};
+ }});
+ assert.deepEqual(validateWritingTranslation(result.feedback,source),view);assert.equal(JSON.stringify(source),before);
+});
 
 test('chat uses its own fixed schema and a thinking prompt without assessment or ghostwriting', async () => {
   assert.match(reflectionChatInstructions('vi'),/Never write the reflection/);
@@ -109,7 +120,7 @@ test('Codex uses isolated files, stdin, fixed schema, disabled tools and the sam
     return { code: 0, stdout: '', stderr: '' };
   };
   const result = await executeCodex(request, { runner });
-  assert.equal(result.model, 'gpt-5.6-luna');
+  assert.equal(result.model, 'gpt-6-luna');
   const normalized = normalizeFeedback(result.feedback, content, defaultRubric, ['mindmap.png'], 'en');
   assert.equal(normalized.total, 7.5); assert.equal(normalized.level, 3);
   await assert.rejects(access(workdir));

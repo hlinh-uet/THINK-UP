@@ -5,7 +5,7 @@
 .overview-feature-copy { min-width: 0; }
 .overview-kicker { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; color: var(--accent); font-size: 13px; font-weight: 600; }
 .overview-week-label { font-size: 13px; font-weight: 400; color: var(--muted); }
-.overview-feature h1 { font-family: var(--font-sans); font-size: 24px; font-weight: 650; line-height: 1.4; letter-spacing: -.6px; margin: 0; }
+.overview-feature h1 { font-family: var(--font-sans); font-size: 24px; font-weight: 650; line-height: 1.4; letter-spacing: 0; margin: 0; }
 .app-shell.student-workspace .overview-feature-copy > p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; max-width: 60ch; margin: 7px 0 0; color: var(--muted); font-size: 15px; line-height: 1.6; }
 .overview-task-due { display: block; margin-top: 6px; color: var(--muted); font-size: 13px; }
 .overview-feature-actions { display: flex; align-items: center; }
@@ -28,7 +28,7 @@
 .overview-reflections,.overview-aside { min-width: 0; }
 .overview-aside { border-left: 1px solid var(--line); padding-left: 24px; }
 .overview-content .section-head { margin: 0 0 14px; gap: 12px; }
-.overview-content h3 { font-family: var(--font-sans); font-weight: 650; font-size: 19px; line-height: 1.4; letter-spacing: -.3px; margin: 0; }
+.overview-content h3 { font-family: var(--font-sans); font-weight: 650; font-size: 19px; line-height: 1.4; letter-spacing: 0; margin: 0; }
 .overview-reflections .section-head > .text-button { font-size: 13px; white-space: nowrap; }
 .overview-reflections .overview-all-reflections { margin-top: 14px; }
 .overview-reading-list { border-top: 1px solid var(--line); }

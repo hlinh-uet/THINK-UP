@@ -1,0 +1,64 @@
+/* Three short readings: reflection level, skill insight, and consistency. */
+.app-shell.student-workspace .space-growth-summary { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) minmax(0,1fr); gap:18px; margin-top:24px; }
+.app-shell.student-workspace .space-growth-summary > section { display:flex; flex-direction:column; min-width:0; padding:23px 24px 20px; border:1px solid #e4ded0; border-radius:16px; background:#fff; }
+.app-shell.student-workspace .space-growth-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:22px; }
+.app-shell.student-workspace .space-growth-heading h2 { margin:0; color:#554733; font-size:18px; font-weight:650; line-height:1.4; letter-spacing:-.2px; }
+.app-shell.student-workspace .space-growth-heading > svg { color:#b39a61; flex-shrink:0; }
+.app-shell.student-workspace .space-growth-heading .text-button { display:flex; padding:3px; color:#a38a55; }
+.app-shell.student-workspace .space-growth-summary .space-level-card { background:#fcf7e9; border-color:#e5d5aa; }
+.app-shell.student-workspace .space-level-result { display:flex; align-items:center; gap:18px; margin:0 0 22px; }
+.app-shell.student-workspace .space-level-result > div:last-child { min-width:0; }
+.app-shell.student-workspace .space-level-ring { position:relative; width:88px; height:88px; flex:0 0 88px; }
+.app-shell.student-workspace .space-level-ring svg { width:100%; height:100%; transform:rotate(-90deg); }
+.app-shell.student-workspace .space-level-ring circle { fill:none; stroke-width:7px; }
+.app-shell.student-workspace .space-level-track { stroke:#eae1c9; }
+.app-shell.student-workspace .space-level-fill { stroke:#b79a4f; stroke-linecap:round; }
+.app-shell.student-workspace .space-level-ring > span { position:absolute; inset:0; display:flex; align-items:baseline; justify-content:center; gap:3px; padding-top:25px; }
+.app-shell.student-workspace .space-level-ring b { color:#795b2b; font-size:32px; font-weight:650; line-height:1; }
+.app-shell.student-workspace .space-level-ring small { color:#aa9670; font-size:11px; }
+.app-shell.student-workspace .space-growth-eyebrow { display:flex; align-items:center; gap:6px; color:#9f9179; font-size:10.5px; font-weight:500; line-height:1.5; }
+.app-shell.student-workspace .space-level-result h3 { margin:5px 0; color:#6a5330; font-size:17px; font-weight:600; line-height:1.4; }
+.app-shell.student-workspace .space-level-result > div > small { color:#a7946f; font-size:11px; }
+.app-shell.student-workspace .space-level-ladder { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:5px; margin-top:auto; }
+.app-shell.student-workspace .space-level-ladder > span { display:flex; flex-direction:column; gap:6px; color:#b3a68d; font-size:10px; line-height:1.4; }
+.app-shell.student-workspace .space-level-ladder i { height:4px; border-radius:2px; background:#eae1cd; }
+.app-shell.student-workspace .space-level-ladder .is-past i { background:#d5c288; }
+.app-shell.student-workspace .space-level-ladder .is-current { color:#80622d; font-weight:600; }
+.app-shell.student-workspace .space-level-ladder .is-current i { background:#ac8b3d; }
+.app-shell.student-workspace .space-growth-note { margin:17px 0 0; color:#a0947d; font-size:10.5px; line-height:1.65; }
+.app-shell.student-workspace .space-insight-pair { display:grid; gap:19px; }
+.app-shell.student-workspace .space-insight-row { --insight-color:#7f9a70; }
+.app-shell.student-workspace .space-insight-row.is-focus { --insight-color:#b89b55; }
+.app-shell.student-workspace .space-insight-row .space-growth-eyebrow { color:var(--insight-color); }
+.app-shell.student-workspace .space-insight-row .space-growth-eyebrow > i { width:5px; height:5px; border-radius:50%; background:var(--insight-color); }
+.app-shell.student-workspace .space-insight-row > div { display:flex; align-items:baseline; justify-content:space-between; gap:15px; margin:5px 0 8px; }
+.app-shell.student-workspace .space-insight-row b { min-width:0; color:#5d584c; font-size:13px; font-weight:600; line-height:1.5; }
+.app-shell.student-workspace .space-insight-row strong { flex-shrink:0; color:var(--insight-color); font-size:17px; font-weight:650; line-height:1.2; font-variant-numeric:tabular-nums; }
+.app-shell.student-workspace .space-insight-row strong small { margin-left:3px; color:#b0a58f; font-size:10px; font-weight:400; }
+.app-shell.student-workspace .space-insight-track { display:block; height:4px; border-radius:2px; background:#f0ede6; }
+.app-shell.student-workspace .space-insight-track > i { display:block; height:100%; border-radius:2px; background:var(--insight-color); }
+.app-shell.student-workspace .space-insight-empty { margin:0 0 24px; color:#978a74; font-size:12px; line-height:1.8; }
+.app-shell.student-workspace .space-insight-footer { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:auto; padding-top:18px; }
+.app-shell.student-workspace .space-insight-footer > span { color:#a09581; font-size:10px; line-height:1.5; }
+.app-shell.student-workspace .space-insight-footer .text-button { display:flex; align-items:center; gap:5px; padding:0; color:#967b45; font-size:10.5px; font-weight:500; }
+.app-shell.student-workspace .space-growth-summary .space-streak-card { border-color:#dfe4d8; background:#f5f7f1; }
+.app-shell.student-workspace .space-streak-card .space-growth-heading > svg { color:#9c7a49; }
+.app-shell.student-workspace .space-streak-value { display:flex; align-items:center; gap:14px; margin:1px 0 24px; }
+.app-shell.student-workspace .space-streak-number { color:#617952; font-size:45px; font-weight:650; line-height:1; font-variant-numeric:tabular-nums; }
+.app-shell.student-workspace .space-streak-value > span { color:#77816c; font-size:12px; line-height:1.5; }
+.app-shell.student-workspace .space-streak-value small { display:block; margin-top:3px; color:#a0a491; font-size:10px; }
+.app-shell.student-workspace .space-streak-weeks { display:grid; grid-template-columns:repeat(9,minmax(0,1fr)); gap:4px; margin-top:auto; }
+.app-shell.student-workspace .space-streak-weeks > span { display:flex; align-items:center; justify-content:center; min-width:0; height:25px; border:1px solid #e1e5da; border-radius:5px; background:#fafbf8; color:#b3b9a9; font-size:10px; }
+.app-shell.student-workspace .space-streak-weeks > .is-done { border-color:#acbea0; background:#dce7d4; color:#5d7a4e; }
+.app-shell.student-workspace .space-growth-summary button:focus-visible { outline:2px solid #9b814b; outline-offset:4px; }
+@media (max-width:1100px) {
+ .app-shell.student-workspace .space-growth-summary { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .app-shell.student-workspace .space-insight-card { grid-row:span 2; }
+ .app-shell.student-workspace .space-streak-card { grid-column:1; }
+}
+@media (max-width:650px) {
+ .app-shell.student-workspace .space-growth-summary { grid-template-columns:minmax(0,1fr); gap:14px; margin-top:18px; }
+ .app-shell.student-workspace .space-growth-summary > section { padding:21px; }
+ .app-shell.student-workspace .space-insight-card { grid-row:auto; }
+ .app-shell.student-workspace .space-growth-heading { margin-bottom:20px; }
+}

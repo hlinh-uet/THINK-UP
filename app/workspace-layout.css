@@ -129,6 +129,8 @@
 .table-pagination { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-top: 20px; margin-top: 12px; border-top: 1px solid var(--line); }
 .table-pagination > div { display: flex; align-items: center; gap: 12px; font-size: 12px; }
 .table-pagination .button { min-height: 36px; padding: 7px 12px; font-size: 12px; }
+.app-shell .table-pagination .table-page-arrow { display:inline-flex; align-items:center; justify-content:center; flex:none; width:40px; height:40px; padding:0; border:0; border-radius:0; background:transparent; box-shadow:none; color:inherit; }
+.app-shell .table-pagination .table-page-arrow:hover:not(:disabled) { background:transparent; color:var(--accent); }
 @media (max-width: 760px) {
  .table-pagination { align-items: flex-start; flex-direction: column; }
  .table-pagination > div { width: 100%; justify-content: space-between; }

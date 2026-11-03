@@ -1,0 +1,105 @@
+/* My desk: compact layout and one authoritative set of component rules. */
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk { --lx-muted:#625e56; --lx-ink:#292824; --lx-text:#44413b; display:grid; gap:20px; width:100%; max-width:1040px; margin-inline:auto; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk :is(.lecturer-task,.desk-aside,.desk-courses,.lecturer-queue) { min-width:0; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lx-desk-heading { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:0; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-eyebrow { display:flex; align-items:center; gap:7px; color:#796027; font-size:10px; font-weight:600; letter-spacing:.07em; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lx-desk-heading h1 { margin:7px 0 6px; color:#292824; font-size:32px; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lx-desk-heading p { display:block; margin:0; font-size:12px; line-height:1.7; color:#625e56; max-width:520px; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lx-desk-heading > time { font-size:11px; color:#625e56; white-space:nowrap; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lx-link { display:inline-flex; align-items:center; gap:7px; font-size:12px; color:#64451f; font-weight:600; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-task-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; padding:0; border:0; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-task.is-review { --task-bg:#fbf1d9; --task-accent:#825b16; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-task.is-draft { --task-bg:#eef1f5; --task-accent:#405c7c; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-task.is-students { --task-bg:#edf3ef; --task-accent:#376754; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-task > a { display:flex; align-items:center; gap:10px; height:100%; min-height:72px; margin:0; padding:12px 14px; border:0; border-radius:8px; background:var(--task-bg); transition:background-color .15s; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-task > a:is(:hover,:focus-visible) { background:#f0f0ee; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-task-icon { display:grid; place-items:center; flex:none; width:28px; height:28px; color:var(--task-accent); }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-task-text { display:grid; gap:2px; min-width:0; line-height:1.4; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-task-text b { color:var(--task-accent); font-size:25px; font-weight:600; font-variant-numeric:tabular-nums; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-task-text > span { font-size:12px; color:#4b4943; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-task-go { margin-left:auto; flex:none; color:var(--task-accent); }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-columns { display:grid; grid-template-columns:minmax(0,1fr) 244px; gap:24px; align-items:start; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue { padding:0; border:1px solid #ded5c4; border-radius:14px; background:#fff; box-shadow:0 4px 16px #4a321008; overflow:hidden; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-head { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px 16px; padding:20px; border-bottom:1px solid #e9e3d8; background:#fdfbf7; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-head > div { min-width:0; flex:1; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-head h2 { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin:0; font-size:16px; line-height:1.5; font-weight:600; color:#4b351e; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-head p { margin:3px 0 0; font-size:11px; color:#625e56; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-head > .lx-link { white-space:nowrap; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-icon { display:none; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-list { display:grid; gap:0; padding:10px 14px; margin:0; list-style:none; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-list > li { display:grid; grid-template-columns:28px minmax(0,1fr) auto; align-items:center; gap:12px; padding:16px 12px; margin:0; border:0; border-bottom:1px solid #eeeae2; border-radius:0; transition:background-color .15s; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-list > li:last-child { border-bottom:0; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-list > li.is-next { background:#fcf5e5; border-bottom:0; border-radius:8px; box-shadow:inset 3px 0 #b38224; margin-bottom:2px; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-list > li:is(:hover,:focus-within) { background:#f0f0ee; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-rank { display:grid; place-items:center; grid-column:1; grid-row:1; width:26px; height:26px; border:1px solid #e6e0d5; border-radius:50%; color:#75694f; font-size:10px; background:#fff; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-list > li > div { grid-column:2; grid-row:1; display:grid; gap:6px; min-width:0; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-list > li > div > a { color:#292824; font-size:13px; font-weight:600; line-height:1.55; overflow-wrap:anywhere; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-list > li > div > a:hover { text-decoration:underline; text-underline-offset:3px; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-list > li > div > span { font-size:11px; color:#625e56; line-height:1.5; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-list .lx-wait { margin:0; min-width:0; font-size:10px; gap:5px; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-list .lx-btn { grid-column:3; grid-row:1; justify-self:end; margin:0; padding:8px 10px; min-width:92px; min-height:36px; height:auto; border:0; border-radius:6px; background:transparent; color:#64451f; font-size:12px; white-space:nowrap; transition:background-color .15s; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-list .lx-btn.is-primary { background:#64451f; color:#fff; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-list .lx-btn:hover { background:#e8e8e5; color:#292824; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-list .lx-btn.is-primary:hover { background:#4b4a46; color:#fff; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue > footer { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px 16px; margin:0; padding:14px 20px; border:0; border-top:1px solid #eadfda; background:#fdf8f6; color:#a33030; font-size:11px; line-height:1.6; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue > footer :is(.lx-link,.ui-icon) { color:#a33030; font-size:11px; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-empty { padding:28px 10px; font-size:13px; color:#625e56; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-aside { display:grid; gap:48px; padding:6px 0 0 24px; border:0; border-left:1px solid #e5e0d6; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-courses { padding:0; border:0; background:transparent; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-courses h2 { margin:0; padding:0; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-courses ul { list-style:none; padding:0; margin:12px 0 0; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-courses li { border-bottom:1px solid #eeeae2; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-courses li a { display:grid; gap:4px; margin:0; padding:12px 0; border-radius:6px; transition:background-color .15s; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-courses li a:is(:hover,:focus-visible) { background:#f0f0ee; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-course-code { font-size:10px; font-weight:600; color:#796027; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-courses strong { font-size:12px; font-weight:500; line-height:1.6; color:#292824; overflow-wrap:anywhere; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-course-meta { display:flex; align-items:center; justify-content:space-between; font-size:11px; color:#625e56; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-aside-empty { margin:16px 0; font-size:12px; color:#625e56; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-progress { display:block; padding:24px 0 0; border:0; border-top:1px solid #e5e0d6; border-radius:0; background:transparent; transition:background-color .15s; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-progress:is(:hover,:focus-visible) { background:#f0f0ee; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-progress p { margin:0; font-size:12px; line-height:1.7; color:#625e56; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-progress > span:last-child { display:flex; align-items:center; gap:8px; margin-top:10px; font-size:11px; font-weight:600; color:#64451f; }
+
+@media (max-width: 1000px) {
+  .app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-columns { grid-template-columns:minmax(0,1fr); }
+  .app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-aside { grid-template-columns:repeat(2,minmax(0,1fr)); gap:32px; padding:24px 0 0; border-left:0; border-top:1px solid #e5e0d6; align-items:start; }
+  .app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-progress { padding:0; border:0; }
+}
+
+@media (max-width: 700px) {
+  .app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk { gap:16px; }
+  .app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lx-desk-heading { flex-direction:column; align-items:flex-start; gap:8px; }
+  .app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lx-desk-heading h1 { font-size:30px; }
+  .app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-task-grid { grid-template-columns:1fr; gap:8px; }
+  .app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-task > a { min-height:56px; padding:10px 12px; }
+  .app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-task-text { display:flex; align-items:center; gap:12px; }
+  .app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-task-text b { min-width:30px; }
+  .app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue { padding:0; }
+  .app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-aside { grid-template-columns:minmax(0,1fr); gap:36px; padding:24px 0 0; }
+  .app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-progress { padding-top:24px; border-top:1px solid #e5e0d6; }
+}
+
+@media (max-width: 480px) {
+  .app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-list > li { grid-template-columns:20px minmax(0,1fr); }
+  .app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-list .lx-btn { grid-column:2; grid-row:2; justify-self:start; }
+  .app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-head > div { flex-basis:100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk :is(a,li) { transition:none; }
+}
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-queue-count { display:inline-grid; place-items:center; min-width:23px; height:23px; padding:0 6px; border-radius:6px; background:#eee5d2; color:#75531e; font-size:11px; font-weight:600; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-review-meta { display:flex; align-items:center; flex-wrap:wrap; gap:4px 12px; color:#625e56; font-size:11px; line-height:1.6; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-review-meta .lx-wait { padding:2px 7px; border-radius:4px; background:#f6efea; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-returned-notice { display:flex; align-items:center; gap:8px; min-width:0; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-returned-notice > .ui-icon { flex:none; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue > footer .lx-link { flex:none; margin:0; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-list .lx-wait > i { width:5px; height:5px; }
+@media(max-width:480px) { .app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-head { padding:16px; } .app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue-list { padding:8px; } .app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .lecturer-queue > footer { padding:14px 16px; } }
+
+/* Course management and analytics share an aligned heading on every screen. */
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-courses > header { display:block; margin:0; padding:0; min-height:0; border:0; background:transparent; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-aside-title { display:flex; align-items:center; justify-content:flex-start; gap:10px; margin:0; padding:0; font-family:inherit; font-size:17px; font-weight:600; line-height:1.5; letter-spacing:0; color:#64451f; text-align:left; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-aside-title > .ui-icon { flex:none; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-aside-title > span { min-width:0; overflow-wrap:anywhere; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-workdesk .desk-progress p { margin-top:10px; }

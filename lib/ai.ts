@@ -31,7 +31,7 @@ export async function analyze(userId: string,reflectionId: string,title: string,
   } else {
   const response=await fetch('https://api.openai.com/v1/responses',{
     method:'POST',headers:{Authorization:`Bearer ${runtime.OPENAI_API_KEY}`,'Content-Type':'application/json'},
-    body:JSON.stringify({model:runtime.OPENAI_MODEL||'gpt-4.1-mini',store:false,instructions:coachInstructions(language),input:[{role:'user',content:input}],text:{format:{type:'json_schema',name:'reflection_feedback',strict:true,schema:feedbackSchema}},max_output_tokens:3200}),signal:AbortSignal.timeout(90000),
+    body:JSON.stringify({model:runtime.OPENAI_MODEL||'gpt-4.1-mini',store:false,instructions:coachInstructions(language),input:[{role:'user',content:input}],text:{format:{type:'json_schema',name:'reflection_feedback',strict:true,schema:feedbackSchema}},max_output_tokens:8000}),signal:AbortSignal.timeout(90000),
   });
   if(!response.ok) {
     if(response.status===429)throw new AppError('Dịch vụ AI đang giới hạn lượt sử dụng. Vui lòng thử lại sau.',503);

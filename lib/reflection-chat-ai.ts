@@ -1,3 +1,4 @@
+import { replyTranslations } from './feedback-language';
 import { analysisInput } from './analysis-input';
 import { selectAIProvider } from './ai-provider';
 import { chatSchema, normalizeChatReply, reflectionChatInstructions, reflectionThinkingInstructions } from './reflection-chat-prompt';
@@ -31,13 +32,13 @@ export async function chatReply(userId:string,reflectionId:string,title:string,c
     if(!response.ok)throw new AppError(payload.error||'AI chưa trả lời. Hãy thử lại.',response.status);
     value=payload.chat;
   } else {
-    const response=await fetch('https://api.openai.com/v1/responses',{method:'POST',headers:{Authorization:`Bearer ${runtime.OPENAI_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({model:runtime.OPENAI_MODEL||'gpt-4.1-mini',store:false,instructions,input:[{role:'user',content:input}],text:{format:{type:'json_schema',name:'reflection_chat',strict:true,schema:chatSchema}},max_output_tokens:1800}),signal:AbortSignal.timeout(90000)});
+    const response=await fetch('https://api.openai.com/v1/responses',{method:'POST',headers:{Authorization:`Bearer ${runtime.OPENAI_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({model:runtime.OPENAI_MODEL||'gpt-4.1-mini',store:false,instructions,input:[{role:'user',content:input}],text:{format:{type:'json_schema',name:'reflection_chat',strict:true,schema:chatSchema}},max_output_tokens:5000}),signal:AbortSignal.timeout(90000)});
     if(!response.ok)throw new AppError(response.status===429?'Dịch vụ AI đang giới hạn lượt sử dụng. Hãy thử lại sau.':'AI chưa trả lời. Hãy kiểm tra kết nối và thử lại.',502);
     const payload=await response.json() as {status:string;output?:{content?:{type:string;text?:string}[]}[]};
     if(payload.status!=='completed')throw new AppError('Câu trả lời chưa hoàn tất. Hãy thử lại.',502);
     try {value=JSON.parse(payload.output?.flatMap(item=>item.content||[]).filter(item=>item.type==='output_text').map(item=>item.text||'').join('')||'')}
     catch {throw new AppError('AI chưa trả về câu trả lời hợp lệ. Hãy thử lại.',502)}
   }
-  try {return {reply:normalizeChatReply(value),provider:provider==='codex'?'Codex local':'OpenAI'}}
+  try {return {reply:normalizeChatReply(value),translations:replyTranslations((value as {translations?:unknown})?.translations),provider:provider==='codex'?'Codex local':'OpenAI'}}
   catch(error){throw new AppError(error instanceof Error?error.message:'Câu trả lời chưa hợp lệ.',502)}
 }

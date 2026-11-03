@@ -70,7 +70,7 @@ test('commitment editing preserves values, requires a completed outcome and only
     assert.equal(outcome.includes('required=""'),status==='done');
     const followUps=html.match(/<fieldset class="action-follow-ups"[\s\S]*?<\/fieldset>/)?.[0]||'';
     assert.ok(followUps.includes(r2.title));assert.ok(!followUps.includes(r1.title));assert.ok(!followUps.includes(other.title));
-    assert.match(html,/value="2026-10-30"/);assert.ok(html.includes(initial.successCriteria)&&html.includes(initial.evidence));
+    assert.match(html,/30\/10\/2026/);assert.doesNotMatch(html,/type="date"/,'Course deadlines are read-only for students');assert.ok(html.includes(initial.successCriteria)&&html.includes(initial.evidence));
     assert.equal(/<fieldset disabled="" class="action-fields">/.test(html),busy);
     assert.equal(JSON.stringify(initial),before);
   }

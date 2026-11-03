@@ -1,14 +1,16 @@
 'use client';
 import {useId,useRef,useState} from 'react';
-import type {Action,Reflection} from '../lib/domain';
+import {CalendarDays} from 'lucide-react';
+import type {Action,Course,Reflection} from '../lib/domain';
 import {translate,type Language} from '../lib/i18n';
 import {demoText} from '../lib/demo-i18n';
 import {formatMessageTimestamp} from '../lib/message-date';
 import UiIcon from './UiIcon';
+import {actionDeadline,actionTimingLabel,formatActionDeadline} from '../lib/commitment-deadline';
 
 const statuses=[['todo','Chưa bắt đầu'],['in_progress','Đang thực hiện'],['done','Hoàn thành'],['needs_adjustment','Cần điều chỉnh']] as const;
 
-export default function ActionEditor({initial,reflections,language,busy,onSave,onCancel}:{initial:Partial<Action>;reflections:Reflection[];language:Language;busy:boolean;onSave:(value:Partial<Action>)=>Promise<void>;onCancel?:()=>void}){
+export default function ActionEditor({initial,reflections,courses=[],showSource=true,language,busy,onSave,onCancel}:{initial:Partial<Action>;reflections:Reflection[];courses?:Course[];showSource?:boolean;language:Language;busy:boolean;onSave:(value:Partial<Action>)=>Promise<void>;onCancel?:()=>void}){
  const tr=(s:string)=>translate(s,language),dt=(s:string,id?:string)=>demoText(s,id,language);
  const [uploading,setUploading]=useState(false),[message,setMessage]=useState(''),[value,setValue]=useState<Partial<Action>>(()=>{
   // Demo fixtures are stored in one language; show their fields in the reader's language like everywhere else.
@@ -17,6 +19,9 @@ export default function ActionEditor({initial,reflections,language,busy,onSave,o
  });
  const statusName=useId(),followUpName=useId(),fileInput=useRef<HTMLInputElement>(null);
  const source=reflections.find(r=>r.id===value.reflectionId),locked=busy||uploading;
+ const [previewCreatedAt]=useState(()=>initial.createdAt||new Date().toISOString());
+ const timing=actionDeadline({status:initial.status||'todo',createdAt:previewCreatedAt,due:initial.due||'',dueAt:initial.dueAt,deadlineSource:initial.deadlineSource,deadlinePolicy:initial.deadlinePolicy},courses.find(c=>c.id===source?.courseId)?.commitmentDeadline);
+ const courseDeadline=!!source?.courseId,displayDeadline=formatActionDeadline(timing,language);
  const followUps=reflections.filter(r=>r.id!==source?.id&&r.courseId===source?.courseId);
  const patch=(part:Partial<Action>)=>setValue(v=>({...v,...part}));
  const showOutcome=!!value.id||value.status==='done'||!!value.review;
@@ -33,17 +38,18 @@ export default function ActionEditor({initial,reflections,language,busy,onSave,o
  }
  return <form className="action-editor" onSubmit={e=>{e.preventDefault();if(!locked)void onSave(value)}}>
   <div className="action-editor-scroll">
-   {source&&<div className="action-source"><UiIcon name="document" size={16}/><span>{dt(source.title,source.id)||tr('Reflection chưa đặt tên')}</span></div>}
+   {showSource&&source&&<div className="action-source"><UiIcon name="document" size={16}/><span>{dt(source.title,source.id)||tr('Reflection chưa đặt tên')}</span></div>}
    <fieldset disabled={locked} className="action-fields">
-    <label className="field action-goal">{tr('Tôi cam kết…')}<textarea required maxLength={1500} rows={2} value={value.text||''} onChange={e=>patch({text:e.target.value})}/></label>
+    <label className="field action-goal">{tr('Tôi cam kết…')}<textarea required maxLength={1500} rows={3} value={value.text||''} onChange={e=>patch({text:e.target.value})}/></label>
     <div className="action-basics">
      <label className="field">{tr('Tiêu chí hoàn thành')}<textarea maxLength={1500} rows={2} value={value.successCriteria||''} onChange={e=>patch({successCriteria:e.target.value})}/></label>
-     <label className="field action-due">{tr('Hạn thực hiện')}<input type="date" value={value.due||''} onChange={e=>patch({due:e.target.value})}/></label>
+     {courseDeadline?<div className="field action-due action-assigned-deadline"><span>{tr('Hạn thực hiện')}</span><strong><CalendarDays size={17} strokeWidth={1.7} aria-hidden="true"/>{displayDeadline||tr('Giảng viên chưa đặt hạn')}</strong><small>{tr(timing.deadlineSource==='lecturer'?'Do giảng viên quy định · UTC+7':timing.due?'Hạn đã lưu · Liên hệ giảng viên để thay đổi.':'Hạn sẽ được áp dụng khi giảng viên cấu hình môn học.')}</small></div>:<label className="field action-due">{tr('Hạn thực hiện')}<input type="date" value={value.due||''} onChange={e=>patch({due:e.target.value})}/></label>}
     </div>
     <fieldset className="action-status-group"><legend>{tr('Trạng thái')}</legend><div className="action-status-options">
      {statuses.map(([key,label])=><label className="action-status-choice" key={key}><input className="action-choice-input" type="radio" name={statusName} value={key} checked={(value.status||'todo')===key} onChange={()=>patch({status:key})}/><span className="action-choice-mark" aria-hidden="true">{(value.status||'todo')===key&&<UiIcon name="check" size={12}/>}</span><span>{tr(label)}</span></label>)}
     </div></fieldset>
-    {showOutcome&&<label className="field action-outcome">{tr('Kết quả và rào cản')}<textarea rows={2} maxLength={3000} required={value.status==='done'} value={value.review||''} onChange={e=>patch({review:e.target.value})}/></label>}
+    {showOutcome&&<label className="field action-outcome"><span className="action-outcome-heading"><UiIcon name="editor" size={17}/>{tr('Kết quả và rào cản')}</span><textarea rows={3} maxLength={3000} placeholder={tr('Bạn đã thử điều gì? Kết quả như thế nào?')} required={value.status==='done'} value={value.review||''} onChange={e=>patch({review:e.target.value})}/></label>}
+    {initial.status==='done'&&initial.completedAt&&<p className="action-completion-record"><UiIcon name="check" size={16}/>{tr(actionTimingLabel(initial as Action))} · {formatActionDeadline({due:'',dueAt:initial.completedAt},language)} (UTC+7)</p>}
     <details className="action-extras"><summary><UiIcon name="attachment" size={17}/><span>{tr('Minh chứng và bài tiếp nối')}</span><UiIcon name="chevron" size={17}/></summary><div className="action-extras-content">
      <label className="field">{tr('Minh chứng thực hiện')}<textarea rows={2} maxLength={3000} value={value.evidence||''} onChange={e=>patch({evidence:e.target.value})}/></label>
      {!!source?.attachments?.length&&<fieldset className="action-source-files"><legend>{tr('Minh chứng từ bài nguồn')}</legend>{source.attachments.map(a=><label key={a.id}><input type="checkbox" checked={value.attachmentIds?.includes(a.id)||false} onChange={e=>patch({attachmentIds:e.target.checked?[...(value.attachmentIds||[]),a.id]:(value.attachmentIds||[]).filter(id=>id!==a.id)})}/><span>{a.name}</span></label>)}</fieldset>}
@@ -58,6 +64,6 @@ export default function ActionEditor({initial,reflections,language,busy,onSave,o
    </fieldset>
    {!!initial.history?.length&&<details className="action-history"><summary>{tr('Lịch sử điều chỉnh cam kết')}<UiIcon name="chevron" size={16}/></summary>{initial.history.map(h=>{const stamp=formatMessageTimestamp(h.createdAt,language);return <div key={h.id}><time dateTime={h.createdAt}>{stamp.date} · {stamp.time}</time><p>{String(h.payload.text||'')}</p>{!!h.payload.review&&<p>{String(h.payload.review)}</p>}</div>})}</details>}
   </div>
-  <footer className="action-editor-footer">{onCancel&&<button className="button action-cancel" type="button" disabled={locked} onClick={onCancel}>{tr('Hủy')}</button>}<button className="button primary" type="submit" disabled={locked}>{tr(busy?'Đang lưu…':value.id?'Lưu thay đổi':'Tạo cam kết')}</button></footer>
+  <footer className="action-editor-footer">{onCancel&&<button className="button action-cancel" type="button" disabled={locked} onClick={onCancel}>{tr('Hủy')}</button>}<button className="button primary" type="submit" disabled={locked}><UiIcon name="check" size={17}/>{tr(busy?'Đang lưu…':value.id?'Lưu thay đổi':'Tạo cam kết')}</button></footer>
  </form>;
 }

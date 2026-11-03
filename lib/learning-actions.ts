@@ -4,6 +4,8 @@ import {validateAssessment,rubricVersion} from './assessment';
 import {readWithAI} from './reading-ai';
 import {totalScore,type User} from './domain';
 import {actionPermission,normalizePermissionPolicy,validateRolePermissions} from './permissions';
+import {actionDeadline,validateCommitmentDeadline} from './commitment-deadline';
+import type {Action} from './domain';
 
 export function assertStudent(user:User){if(user.role!=='student')throw new AppError('Thao tác này dành cho sinh viên.',403);}
 export async function checkedAssessment(_user:User,row:Record<string,unknown>,value:unknown){
@@ -29,20 +31,29 @@ export async function saveAction(user:User,body:Record<string,unknown>){
  const reflectionId=prior?.reflection_id?String(prior.reflection_id):body.reflectionId?str(body.reflectionId,100):null;
  const source=reflectionId?await reflection(user,reflectionId):null;
  if(source&&source.user_id!==user.id)throw new AppError('Chỉ lưu cam kết từ bài của bạn.',403);
- const text=str(body.text,1500,true),due=str(body.due||'',10),review=str(body.review||'',3000);
- if(due&&(!/^\d{4}-\d{2}-\d{2}$/.test(due)||Number.isNaN(Date.parse(due+'T12:00:00Z'))||new Date(due+'T12:00:00Z').toISOString().slice(0,10)!==due))throw new AppError('Ngày hạn chưa hợp lệ.');
+ const text=str(body.text,1500,true),review=str(body.review||'',3000);
  if(!['todo','in_progress','done','needs_adjustment'].includes(String(body.status)))throw new AppError('Trạng thái cam kết chưa hợp lệ.');
  if(body.status==='done'&&!review)throw new AppError('Hãy ghi lại kết quả thực hiện trước khi hoàn thành cam kết.');
  const details=await records("SELECT * FROM learning_records WHERE id=? AND kind='action' AND owner_id=?",`action:${actionId}`,user.id),previous=details[0];
  if(prior&&body.revision!==previous?.revision&&!(body.revision===0&&!previous))throw new AppError('Cam kết đã thay đổi. Tải lại trước khi lưu.',409);
+ const stamp=now(),courseId=source?.course_id?String(source.course_id):null;
+ const metadata=courseId?(await records("SELECT * FROM learning_records WHERE id=? AND kind='course-metadata'",`course:${courseId}`))[0]:null;
+ if(courseId)await course(user,courseId);
+ const policy=validateCommitmentDeadline(metadata?.payload.commitmentDeadline);
+ // Course deadlines and completion timestamps are authoritative; never accept them from the student payload.
+ const originalDue=courseId?String(prior?.due||''):str(body.due||'',10);
+ if(originalDue&&(!/^\d{4}-\d{2}-\d{2}$/.test(originalDue)||Number.isNaN(Date.parse(originalDue+'T12:00:00Z'))||new Date(originalDue+'T12:00:00Z').toISOString().slice(0,10)!==originalDue))throw new AppError('Ngày hạn chưa hợp lệ.');
+ const timing=actionDeadline({status:prior?.status==='done'&&body.status==='done'?'done':'todo',createdAt:String(prior?.created_at||stamp),due:originalDue,dueAt:courseId?previous?.payload.dueAt as string|undefined:undefined,deadlineSource:courseId?previous?.payload.deadlineSource as Action['deadlineSource']:'student',deadlinePolicy:courseId?previous?.payload.deadlinePolicy as Action['deadlinePolicy']:null},policy);
+ const completedAt=body.status==='done'?(prior?.status==='done'?(previous?.payload.completedAt as string|null||null):stamp):null;
+ const due=timing.due;
  const successCriteria=str(body.successCriteria??previous?.payload.successCriteria??'',1500),evidence=str(body.evidence??previous?.payload.evidence??'',3000);
  const followUpReflectionId=body.followUpReflectionId?str(body.followUpReflectionId,100):null;
  if(followUpReflectionId){const follow=await reflection(user,followUpReflectionId);if(follow.user_id!==user.id||follow.id===reflectionId||follow.course_id!==source?.course_id)throw new AppError('Reflection tiếp nối cần là bài khác của bạn trong cùng học phần.');}
  const attachmentIds=body.attachmentIds??previous?.payload.attachmentIds??[];
  if(!Array.isArray(attachmentIds)||attachmentIds.length>3||attachmentIds.some(a=>typeof a!=='string'))throw new AppError('Minh chứng cam kết chưa hợp lệ.');
  if(attachmentIds.length){const files=await all<{id:string}>('SELECT id FROM attachments WHERE reflection_id=?',reflectionId);if(attachmentIds.some(a=>!files.some(f=>f.id===a)))throw new AppError('Minh chứng cần thuộc bài reflection nguồn.');}
- const payload={successCriteria,evidence,attachmentIds,followUpReflectionId};
- const stamp=now(),event={actionId,text,due,status:body.status,review,...payload};
+ const payload={successCriteria,evidence,attachmentIds,followUpReflectionId,...timing,completedAt};
+ const event={actionId,text,status:body.status,review,...payload};
  // Guard the complete write batch with a revision assertion; a failed assertion rolls back every write.
  const guard=previous?prepare("INSERT INTO learning_records (id,kind,owner_id,payload_json,revision,created_at,updated_at) SELECT 'revision-conflict','guard',?,'{}',NULL,?,? WHERE NOT EXISTS(SELECT 1 FROM learning_records WHERE id=? AND revision=?)",user.id,stamp,stamp,previous.id,previous.revision):prepare("INSERT INTO learning_records (id,kind,owner_id,payload_json,revision,created_at,updated_at) SELECT 'revision-conflict','guard',?,'{}',NULL,?,? WHERE EXISTS(SELECT 1 FROM learning_records WHERE id=?)",user.id,stamp,stamp,`action:${actionId}`);
  try{await database().batch([guard,

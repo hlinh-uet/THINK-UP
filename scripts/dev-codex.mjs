@@ -6,7 +6,7 @@ try {
   await requireChatGPTLogin();
   const bridge = await startCodexBridge();
   const cli = fileURLToPath(new URL('../node_modules/vinext/dist/cli.js', import.meta.url));
-  console.log(`THINK UP · Codex local (${process.env.CODEX_MODEL || 'gpt-5.6-luna'}). Dùng phiên đăng nhập ChatGPT trên máy này.`);
+  console.log(`THINK UP · Codex local (${process.env.CODEX_MODEL || 'gpt-6-luna'}). Dùng phiên đăng nhập ChatGPT trên máy này.`);
   const child = spawn(process.execPath, [cli, 'dev', '--hostname', '127.0.0.1', ...process.argv.slice(2)], {
     stdio: 'inherit', shell: false,
     env: { ...process.env, WRANGLER_LOG_PATH: '.wrangler/wrangler.log', THINKUP_CODEX_BRIDGE_URL: bridge.url, THINKUP_CODEX_BRIDGE_TOKEN: bridge.token },

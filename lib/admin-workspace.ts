@@ -1,3 +1,4 @@
+import {validateCommitmentDeadline} from './commitment-deadline';
 import {normalizePermissionPolicy} from './permissions';
 import { all, database, assertPermission } from './server';
 import { records } from './learning-store';
@@ -22,7 +23,7 @@ export async function adminManagementData(user:User,section:string,courseId:stri
   ]);
   return {
     ...base,user,...(settingsPage?{permissionPolicy:normalizePermissionPolicy(settings.find(s=>s.key==='role-permissions')?JSON.parse(settings.find(s=>s.key==='role-permissions')!.value):undefined)}:{}),
-    courses:courses.map(c=>({id:String(c.id),code:String(c.code),name:String(c.name),className:String(metadata.find(m=>m.courseId===c.id)?.payload.className||c.code),weeks:JSON.parse(String(c.weeks_json)),rubric:JSON.parse(String(c.rubric_json))})),
+    courses:courses.map(c=>({id:String(c.id),code:String(c.code),name:String(c.name),className:String(metadata.find(m=>m.courseId===c.id)?.payload.className||c.code),commitmentDeadline:validateCommitmentDeadline(metadata.find(m=>m.courseId===c.id)?.payload.commitmentDeadline),weeks:JSON.parse(String(c.weeks_json)),rubric:JSON.parse(String(c.rubric_json))})),
     users:await attachAvatars(database(),users),
     memberships:memberships.map(m=>({id:m.id,courseId:m.course_id,userId:m.user_id,role:m.role})),
     invitations:invitations.map(i=>({id:i.id,email:i.email,name:i.name,role:i.role,courseId:i.course_id})),

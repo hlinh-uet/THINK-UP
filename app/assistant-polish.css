@@ -1,0 +1,138 @@
+/* Small refinements only: preserve the open stages layout and the navy assistant. */
+.app-shell.student-workspace .main-shell > main > .student-writing-workspace { animation:none; opacity:1; }
+.app-shell.student-workspace .student-writing-workspace .ai-steps-bar { margin-top:10px; margin-bottom:24px; padding-bottom:20px; border-bottom:1px solid #e5dfd0; }
+.app-shell.student-workspace .student-writing-workspace .writing-workspace-grid.with-support:not(.is-review) { gap:32px; }
+.app-shell.student-workspace .student-writing-workspace .writing-context-column { gap:22px; }
+.app-shell.student-workspace .student-writing-workspace .ai-assistant-head { padding:16px 20px; }
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .writing-support-panel > .reflection-support-tabs { margin-bottom:18px; }
+.app-shell.student-workspace .student-writing-workspace .writing-support-panel > .reflection-support-tabs + .ai-assistant > .ai-assistant-head { margin:0 20px; border-radius:12px; }
+.app-shell.student-workspace .student-writing-workspace .writing-support-panel .ai-assistant .feedback-provenance { margin-bottom:12px; }
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .writing-support-panel .ai-assistant { padding-bottom:20px; }
+.app-shell.student-workspace .student-writing-workspace .writing-support-panel .ai-assistant > :not(.ai-assistant-head) { margin-left:20px; margin-right:20px; }
+.app-shell.student-workspace .student-writing-workspace .writing-support-panel .ai-assistant > .ai-stage-chip { margin:16px 20px; }
+.app-shell.student-workspace .student-writing-workspace .ai-stage-pane .reflection-thinking > .notice { margin:16px 0 18px; }
+.app-shell.student-workspace .student-writing-workspace .ai-assistant .ai-empty { margin-top:20px; padding:22px 16px; }
+.app-shell.student-workspace .student-writing-workspace .ai-assistant .button.ai-step-next { margin-top:18px; }
+.app-shell.student-workspace .student-writing-workspace .ai-step-nav { margin-top:20px; gap:12px; }
+.app-shell.student-workspace .student-writing-workspace .ai-item { padding-block:15px; }
+.app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-step { font-size:12.5px; color:#8c8576; font-weight:500; }
+.app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-step i { width:34px; height:34px; border-color:#d9d1bf; color:#a49a85; transition:background-color .16s ease,border-color .16s ease,color .16s ease,box-shadow .16s ease; }
+.app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-steps::before,
+.app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-steps::after { top:15px; height:3px; }
+.app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-steps::before { background:#e2dcca; }
+.app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-step.is-done { color:#588052; }
+.app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-step.is-done i { background:#e8f1e3; border-color:#b8d0ad; color:#56804b; box-shadow:none; }
+.app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-step.is-now { color:#34415a; font-weight:700; }
+.app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-steps .ai-step[aria-current="step"] > i { background:#34415a; border:2px solid #34415a; color:#ffe58a; box-shadow:0 0 0 5px #eee3c2; }
+.app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-step.is-redo i { background:#fff4d6; border-color:#d9bd76; color:#9b772b; box-shadow:none; }
+.app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-steps .ai-step[aria-current="step"].is-redo > i { background:#fff4d6; border-color:#d9bd76; color:#9b772b; box-shadow:0 0 0 5px #f5ead0; }
+.app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-step:hover i { transform:none; background:#eeede9; border-color:#cfc7b6; color:#766c58; }
+.app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-step:focus-visible i { outline:2px solid #a6bd9a; outline-offset:5px; }
+
+/* Progress belongs with save/status metadata, leaving the stage row uninterrupted. */
+.app-shell.student-workspace .student-writing-workspace .writing-toolbar .ai-steps-count { display:flex; align-items:center; flex-shrink:0; gap:6px; min-width:0; margin-left:4px; padding-left:12px; border:0; border-left:1px solid #e3dccb; border-radius:0; background:none; color:#34415a; }
+.app-shell.student-workspace .student-writing-workspace .ai-count-ring { width:22px; height:22px; flex-shrink:0; overflow:visible; transform:rotate(-90deg); }
+.app-shell.student-workspace .student-writing-workspace .ai-count-ring circle { fill:none; stroke-width:2.5; }
+.app-shell.student-workspace .student-writing-workspace .ai-count-track { stroke:#e3dfd3; }
+.app-shell.student-workspace .student-writing-workspace .ai-count-fill { stroke:#588b4e; transition:stroke-dasharray .25s ease; }
+.app-shell.student-workspace .student-writing-workspace .ai-count-copy { display:flex; align-items:baseline; gap:5px; }
+.app-shell.student-workspace .student-writing-workspace .ai-count-copy strong { font-size:13px; font-weight:650; line-height:1.2; font-variant-numeric:tabular-nums; }
+.app-shell.student-workspace .student-writing-workspace .ai-count-copy strong small { margin-left:2px; color:#a19784; font-size:11px; font-weight:400; }
+.app-shell.student-workspace .student-writing-workspace .ai-count-copy > span { color:#928671; font-size:11px; font-weight:400; line-height:1.5; }
+.app-shell.student-workspace .student-writing-workspace .ai-steps-count.is-complete strong { color:#527b45; }
+
+/* Give the support content more room while the stages retain the combined width. */
+.app-shell.student-workspace .student-writing-workspace { --writing-columns:minmax(0,1fr) clamp(320px,27vw,400px); --writing-column-gap:32px; }
+.app-shell.student-workspace .student-writing-workspace .writing-workspace-grid.with-support:not(.is-review) { grid-template-columns:var(--writing-columns); gap:var(--writing-column-gap); }
+.app-shell.student-workspace .student-writing-workspace .ai-steps-bar { display:grid; grid-template-columns:minmax(0,1fr); row-gap:12px; width:100%; align-items:center; padding-inline:0; }
+.app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-steps { order:0; display:flex; justify-content:space-between; align-items:flex-start; width:100%; min-width:0; max-width:none; margin:0; }
+.app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-steps > li { flex:0 0 120px; min-width:0; }
+.app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-steps::before { left:60px; right:60px; }
+.app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-steps::after { left:60px; background:#90ad82; width:calc((100% - 120px) * var(--ai-stage-ratio,0)); }
+@media (min-width:1101px) {
+ .app-shell.student-workspace .student-writing-workspace .writing-workspace-grid.with-support.is-review { grid-template-columns:var(--writing-columns); }
+}
+@media (max-width:1100px) {
+ .app-shell.student-workspace .student-writing-workspace .writing-workspace-grid.with-support:not(.is-review) { grid-template-columns:minmax(0,1fr); }
+}
+
+/* Short, restrained transitions; no moving frame or continuous animation. */
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .writing-support-panel { transition:border-color .2s ease,box-shadow .2s ease; }
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .writing-support-panel:hover,
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .writing-support-panel:focus-within { border-color:#d6c8a6; box-shadow:0 10px 28px -20px #2f3a4f66; }
+.app-shell.student-workspace .student-writing-workspace .ai-stage-pane:not([hidden]) { animation:assistant-stage-reveal .2s ease-out; }
+.app-shell.student-workspace .student-writing-workspace .ai-assistant .button { transition:background-color .16s ease,border-color .16s ease,color .16s ease; }
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .writing-support-panel .ai-assistant .button:hover:not(:disabled) { background:#f0efec; border-color:#d8d2c4; color:#34415a; transform:none; box-shadow:none; }
+.app-shell.student-workspace .student-writing-workspace .ai-assistant :is(.ai-step-next,.ai-step-forward) > svg:last-child { transition:transform .16s ease; }
+.app-shell.student-workspace .student-writing-workspace .ai-assistant :is(.ai-step-next,.ai-step-forward):hover:not(:disabled) > svg:last-child { transform:translateX(2px); }
+@keyframes assistant-stage-reveal { from { opacity:.8; transform:translateY(4px); } to { opacity:1; transform:none; } }
+
+/* Compact stage content: readable wrapping, a single title, and expandable Coach groups. */
+.app-shell.student-workspace .student-writing-workspace .ai-assistant-head > div { min-width:0; }
+.app-shell.student-workspace .student-writing-workspace .ai-assistant-head small { display:block; margin-top:2px; font-size:12px; line-height:1.45; }
+.app-shell.student-workspace .student-writing-workspace .ai-stage-chip { max-width:calc(100% - 40px); align-items:flex-start; border-radius:8px; padding:6px 10px; font-size:11.5px; line-height:1.4; }
+.app-shell.student-workspace .student-writing-workspace .ai-stage-chip > svg { flex:0 0 13px; margin-top:1px; }
+.app-shell.student-workspace .student-writing-workspace .ai-stage-chip > span { min-width:0; overflow-wrap:normal; word-break:normal; }
+.app-shell.student-workspace .student-writing-workspace .rubric-check-heading { display:flex; align-items:flex-start; flex-wrap:wrap; gap:8px 10px; margin:2px 0 16px; }
+.app-shell.student-workspace .student-writing-workspace .rubric-check-heading .ai-step-title { flex:1 1 160px; min-width:0; margin:0; font-size:15px; line-height:1.4; color:#30394b; overflow-wrap:normal; word-break:normal; }
+.app-shell.student-workspace .student-writing-workspace .rubric-check-heading > em { flex:none; margin-top:2px; padding:3px 8px; border-radius:5px; background:#f3efe5; color:#85734d; font-size:10.5px; line-height:1.4; font-style:normal; font-weight:500; white-space:nowrap; }
+.app-shell.student-workspace .student-writing-workspace .rubric-check-total { gap:6px; margin:0 0 18px; }
+.app-shell.student-workspace .student-writing-workspace .rubric-check-total b { color:#34415a; font-size:30px; line-height:1.1; font-variant-numeric:tabular-nums; }
+.app-shell.student-workspace .student-writing-workspace .rubric-check-total span { font-size:11.5px; line-height:1.4; }
+.app-shell.student-workspace .student-writing-workspace .rubric-check-bars > div { gap:6px 12px; margin-bottom:14px; align-items:start; }
+.app-shell.student-workspace .student-writing-workspace .rubric-check-bars dt { font-size:12.5px; line-height:1.45; overflow-wrap:normal; word-break:normal; }
+.app-shell.student-workspace .student-writing-workspace .rubric-check-bars dd { font-size:13px; line-height:1.45; font-variant-numeric:tabular-nums; }
+.app-shell.student-workspace .student-writing-workspace .rubric-check-bars > div > span { height:4px; }
+.app-shell.student-workspace .student-writing-workspace .coach-panel .ai-result-head { align-items:center; gap:12px; margin:0 0 14px; }
+.app-shell.student-workspace .student-writing-workspace .coach-panel .ai-result-head > div { display:grid; gap:3px; min-width:0; }
+.app-shell.student-workspace .student-writing-workspace .coach-panel .ai-result-head b { color:#34415a; font-size:15px; }
+.app-shell.student-workspace .student-writing-workspace .coach-panel .ai-result-head small { font-size:10.5px; }
+.app-shell.student-workspace .student-writing-workspace .coach-refresh { display:inline-flex; align-items:center; justify-content:center; gap:5px; max-width:150px; padding:6px 8px; border:1px solid #e5dfd2; border-radius:7px; background:#fff; color:#556078; font:inherit; font-size:11px; line-height:1.4; cursor:pointer; }
+.app-shell.student-workspace .student-writing-workspace .coach-refresh:hover:not(:disabled) { background:#f0efec; }
+.app-shell.student-workspace .student-writing-workspace .coach-refresh > svg { flex-shrink:0; }
+.app-shell.student-workspace .student-writing-workspace .coach-guidance { margin:14px 0 0; border-top:1px solid #e8e3d8; }
+.app-shell.student-workspace .student-writing-workspace .coach-group { --group-ink:#527b59; --group-tint:#edf4ed; margin:0; padding:0; border:0; border-bottom:1px solid #e8e3d8; border-radius:0; background:none; }
+.app-shell.student-workspace .student-writing-workspace .coach-group.is-development { --group-ink:#a4633a; --group-tint:#faf0e8; }
+.app-shell.student-workspace .student-writing-workspace .coach-group.is-questions { --group-ink:#54769a; --group-tint:#eef3f8; }
+.app-shell.student-workspace .student-writing-workspace .coach-group.is-suggestedActions { --group-ink:#7d6a9c; --group-tint:#f2eef7; }
+.app-shell.student-workspace .student-writing-workspace .coach-group > summary { display:grid; grid-template-columns:28px minmax(0,1fr) auto 14px; align-items:center; gap:8px; padding:13px 0; list-style:none; cursor:pointer; }
+.app-shell.student-workspace .student-writing-workspace .coach-group > summary::-webkit-details-marker,
+.app-shell.student-workspace .student-writing-workspace :is(.coach-evidence,.ai-connection-hint) > summary::-webkit-details-marker { display:none; }
+.app-shell.student-workspace .student-writing-workspace .coach-group .ai-item-icon { width:28px; height:28px; border-radius:8px; background:var(--group-tint); color:var(--group-ink); }
+.app-shell.student-workspace .student-writing-workspace .coach-group summary > b { color:#34415a; font-size:12.5px; line-height:1.4; font-weight:600; text-transform:none; letter-spacing:normal; overflow-wrap:normal; word-break:normal; }
+.app-shell.student-workspace .student-writing-workspace .coach-group summary > small { color:#938979; font-size:11px; font-variant-numeric:tabular-nums; }
+.app-shell.student-workspace .student-writing-workspace .coach-group summary > svg { color:#9a9180; }
+.app-shell.student-workspace .student-writing-workspace :is(.coach-group,.coach-evidence,.ai-connection-hint)[open] > summary > svg:last-child { transform:rotate(180deg); }
+.app-shell.student-workspace .student-writing-workspace .coach-group > ul { display:grid; gap:12px; margin:0 0 14px; padding:12px 14px; border-radius:8px; background:var(--group-tint); list-style:none; }
+.app-shell.student-workspace .student-writing-workspace .coach-group li { min-width:0; padding:0; }
+.app-shell.student-workspace .student-writing-workspace .coach-group p { margin:0; color:#424956; font-size:13px; line-height:1.65; overflow-wrap:break-word; word-break:normal; }
+.app-shell.student-workspace .student-writing-workspace .coach-group .ai-commit { display:inline-flex; margin:8px 0 0; padding:5px 0; font-size:11.5px; line-height:1.5; text-align:left; }
+.app-shell.student-workspace .student-writing-workspace :is(.coach-evidence,.ai-connection-hint) { margin:12px 0 0; padding:0; border:0; background:none; }
+.app-shell.student-workspace .student-writing-workspace :is(.coach-evidence,.ai-connection-hint) > summary { display:flex; align-items:center; gap:6px; padding:6px 0; color:#8b8170; font-size:11px; line-height:1.5; list-style:none; cursor:pointer; }
+.app-shell.student-workspace .student-writing-workspace :is(.coach-evidence,.ai-connection-hint) > summary > span { flex:1; min-width:0; }
+.app-shell.student-workspace .student-writing-workspace :is(.coach-evidence,.ai-connection-hint) > summary > svg { flex-shrink:0; }
+.app-shell.student-workspace .student-writing-workspace :is(.coach-evidence,.ai-connection-hint) > p { margin:6px 0 0; color:#8b8170; font-size:11.5px; line-height:1.6; }
+.app-shell.student-workspace .student-writing-workspace .ai-assistant :is(.coach-refresh,summary):focus-visible { outline:2px solid #ac945a; outline-offset:3px; }
+@media (max-width:760px) {
+ .app-shell.student-workspace .student-writing-workspace .ai-steps-bar { margin-bottom:28px; }
+ .app-shell.student-workspace .student-writing-workspace .writing-workspace-grid.with-support:not(.is-review) { gap:24px; }
+ .app-shell.student-workspace .student-writing-workspace .ai-assistant-head { padding:18px 20px; }
+ .app-shell.student-workspace .student-writing-workspace .writing-support-panel .ai-assistant > :not(.ai-assistant-head) { margin-left:20px; margin-right:20px; }
+ .app-shell.student-workspace .student-writing-workspace .writing-support-panel .ai-assistant > .ai-stage-chip { margin:18px 20px; }
+ .app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-step { font-size:10.5px; }
+ .app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-step i { width:30px; height:30px; }
+ .app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-steps { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); }
+ .app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-steps > li { min-width:0; }
+ .app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-steps::before { left:10%; right:10%; }
+ .app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-steps::after { left:10%; width:var(--ai-fill,0%); }
+ .app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-steps::before,
+ .app-shell.student-workspace .student-writing-workspace .ai-steps-bar .ai-steps::after { top:13px; }
+ .app-shell.student-workspace .student-writing-workspace .writing-toolbar .ai-steps-count { gap:5px; margin-left:0; padding-left:10px; }
+ .app-shell.student-workspace .student-writing-workspace .ai-count-copy { display:flex; align-items:baseline; gap:6px; }
+ .app-shell.student-workspace .student-writing-workspace .ai-count-ring { display:none; }
+}
+@media (prefers-reduced-motion:reduce) {
+ .app-shell.student-workspace .student-writing-workspace .ai-stage-pane:not([hidden]) { animation:none; }
+ .app-shell.student-workspace .student-writing-workspace :is(.ai-count-fill,.ai-step i,.ai-assistant .button,.ai-step-next > svg,.ai-step-forward > svg,.writing-support-panel) { transition:none; }
+ .app-shell.student-workspace .student-writing-workspace .ai-assistant :is(.ai-step-next,.ai-step-forward):hover:not(:disabled) > svg:last-child { transform:none; }
+}

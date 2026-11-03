@@ -1,0 +1,31 @@
+/* Be Vietnam Pro is served locally; typography changes stay within the lecturer role. */
+@font-face { font-family: 'Be Vietnam Pro'; src: url('/fonts/BeVietnamPro-Regular.ttf') format('truetype'); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Be Vietnam Pro'; src: url('/fonts/BeVietnamPro-Medium.ttf') format('truetype'); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Be Vietnam Pro'; src: url('/fonts/BeVietnamPro-SemiBold.ttf') format('truetype'); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Be Vietnam Pro'; src: url('/fonts/BeVietnamPro-Bold.ttf') format('truetype'); font-style: normal; font-weight: 700; font-display: swap; }
+.app-shell.lecturer-workspace:not(.admin-workspace) {
+  --font-sans: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: var(--font-sans); --serif: var(--font-sans);
+  --lx-ink: #303944; --lx-text: #414b56; --lx-muted: #68717a;
+  font-family: var(--font-sans); font-size: 14px; line-height: 1.65; letter-spacing: 0;
+}
+.app-shell.lecturer-workspace:not(.admin-workspace) :is(button,input,select,textarea) { font-family: var(--font-sans); letter-spacing: 0; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx :is(.lx-page-head h1,.lx-workdesk .lx-desk-heading h1,.lx-profile-head h1,.lx-document-title h1,.lx-form-head h2) {
+  font-family: Georgia, 'Times New Roman', serif; font-size: clamp(30px,3vw,38px); font-weight: 400; color: #354258; line-height: 1.3; letter-spacing: -.8px;
+}
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx :is(.lx-section-head h2) { font-size: 16px; font-weight: 600; line-height: 1.6; letter-spacing: -.2px; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-table { font-size: 14px; line-height: 1.65; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-table th { font-size: 12px; font-weight: 500; color: var(--lx-muted); letter-spacing: .01em; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx :is(.lx-person b,.lx-row-link) { font-size: 14px; font-weight: 500; line-height: 1.6; letter-spacing: 0; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx :is(.lx-person small,.lx-title-cell > small) { font-size: 12px; line-height: 1.7; color: var(--lx-muted); }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx :is(.lx-btn,.lx-link,.lx-tabs > button) { font-size: 13px; font-weight: 500; letter-spacing: 0; }
+.app-shell.lecturer-workspace:not(.admin-workspace) main.lx .lx-tabs > button[aria-pressed=true] { font-weight: 600; }
+.app-shell.lecturer-workspace:not(.admin-workspace) .workspace-side-navigation nav a { font-family: var(--font-sans); font-size: 13px; line-height: 1.6; letter-spacing: 0; }
+.app-shell.lecturer-workspace:not(.admin-workspace) .workspace-side-navigation nav a.active > span:not(.nav-count) { font-weight: 600; }
+.app-shell.lecturer-workspace:not(.admin-workspace) .lx-nav-label { font-size: 10px; font-weight: 500; letter-spacing: .06em; }
+.app-shell.lecturer-workspace:not(.admin-workspace) :is(.lecturer-task-count b,.lx-metric-value b,.lx-table .is-num) { font-variant-numeric: tabular-nums; }
+.app-shell.lecturer-workspace:not(.admin-workspace) :is(.lx-metric-value b) { font-weight: 600; letter-spacing: -.5px; }
+.app-shell.lecturer-workspace:not(.admin-workspace) .lx-reading { font-family: var(--font-sans); line-height: 1.85; }
+@media(max-width:600px) {
+  .app-shell.lecturer-workspace:not(.admin-workspace) main.lx :is(.lx-page-head h1,.lx-workdesk .lx-desk-heading h1,.lx-profile-head h1,.lx-document-title h1,.lx-form-head h2) { font-size: 30px; letter-spacing: -.8px; }
+}

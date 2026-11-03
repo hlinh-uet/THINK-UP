@@ -5,11 +5,12 @@ export const adminPages = [
   {key:'users',label:'Người dùng',navLabel:'Người dùng',icon:'users',group:'Quản trị',description:'Tài khoản sinh viên, giảng viên và phân công học phần.'},
   {key:'courses',label:'Học phần',navLabel:'Học phần',icon:'journey',group:'Quản trị',description:'Tạo học phần, thiết lập hành trình 9 tuần và rubric cho từng lớp.'},
   {key:'settings',label:'Cài đặt & quyền truy cập',navLabel:'Cài đặt',icon:'admin',group:'Quản trị',description:'Cấu hình mặc định cho học phần mới, quyền theo vai trò và nhật ký thao tác.'},
+  {key:'community',label:'Cộng đồng',navLabel:'Cộng đồng',icon:'community',group:'Quản trị',description:'Bảng tin chung của toàn trường.'},
   {key:'messages',label:'Tin nhắn',navLabel:'Tin nhắn',icon:'messages',group:'Quản trị',description:'Trao đổi trực tiếp với sinh viên và đồng nghiệp.'},
 ] as const;
 
 export type AdminDestination = typeof adminPages[number]['key'];
-export type AdminSection = Exclude<AdminDestination,'messages'>;
+export type AdminSection = Exclude<AdminDestination,'messages'|'community'>;
 export type AdminQuery = LecturerQuery & {role?:string;settingsTab?:string};
 
 export function adminHref(section: AdminDestination, query: AdminQuery = {}) {

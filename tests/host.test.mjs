@@ -2,8 +2,20 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer, request as httpRequest } from 'node:http';
 import { tunnelRequest } from '../lib/tunnel-request.ts';
-import { startHostGateway, blockedHostPath, hostIsReady, isTunnelOrigin } from '../scripts/host-support.mjs';
+import { startHostGateway, blockedHostPath, hostIsReady, isTunnelOrigin, namedTunnelOrigin } from '../scripts/host-support.mjs';
 import { sessionCookieHeader } from '../lib/security.ts';
+
+test('a named tunnel accepts only its own fixed HTTPS address', () => {
+  assert.equal(namedTunnelOrigin(undefined), undefined);
+  assert.equal(namedTunnelOrigin('https://thinkup.site'), 'https://thinkup.site');
+  assert.equal(namedTunnelOrigin('https://thinkup.site/'), 'https://thinkup.site');
+  for (const value of ['http://thinkup.site', 'https://thinkup.site/app', 'https://thinkup.site:8443', 'https://user:pass@thinkup.site', 'https://thinkup.site?x=1', 'thinkup.site', 'https://localhost'])
+    assert.throws(() => namedTunnelOrigin(value), /THINKUP_PUBLIC_URL/, value);
+  assert.equal(isTunnelOrigin('https://thinkup.site', 'https://thinkup.site'), true);
+  assert.equal(isTunnelOrigin('https://thinkup.site'), false, 'A custom domain is only trusted when it is the configured address');
+  assert.equal(isTunnelOrigin('https://other.site', 'https://thinkup.site'), false);
+  assert.equal(isTunnelOrigin('http://thinkup.site', 'http://thinkup.site'), false);
+});
 
 test('host accepts both HTTPS tunnel providers and rejects other origins', () => {
   for (const origin of ['https://class.trycloudflare.com', 'https://abc.lhr.life', 'https://abc.localhost.run']) assert.equal(isTunnelOrigin(origin), true, origin);

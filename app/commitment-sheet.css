@@ -1,0 +1,105 @@
+/* Commitment dialogs: a compact context column and a clear, neutral writing surface. */
+.app-shell.student-workspace :is(.commit-recall-sheet,.modal.action-modal) {
+ --ink:#353128; --text:#474137; --muted:#7e776a; --faint:#938c7e;
+ --accent:#83632d; --accent-soft:#f5edd9; --accent-hover:#654a24; --line:#e6e1d6;
+ --font-sans:'Be Vietnam Pro',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+ color:var(--text); font-family:var(--font-sans); font-size:14px; line-height:1.65;
+}
+.app-shell.student-workspace :is(.commit-recall-sheet,.action-modal) :is(button,input,textarea) { font-family:var(--font-sans); letter-spacing:0; }
+.app-shell.student-workspace .commit-recall-backdrop { position:fixed; inset:0; z-index:200; display:grid; place-items:center; padding:28px; background:#29251f7a; backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); }
+.app-shell.student-workspace .commit-recall-backdrop[hidden] { display:none; }
+.app-shell.student-workspace .commit-recall-scrim { position:absolute; inset:0; padding:0; border:0; background:none; cursor:default; }
+.app-shell.student-workspace .commit-recall-sheet { position:relative; display:grid; grid-template-columns:250px minmax(0,1fr); width:min(1060px,100%); height:min(760px,calc(100dvh - 56px)); min-height:0; overflow:hidden; border:1px solid #d7c9ac; border-radius:18px; background:#fff; box-shadow:0 28px 80px #211b123d; }
+.app-shell.student-workspace .commit-recall-guide { display:flex; flex-direction:column; gap:20px; min-height:0; padding:28px 24px; overflow-y:auto; scrollbar-width:thin; border-right:1px solid #e7e1d5; background:#f8f6ef; }
+.app-shell.student-workspace .commit-guide-heading { display:grid; gap:13px; }
+.app-shell.student-workspace .commit-guide-icon { display:grid; place-items:center; width:36px; height:36px; border-radius:9px; background:#e7d39b; color:#76551f; }
+.app-shell.student-workspace .commit-recall-guide h2 { margin:0; color:#57432a; font-size:19px; font-weight:600; line-height:1.5; letter-spacing:-.3px; }
+.app-shell.student-workspace .commit-recall-source { margin:0; }
+.app-shell.student-workspace .commit-recall-source small { color:#927845; font-size:11px; font-weight:600; letter-spacing:.03em; }
+.app-shell.student-workspace .commit-recall-source p { margin:7px 0 0; color:#736b5d; font-size:13px; font-weight:400; line-height:1.75; overflow-wrap:anywhere; }
+.app-shell.student-workspace .commit-current-status { display:inline-flex; align-items:center; align-self:flex-start; gap:7px; padding:4px 9px; border-radius:6px; background:#eeebe2; color:#7b7260; font-size:11px; font-weight:500; }
+.app-shell.student-workspace .commit-current-status i { width:5px; height:5px; border-radius:50%; background:currentColor; }
+.app-shell.student-workspace .commit-current-status.is-in_progress { background:#edf1f3; color:#58707d; }
+.app-shell.student-workspace .commit-current-status.is-done { background:#e9f1e8; color:#54745b; }
+.app-shell.student-workspace .commit-current-status.is-overdue { background:#faeae5; color:#ad493e; }
+.app-shell.student-workspace .commit-recall-list { display:grid; gap:8px; margin:0; padding:0; list-style:none; }
+.app-shell.student-workspace .commit-recall-list button { display:grid; grid-template-columns:6px minmax(0,1fr); gap:6px 9px; width:100%; padding:11px; border:1px solid transparent; border-radius:8px; background:transparent; color:#5a5142; font:inherit; text-align:left; cursor:pointer; }
+.app-shell.student-workspace .commit-recall-list button[aria-pressed="true"] { border-color:#d9cba8; background:#fffefa; }
+.app-shell.student-workspace .commit-recall-list button:hover { background:#eeede8; }
+.app-shell.student-workspace .commit-recall-list i { width:5px; height:5px; margin-top:8px; border-radius:50%; background:#b5a783; }
+.app-shell.student-workspace .commit-recall-list .is-done i { background:#6f9575; }
+.app-shell.student-workspace .commit-recall-list span { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; overflow:hidden; font-size:12px; font-weight:500; line-height:1.65; }
+.app-shell.student-workspace .commit-recall-list small { grid-column:2; color:#8c8270; font-size:10.5px; }
+.app-shell.student-workspace .commit-recall-list small.is-overdue { color:#ad493e; }
+.app-shell.student-workspace .commit-recall-list q { grid-column:2; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; color:#9a907f; font-size:11px; font-style:italic; line-height:1.65; }
+.app-shell.student-workspace .commit-recall-prompts { margin-top:2px; padding:20px 0 0; border-top:1px solid #e4dece; }
+.app-shell.student-workspace .commit-recall-prompts b { display:block; margin-bottom:13px; color:#756041; font-size:12px; font-weight:600; }
+.app-shell.student-workspace .commit-recall-prompts ul { display:grid; gap:13px; margin:0; padding:0; list-style:none; counter-reset:reflection-prompt; }
+.app-shell.student-workspace .commit-recall-prompts li { position:relative; padding-left:23px; color:#776d5d; font-size:12px; line-height:1.75; counter-increment:reflection-prompt; }
+.app-shell.student-workspace .commit-recall-prompts li::before { content:counter(reflection-prompt,decimal-leading-zero); position:absolute; top:2px; left:0; color:#b29b6d; font-size:10px; font-weight:500; }
+.app-shell.student-workspace .commit-recall-hint { margin-top:auto; padding-top:14px; color:#9b9384; font-size:11px; line-height:1.75; }
+.app-shell.student-workspace .commit-recall-form { display:flex; flex-direction:column; min-width:0; min-height:0; }
+.app-shell.student-workspace .commit-recall-form > header { display:flex; flex-shrink:0; align-items:center; justify-content:space-between; gap:18px; padding:23px 28px 20px; border-bottom:1px solid #dfce9e; background:#f2e7c5; }
+.app-shell.student-workspace .commit-form-title { display:flex; align-items:center; gap:12px; min-width:0; }
+.app-shell.student-workspace .commit-form-title > span { display:grid; place-items:center; flex-shrink:0; width:38px; height:38px; border-radius:9px; background:#75552d; color:#f7e9b8; }
+.app-shell.student-workspace .commit-recall-form > header h3 { margin:0; color:#563b1f; font-size:24px; font-weight:600; line-height:1.5; letter-spacing:-.4px; }
+.app-shell.student-workspace .commit-recall-close { display:grid; place-items:center; flex-shrink:0; width:34px; height:34px; padding:0; border:0; border-radius:7px; background:transparent; color:#978b76; cursor:pointer; }
+.app-shell.student-workspace .commit-recall-close:hover { background:#efeeeb; color:#594c38; }
+.app-shell.student-workspace .commit-recall-form .action-editor-scroll { padding:20px 28px; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-editor .field { gap:8px; margin-bottom:18px; color:#6c6252; font-size:12.5px; font-weight:500; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-editor .field :is(input,textarea) { padding:11px 13px; border:1px solid #dedbd2; border-radius:8px; background:#fcfbf8; color:#423d34; font-size:14px; font-weight:400; line-height:1.75; transition:border-color .15s,box-shadow .15s; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-editor .field :is(input,textarea):focus { border-color:#b59a60; background:#fff; box-shadow:0 0 0 3px #c9ac6417; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-editor .action-goal textarea { min-height:110px; max-height:250px; field-sizing:content; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-basics { grid-template-columns:minmax(0,1fr) 210px; gap:20px; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-assigned-deadline > strong { min-height:48px; gap:8px; padding:10px 12px; border-color:#ddc78e; border-radius:8px; background:#faf2dc; color:#785420; font-size:15px; font-weight:600; line-height:1.6; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-assigned-deadline > strong svg { flex-shrink:0; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-assigned-deadline > small { color:#948a78; font-size:11px; font-weight:400; line-height:1.65; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-status-group > legend { color:#6c6252; font-size:12.5px; font-weight:500; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-status-options { gap:8px; margin-bottom:18px; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) :is(.action-status-choice,.action-reflection-choice) { --selection-ink:#81632f; min-height:43px; gap:7px; padding:9px; border-color:#e0ddd4; border-radius:7px; background:#fff; color:#8a8172; font-size:12px; font-weight:400; line-height:1.55; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) :is(.action-status-choice,.action-reflection-choice):has(input:checked) { border-color:#cbb47e; background:#f7f0dc; color:#775c2c; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-status-choice:has(input[value="in_progress"]:checked) { --selection-ink:#5d7985; border-color:#b5c7ce; background:#edf3f5; color:#506d7b; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-status-choice:has(input[value="done"]:checked) { --selection-ink:#567a5f; border-color:#adc9b3; background:#edf4ed; color:#4e7156; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-status-choice:has(input[value="needs_adjustment"]:checked) { --selection-ink:#a56c4d; border-color:#d9bea6; background:#faf0e7; color:#986447; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) :is(.action-status-choice,.action-reflection-choice):hover { background:#efeeeb; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-choice-mark { width:15px; height:15px; border-color:#d0c9ba; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) :is(.action-status-choice,.action-reflection-choice):has(input:checked) .action-choice-mark { border-color:var(--selection-ink); background:var(--selection-ink); color:#fff; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-editor .action-outcome { gap:10px; color:#4c6b4e; font-size:14px; font-weight:600; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-outcome-heading { display:flex; align-items:center; gap:8px; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-editor .action-outcome textarea { min-height:112px; max-height:240px; border-color:#afc5ad; background:#f3f7f0; color:#354a36; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-editor .action-outcome textarea:focus { border-color:#73926e; background:#f8fbf6; box-shadow:0 0 0 3px #73926e17; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-editor textarea::placeholder { color:#b0a99c; font-size:13px; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-extras { border-top:0; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) :is(.action-extras,.action-history) > summary { padding:15px 0; border-top:1px solid #e9e5dc; color:#8a7b63; font-size:12.5px; font-weight:400; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-editor-footer { gap:10px; padding:15px 28px; border-top:1px solid #e4ddce; border-radius:0; background:#faf8f2; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-editor-footer .button { min-height:41px; padding:10px 18px; border-radius:8px; font-size:13px; font-weight:500; line-height:1.5; box-shadow:none; transform:none; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-editor-footer .button.primary { gap:8px; min-height:44px; padding-inline:20px; border-color:#684722; background:#684722; color:#fff; font-weight:600; box-shadow:0 3px 8px #68472218; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-editor-footer .action-cancel { border-color:transparent; background:transparent; color:#8b8070; }
+.app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-editor-footer .button:hover:not(:disabled) { border-color:#ded9cf; background:#efeeeb; color:#645139; }
+.app-shell.student-workspace .modal.action-modal { border-color:#e5dfd1; border-radius:16px; background:#fff; }
+.app-shell.student-workspace .action-modal .modal-header { background:#fff; }
+.app-shell.student-workspace .action-modal .modal-header h3 { color:#4e3b26; }
+@media (max-width:800px) {
+ .app-shell.student-workspace .commit-recall-backdrop { padding:12px; }
+ .app-shell.student-workspace .commit-recall-sheet { grid-template-columns:minmax(0,1fr); grid-template-rows:auto minmax(0,1fr); height:calc(100dvh - 24px); border-radius:14px; }
+ .app-shell.student-workspace .commit-recall-guide { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:9px 14px; padding:17px 20px; border-right:0; border-bottom:1px solid #e7e1d5; }
+ .app-shell.student-workspace .commit-guide-heading { display:flex; align-items:center; gap:9px; }
+ .app-shell.student-workspace .commit-guide-icon { width:28px; height:28px; border-radius:6px; }
+ .app-shell.student-workspace .commit-recall-guide h2 { font-size:15px; }
+ .app-shell.student-workspace .commit-recall-source { grid-column:1 / -1; grid-row:2; }
+ .app-shell.student-workspace .commit-recall-source p { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-top:3px; font-size:11.5px; }
+ .app-shell.student-workspace .commit-current-status { font-size:10px; }
+ .app-shell.student-workspace :is(.commit-recall-prompts,.commit-recall-hint) { display:none; }
+ .app-shell.student-workspace .commit-recall-list { grid-column:1 / -1; max-height:130px; overflow-y:auto; }
+ .app-shell.student-workspace .commit-recall-form > header { padding:17px 20px; }
+ .app-shell.student-workspace .commit-recall-form > header h3 { font-size:19px; }
+ .app-shell.student-workspace .commit-form-title > span { width:32px; height:32px; border-radius:7px; }
+ .app-shell.student-workspace .commit-recall-form .action-editor-scroll { padding:20px; }
+ .app-shell.student-workspace .commit-recall-form .action-editor-footer { padding:13px 20px max(13px,env(safe-area-inset-bottom)); }
+}
+@media (max-width:520px) {
+ .app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-basics { grid-template-columns:minmax(0,1fr); gap:0; }
+ .app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-status-options { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-editor-footer .button { flex:0 1 auto; }
+ .app-shell.student-workspace :is(.commit-recall-form,.action-modal) .action-editor-footer .button.primary { flex:1; }
+}

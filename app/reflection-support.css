@@ -1,0 +1,165 @@
+/* The student's support column prioritises lecturer feedback, then optional AI detail. */
+.app-shell.student-workspace .student-writing-workspace,.app-shell.student-workspace .student-writing-workspace :is(.writing-workspace-grid,.writing-canvas.panel,.writing-context-column,.writing-support-panel) { animation:none; opacity:1; }
+.app-shell.student-workspace .student-writing-workspace .writing-context-column { --ink:#3c362c; --text:#4b4438; --muted:#807767; --faint:#9a9080; --accent:#846327; color:var(--text); }
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .writing-support-panel { background:#fff; border-color:#e4dece; border-radius:14px; box-shadow:none; }
+.app-shell.student-workspace .student-writing-workspace .is-review .writing-context-column .writing-support-panel { border:0; border-radius:0; }
+.app-shell.student-workspace .student-writing-workspace .is-review .commit-recall { padding:20px 24px 0; }
+.app-shell.student-workspace .student-writing-workspace .commit-recall-trigger { gap:11px; padding:11px 14px; border:1px solid #e0d6bf; border-radius:10px; background:#fbf7ed; box-shadow:none; transform:none; }
+.app-shell.student-workspace .student-writing-workspace .commit-recall-trigger:hover { background:#f0efeb; box-shadow:none; transform:none; }
+.app-shell.student-workspace .student-writing-workspace .commit-recall-icon { width:32px; height:32px; border-radius:7px; background:#eee2be; color:#82612b; }
+.app-shell.student-workspace .student-writing-workspace .commit-recall-copy b { color:#624b2c; font-size:13px; font-weight:600; line-height:1.5; }
+.app-shell.student-workspace .student-writing-workspace .commit-recall-copy small { color:#8c7c5d; font-size:11.5px; line-height:1.6; }
+.app-shell.student-workspace .student-writing-workspace .commit-recall-copy em { color:#a65e3d; font-weight:500; font-style:normal; }
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .reflection-support-tabs { position:sticky; top:12px; z-index:3; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:3px; margin:18px 20px 0; padding:4px; border:0; border-radius:11px; background:#eee8da; }
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .reflection-support-tabs button { position:relative; display:flex; flex-direction:row; align-items:center; justify-content:center; gap:7px; min-width:0; min-height:43px; margin:0; padding:9px 7px; border:0 !important; border-radius:8px; background:transparent; color:#89775a; font-size:12px; font-weight:500; line-height:1.45; white-space:normal; box-shadow:none; }
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .reflection-support-tabs button > svg { display:block; flex-shrink:0; width:16px; height:16px; color:#a08a61; }
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .reflection-support-tabs .support-tab-label { min-width:0; text-align:center; overflow-wrap:anywhere; }
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .reflection-support-tabs button.selected { background:#fff; color:#6c4f27; font-weight:600; box-shadow:0 1px 4px #70552a14; }
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .reflection-support-tabs button.selected > svg { color:#9b793a; }
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .reflection-support-tabs button::after { display:none; }
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .reflection-support-tabs button:hover { background:#efeeeb; color:#6b5739; box-shadow:none; }
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .reflection-support-tabs button:hover > svg { color:#8b7245; }
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .writing-support-panel :is(.feedback-panel,.coach-panel,.reflection-thinking) { padding:20px 24px 24px; border:0; border-radius:0; background:transparent; box-shadow:none; }
+.app-shell.student-workspace .student-writing-workspace .writing-context-column .writing-support-panel :is(.feedback-panel,.coach-panel) { display:grid; gap:16px; }
+.app-shell.student-workspace .writing-context-column .support-section-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.app-shell.student-workspace .writing-context-column .support-section-heading h3 { margin:0; color:#5d4930; font-size:16px; font-weight:600; }
+.app-shell.student-workspace .writing-context-column .support-section-heading button { display:inline-flex; align-items:center; flex-shrink:0; gap:4px; padding:4px 0; color:#8b6c36; font-size:11.5px; font-weight:500; }
+.app-shell.student-workspace .writing-context-column .support-caption { margin:0; color:#7d7363; font-size:12px; line-height:1.75; }
+.app-shell.student-workspace .writing-context-column .teacher-feedback-empty { padding:12px 0 4px; }
+.app-shell.student-workspace .writing-context-column .student-feedback-panel > .lecturer-feedback { margin:0; padding:18px; border:1px solid #d4dfce; border-radius:10px; background:#f2f6ef; }
+.app-shell.student-workspace .writing-context-column .student-feedback-panel .lecturer-feedback.is-returned { border-color:#e6d4b4; background:#fcf5e9; }
+.app-shell.student-workspace .writing-context-column .teacher-feedback-heading { display:flex; align-items:center; justify-content:space-between; gap:15px; }
+.app-shell.student-workspace .writing-context-column .teacher-feedback-source { display:flex; align-items:center; gap:6px; color:#617657; font-size:12px; font-weight:500; }
+.app-shell.student-workspace .writing-context-column .teacher-feedback-heading h4 { display:block; margin:5px 0 0; color:#405a3d; font-size:16px; font-weight:600; line-height:1.5; }
+.app-shell.student-workspace .writing-context-column .teacher-feedback-score { flex-shrink:0; color:#4c704b; font-size:30px; font-weight:650; font-variant-numeric:tabular-nums; line-height:1.2; }
+.app-shell.student-workspace .writing-context-column .teacher-feedback-score small { margin-left:3px; color:#7e8e75; font-size:12px; font-weight:400; }
+.app-shell.student-workspace .writing-context-column .lecturer-feedback.is-returned :is(.teacher-feedback-source,.teacher-feedback-heading h4) { color:#8c652c; }
+.app-shell.student-workspace .writing-context-column .lecturer-feedback p.teacher-feedback-comment { margin:14px 0 0; color:#4f5949; font-size:14px; line-height:1.85; white-space:pre-wrap; }
+.app-shell.student-workspace .writing-context-column .teacher-feedback-comment.is-collapsed { display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
+.app-shell.student-workspace .writing-context-column .teacher-feedback-read { display:flex; align-items:center; gap:5px; margin-top:8px; padding:3px 0; border:0; background:transparent; color:#6c805f; font-size:11.5px; font-weight:500; cursor:pointer; }
+.app-shell.student-workspace .writing-context-column .teacher-feedback-read[aria-expanded="true"] svg { transform:rotate(180deg); }
+.app-shell.student-workspace .writing-context-column .lecturer-feedback details.teacher-feedback-criteria { margin-top:15px; padding-top:12px; border-top:1px solid #d9e3d2; font-size:12px; }
+.app-shell.student-workspace .writing-context-column .teacher-feedback-criteria > summary { display:flex; align-items:center; justify-content:space-between; gap:10px; color:#5c7151; font-size:12px; font-weight:500; list-style:none; cursor:pointer; }
+.app-shell.student-workspace .writing-context-column .teacher-feedback-criteria > div { margin-top:12px; }
+.app-shell.student-workspace .writing-context-column .support-disclosure { margin:0; border-bottom:1px solid #e7e1d5; }
+.app-shell.student-workspace .writing-context-column .support-disclosure > summary { display:flex; align-items:center; gap:10px; padding:15px 0; color:#6f5a38; font-size:12.5px; font-weight:500; list-style:none; cursor:pointer; }
+.app-shell.student-workspace .writing-context-column .support-disclosure > summary > span { display:flex; align-items:center; flex:1; gap:8px; }
+.app-shell.student-workspace .writing-context-column .support-disclosure summary small { color:#83735b; font-size:10.5px; font-weight:400; }
+.app-shell.student-workspace .writing-context-column .support-disclosure summary small.support-reference { padding:2px 7px; border-radius:4px; background:#f2efe7; color:#837056; font-size:10px; }
+.app-shell.student-workspace .writing-context-column .support-disclosure-body { display:grid; gap:14px; padding:0 0 16px; }
+.app-shell.student-workspace .writing-context-column .ai-rubric-section { border:1px solid #e4dece; border-radius:9px; }
+.app-shell.student-workspace .writing-context-column .ai-rubric-section > summary { padding:14px; }
+.app-shell.student-workspace .writing-context-column .ai-rubric-section > .support-disclosure-body { padding:16px 14px; border-top:1px solid #eee9df; }
+.app-shell.student-workspace .writing-context-column .teacher-history-item > summary { display:flex; align-items:center; gap:10px; padding:10px 0; color:#928574; font-size:11px; list-style:none; cursor:pointer; }
+.app-shell.student-workspace .writing-context-column .teacher-history-item > summary span { flex:1; }
+.app-shell.student-workspace .writing-context-column .feedback-tools { display:grid; }
+.app-shell.student-workspace .writing-context-column .feedback-tools > details { margin:0; padding:0; border:0; border-bottom:1px solid #e8e3d9; border-radius:0; background:transparent; box-shadow:none; }
+.app-shell.student-workspace .writing-context-column .feedback-tools > details > summary { display:flex; align-items:center; gap:12px; padding:14px 0; color:#8b7a61; font-size:12px; font-weight:400; list-style:none; cursor:pointer; }
+.app-shell.student-workspace .writing-context-column .feedback-tools > details > summary::after { content:''; flex-shrink:0; width:6px; height:6px; margin-left:auto; border-right:1.5px solid #a4957d; border-bottom:1.5px solid #a4957d; transform:rotate(45deg); }
+.app-shell.student-workspace .writing-context-column .feedback-tools > details[open] > summary::after { transform:rotate(225deg); }
+.app-shell.student-workspace .writing-context-column .feedback-tools > details > :not(summary) { margin-bottom:12px; }
+.app-shell.student-workspace .writing-context-column .writing-support-panel .feedback-provenance { display:block; margin:0; padding:10px 0; border:0; border-bottom:1px solid #e6e1d5; border-radius:0; background:transparent; color:#96866d; }
+.app-shell.student-workspace .writing-context-column .feedback-provenance > summary { display:flex; align-items:center; gap:7px; font-size:11px; font-weight:400; list-style:none; cursor:pointer; }
+.app-shell.student-workspace .writing-context-column .feedback-provenance > summary > span { display:flex; flex:1; flex-wrap:wrap; gap:5px 12px; }
+.app-shell.student-workspace .writing-context-column .feedback-provenance b { color:#806a44; font-size:11px; font-weight:500; }
+.app-shell.student-workspace .writing-context-column .feedback-provenance b.is-stale { color:#985f39; }
+.app-shell.student-workspace .writing-context-column .feedback-provenance p { margin:10px 0 0; color:#7e6e55; font-size:11.5px; line-height:1.8; }
+.app-shell.student-workspace .writing-context-column .suggestion-button { display:inline-flex; align-items:center; gap:6px; margin-top:10px; padding:7px 10px; border:1px solid #dccda8; border-radius:6px; background:#f7efd9; color:#80602c; font-size:11.5px; font-weight:500; box-shadow:none; }
+.app-shell.student-workspace .writing-context-column .suggestion-button:hover { background:#eeede9; }
+.app-shell.student-workspace .writing-context-column .coach-panel > .section-head { margin:0; }
+.app-shell.student-workspace .writing-context-column .coach-title { display:flex; align-items:center; gap:9px; }
+.app-shell.student-workspace .writing-context-column .coach-title h3 { margin:0; color:#604b2f; font-size:16px; font-weight:600; }
+.app-shell.student-workspace .writing-context-column .coach-title svg { color:#9e814b; }
+.app-shell.student-workspace .writing-context-column .tiny-status { color:#84725a; font-size:10.5px; }
+.app-shell.student-workspace .writing-context-column .tiny-status.online { color:#6e8861; }
+.app-shell.student-workspace .writing-context-column .writing-support-panel .coach-panel > .button { margin:0; }
+.app-shell.student-workspace .writing-context-column .coach-reflection-level { margin:0; padding-top:8px; border-top:1px solid #e7e1d5; }
+.app-shell.student-workspace .writing-context-column .coach-reflection-level > summary { display:flex; align-items:center; flex-wrap:wrap; gap:9px; padding:12px 0; color:#827156; font-size:12px; font-weight:500; list-style:none; cursor:pointer; }
+.app-shell.student-workspace .writing-context-column .coach-reflection-level > summary > span { display:flex; align-items:center; flex:1; gap:7px; }
+.app-shell.student-workspace .writing-context-column .coach-reflection-level > summary > b { padding:2px 7px; border-radius:4px; background:#edf3e8; color:#748566; font-size:10.5px; font-weight:500; }
+.app-shell.student-workspace .writing-context-column .coach-reflection-level p { margin:6px 0 12px; color:#8a7d68; font-size:12px; line-height:1.8; }
+.app-shell.student-workspace .writing-context-column .coach-reflection-level blockquote { margin:0 0 12px; padding:10px; border:0; border-radius:6px; background:#faf8f2; color:#8a7d68; font-size:12px; line-height:1.8; }
+.app-shell.student-workspace .writing-context-column .rubric-summary > b { color:#7a6341; font-size:25px; font-weight:600; }
+.app-shell.student-workspace .writing-context-column .rubric-provider { color:#a09179; font-size:10px; }
+.app-shell.student-workspace .writing-context-column .rubric-kember { padding:2px 6px; border-radius:4px; background:#f4eddc; color:#9e8451; font-size:10px; font-weight:500; }
+.app-shell.student-workspace .writing-context-column .writing-support-panel .button.primary.full { min-height:41px; padding:9px 13px; border-color:#7f6030; border-radius:8px; background:#7f6030; color:#fff; font-size:12px; font-weight:500; box-shadow:none; }
+.app-shell.student-workspace .writing-context-column .writing-support-panel .button.primary.full:disabled { border-color:#e5e1d8; background:#f1efea; color:#a19889; opacity:1; }
+.app-shell.student-workspace .writing-context-column :is(summary,button):focus-visible { outline:2px solid #bd9e60; outline-offset:3px; }
+.app-shell.student-workspace .writing-context-column summary::-webkit-details-marker { display:none; }
+.app-shell.student-workspace .writing-context-column details[open] > summary > svg:last-child { transform:rotate(180deg); }
+.app-shell.student-workspace .writing-context-column :is(.feedback-explanation,.support-disclosure) > summary:hover { background:#f1f0ec; }
+/* One readable score sheet, with supporting detail in a single disclosure. */
+.app-shell.student-workspace .writing-context-column .feedback-score-list { display:block; margin:18px 0 0; padding:0; }
+.app-shell.student-workspace .writing-context-column .feedback-score-list > div { display:flex; align-items:center; gap:16px; margin:0; padding:10px 0; border:0; border-top:1px solid #dedfd4; background:transparent; }
+.app-shell.student-workspace .writing-context-column .feedback-score-list dt { flex:1; margin:0; color:#514d40; font-size:13px; font-weight:500; line-height:1.6; }
+.app-shell.student-workspace .writing-context-column .feedback-score-list dt small { display:inline-block; margin-left:8px; color:#948976; font-size:10px; font-weight:400; }
+.app-shell.student-workspace .writing-context-column .feedback-score-list dd { flex-shrink:0; margin:0; color:#4b704e; font-size:16px; font-weight:650; font-variant-numeric:tabular-nums; }
+.app-shell.student-workspace .writing-context-column .feedback-score-list dd small { margin-left:3px; color:#8a907f; font-size:11px; font-weight:400; }
+.app-shell.student-workspace .writing-context-column .feedback-score-list .score-level dt { color:#7e806f; font-size:11.5px; font-weight:400; }
+.app-shell.student-workspace .writing-context-column .feedback-score-list .score-level dd { font-size:13px; }
+.app-shell.student-workspace .writing-context-column .analysis-results .feedback-score-list dd { color:#85642d; }
+.app-shell.student-workspace .writing-context-column .feedback-explanation { margin:12px 0 0; padding:0; border:0; border-top:1px solid #e3dfd3; border-radius:0; background:transparent; box-shadow:none; }
+.app-shell.student-workspace .writing-context-column .feedback-explanation > summary { display:flex; align-items:center; gap:12px; padding:12px 0; color:#806234; font-size:12px; font-weight:500; line-height:1.6; list-style:none; cursor:pointer; }
+.app-shell.student-workspace .writing-context-column .feedback-explanation > summary > span { flex:1; }
+.app-shell.student-workspace .writing-context-column .criterion-explanations { display:grid; gap:20px; padding:8px 0 4px; }
+.app-shell.student-workspace .writing-context-column .criterion-explanations article { display:grid; gap:9px; margin:0; padding:0; border:0; border-radius:0; background:transparent; }
+.app-shell.student-workspace .writing-context-column .criterion-explanations h5 { display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin:0; color:#4f513f; font-size:13px; font-weight:600; line-height:1.6; }
+.app-shell.student-workspace .writing-context-column .criterion-explanations h5 small { flex-shrink:0; color:#8c8874; font-size:10px; font-weight:400; }
+.app-shell.student-workspace .writing-context-column .criterion-explanations p { margin:0; color:#716957; font-size:13px; line-height:1.85; }
+.app-shell.student-workspace .writing-context-column .criterion-explanations p b { display:block; margin-bottom:3px; color:#6f613f; font-size:11px; font-weight:600; }
+.app-shell.student-workspace .writing-context-column .criterion-explanations blockquote { margin:0; padding:10px 12px; border:0; border-radius:6px; background:#ffffffb3; color:#6c715f; font-size:12px; line-height:1.8; }
+.app-shell.student-workspace .writing-context-column .analysis-results .criterion-explanations blockquote { background:#f6f4ee; }
+.app-shell.student-workspace .writing-context-column .teacher-feedback-history .teacher-history-item { padding:14px 0; border-bottom:1px solid #e6e1d6; }
+.app-shell.student-workspace .writing-context-column .teacher-history-item > .support-caption { margin-bottom:12px; }
+.app-shell.student-workspace .writing-context-column .teacher-feedback-history .teacher-feedback-heading h4 { font-size:13px; }
+.app-shell.student-workspace .writing-context-column .teacher-feedback-history .teacher-feedback-score { font-size:22px; }
+.app-shell.student-workspace .writing-context-column .feedback-tools > .teacher-feedback-history > summary::after { display:none; }
+.app-shell.student-workspace .writing-context-column .feedback-tools:empty { display:none; }
+.app-shell.student-workspace .writing-context-column .feedback-more { margin-top:22px; padding-top:20px; border-top:1px solid #e7e1d5; }
+.app-shell.student-workspace .writing-context-column .reflection-guidance { display:grid; gap:22px; }
+.app-shell.student-workspace .writing-context-column .guidance-section { display:block; margin:0; padding:0; border:0; border-radius:0; background:transparent; box-shadow:none; }
+.app-shell.student-workspace .writing-context-column .guidance-section h4 { display:block; margin:0 0 9px; color:#75572c; font-size:14px; font-weight:650; line-height:1.6; }
+.app-shell.student-workspace .writing-context-column .guidance-section.is-strengths h4 { color:#507454; }
+.app-shell.student-workspace .writing-context-column .guidance-section p { margin:0; color:#5d564a; font-size:14px; line-height:1.85; }
+.app-shell.student-workspace .writing-context-column .guidance-list { display:grid; gap:12px; margin:0; padding:0 0 0 17px; list-style:disc; }
+.app-shell.student-workspace .writing-context-column .guidance-list > li { margin:0; padding-left:3px; }
+.app-shell.student-workspace .writing-context-column .guidance-list > li::marker { color:#c3b38d; font-size:10px; }
+.app-shell.student-workspace .writing-context-column .guidance-list > li:only-child { list-style:none; margin-left:-17px; padding:0; }
+.app-shell.student-workspace .writing-context-column .guidance-next { margin:0; }
+.app-shell.student-workspace .writing-context-column .guidance-next > div { display:grid; gap:22px; padding:8px 0; }
+.app-shell.student-workspace .writing-context-column .coach-controls { display:grid; gap:10px; margin-top:4px; padding-top:18px; border-top:1px solid #e8e2d6; }
+.app-shell.student-workspace .writing-context-column .coach-controls .button { margin:0; }
+.app-shell.student-workspace .writing-context-column .coach-reflection-level { padding:0; border:0; border-bottom:1px solid #e7e1d5; }
+.app-shell.student-workspace .writing-context-column .source-quote-label { display:block; margin-bottom:5px; color:#93866d; font-size:10px; font-weight:500; line-height:1.5; }
+@media (max-width:1100px) {
+ .app-shell.student-workspace .student-writing-workspace .writing-context-column .reflection-support-tabs { margin:16px 16px 0; }
+}
+@media (max-width:520px) {
+ .app-shell.student-workspace .student-writing-workspace .writing-context-column .reflection-support-tabs { gap:2px; margin:14px 12px 0; padding:4px; }
+ .app-shell.student-workspace .student-writing-workspace .writing-context-column .reflection-support-tabs button { gap:5px; min-height:44px; padding-inline:5px; font-size:11.5px; }
+ .app-shell.student-workspace .student-writing-workspace .writing-context-column .writing-support-panel :is(.feedback-panel,.coach-panel,.reflection-thinking) { padding:18px 16px; }
+ .app-shell.student-workspace .writing-context-column .student-feedback-panel > .lecturer-feedback { padding:14px; }
+ .app-shell.student-workspace .writing-context-column .teacher-feedback-heading h4 { font-size:14px; }
+ .app-shell.student-workspace .writing-context-column .teacher-feedback-score { font-size:26px; }
+}
+
+.app-shell.student-workspace .writing-translation-status { margin:0 28px 12px; color:#8b7650; font-size:11px; line-height:1.6; }
+
+/* Completed feedback uses the same quiet sage scale as the writing library. */
+.app-shell.student-workspace .writing-context-column .lecturer-feedback.is-final .fb-hero.is-final { background:#f2f5ed; border-color:#d8e1d0; }
+.app-shell.student-workspace .writing-context-column .lecturer-feedback.is-final .fb-hero-copy > small { background:#fafcf7; border-color:#d8e1d0; color:#607651; }
+.app-shell.student-workspace .writing-context-column .lecturer-feedback.is-final .fb-steps i { background:#dce4d5; }
+.app-shell.student-workspace .writing-context-column .lecturer-feedback.is-final .fb-steps i.is-on { background:#718b65; }
+.app-shell.student-workspace .writing-context-column .lecturer-feedback.is-final .fb-tag.is-best { background:#edf2e7; color:#60774c; }
+.app-shell.student-workspace .writing-context-column .lecturer-feedback.is-final .fb-bar { background:#edf0e8; }
+.app-shell.student-workspace .writing-context-column .lecturer-feedback.is-final .fb-bar i { background:#c2d0b5; }
+.app-shell.student-workspace .writing-context-column .lecturer-feedback.is-final .fb-bar.is-level-2 i { background:#a0b889; }
+.app-shell.student-workspace .writing-context-column .lecturer-feedback.is-final .fb-bar.is-level-3 i { background:#7f9c69; }
+.app-shell.student-workspace .writing-context-column .lecturer-feedback.is-final .fb-bar.is-level-4 i { background:#587b46; }
+.app-shell.student-workspace .writing-context-column .lecturer-feedback.is-final .fb-next-button.is-green { background:#5b735f; box-shadow:none; }
+.app-shell.student-workspace .writing-context-column .lecturer-feedback.is-final .fb-next-button.is-green:hover { background:#f0efec; color:#455848; }
+.app-shell.student-workspace .writing-context-column .lecturer-feedback.is-final .fb-star { display:inline-flex; align-items:center; gap:5px; background:#efe1b3; color:#775c29; box-shadow:none; }
+.app-shell.student-workspace .writing-context-column .student-feedback-panel .fb-next > b { display:flex; align-items:center; gap:6px; }
+.app-shell.student-workspace .writing-context-column .student-feedback-panel .fb-tag.is-best { display:inline-flex; align-items:center; gap:4px; }
+.app-shell.student-workspace .writing-context-column .student-feedback-panel :is(.teacher-feedback-criteria,.ai-rubric-section) > summary > span { display:flex; align-items:center; gap:8px; }
+.app-shell.student-workspace .writing-context-column .student-feedback-panel :is(.fb-next > b,.fb-next-button,.fb-tag,.fb-hero-copy > small,summary > span) > .ui-icon { flex-shrink:0; }

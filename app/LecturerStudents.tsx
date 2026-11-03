@@ -34,7 +34,7 @@ export default function LecturerStudents({language,studentId,courses,memberships
 <div className="lx-table-wrap"><table className="lx-table">
       <thead><tr><th>{tr('Sinh viên')}</th><th>{tr('Học phần')}</th><th className="is-num">{tr('Đã nộp')}</th><th className="is-num">{tr('Chờ duyệt')}</th><th className="is-num">{tr('Điểm TB')}</th><th className="is-num">{tr('Cam kết')}</th></tr></thead>
       <tbody>{rows.map(({user:u,progress,plans,done})=><tr key={u.id}>
-        <td><a className="lx-person lx-row-link" href={studentHref(u.id)}><UserAvatar person={u}/><span><b>{u.name}{!u.active&&<em className="lx-tag">{tr('Tạm ngừng')}</em>}</b><small>{u.email}</small></span></a></td>
+        <td><a className="lx-person lx-row-link" href={studentHref(u.id)}><UserAvatar person={u}/><span><b>{u.name}{!u.active&&<em className="lx-tag">{tr('Tạm ngừng')}</em>}</b></span></a></td>
         <td className="lx-muted">{courses.filter(c=>memberships.some(m=>m.userId===u.id&&m.courseId===c.id)).map(c=>c.code).join(', ')}</td>
         <td className="is-num">{progress.submitted}</td>
         <td className="is-num">{progress.pending?<b className="lx-attention">{progress.pending}</b>:<span className="lx-muted">—</span>}</td>

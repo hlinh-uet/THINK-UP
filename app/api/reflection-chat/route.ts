@@ -3,11 +3,14 @@ import {assertStudent} from '../../../lib/learning-actions';
 import { all, AppError, content, failure, id, isLocal, now, one, prepare, reflection, session, str } from '../../../lib/server';
 import { chatReply, type CoachTurn } from '../../../lib/reflection-chat-ai';
 import { thinkingRequest } from '../../../lib/reflection-chat-prompt';
+import {replyTranslations} from '../../../lib/feedback-language';
 export const dynamic='force-dynamic';
 const json=(value:unknown)=>Response.json(value,{headers:{'Cache-Control':'no-store'}});
 async function history(reflectionId:string,userId:string) {
   const turns=await all<CoachTurn>('SELECT id,question,reply,status,provider,included_attachments,created_at FROM reflection_coach_turns WHERE reflection_id=? AND user_id=? ORDER BY created_at DESC,rowid DESC LIMIT 40',reflectionId,userId);
-  return turns.reverse();
+  const saved=await all<{id:string;payload_json:string}>("SELECT id,payload_json FROM learning_records WHERE kind='ai-reply-translations' AND reflection_id=? AND owner_id=?",reflectionId,userId);
+  const translations=new Map(saved.map(row=>[row.id.replace(/^ai-reply:/,''),replyTranslations(JSON.parse(row.payload_json))]));
+  return turns.reverse().map(turn=>({...turn,translations:translations.get(turn.id)}));
 }
 export async function GET(request:Request) {
   try {
@@ -30,7 +33,7 @@ export async function POST(request:Request) {
     if(!owner||owner.user_id!==user.id)throw new AppError('Bạn chỉ được trò chuyện về bài của mình.',403);
     const prior=await one<CoachTurn & {reflection_id:string}>('SELECT * FROM reflection_coach_turns WHERE user_id=? AND client_id=?',user.id,clientId);
     if(prior&&(prior.reflection_id!==reflectionId||prior.question!==question))throw new AppError('Mã câu hỏi đã được sử dụng.',409);
-    if(prior?.status==='completed')return json({turn:prior});
+    if(prior?.status==='completed')return json({turn:(await history(reflectionId,user.id)).find(turn=>turn.id===prior.id)||prior});
     await reflection(user,reflectionId,'write');
     const value=content(body.content),title=str(body.title,200);
     const includeAttachments=thinking||body.includeAttachments===true;
@@ -47,6 +50,7 @@ export async function POST(request:Request) {
     const updated=await prepare("UPDATE reflection_coach_turns SET status='completed',reply=?,provider=? WHERE id=? AND status='pending'",result.reply,result.provider,turnId).run();
     if(updated.meta.changes!==1)throw new AppError('Lượt trò chuyện đã hết hạn. Hãy thử lại.',409);
     pendingId=undefined;
-    return json({turn:await one('SELECT id,question,reply,status,provider,included_attachments,created_at FROM reflection_coach_turns WHERE id=?',turnId)});
+    if(Object.keys(result.translations).length)await prepare("INSERT INTO learning_records (id,kind,owner_id,reflection_id,payload_json,revision,created_at,updated_at) VALUES (?,'ai-reply-translations',?,?,?,1,?,?)",`ai-reply:${turnId}`,user.id,reflectionId,JSON.stringify(result.translations),now(),now()).run();
+    return json({turn:await one('SELECT id,question,reply,status,provider,included_attachments,created_at FROM reflection_coach_turns WHERE id=?',turnId).then(turn=>({...turn,translations:result.translations}))});
   }catch(error){if(pendingId)await prepare("UPDATE reflection_coach_turns SET status='failed' WHERE id=? AND status='pending'",pendingId).run();return failure(error)}
 }

@@ -1,4 +1,4 @@
-export type CoachTurn={id:string;question:string;reply:string|null;status:string;provider:string|null;included_attachments:number;created_at:string};
+export type CoachTurn={translations?:Partial<Record<'en'|'vi',string>>;id:string;question:string;reply:string|null;status:string;provider:string|null;included_attachments:number;created_at:string};
 
 // A slow history request must not erase a reply that arrived after that request began.
 export function mergeCoachTurns(current:CoachTurn[],incoming:CoachTurn[]):CoachTurn[] {

@@ -1,5 +1,7 @@
+import {writingIdentity,type WritingTranslation} from './reflection-translation';
 import {all,one,prepare,now,id} from './server';
 import type {Action,LearningRecord,Reflection,User,Participation} from './domain';
+import {actionDeadline,validateCommitmentDeadline} from './commitment-deadline';
 
 type Stored={id:string;kind:string;owner_id:string;reflection_id:string|null;course_id:string|null;version_id:string|null;payload_json:string;revision:number;created_at:string;updated_at:string};
 export function parseLearningRecord(row:Stored):LearningRecord{return {id:row.id,kind:row.kind,ownerId:row.owner_id,reflectionId:row.reflection_id,courseId:row.course_id,versionId:row.version_id,payload:JSON.parse(row.payload_json),revision:row.revision,createdAt:row.created_at,updatedAt:row.updated_at};}
@@ -18,12 +20,12 @@ export async function enrichReflections(rows:Reflection[],viewer?:User):Promise<
   readingAccess=" OR (kind='reading' AND owner_id=? AND EXISTS(SELECT 1 FROM memberships m WHERE m.course_id=learning_records.course_id AND m.user_id=? AND m.role='lecturer'))";
   readingArgs.push(viewer.id,viewer.id);
  }
- const extras=await records(`SELECT * FROM learning_records WHERE reflection_id IN (SELECT value FROM json_each(?)) AND (kind IN ('review-detail','self-assessment','archive')${readingAccess}) ORDER BY created_at DESC,rowid DESC`,ids,...readingArgs);
+ const extras=await records(`SELECT * FROM learning_records WHERE reflection_id IN (SELECT value FROM json_each(?)) AND (kind IN ('review-detail','self-assessment','archive','reflection-translation')${readingAccess}) ORDER BY created_at DESC,rowid DESC`,ids,...readingArgs);
  const metadata=await records(`SELECT * FROM learning_records WHERE kind='course-metadata' AND course_id IN (SELECT value FROM json_each(?))`,JSON.stringify(rows.map(r=>r.courseId)));
  const turns=await all<{id:string;reflection_id:string;question:string;reply:string|null;created_at:string}>(`SELECT id,reflection_id,question,reply,created_at FROM reflection_coach_turns WHERE reflection_id IN (SELECT value FROM json_each(?)) AND status='completed' ORDER BY created_at`,ids);
  return rows.map(row=>{
   const linked=extras.filter(e=>e.reflectionId===row.id);
-  return {...row,className:String(metadata.find(m=>m.courseId===row.courseId)?.payload.className||row.courseId||''),archived:linked.some(e=>e.kind==='archive'),readingReports:linked.filter(e=>e.kind==='reading'),selfAssessments:linked.filter(e=>e.kind==='self-assessment'),coachTurns:turns.filter(t=>t.reflection_id===row.id).map(({id,question,reply,created_at})=>({id,question,reply,createdAt:created_at})),reviews:row.reviews.map(review=>{
+  return {...row,translations:linked.filter(e=>e.kind==='reflection-translation').map(e=>e.payload as unknown as WritingTranslation).filter(t=>t.source?.content&&[row,...row.versions].some(v=>writingIdentity(v)===writingIdentity(t.source))),className:String(metadata.find(m=>m.courseId===row.courseId)?.payload.className||row.courseId||''),archived:linked.some(e=>e.kind==='archive'),readingReports:linked.filter(e=>e.kind==='reading'),selfAssessments:linked.filter(e=>e.kind==='self-assessment'),coachTurns:turns.filter(t=>t.reflection_id===row.id).map(({id,question,reply,created_at})=>({id,question,reply,createdAt:created_at})),reviews:row.reviews.map(review=>{
    const detail=linked.find(e=>e.kind==='review-detail'&&e.id===`review:${review.id}`);
    return {...review,scoreScale:detail?10 as const:4 as const,criteria:detail?.payload.criteria as typeof review.criteria,rubricVersion:detail?.payload.rubricVersion as string|undefined};
   })};
@@ -36,7 +38,10 @@ export async function enrichActions(rows:Action[]):Promise<Action[]>{
  const details=await records(`SELECT * FROM learning_records WHERE id IN (SELECT value FROM json_each(?)) AND kind='action'`,ids);
  const files=await records(`SELECT * FROM learning_records WHERE kind='action-evidence' AND json_extract(payload_json,'$.actionId') IN (SELECT value FROM json_each(?))`,actionIds);
  const history=await records(`SELECT * FROM learning_records WHERE kind='action-event' AND json_extract(payload_json,'$.actionId') IN (SELECT value FROM json_each(?)) ORDER BY created_at DESC,rowid DESC`,actionIds);
- return rows.map(a=>{const detail=details.find(d=>d.id===`action:${a.id}`);return {...a,successCriteria:String(detail?.payload.successCriteria||''),evidence:String(detail?.payload.evidence||''),attachmentIds:(detail?.payload.attachmentIds||[]) as string[],followUpReflectionId:detail?.payload.followUpReflectionId as string|null||null,revision:detail?.revision||0,evidenceFiles:files.filter(f=>f.payload.actionId===a.id).map(f=>({id:f.id,name:String(f.payload.name),type:String(f.payload.type),size:Number(f.payload.size)})),history:history.filter(h=>h.payload.actionId===a.id)};});
+ const policies=await all<{id:string;payload_json:string|null}>(`SELECT r.id,m.payload_json FROM reflections r LEFT JOIN learning_records m ON m.id='course:'||r.course_id AND m.kind='course-metadata' WHERE r.id IN (SELECT value FROM json_each(?))`,JSON.stringify(rows.map(a=>a.reflectionId)));
+ return rows.map(a=>{const detail=details.find(d=>d.id===`action:${a.id}`),policyRow=policies.find(p=>p.id===a.reflectionId),policy=validateCommitmentDeadline(policyRow?.payload_json?JSON.parse(policyRow.payload_json).commitmentDeadline:null);
+  const stored={...a,dueAt:detail?.payload.dueAt as string|undefined,deadlineSource:detail?.payload.deadlineSource as Action['deadlineSource'],deadlinePolicy:detail?.payload.deadlinePolicy as Action['deadlinePolicy']};
+  return {...a,...actionDeadline(stored,policy),completedAt:detail?.payload.completedAt as string|null||null,successCriteria:String(detail?.payload.successCriteria||''),evidence:String(detail?.payload.evidence||''),attachmentIds:(detail?.payload.attachmentIds||[]) as string[],followUpReflectionId:detail?.payload.followUpReflectionId as string|null||null,revision:detail?.revision||0,evidenceFiles:files.filter(f=>f.payload.actionId===a.id).map(f=>({id:f.id,name:String(f.payload.name),type:String(f.payload.type),size:Number(f.payload.size)})),history:history.filter(h=>h.payload.actionId===a.id)};});
 }
 export async function teachingExtras(user:User,courseIds:string[]){
  if(!courseIds.length)return {classActions:[] as Action[],participation:[] as Participation[]};

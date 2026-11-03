@@ -6,6 +6,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { chatSchema } from '../lib/reflection-chat-prompt.ts';
 import { feedbackSchema } from '../lib/feedback-schema.ts';
+import { writingTranslationSchema } from '../lib/reflection-translation.ts';
 import { readingSchema } from '../lib/reading.ts';
 
 const maximumBody = 24 * 1024 * 1024;
@@ -102,14 +103,14 @@ export async function prepareCodexInput(input, directory, { runner = runProcess,
   return { text, images };
 }
 
-export async function executeCodex(payload, { binary = process.env.CODEX_BIN || 'codex', model = process.env.CODEX_MODEL || 'gpt-5.6-luna', runner = runProcess, signal, mode = 'feedback' } = {}) {
+export async function executeCodex(payload, { binary = process.env.CODEX_BIN || 'codex', model = process.env.CODEX_MODEL || 'gpt-6-luna', runner = runProcess, signal, mode = 'feedback' } = {}) {
   if (!payload || typeof payload.instructions !== 'string' || payload.instructions.length > 20000) throw new BridgeError('Nội dung phân tích chưa hợp lệ.', 400);
   await requireChatGPTLogin(binary, runner);
   const directory = await mkdtemp(join(tmpdir(), 'thinkup-codex-'));
   try {
     const { text, images } = await prepareCodexInput(payload.input, directory, { runner, signal });
     const schema = join(directory, 'feedback.schema.json'), output = join(directory, 'feedback.json');
-    await writeFile(schema, JSON.stringify(mode === 'chat' ? chatSchema : mode === 'reading' ? readingSchema : feedbackSchema), { mode: 0o600 });
+    await writeFile(schema, JSON.stringify(mode === 'chat' ? chatSchema : mode === 'reading' ? readingSchema : mode === 'translate' ? writingTranslationSchema : feedbackSchema), { mode: 0o600 });
     const args = ['exec', '--ignore-user-config', '--ignore-rules', '--ephemeral', '--skip-git-repo-check', '--sandbox', 'read-only', '--color', 'never', '--model', model,
       '-c', 'forced_login_method="chatgpt"', '-c', 'approval_policy="never"', '-c', 'web_search="disabled"',
       '--output-schema', schema, '--output-last-message', output];
@@ -156,7 +157,7 @@ export async function startCodexBridge({ token = randomBytes(32).toString('hex')
     const reply = (status, body) => { if (!response.destroyed) { response.writeHead(status, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }); response.end(JSON.stringify(body)); } };
     const supplied = Buffer.from(request.headers.authorization || ''), expected = Buffer.from(`Bearer ${token}`);
     if (request.headers.origin || !/^127\.0\.0\.1:\d+$/.test(request.headers.host || '') || supplied.length !== expected.length || !timingSafeEqual(supplied, expected)) { reply(403, { error: 'Không được phép truy cập cầu nối Codex.' }); return; }
-    if (request.method !== 'POST' || !['/analyze', '/chat', '/reading'].includes(request.url)) { reply(404, { error: 'Không tìm thấy thao tác.' }); return; }
+    if (request.method !== 'POST' || !['/analyze', '/chat', '/reading', '/translate'].includes(request.url)) { reply(404, { error: 'Không tìm thấy thao tác.' }); return; }
     if (!request.headers['content-type']?.startsWith('application/json')) { reply(415, { error: 'Yêu cầu cần có định dạng JSON.' }); return; }
     let acquired = false;
     const controller = new AbortController();
@@ -173,7 +174,7 @@ export async function startCodexBridge({ token = randomBytes(32).toString('hex')
       let payload;
       try { payload = JSON.parse(Buffer.concat(chunks).toString()); }
       catch { throw new BridgeError('Yêu cầu JSON chưa hợp lệ.', 400); }
-      reply(200, await execute(payload, { signal: controller.signal, mode: request.url === '/chat' ? 'chat' : request.url === '/reading' ? 'reading' : 'feedback' }));
+      reply(200, await execute(payload, { signal: controller.signal, mode: request.url === '/chat' ? 'chat' : request.url === '/reading' ? 'reading' : request.url === '/translate' ? 'translate' : 'feedback' }));
     } catch (error) { reply(error instanceof BridgeError ? error.status : 502, { error: error instanceof BridgeError ? error.message : 'Chưa thể kết nối Codex. Hãy kiểm tra đăng nhập và thử lại.' }); }
     finally { response.removeListener('close', closed); if (acquired) release(); }
   });

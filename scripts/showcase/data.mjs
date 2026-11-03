@@ -11,6 +11,7 @@ import knm1101En from './en/knm1101.mjs';
 import knm1203En from './en/knm1203.mjs';
 import tks2105En from './en/tks2105.mjs';
 import cds2302En from './en/cds2302.mjs';
+import { readFileSync } from 'node:fs';
 
 export const showcaseMarker = 'showcase-seed-v1';
 export const showcasePassword = 'ThinkUp@2026';
@@ -170,7 +171,7 @@ export function createShowcaseData(passwordHash, referenceDate = new Date()) {
   const at = (days, minutes = 0) => new Date(base.getTime() + days * 86400000 + minutes * 60000).toISOString();
   const day = days => at(days).slice(0, 10);
   const rubricJson = JSON.stringify(defaultRubric), rubricKey = rubricVersion(defaultRubric);
-  const tables = { settings: [], users: [], credentials: [], user_profiles: [], courses: [], memberships: [], invitations: [], reflections: [], versions: [], analyses: [], reviews: [], actions: [], attachments: [], learning_records: [], chat_conversations: [], chat_messages: [], audit: [] };
+  const tables = { settings: [], users: [], credentials: [], user_profiles: [], courses: [], memberships: [], invitations: [], reflections: [], versions: [], analyses: [], reviews: [], actions: [], attachments: [], learning_records: [], chat_conversations: [], chat_messages: [], community_posts: [], community_reactions: [], community_comments: [], community_comment_reactions: [], audit: [] };
   const files = [];
   const semesterStart = -60;
   // Vietnamese → English for every seeded text, so switching to English shows the same records in English.
@@ -392,5 +393,37 @@ export function createShowcaseData(passwordHash, referenceDate = new Date()) {
     reasons[key].forEach((t, i) => translate(t, reasonsEn[key][i])); translate(improvements[key], improvementsEn[key]); translate(nextHints[key], nextHintsEn[key]);
   }
   for (const course of courses) translate(course.name, course.nameEn);
+
+  // Community board: a school-wide feed with pictures, reactions and replies.
+  const communityImage = name => ({ bytes: new Uint8Array(readFileSync(new URL(`./community/${name}.png`, import.meta.url))), type: 'image/png' });
+  const crowd = people.filter(p => p[5] !== 0).map(p => p[0]);
+  const crowdPick = (seed, count) => crowd.map((k, i) => [k, hash(`${seed}${k}${i}`)]).sort((a, b) => a[1] - b[1]).slice(0, count).map(([k]) => k);
+  let commentNo = 0;
+  const communityPost = (key, author, days, minutes, body, { picture, reactions = [], comments = [], off = 0, edited = 0 } = {}) => {
+    const id = `post-${key}`, created = at(days, minutes);
+    let imageKey = null;
+    if (picture) { imageKey = `community/${id}/${picture}`; files.push({ key: imageKey, ...communityImage(picture) }); }
+    tables.community_posts.push({ id, author_id: uid(author), body, image_key: imageKey, image_type: picture ? 'image/png' : null, comments_off: off, edited, created_at: created, updated_at: edited ? at(days, minutes + 40) : created });
+    reactions.forEach(([who, kind], i) => tables.community_reactions.push({ post_id: id, user_id: uid(who), kind, created_at: at(days, minutes + 5 + i * 7) }));
+    const add = (list, parent = null) => list.forEach(([who, delay, text, likes = [], replies = []]) => {
+      commentNo += 1;
+      const cid2 = `comment-${commentNo}`;
+      tables.community_comments.push({ id: cid2, post_id: id, author_id: uid(who), parent_id: parent, body: text, created_at: at(days, minutes + delay) });
+      likes.forEach((w, i) => tables.community_comment_reactions.push({ comment_id: cid2, user_id: uid(w), created_at: at(days, minutes + delay + 3 + i) }));
+      add(replies, cid2);
+    });
+    add(comments);
+  };
+  const crowdMix = (seed, count, kinds) => crowdPick(seed, count).map((k, i) => [k, kinds[hash(seed + i) % kinds.length]]);
+  communityPost('welcome', 'admin', -40, 540, '📢 Chào mừng các bạn đến với trang Cộng đồng của THINK UP!\n\nĐây là nơi để chia sẻ trải nghiệm học tập, đặt câu hỏi và cổ vũ nhau. Nhớ tôn trọng nhau và không chia sẻ thông tin cá nhân của người khác nhé.', { reactions: crowdMix('welcome', 18, ['like', 'like', 'love']), comments: [['minh-anh', 30, 'Hay quá ạ, mong được học hỏi từ mọi người!', ['gia-bao', 'thao-vy']], ['hoang-nam', 95, 'Cuối cùng cũng có chỗ để hỏi bài ngoài giờ 😆', ['khanh-linh'], [['admin', 120, 'Đúng rồi Nam, cứ hỏi thoải mái nhé.']]]] });
+  communityPost('deadline', 'thu-ha', -4, 600, 'Các em lớp KNM1203 lưu ý: từ tuần 6, hạn nộp reflection là 23:59 Chủ nhật. Bài nộp muộn vẫn được nhận nhưng cô sẽ phản hồi chậm hơn một chút.\n\nTuần này nhiều bạn viết rất hay về làm việc nhóm 👏 Gợi ý của cô: thử nêu rõ một việc cụ thể em sẽ làm khác đi ở lần tới, bài sẽ sâu hơn nhiều.', { reactions: crowdMix('deadline', 14, ['like', 'like', 'love']), comments: [['thu-trang', 25, 'Dạ em cảm ơn cô ạ!'], ['minh-anh', 40, 'Cô ơi phần "việc cụ thể" nên viết trong mục Hành động hay mục Phân tích ạ?', [], [['thu-ha', 70, 'Em viết trong mục Hành động nhé, kèm thời hạn và cách em biết mình đã làm được.', ['minh-anh', 'hai-dang']]]], ['van-loc', 180, 'Em sẽ sửa lại phần kế hoạch theo gợi ý của cô ạ.']] });
+  communityPost('present', 'thao-vy', -1, 1290, 'Lần đầu thuyết trình mà không cầm giấy 😭 run nhưng xong rồi! Nhóm mình trình bày kết quả khảo sát về thói quen tự học của sinh viên năm nhất. Ai có mẹo bớt run thì chia sẻ với mình nha.', { picture: 'present', reactions: crowdMix('present', 16, ['love', 'like', 'haha', 'love']), comments: [['quoc-viet', 20, 'Bọn mình ngồi dưới thấy Vy tự tin lắm luôn 👏', ['thao-vy', 'ha-my']], ['minh-duc', 55, 'Phần mở đầu bằng câu hỏi cho khán giả rất tốt. Lần tới em thử dừng 2 giây trước khi chuyển slide, sẽ đỡ vội hơn.', ['thao-vy', 'khanh-vy', 'duc-anh'], [['thao-vy', 80, 'Dạ em cảm ơn thầy, em sẽ thử ạ!']]], ['duc-anh', 140, 'Mẹo của mình: tập trước gương 3 lần và bấm giờ. Lần thứ ba là đỡ run hẳn 😆']] });
+  communityPost('notes', 'minh-anh', -6, 1230, 'Chia sẻ cách mình ôn bài mấy tuần nay: mỗi tối dành 15 phút đọc lại ghi chú, tóm tắt bằng 3 câu và ghi lại 1 câu hỏi để hỏi cô. Tuần 4 mình làm được 5/7 tối, thấy nhớ bài lâu hơn hẳn 💪', { picture: 'notes', edited: 1, reactions: crowdMix('notes', 19, ['like', 'love', 'like']), comments: [['ngoc-mai', 35, 'Bảng note xinh quá, cho mình xin cách chia 3 câu với!', ['minh-anh'], [['minh-anh', 60, 'Câu 1 là ý chính, câu 2 là ví dụ, câu 3 là mình sẽ dùng nó vào đâu nha.', ['ngoc-mai', 'tuan-kiet']]]], ['thu-ha', 150, 'Cách làm rất hay Minh Anh. Em có thể viết lại trải nghiệm này cho reflection tuần sau đấy.', ['minh-anh', 'gia-bao']], ['tuan-kiet', 300, 'Mình thử từ tối nay luôn 😆']] });
+  communityPost('library', 'anh-thu', -3, 900, 'Nhóm CDS2302 đang dựng một góc đọc sách ở nhà văn hóa phường 📚 Kệ còn trống nhiều lắm, bạn nào có sách thiếu nhi hoặc truyện tranh cũ muốn quyên góp thì nhắn mình nhé. Thứ Bảy này bọn mình sẽ tổ chức buổi đọc sách đầu tiên cho các bé!', { picture: 'library', reactions: crowdMix('library', 15, ['love', 'love', 'like']), comments: [['gia-han', 15, 'Mình có một thùng truyện tranh, mai mang qua cho Thư nha!', ['anh-thu']], ['hai-yen', 90, 'Cô rất ủng hộ. Các em nhớ ghi lại số lượt mượn sách để làm minh chứng cho bài reflection nhé.', ['anh-thu', 'phuong-thao', 'ha-my']], ['khanh-linh', 200, 'Thứ Bảy mình đến phụ được buổi sáng ạ.']] });
+  communityPost('question', 'gia-bao', -2, 1380, 'Mọi người cho mình hỏi: khi viết reflection mà tình huống không có gì "đặc biệt" thì nên chọn trải nghiệm nào ạ? Tuần này mình bí ý tưởng quá 😅', { reactions: crowdMix('question', 7, ['like', 'haha']), comments: [['khanh-linh', 30, 'Mình hay chọn một lúc mình thấy khó chịu hoặc bất ngờ trong tuần, dù nhỏ thôi cũng được.', ['gia-bao', 'hoang-nam']], ['thu-ha', 600, 'Không cần sự kiện lớn đâu Bảo. Một cuộc trao đổi ngắn trong nhóm mà em muốn làm lại theo cách khác cũng là chất liệu tốt.', ['gia-bao', 'minh-anh', 'khanh-linh', 'thao-vy']]] });
+  communityPost('thanks', 'minh-anh', -9, 1100, 'Cảm ơn cả nhóm đã hỗ trợ mình trong buổi làm việc nhóm hôm thứ Ba! Lần đầu mình làm trưởng nhóm mà mọi người hợp tác quá trời 🥰', { off: 1, reactions: crowdMix('thanks', 12, ['love', 'love', 'like']), comments: [['thu-trang', 40, 'Minh Anh điều phối khéo lắm luôn!', ['minh-anh']]] });
+  communityPost('meme', 'hoang-nam', -1, 480, 'Khi cô trả bài và ghi "em thử hỏi thêm vì sao mình nghĩ như vậy" lần thứ 3 😆 Hiểu rồi cô ơi, lần này em đào sâu thật sự!', { reactions: crowdMix('meme', 13, ['haha', 'haha', 'like']), comments: [['quang-khai', 10, 'Đồng cảm sâu sắc 😂', ['hoang-nam', 'duc-huy']], ['minh-anh', 25, 'Câu này đúng là "câu cửa miệng" của cô luôn 😆']] });
+  communityPost('minh-anh-q', 'minh-anh', -12, 820, 'Có ai học TKS2105 muốn lập nhóm ôn phần Empathy map không? Mình định họp online tối thứ Năm.', { reactions: crowdMix('minh-anh-q', 5, ['like']), comments: [['ha-my', 50, 'Cho mình tham gia với!', ['minh-anh']], ['quoc-viet', 75, '+1 nha Minh Anh']] });
+
   return { tables, files, translations: Object.fromEntries([...translations].sort(([a], [b]) => a.localeCompare(b, 'vi'))) };
 }

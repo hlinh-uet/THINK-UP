@@ -553,7 +553,7 @@ a.lx-metric:hover .lx-metric-value b { text-decoration: underline; text-decorati
 
 /* ---------- Similarity: one filter row, a one-line summary, then a list of pairs ---------- */
 .lx-similarity { gap: 20px; }
-.lx-scan { display: grid; gap: 10px; padding: 18px 20px; border: 1px solid var(--lx-line); border-radius: var(--lx-radius); background: var(--lx-surface); }
+.lx-scan { display: grid; gap: 10px; }
 .lx-scan-fields { display: grid; grid-template-columns: minmax(0,1.4fr) minmax(0,1fr) minmax(0,.6fr) auto; align-items: end; gap: 12px; margin: 0; padding: 0; border: 0; }
 .lx-scan-fields > label { display: grid; gap: 6px; min-width: 0; color: var(--lx-muted); font-size: 12.5px; }
 .app-shell .lx-scan-fields select { width: 100%; text-overflow: ellipsis; }
@@ -569,41 +569,45 @@ a.lx-metric:hover .lx-metric-value b { text-decoration: underline; text-decorati
 .lx-sim-summary p { color: var(--lx-muted); font-size: 12.5px; }
 .lx-sim-list { overflow: hidden; border: 1px solid var(--lx-line); border-radius: var(--lx-radius); background: var(--lx-surface); }
 .lx-sim-list > li + li { border-top: 1px solid var(--lx-line); }
-.lx-sim-list summary { display: grid; grid-template-columns: 24px minmax(0,1fr) minmax(0,1fr) 120px 16px; align-items: center; gap: 16px; padding: 14px 20px; cursor: pointer; list-style: none; }
+.lx-sim-list summary { display: grid; grid-template-columns: 24px minmax(0,1fr) 150px 16px; align-items: center; gap: 16px; padding: 14px 20px; cursor: pointer; list-style: none; }
 .lx-sim-list summary::-webkit-details-marker { display: none; }
 .lx-sim-list summary:hover { background: var(--lx-hover); }
 .lx-sim-list summary > .ui-icon { color: var(--lx-muted); transition: transform .2s; }
 .lx-sim-list details[open] summary > .ui-icon { transform: rotate(180deg); }
 .lx-sim-no { color: var(--lx-muted); font-size: 12.5px; font-variant-numeric: tabular-nums; }
-.lx-sim-doc { display: grid; min-width: 0; line-height: 1.4; }
-.lx-sim-doc b { color: var(--lx-ink); font-weight: 600; }
-.lx-sim-doc small, .lx-sim-doc b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.lx-sim-doc small { color: var(--lx-muted); font-size: 12.5px; }
-.lx-sim-rate { display: grid; grid-template-columns: 40px 1fr; align-items: center; gap: 10px; }
+.lx-sim-pair { display: flex; flex-wrap: wrap; gap: 2px 20px; min-width: 0; color: var(--lx-ink); }
+.lx-sim-pair b { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
+.lx-sim-pair b > i { width: 9px; height: 9px; border-radius: 50%; background: var(--sim-a); }
+.lx-sim-pair b + b > i { background: var(--sim-b); }
+.lx-sim-rate { display: grid; grid-template-columns: 52px 1fr; align-items: center; gap: 10px; }
 .lx-sim-rate b { color: var(--lx-ink); font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; }
 .lx-sim-rate i { height: 4px; overflow: hidden; border-radius: 2px; background: var(--lx-fill); }
 .lx-sim-rate s { display: block; height: 100%; background: var(--lx-ink); }
-.lx-sim-body { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px 20px; padding: 4px 20px 20px 60px; }
-.lx-sim-col-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--lx-line); color: var(--lx-muted); font-size: 12.5px; }
-.lx-sim-col-head b { color: var(--lx-ink); font-weight: 600; }
-.lx-sim-col-head .lx-link { flex: none; font-size: 12.5px; }
-.lx-sim-body blockquote { margin: 0; padding: 10px 12px; border-radius: 8px; background: var(--lx-hover); overflow-wrap: anywhere; }
-.lx-sim-body blockquote small { display: block; margin-bottom: 2px; color: var(--lx-muted); font-size: 12.5px; }
-.lx-sim-who { display: none; }
-.lx-sim-body blockquote p { color: var(--lx-ink); line-height: 1.65; }
+/* Rate colours follow the waiting-time tags: high, medium, low. */
+.lx-sim-rate.is-high { --sim-rate: #d0342c; } .lx-sim-rate.is-mid { --sim-rate: #b07c12; } .lx-sim-rate.is-low { --sim-rate: #2f8550; }
+.lx-sim-rate b { color: var(--sim-rate); }
+/* One framed column per student: who and which reflection, then only the shared passages. */
+.lx-similarity, .lx-sim-results { --sim-a: #e8c766; --sim-a-soft: #fbf4dc; --sim-b: #7f9fd6; --sim-b-soft: #e3ecfa; }
+.lx-sim-body { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; padding: 0 20px 20px; }
+.lx-sim-side { display: grid; align-content: start; min-width: 0; border: 1px solid var(--lx-line); border-radius: 12px; background: var(--lx-surface); }
+.lx-sim-side { --sim-tone: var(--sim-a); --sim-soft: var(--sim-a-soft); overflow: hidden; }
+.lx-sim-side + .lx-sim-side { --sim-tone: var(--sim-b); --sim-soft: var(--sim-b-soft); }
+.lx-sim-side > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--lx-line); background: var(--sim-soft); }
+.lx-sim-side > header > span { display: grid; min-width: 0; line-height: 1.4; }
+.lx-sim-side > header b { color: var(--lx-ink); font-weight: 600; }
+.lx-sim-side > header small { overflow: hidden; color: var(--lx-muted); font-size: 12.5px; text-overflow: ellipsis; white-space: nowrap; }
+.lx-sim-side > header .lx-link { flex: none; font-size: 13px; }
+.lx-sim-passages { display: grid; gap: 12px; padding: 14px 16px 16px; }
+.lx-sim-passages p { padding-left: 12px; border-left: 3px solid var(--sim-tone); color: var(--lx-text); line-height: 1.7; overflow-wrap: anywhere; white-space: pre-line; }
 @keyframes lx-scan-spin { to { transform: rotate(360deg); } }
 @media (max-width: 1000px) {
   .lx-scan-fields { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .lx-sim-list summary { grid-template-columns: 24px minmax(0,1fr) minmax(0,1fr) 16px; }
-  .lx-sim-rate { grid-column: 2 / 4; grid-row: 2; }
 }
 @media (max-width: 720px) {
   .lx-scan-fields, .lx-sim-body { grid-template-columns: minmax(0,1fr); }
   .lx-sim-list summary { grid-template-columns: 20px minmax(0,1fr) 16px; gap: 6px 12px; padding: 14px 16px; }
-  .lx-sim-doc + .lx-sim-doc { grid-column: 2; }
-  .lx-sim-rate { grid-column: 2; grid-row: auto; }
-  .lx-sim-body { padding: 4px 16px 16px; }
-  .lx-sim-who { display: inline; }
+  .lx-sim-rate { grid-column: 2; grid-row: 2; }
+  .lx-sim-body { padding: 0 16px 16px; }
 }
 @media (prefers-reduced-motion: reduce) { .lx-sim-list summary > .ui-icon, .lx-scan-fields .lx-btn .ui-icon { transition: none; animation: none; } }
 
@@ -789,7 +793,7 @@ a.lx-metric:hover .lx-metric-value b { text-decoration: underline; text-decorati
 /* Cards. */
 .lecturer-workspace main.lx:not(.lx-is-review) :where(
   .lx-section:not(.lx-section .lx-section), .lx-stack > .lx-table-wrap, .lx-tab-panel > .lx-table-wrap, .lx-metrics, .lx-journey,
-  .lx-scan, .lx-sim-list, .lx-weeks-config, .lx-rubric, .lx-help, .lx-analysis-detail) {
+  .lx-sim-list, .lx-weeks-config, .lx-rubric, .lx-help, .lx-analysis-detail) {
   padding: 22px 28px; border: 1px solid var(--paper-edge); border-radius: var(--paper-radius); background: var(--paper-card); box-shadow: var(--paper-shadow);
 }
 .lecturer-workspace main.lx:not(.lx-is-review) :is(.lx-stack > .lx-table-wrap, .lx-tab-panel > .lx-table-wrap) { padding: 6px 28px; }
@@ -858,22 +862,26 @@ a.lx-metric:hover .lx-metric-value b { text-decoration: underline; text-decorati
 .lecturer-workspace main.lx .lx-rubric + .lx-rubric { margin-top: 4px; }
 
 /* Similarity: the scope card, then pairs with excerpts in the review's highlight. */
-.lecturer-workspace main.lx .lx-scan { padding: 22px 28px; }
 .lecturer-workspace main.lx .lx-scan-fields > label, .lecturer-workspace main.lx .lx-scan-meta, .lecturer-workspace main.lx .lx-scan-target { font-size: 13px; }
+/* Similarity scope: the sidebar's picker in a warm dark grey, and a butter-yellow check button. */
+.app-shell.rail-workspace main.lx .lx-scan .course-picker-trigger { min-height: 50px; padding: 8px 14px; border-color: #4f4d48; background: linear-gradient(180deg, #73716b 0%, #5d5b56 48%, #4f4d48 100%); box-shadow: inset 0 1px 0 rgb(255 255 255 / .22), 0 1px 2px rgb(30 28 24 / .18); color: #f7f6f3; }
+.app-shell.rail-workspace main.lx .lx-scan .course-picker-trigger > .ui-icon { color: #ecd486; }
+.app-shell.rail-workspace main.lx .lx-scan .course-picker-trigger:is(:hover:not(:disabled),[aria-expanded="true"]) { border-color: #5a5853; background: linear-gradient(180deg, #82807a 0%, #6c6a64 48%, #5a5853 100%); color: #f7f6f3; box-shadow: inset 0 1px 0 rgb(255 255 255 / .26), 0 2px 6px rgb(30 28 24 / .22); }
+.app-shell.rail-workspace main.lx .lx-scan .course-picker-label small { color: #d9d6cf; }
+.app-shell.rail-workspace main.lx .lx-scan .course-picker-label b { font-size: 14px; }
+.app-shell.lecturer-workspace main.lx .lx-scan-fields .lx-btn.is-primary { height: 50px; border-color: #e8c766; border-radius: 9px; background: #e8c766; color: #22211f; }
+.app-shell.lecturer-workspace main.lx .lx-scan-fields .lx-btn.is-primary:hover:not(:disabled) { border-color: #dcb54c; background: #dcb54c; }
 .lecturer-workspace main.lx .lx-scan-fields .lx-btn { height: 40px; }
 .lecturer-workspace main.lx .lx-sim-list > li + li { border-top-color: var(--paper-rule); }
 .lecturer-workspace main.lx .lx-sim-list summary { padding: 16px 28px; }
 .lecturer-workspace main.lx .lx-sim-list summary:hover { background: var(--paper-hover); }
 .lecturer-workspace main.lx .lx-sim-rate i { background: var(--paper-seg); }
-.lecturer-workspace main.lx .lx-sim-rate s { background: var(--hl); }
-.lecturer-workspace main.lx .lx-sim-body { padding: 4px 28px 24px 68px; }
-.lecturer-workspace main.lx .lx-sim-col-head { border-bottom-color: var(--paper-edge); font-size: 13px; }
-.lecturer-workspace main.lx .lx-sim-body blockquote { padding: 12px 14px; border-left: 2px solid var(--hl); border-radius: 0 10px 10px 0; background: var(--hl-soft); }
-.lecturer-workspace main.lx .lx-sim-body blockquote small { font-size: 12.5px; }
+.lecturer-workspace main.lx .lx-sim-rate s { background: var(--sim-rate, var(--hl)); }
+.lecturer-workspace main.lx .lx-sim-body { padding: 0 28px 24px; }
 .app-shell.lecturer-workspace main.lx .lx-sim-summary h2 { font-size: 17px; }
 
 @media (max-width: 720px) {
-  .lecturer-workspace main.lx:not(.lx-is-review) :where(.lx-section:not(.lx-section .lx-section), .lx-metrics, .lx-journey, .lx-scan, .lx-help) { padding: 18px; border-radius: 18px; }
+  .lecturer-workspace main.lx:not(.lx-is-review) :where(.lx-section:not(.lx-section .lx-section), .lx-metrics, .lx-journey, .lx-help) { padding: 18px; border-radius: 18px; }
   .lecturer-workspace main.lx:not(.lx-is-review) :is(.lx-stack > .lx-table-wrap, .lx-tab-panel > .lx-table-wrap) { padding: 4px 18px; border-radius: 18px; }
   .lecturer-workspace main.lx:not(.lx-is-review) :is(.lx-sim-list, .lx-weeks-config, .lx-rubric) { border-radius: 18px; }
   .lecturer-workspace main.lx:not(.lx-is-review) .lx-metrics { padding: 16px 0; }
@@ -881,7 +889,7 @@ a.lx-metric:hover .lx-metric-value b { text-decoration: underline; text-decorati
   .lecturer-workspace main.lx:not(.lx-is-review) .lx-tabs { width: 100%; }
   .app-shell.lecturer-workspace main.lx .lx-table-wrap > .lx-table { min-width: 720px; }
   .lecturer-workspace main.lx .lx-sim-list summary { padding: 14px 18px; }
-  .lecturer-workspace main.lx .lx-sim-body { padding: 4px 18px 18px; }
+  .lecturer-workspace main.lx .lx-sim-body { padding: 0 18px 18px; }
   .lecturer-workspace main.lx .lx-week-body { padding: 4px 18px 18px; }
 }
 

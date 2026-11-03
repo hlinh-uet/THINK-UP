@@ -16,7 +16,7 @@ export default [
   so:'Tôi lo đến mức tay run, nhất là khi thấy cô ghi chép trong lúc tôi nói. Tôi sợ mọi người nghĩ tôi không hiểu bài. Khi viết lại, tôi nhận ra nỗi lo đến từ việc tôi coi bài thuyết trình như một bài kiểm tra trí nhớ chứ không phải để chia sẻ điều mình hiểu.',
   now:'Lo lắng không hẳn là xấu, nó cho thấy tôi quan tâm đến kết quả; vấn đề là tôi đã chuẩn bị theo cách làm nỗi lo tăng thêm. Khi chỉ học thuộc mà không tập nói thành lời, tôi không có gì để bám vào lúc quên chữ.',
   act:'Với bài thuyết trình nhóm ở tuần 7, tôi sẽ tập nói thành tiếng ít nhất hai lần trước bạn cùng phòng và chỉ dùng thẻ từ khóa thay cho slide nhiều chữ.'},
- {s:'minh-anh',w:4,st:'final',sc:[7,7.3,6.6,7.2],k:3,t:'Vì sao tôi nộp bài tập muộn',
+ {s:'minh-anh',w:4,st:'final',sc:[8.3,8.5,8.1,8.4],k:4,t:'Vì sao tôi nộp bài tập muộn',
   what:'Tôi nộp muộn bài phân tích số liệu môn Thống kê hai ngày dù có ba tuần để làm. Tôi mở file nhiều lần nhưng thường chuyển sang việc khác sau khoảng 15 phút.',
   so:'Lúc đầu tôi nghĩ lý do là mình bận làm thêm. Xem lại lịch thì tôi vẫn có nhiều khoảng trống; thực ra tôi né bài này vì phần hồi quy tôi chưa hiểu và ngại hỏi lại khi cả lớp đã học qua.',
   now:'Tôi trì hoãn không phải vì thiếu thời gian mà vì một phần kiến thức bị hổng làm cả bài trở nên đáng sợ. Nếu chia nhỏ và xử lý phần khó trước, tôi sẽ bớt né tránh.',

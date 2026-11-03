@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer, index, uniqueIndex } from 'drizzle-orm/sqlite-core';
+import { sqliteTable, text, integer, index, uniqueIndex, primaryKey } from 'drizzle-orm/sqlite-core';
 export const settings=sqliteTable('settings',{key:text('key').primaryKey(),value:text('value').notNull()});
 export const users=sqliteTable('users',{id:text('id').primaryKey(),email:text('email').notNull(),name:text('name').notNull(),role:text('role').notNull(),active:integer('active').notNull().default(1),createdAt:text('created_at').notNull()},t=>[uniqueIndex('idx_users_email').on(t.email)]);
 export const userProfiles=sqliteTable('user_profiles',{
@@ -53,3 +53,20 @@ export const learningRecords=sqliteTable('learning_records',{
  payloadJson:text('payload_json').notNull(),revision:integer('revision').notNull().default(1),
  createdAt:text('created_at').notNull(),updatedAt:text('updated_at').notNull(),
 },t=>[index('idx_learning_reflection_kind').on(t.reflectionId,t.kind),index('idx_learning_owner_kind').on(t.ownerId,t.kind),index('idx_learning_course_kind').on(t.courseId,t.kind)]);
+
+// Community board: school-wide posts with one reaction per person and one level of replies.
+export const communityPosts=sqliteTable('community_posts',{
+ id:text('id').primaryKey(),authorId:text('author_id').notNull().references(()=>users.id),body:text('body').notNull(),
+ imageKey:text('image_key'),imageType:text('image_type'),commentsOff:integer('comments_off').notNull().default(0),edited:integer('edited').notNull().default(0),
+ createdAt:text('created_at').notNull(),updatedAt:text('updated_at').notNull(),
+},t=>[index('idx_community_posts_created').on(t.createdAt),index('idx_community_posts_author').on(t.authorId,t.createdAt)]);
+export const communityReactions=sqliteTable('community_reactions',{
+ postId:text('post_id').notNull().references(()=>communityPosts.id),userId:text('user_id').notNull().references(()=>users.id),kind:text('kind').notNull(),createdAt:text('created_at').notNull(),
+},t=>[primaryKey({columns:[t.postId,t.userId]})]);
+export const communityComments=sqliteTable('community_comments',{
+ id:text('id').primaryKey(),postId:text('post_id').notNull().references(()=>communityPosts.id),authorId:text('author_id').notNull().references(()=>users.id),
+ parentId:text('parent_id'),body:text('body').notNull(),createdAt:text('created_at').notNull(),
+},t=>[index('idx_community_comments_post').on(t.postId,t.createdAt)]);
+export const communityCommentReactions=sqliteTable('community_comment_reactions',{
+ commentId:text('comment_id').notNull().references(()=>communityComments.id),userId:text('user_id').notNull().references(()=>users.id),createdAt:text('created_at').notNull(),
+},t=>[primaryKey({columns:[t.commentId,t.userId]})]);

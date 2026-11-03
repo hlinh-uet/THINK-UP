@@ -1,10 +1,20 @@
 import { createServer, request as httpRequest } from 'node:http';
 import { randomBytes } from 'node:crypto';
 
-export function isTunnelOrigin(origin) {
+/** The fixed address of a named Cloudflare Tunnel (THINKUP_PUBLIC_URL), or undefined when hosting on a temporary link. */
+export function namedTunnelOrigin(value = process.env.THINKUP_PUBLIC_URL) {
+  if (!value) return undefined;
+  let url;
+  try { url = new URL(value); } catch { url = undefined; }
+  if (!url || url.protocol !== 'https:' || url.port || url.username || url.password || url.pathname !== '/' || url.search || url.hash || !url.hostname.includes('.')) throw new Error('THINKUP_PUBLIC_URL cần là địa chỉ HTTPS gốc, ví dụ https://thinkup.site');
+  return url.origin;
+}
+
+export function isTunnelOrigin(origin, fixedOrigin) {
   try {
     const url = new URL(origin);
-    return url.protocol === 'https:' && url.origin === origin && !url.port && ['.trycloudflare.com', '.lhr.life', '.localhost.run'].some(suffix => url.hostname.endsWith(suffix));
+    if (url.protocol !== 'https:' || url.origin !== origin || url.port) return false;
+    return origin === fixedOrigin || ['.trycloudflare.com', '.lhr.life', '.localhost.run'].some(suffix => url.hostname.endsWith(suffix));
   } catch { return false; }
 }
 
@@ -41,7 +51,7 @@ export async function hostIsReady(port, publicOrigin) {
 }
 
 // Never tunnel Wrangler's listener directly: it also has development endpoints.
-export async function startHostGateway(backendPort) {
+export async function startHostGateway(backendPort, { fixedOrigin } = {}) {
   let publicOrigin;
   const checkId = randomBytes(12).toString('hex');
   const server = createServer((request, response) => {
@@ -70,7 +80,7 @@ export async function startHostGateway(backendPort) {
     port: server.address().port,
     checkId,
     setPublicOrigin(origin) {
-      if (!isTunnelOrigin(origin)) throw new Error('Expected a supported tunnel HTTPS origin.');
+      if (!isTunnelOrigin(origin, fixedOrigin)) throw new Error('Expected a supported tunnel HTTPS origin.');
       publicOrigin = origin;
     },
     async close() { server.closeAllConnections(); await new Promise(resolve => server.close(resolve)); },

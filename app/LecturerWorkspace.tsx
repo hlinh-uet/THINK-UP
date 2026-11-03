@@ -144,7 +144,7 @@ export default function LecturerWorkspace({initialData,initialLanguage,section,q
     :section==='overview'?<LecturerOverview language={language} query={query} userName={data.user?.name} userId={data.user?.id} records={data.learningRecords||[]} courses={scope.courses} students={scope.students} memberships={scope.memberships} reflections={scope.reflections} actions={scope.actions} rubric={rubric} detailHref={detailHref} studentHref={studentHref}/>
     :section==='submissions'?<LecturerSubmissions language={language} filters={filters} onFilters={next=>setFilters(f=>({...f,...next}))} rows={visible} all={scope.reflections} courses={scope.courses} rubric={rubric} detailHref={detailHref} studentHref={studentHref}/>
     :section==='students'?<LecturerStudents language={language} studentId={query.student} participation={scope.participation} courses={scope.courses} memberships={scope.memberships} students={scope.students} reflections={scope.reflections} actions={scope.actions} rubric={rubric} detailHref={detailHref} studentHref={studentHref} listHref={href('students',common)}/>
-    :section==='progress'?<LecturerAnalytics language={language} courses={scope.courses} students={scope.students} memberships={scope.memberships} reflections={scope.reflections} actions={scope.actions} rubric={rubric} detailHref={detailHref} studentHref={studentHref}/>
+    :section==='progress'?<LecturerAnalytics initialTab={query.tab} language={language} courses={scope.courses} students={scope.students} memberships={scope.memberships} reflections={scope.reflections} actions={scope.actions} rubric={rubric} detailHref={detailHref} studentHref={studentHref}/>
     :section==='similarity'?<SimilarityPanel key={`${query.course||'all'}:${query.cohort||''}`} language={language} courses={similarityScope.courses} students={similarityScope.students} memberships={similarityScope.memberships} courseId={query.course||''} courseName={(c=>c?`${c.code} · ${dt(c.name,c.id)}`:'')(scope.courses.find(c=>c.id===query.course))} reflections={similarityScope.reflections} reflectionId={query.reflection} onOpen={id=>{const source=similarityScope.reflections.find(r=>r.id===id);location.assign(href('submissions',{...common,course:source?.courseId||undefined},id))}}/>
     :section==='courses'?<LecturerCourses query={common} courses={scope.courses} memberships={scope.memberships} records={data.learningRecords||[]} selectedCourseId={query.course||''} language={language} busy={busy} onMutate={mutate}/>
     :null;
@@ -153,7 +153,7 @@ export default function LecturerWorkspace({initialData,initialLanguage,section,q
     <WorkspaceHeader sideNavigation mobileSideMenu homeHref={href('overview')} language={language}
       sidebarControls={assigned.courses.length>0?<div className="lx-scope-controls">
         <ClassPicker classes={classes} value={query.cohort||''} language={language} disabled={!!busy} onChange={cohort=>{const keep=assigned.courses.some(c=>c.id===query.course&&(!cohort||(c.className||c.code)===cohort));location.assign(href(section,{cohort,course:keep?query.course:undefined}))}}/>
-        <CoursePicker showSelection courses={scope.courses} value={query.course||''} language={language} disabled={!!busy} onChange={value=>location.assign(href(section,{course:value,cohort:query.cohort}))}/>
+        <CoursePicker showSelection courses={scope.courses} value={query.course||''} language={language} disabled={!!busy} onChange={value=>location.assign(href(section,{course:value,cohort:query.cohort,tab:query.tab}))}/>
       </div>:undefined}
       controls={<><button type="button" className="help-button" aria-label={tr('Hướng dẫn sử dụng')} onClick={()=>setHelp(true)}><UiIcon name="help"/></button><LanguageToggle language={language} onChange={setLanguage} disabled={!!busy||(section==='courses'&&hasUnsaved)} title={section==='courses'&&hasUnsaved?tr('Lưu cấu hình trước khi đổi ngôn ngữ.'):undefined}/></>}
       profile={data.user&&<WorkspaceProfile user={data.user} language={language} busy={!!busy} onLogout={()=>void logout()}/>}>
@@ -161,7 +161,7 @@ export default function LecturerWorkspace({initialData,initialLanguage,section,q
     </WorkspaceHeader>
     <div className="main-shell"><main id="workspace-main" tabIndex={-1} className={`lx${row?' lx-is-review':''}`}>
       {!row&&section!=='overview'&&!(section==='students'&&query.student)&&<header className="lx-page-head">
-        <div><h1>{tr(page.label)}</h1><p>{tr(page.description)}</p></div>
+        <div><h1>{tr(page.label)}</h1>{page.description&&<p>{tr(page.description)}</p>}</div>
         {showExport&&scope.courses.length>0&&<button type="button" className="lx-btn" onClick={exportReport}><UiIcon name="down" size={15}/>{tr('Xuất CSV')}</button>}
       </header>}
       {content}

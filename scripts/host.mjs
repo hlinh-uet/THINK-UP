@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 import { mkdir, readFile, writeFile, unlink } from 'node:fs/promises';
 import { requireChatGPTLogin, startCodexBridge } from './codex-bridge.mjs';
-import { startHostGateway, hostIsReady } from './host-support.mjs';
+import { startHostGateway, hostIsReady, namedTunnelOrigin } from './host-support.mjs';
 import { startPublicTunnel, publicFetch, tunnelReachable } from './host-tunnel.mjs';
 import { startHostBackend } from './host-backend.mjs';
 
@@ -21,6 +21,9 @@ const controller = new AbortController();
 let gateway, bridge, worker, tunnel, generatedConfig, statusFile;
 let exitCode = 0, restart = false, watchdog;
 const restarts = Number(process.env.THINKUP_HOST_RESTARTS || 0), maxRestarts = 30;
+// THINKUP_TUNNEL + THINKUP_PUBLIC_URL host on a named Cloudflare Tunnel with a fixed address instead of a temporary link.
+const namedTunnel = process.env.THINKUP_TUNNEL?.trim(), fixedOrigin = namedTunnel ? namedTunnelOrigin() : undefined;
+if (namedTunnel && !fixedOrigin) { console.error('Đặt cả THINKUP_TUNNEL và THINKUP_PUBLIC_URL, ví dụ THINKUP_TUNNEL=thinkup THINKUP_PUBLIC_URL=https://thinkup.site npm run host'); process.exit(1); }
 const stamp = () => new Date().toLocaleTimeString('vi-VN', { hour12: false });
 
 function stop(code = 0) {
@@ -55,7 +58,7 @@ async function run(command, args) {
 // A free tunnel can drop during a long session. Reopen everything (the link changes) instead of leaving a dead link.
 function unexpectedExit(reason = 'Backend hoặc tunnel đã dừng.') {
   if (controller.signal.aborted) return;
-  if (restarts < maxRestarts) { console.error(`\n[${stamp()}] ${reason} Đang tự mở lại host (link sẽ đổi)…`); restart = true; }
+  if (restarts < maxRestarts) { console.error(`\n[${stamp()}] ${reason} Đang tự mở lại host${namedTunnel ? '' : ' (link sẽ đổi)'}…`); restart = true; }
   else console.error(`\n[${stamp()}] ${reason} Đã tự mở lại ${maxRestarts} lần; chạy lại npm run host.`);
   stop(1);
 }
@@ -78,9 +81,9 @@ try {
     const server = createServer(); server.once('error', reject);
     server.listen(0, '127.0.0.1', () => { const { port } = server.address(); server.close(() => resolvePort(port)); });
   });
-  gateway = await startHostGateway(backendPort);
+  gateway = await startHostGateway(backendPort, { fixedOrigin });
   checkRunning();
-  tunnel = await startPublicTunnel(gateway, { root, signal: controller.signal, onExit: () => unexpectedExit('Tunnel đã ngắt.') });
+  tunnel = await startPublicTunnel(gateway, { root, signal: controller.signal, onExit: () => unexpectedExit('Tunnel đã ngắt.'), namedTunnel, fixedOrigin });
   checkRunning();
   const publicOrigin = tunnel.origin;
   // Keep local bindings/data locations. Only non-secret settings go on disk.
@@ -119,8 +122,8 @@ try {
     if (misses >= 3) unexpectedExit('Link công khai không còn truy cập được.');
   }, 60000);
   statusFile = resolve(root, `.wrangler/host-${process.pid}.json`);
-  await writeFile(statusFile, JSON.stringify({ pid: process.pid, origin: publicOrigin, gatewayPort: gateway.port, provider: tunnel.provider, ai: 'codex-chatgpt', model: process.env.CODEX_MODEL || 'gpt-5.6-luna', ready: true }), { mode: 0o600, flag: 'wx' });
-  console.log(`\n[${stamp()}] THINK UP đã sẵn sàng qua ${tunnel.provider}: web + backend + database + tệp + AI.\n\n  ${publicOrigin}\n\n${tunnel.provider==='Cloudflare'?'':'Lưu ý: đang dùng đường dự phòng localhost.run, kém ổn định hơn Cloudflare và có thể đổi link sau vài giờ.\n\n'}Link hiện tại luôn được ghi trong .wrangler/host-url.txt. Nếu link rớt, host tự mở lại và in link mới.\nMọi người đăng nhập bằng tài khoản THINK UP hiện tại. Các lượt AI dùng hạn mức Codex của tài khoản ChatGPT trên máy này.\nGiữ Terminal mở, máy có mạng và nắp máy mở. Ctrl+C để dừng.\nLần sau: npm run host (URL mới, giữ dữ liệu và mật khẩu cũ).\n`);
+  await writeFile(statusFile, JSON.stringify({ pid: process.pid, origin: publicOrigin, gatewayPort: gateway.port, provider: tunnel.provider, ai: 'codex-chatgpt', model: process.env.CODEX_MODEL || 'gpt-6-luna', ready: true }), { mode: 0o600, flag: 'wx' });
+  console.log(`\n[${stamp()}] THINK UP đã sẵn sàng qua ${tunnel.provider}: web + backend + database + tệp + AI.\n\n  ${publicOrigin}\n\n${tunnel.provider.startsWith('Cloudflare')?'':'Lưu ý: đang dùng đường dự phòng localhost.run, kém ổn định hơn Cloudflare và có thể đổi link sau vài giờ.\n\n'}${namedTunnel?'Link cố định, giữ nguyên sau mỗi lần chạy lại. Nếu kết nối rớt, host tự mở lại trên cùng link.':'Link hiện tại luôn được ghi trong .wrangler/host-url.txt. Nếu link rớt, host tự mở lại và in link mới.'}\nMọi người đăng nhập bằng tài khoản THINK UP hiện tại. Các lượt AI dùng hạn mức Codex của tài khoản ChatGPT trên máy này.\nGiữ Terminal mở, máy có mạng và nắp máy mở. Ctrl+C để dừng.\n${namedTunnel?'Lần sau: chạy lại cùng lệnh (cùng link, giữ dữ liệu và mật khẩu cũ).':'Lần sau: npm run host (URL mới, giữ dữ liệu và mật khẩu cũ).'}\n`);
   await new Promise(resolveStop => {
     if (controller.signal.aborted) resolveStop();
     else controller.signal.addEventListener('abort', resolveStop, { once: true });

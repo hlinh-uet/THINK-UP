@@ -3,17 +3,18 @@ import { finalReview } from './progress.ts';
 
 export const lecturerPages = [
   { key: 'overview', label: 'Bàn làm việc', navLabel: 'Bàn làm việc', icon: 'overview', group: 'Đánh giá', description: 'Tiếp tục công việc đang dở và những việc cần chú ý.' },
-  { key: 'submissions', label: 'Bài nộp', navLabel: 'Bài nộp', icon: 'document', group: 'Đánh giá', description: 'Đọc, đánh giá và trả lời từng bài reflection.' },
-  { key: 'similarity', label: 'Kiểm tra trùng lặp', navLabel: 'Trùng lặp', icon: 'similarity', group: 'Đánh giá', description: 'Đối chiếu văn bản và xem các đoạn tương đồng giữa bài nộp.' },
-  { key: 'students', label: 'Sinh viên', navLabel: 'Sinh viên', icon: 'users', group: 'Theo dõi lớp', description: 'Danh sách lớp, hành trình từng tuần và hồ sơ của mỗi sinh viên.' },
-  { key: 'progress', label: 'Phân tích lớp', navLabel: 'Phân tích lớp', icon: 'progress', group: 'Theo dõi lớp', description: 'Nhìn lại nhịp học, chất lượng phản tư và việc thực hiện cam kết của lớp.' },
-  { key: 'courses', label: 'Học phần & rubric', navLabel: 'Học phần & rubric', icon: 'journey', group: 'Quản lý', description: 'Thiết lập nội dung chín tuần, hạn nộp và tiêu chí đánh giá.' },
+  { key: 'submissions', label: 'Quản lý bài nộp', navLabel: 'Bài nộp', icon: 'document', group: 'Đánh giá', description: '' },
+  { key: 'similarity', label: 'Kiểm tra trùng lặp', navLabel: 'Trùng lặp', icon: 'similarity', group: 'Đánh giá', description: '' },
+  { key: 'students', label: 'Quản lý Sinh viên', navLabel: 'Sinh viên', icon: 'users', group: 'Theo dõi lớp', description: '' },
+  { key: 'progress', label: 'Quản lý lớp', navLabel: 'Quản lý lớp', icon: 'progress', group: 'Theo dõi lớp', description: '' },
+  { key: 'courses', label: 'Quản lý Học phần & rubric', navLabel: 'Học phần & rubric', icon: 'journey', group: 'Quản lý', description: '' },
+  { key: 'community', label: 'Cộng đồng', navLabel: 'Cộng đồng', icon: 'community', group: 'Quản lý', description: 'Bảng tin chung của toàn trường.' },
   { key: 'messages', label: 'Tin nhắn', navLabel: 'Tin nhắn', icon: 'messages', group: 'Quản lý', description: 'Trao đổi trực tiếp với sinh viên và đồng nghiệp.' },
 ] as const;
 // Lecturer-facing names for the stored reflection states (spec 2.1).
 export const lecturerStatuses: Record<string, string> = { draft: 'Bản nháp', submitted: 'Chờ duyệt', returned: 'Đang chỉnh sửa', final: 'Đã hoàn tất' };
 export type LecturerSection = typeof lecturerPages[number]['key'];
-export type LecturerQuery = { course?: string; student?: string; status?: string; week?: string; q?: string; reflection?: string; criterion?:string; level?:string; sort?:string;cohort?:string };
+export type LecturerQuery = { course?: string; student?: string; status?: string; week?: string; q?: string; reflection?: string; criterion?:string; level?:string; sort?:string;cohort?:string;tab?:string };
 
 export function lecturerHref(section: LecturerSection, query: LecturerQuery = {}, reflectionId?: string) {
   const path = `/lecturer/${section}${section === 'submissions' && reflectionId ? `/${encodeURIComponent(reflectionId)}` : ''}`;

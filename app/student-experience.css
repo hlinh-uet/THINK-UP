@@ -1,5 +1,5 @@
 /* Shared student materials. These rules deliberately stay inside the student role. */
-.app-shell.student-workspace .page-heading h1 { font-size: 36px; letter-spacing: -.9px; line-height: 1.25; }
+.app-shell.student-workspace .page-heading h1 { font-size: 36px; letter-spacing: 0; line-height: 1.25; }
 .student-workspace .page-heading p { font-size: 15px; line-height: 1.85; }
 .student-workspace .page-heading .eyebrow { display: block; margin-bottom: 12px; font-size: 13px; letter-spacing: 1.4px; }
 .app-shell.student-workspace .button { border-radius: 9px; min-height: 42px; padding: 10px 17px; font-size: 14px; }
@@ -212,7 +212,7 @@
 .student-workspace .journey-intro-footer { margin-top: 18px; }
 .student-workspace .journey-focused-week { gap: 20px 24px; }
 .app-shell.student-workspace .student-progress .progress-focus { background: var(--surface); border-color: var(--line); }
-.student-workspace :is(.journey-section-heading,.progress-bottom-grid .progress-card-heading) :is(h2,h3) { font-family: var(--font-sans); font-size: 19px; font-weight: 650; line-height: 1.45; letter-spacing: -.3px; }
+.student-workspace :is(.journey-section-heading,.progress-bottom-grid .progress-card-heading) :is(h2,h3) { font-family: var(--font-sans); font-size: 19px; font-weight: 650; line-height: 1.45; letter-spacing: 0; }
 .student-workspace .progress-card-heading { margin-bottom: 16px; }
 .student-workspace .progress-card-heading h2 { font-size: 18px; }
 .student-workspace .progress-teacher-note { margin-bottom: 16px; }

@@ -1,14 +1,17 @@
 'use client';
 
 import {useState,useSyncExternalStore,type ReactNode} from 'react';
-import {statuses, type Action, type Course, type Reflection, type Week} from '../lib/domain';
+import {defaultRubric,levels,statuses, type Action, type Course, type Criterion, type Reflection, type Week} from '../lib/domain';
 import {translate, type Language} from '../lib/i18n';
-import {demoContent,demoText} from '../lib/demo-i18n';
+import {demoText} from '../lib/demo-i18n';
+import {reflectionWritingView} from '../lib/reflection-translation';
 import {formatMessageTimestamp} from '../lib/message-date';
 import {studentNextStep} from '../lib/student-next-step';
 import {reflectionText} from '../lib/student-editor';
 import UiIcon from './UiIcon';
 import CountUp from './CountUp';
+import {actionOverdue} from '../lib/commitment-deadline';
+import {studentSpaceSummary} from '../lib/student-space-summary';
 
 
 const narrowQuery='(max-width: 760px)';
@@ -57,6 +60,7 @@ function Notebook({pages,language}:{pages:Page[];language:Language}) {
 type Props = {
   reflections:Reflection[]; actions:Action[]; courses:Course[];
   weeks:Week[]; currentWeek:Week; language:Language;
+  rubric?:Criterion[];
   onOpen:(reflection?:Reflection, week?:number, support?:'thinking'|'coach'|'feedback')=>void;
   onLibrary:()=>void; onJourney:()=>void; onProgress:()=>void; onMessages?:()=>void;
   onAction:(action:Action)=>void;
@@ -64,7 +68,7 @@ type Props = {
   userName?:string;
 };
 
-export default function StudentOverview({reflections,actions,courses,weeks,currentWeek,language,onOpen,onLibrary,onJourney,onProgress,onMessages,onAction,onCreateAction,userName}:Props) {
+export default function StudentOverview({reflections,actions,courses,weeks,currentWeek,language,rubric=defaultRubric,onOpen,onLibrary,onJourney,onProgress,onMessages,onAction,onCreateAction,userName}:Props) {
   const tr=(text:string,args:readonly unknown[]=[])=>translate(text,language,args);
   const dt=(text:string,id?:string|null)=>demoText(text,id,language);
   const displayName=userName?.trim();
@@ -75,20 +79,19 @@ export default function StudentOverview({reflections,actions,courses,weeks,curre
   const focusWeek=weeks.find(w=>w.week===next.week)||currentWeek;
   const complete=new Set(reflections.filter(r=>r.status==='final').map(r=>r.week));
   const pending=actions.filter(a=>a.status!=='done').sort((a,b)=>(a.due||'9999').localeCompare(b.due||'9999'));
-  const today=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Ho_Chi_Minh'});
   const nextLabel={revise:'Xem góp ý',write:'Viết tiếp bài nháp',act:'Cập nhật cam kết',commit:'Chọn hành động',waiting:'Xem bài đã nộp',start:'Bắt đầu viết',complete:'Xem tiến bộ'}[next.kind];
   const nextTitle={revise:'Chỉnh sửa bài được trả lại',write:'Tiếp tục bài đang viết',act:'Thực hiện cam kết của bạn',commit:'Chọn một hành động tiếp theo',waiting:'Bài đang chờ giảng viên',start:'Viết bài tuần {0}',complete:'Bạn đã hoàn thành hành trình'}[next.kind];
-  const nextDescription=source?dt(source.title,source.id)||tr('Reflection chưa đặt tên'):next.kind==='act'?dt(next.action.text,next.action.id):next.kind==='start'?tr(focusWeek.title):'';
+  const nextDescription=source?reflectionWritingView(source,language).title||tr('Reflection chưa đặt tên'):next.kind==='act'?dt(next.action.text,next.action.id):next.kind==='start'?tr(focusWeek.title):'';
   const focusTitle=nextDescription||tr(nextTitle,[focusWeek.week]);
-  const excerpt=source?reflectionText(demoContent(source.content,source.id,language)).replace(/\s+/g,' ').trim():'';
-  const overdue=pending.filter(a=>a.due&&a.due<today).length;
+  const excerpt=source?reflectionText(reflectionWritingView(source,language).content).replace(/\s+/g,' ').trim():'';
+  const overdue=pending.filter(a=>actionOverdue(a)).length;
   const counts=(['draft','returned','submitted'] as const).map(status=>[status,reflections.filter(r=>r.status===status).length] as const).filter(([,n])=>n>0);
   const finals=reflections.filter(r=>r.status==='final').length;
-  const byStatus=(['final','submitted','returned','draft'] as const).map(status=>({key:status,size:reflections.filter(r=>r.status===status).length}));
-  const tiles:{key:string;icon:'editor'|'actions'|'progress'|'messages';name:string;value:number|null;note:string;warn?:boolean;bar?:{key:string;size:number}[];open:()=>void}[]=[
-   {key:'writing',icon:'editor',name:tr('Bài viết'),value:reflections.length,note:counts.length?counts.map(([status,n])=>`${n} ${tr(statuses[status]).toLocaleLowerCase()}`).join(' · '):tr('Viết trang đầu tiên'),bar:byStatus,open:onLibrary},
-   {key:'actions',icon:'actions',name:tr('Cam kết'),value:pending.length,note:pending.length?overdue?tr('{0} đã quá hạn',[overdue]):tr('Không có việc quá hạn'):tr('Chưa có cam kết.'),warn:overdue>0,bar:[{key:'overdue',size:overdue},{key:'open',size:pending.length-overdue}],open:onJourney},
-   {key:'progress',icon:'progress',name:tr('Tiến bộ'),value:finals,note:tr('Bài đã hoàn thành'),bar:[{key:'final',size:finals},{key:'rest',size:reflections.length-finals}],open:onProgress},
+  const skills=studentSpaceSummary(reflections,rubric);
+  const tiles:{key:string;icon:'editor'|'actions'|'progress'|'messages';name:string;value:number|null;note:string;warn?:boolean;open:()=>void}[]=[
+   {key:'writing',icon:'editor',name:tr('Tất cả bài viết'),value:reflections.length,note:counts.length?counts.map(([status,n])=>`${n} ${tr(statuses[status]).toLocaleLowerCase()}`).join(' · '):tr('Viết trang đầu tiên'),open:onLibrary},
+   {key:'actions',icon:'actions',name:tr('Mục tiêu cá nhân'),value:pending.length,note:pending.length?overdue?tr('{0} đã quá hạn',[overdue]):tr('Không có việc quá hạn'):tr('Chưa có cam kết.'),warn:overdue>0,open:onJourney},
+   {key:'progress',icon:'progress',name:tr('Tiến độ thực hiện'),value:finals,note:tr('Bài đã hoàn thành'),open:onProgress},
    ...(onMessages?[{key:'messages',icon:'messages' as const,name:tr('Tin nhắn'),value:null,note:tr('Trao đổi với giảng viên và bạn học'),open:onMessages}]:[]),
   ];
   // The nine weeks as stops along a winding road, walked up to the current week.
@@ -97,7 +100,7 @@ export default function StudentOverview({reflections,actions,courses,weeks,curre
   const walked=Math.max(0,weeks.findIndex(w=>w.week===currentWeek.week))/Math.max(1,weeks.length-1)*100;
   const sourceCourse=courses.find(course=>course.id===source?.courseId);
   const latest=[...reflections].sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt)).find(r=>r.id!==source?.id);
-  const latestExcerpt=latest?reflectionText(demoContent(latest.content,latest.id,language)).replace(/\s+/g,' ').trim():'';
+  const latestExcerpt=latest?reflectionText(reflectionWritingView(latest,language).content).replace(/\s+/g,' ').trim():'';
   const feedback=reflections.flatMap(r=>(r.reviews||[]).filter(review=>review.comment?.trim()).map(review=>({review,reflection:r}))).sort((a,b)=>b.review.createdAt.localeCompare(a.review.createdAt))[0];
   const upcoming=weeks.find(w=>w.week===currentWeek.week+1);
   function continueTask(){
@@ -150,12 +153,12 @@ export default function StudentOverview({reflections,actions,courses,weeks,curre
         <button type="button" className="text-button book-link" onClick={()=>onOpen(feedback.reflection,feedback.reflection.week,'feedback')}>{tr('Xem góp ý')}<UiIcon name="next" size={15}/></button>
       </div>:<p className="book-empty">{tr('Chưa có góp ý từ giảng viên.')}</p>},
       {key:'actions',label:tr('Cam kết sắp tới'),body:pending.length?<div>
-        <ul className="book-todos">{pending.slice(0,3).map(a=><li key={a.id}><button type="button" onClick={()=>onAction(a)}><span className="book-check" aria-hidden="true"/><span><span className="book-todo-text">{dt(a.text,a.id)}</span><small className={a.due&&a.due<today?'is-overdue':''}>{date(a.due)}</small></span></button></li>)}</ul>
+        <ul className="book-todos">{pending.slice(0,3).map(a=><li key={a.id}><button type="button" onClick={()=>onAction(a)}><span className="book-check" aria-hidden="true"/><span><span className="book-todo-text">{dt(a.text,a.id)}</span><small className={actionOverdue(a)?'is-overdue':''}>{date(a.due)}</small></span></button></li>)}</ul>
         {pending.length>3&&<button type="button" className="text-button book-link" onClick={onJourney}>{tr('Xem tất cả cam kết')}<UiIcon name="next" size={15}/></button>}
       </div>:<p className="book-empty">{tr('Chưa có cam kết.')}</p>},
       {key:'latest',label:tr('Bài viết gần nhất'),body:latest?<div className="book-latest">
         <span className={`book-status is-${latest.status}`}><i aria-hidden="true"/>{tr(statuses[latest.status])} · {tr('Tuần {0}',[latest.week])}</span>
-        <h3>{dt(latest.title,latest.id)||tr('Reflection chưa đặt tên')}</h3>
+        <h3>{reflectionWritingView(latest,language).title||tr('Reflection chưa đặt tên')}</h3>
         {latestExcerpt&&<p>{latestExcerpt}</p>}
         <button type="button" className="text-button book-link" onClick={()=>onOpen(latest)}>{tr('Mở bài viết')}<UiIcon name="next" size={15}/></button>
       </div>:<p className="book-empty">{tr('Chưa có bài viết khác.')}</p>},
@@ -168,9 +171,29 @@ export default function StudentOverview({reflections,actions,courses,weeks,curre
     ]}/>
 
     <nav className="book-tabs" aria-label={tr('Mở nhanh')}>{tiles.map(t=><button key={t.key} type="button" className={`book-tab is-${t.key}`} onClick={t.open}>
-      <span className="book-tab-head"><span className="book-tab-icon"><UiIcon name={t.icon} size={16}/></span><span className="space-tile-name">{t.name}</span>{t.value!==null?<CountUp value={t.value}/>:<UiIcon name="next" size={16}/>}</span>
-      {t.bar&&t.bar.some(part=>part.size>0)&&<span className="space-tile-bar" aria-hidden="true">{t.bar.filter(part=>part.size>0).map(part=><i key={part.key} className={`is-${part.key}`} style={{flexGrow:part.size}}/>)}</span>}
-      <small className={t.warn?'is-overdue':''}>{t.note}</small>
+      <span className="book-tab-head"><UiIcon name={t.icon} size={15}/><span className="space-tile-name">{t.name}</span></span>
+      {t.value!==null?<CountUp value={t.value}/>:<span className="book-tab-go"><UiIcon name="next" size={24}/></span>}
+      <span className={`book-tab-note${t.warn?' is-overdue':''}`}>{t.note}</span>
     </button>)}</nav>
+
+    <div className="space-growth">
+      <section className="space-level" aria-labelledby="space-level-title">
+        <h2 id="space-level-title" className="space-rule-label">{tr('Mức phản tư')}</h2>
+        <ol className="space-stairs" aria-label={tr('Thang Kember · 4 mức phản tư')}>{[1,2,3,4].map(n=>{const now=n===skills.level;return <li key={n} className={now?'is-current':n<(skills.level??0)?'is-past':''} aria-current={now?'step':undefined}>
+          {now&&<span className="space-stairs-pin"><UiIcon name="pin" size={22}/>{tr('Bạn đang ở đây')}</span>}
+          <b>{n}</b><span>{tr(levels[n])}</span>
+        </li>})}</ol>
+        <p className="space-level-caption">{skills.level===null?tr('Chưa có đánh giá'):<><b>{tr(levels[skills.level])}</b> · {tr('Đánh giá gần nhất')}{skills.levelWeek&&<>, {tr('Tuần {0}',[skills.levelWeek]).toLocaleLowerCase()}</>}</>}</p>
+      </section>
+      <section className="space-insight" aria-labelledby="space-insight-title">
+        <h2 id="space-insight-title" className="space-rule-label">{tr('Góc nhìn kỹ năng')}<button type="button" className="text-button" onClick={onProgress}>{tr('Chi tiết')}<UiIcon name="next" size={13}/></button></h2>
+        {skills.leading&&skills.focus?[{criterion:skills.leading,label:'Mạnh nhất',kind:'leading',icon:'award',hint:'Điểm mạnh của bạn, hãy tiếp tục phát huy.'},{criterion:skills.focus,label:'Nên cải thiện',kind:'focus',icon:'target',hint:'Tập trung vào tiêu chí này ở bài viết tới.'}].map(({criterion,label,kind,icon,hint})=><div key={kind} className={`space-skill-pick is-${kind}`}>
+          <span className="space-insight-icon"><UiIcon name={icon as 'award'|'target'} size={20}/></span>
+          <strong>{criterion.average!.toFixed(1)}<small>/10</small></strong>
+          <div><em>{tr(label)}</em><b>{tr(criterion.name)}</b><p>{tr(hint)}</p></div>
+        </div>):<p className="space-insight-empty">{tr(skills.gradedCount?'Các tiêu chí hiện có mức điểm tương đương.':'Thêm bài được đánh giá để hiểu rõ năng lực của bạn.')}</p>}
+        <p className="space-growth-note">{tr('Trung bình từ {0} bài đã đánh giá',[skills.gradedCount])}</p>
+      </section>
+    </div>
   </div>;
 }

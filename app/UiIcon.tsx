@@ -1,16 +1,17 @@
 import {
-  ArrowDown, ArrowRight, ArrowUp, ArrowUpRight, BookOpen, ChartNoAxesCombined, Check, ChevronDown, CircleHelp,
-  Eye, EyeOff, FileText, Globe, GraduationCap, House, ListChecks, LoaderCircle, LogOut,
-  Menu, MessageCircle, Paperclip, PenLine, Plus, ScanText, Search, Send, Settings2, Users, X,
+  ArrowDown, ArrowLeft, ArrowRight, ArrowUp, ArrowUpRight, Award, BookOpen, Bot, ClipboardCheck, Lightbulb, Target, ThumbsUp, TrendingUp, ChartNoAxesCombined, Check, ChevronDown, CircleHelp,
+  Eye, EyeOff, FileText, Flame, Globe, GraduationCap, House, ListChecks, LoaderCircle, LogOut, MapPin,
+  Menu, MessageCircle, MessagesSquare, Paperclip, PenLine, Plus, ScanText, Search, Send, Settings2, Sparkles, Users, X,
 } from 'lucide-react';
 
 const icons = {
-  overview: House, editor: PenLine, journey: BookOpen,
+  back: ArrowLeft, bot: Bot, selfCheck: ClipboardCheck, idea: Lightbulb, thumbsUp: ThumbsUp, grow: TrendingUp, target: Target, award: Award, pin: MapPin,
+  overview: House, editor: PenLine, journey: BookOpen, streak: Flame,
   actions: ListChecks, progress: ChartNoAxesCombined, lecturer: GraduationCap,
-  admin: Settings2, help: CircleHelp, language: Globe, logout: LogOut,
+  admin: Settings2, help: CircleHelp, language: Globe, logout: LogOut, MapPin,
   document: FileText, coach: MessageCircle, add: Plus, arrow: ArrowUpRight,
   next: ArrowRight, check: Check, close: X, users: Users, attachment: Paperclip, similarity: ScanText,
-  menu: Menu, down: ArrowDown, up: ArrowUp, messages: MessageCircle, chevron: ChevronDown, search: Search, send: Send, spinner: LoaderCircle, eye: Eye, eyeOff: EyeOff,
+  menu: Menu, down: ArrowDown, up: ArrowUp, messages: MessageCircle, community: MessagesSquare, chevron: ChevronDown, search: Search, send: Send, spinner: LoaderCircle, eye: Eye, eyeOff: EyeOff, sparkle: Sparkles,
 };
 
 export default function UiIcon({name, size=18, className=''}:{name:keyof typeof icons;size?:number;className?:string}) {

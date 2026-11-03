@@ -1,0 +1,176 @@
+/* A compact score strip, one chart with a weekly reading, then supporting insights. */
+.app-shell.student-workspace:has(.progress-journal.pg) { --paper:#fff; background:#fff; }
+.app-shell.student-workspace:has(.progress-journal.pg) > .main-shell { background:#fff; }
+.app-shell.student-workspace .progress-journal { --ink:#332f28; --text:#50483c; --muted:#746f66; --faint:#8b8172; --page:#fff; --page-edge:#e4ded1; --hl-deep:#826321; --accent:#826321; --accent-soft:#f6edcf; --surface:#fff; max-width:1120px; gap:28px; animation:none; }
+.app-shell.student-workspace .progress-journal > .student-page-title { animation:none; }
+.app-shell.student-workspace .progress-journal .progress-page-intro { margin:-14px 0 0; color:var(--muted); font-size:13px; line-height:1.7; }
+.app-shell.student-workspace .progress-journal .progress-section-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; }
+.app-shell.student-workspace .progress-journal .progress-section-heading h2 { margin:0; color:var(--ink); font-size:16px; line-height:1.5; font-weight:600; letter-spacing:0; }
+.app-shell.student-workspace .progress-journal .progress-section-heading > span { color:var(--muted); font-size:11px; }
+.app-shell.student-workspace .progress-journal .progress-section-heading > svg { color:#947438; flex:none; }
+.app-shell.student-workspace .progress-journal .progress-section-heading p { margin:5px 0 0; color:var(--muted); font-size:12px; line-height:1.7; }
+.app-shell.student-workspace .progress-journal .progress-overview-metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); overflow:hidden; border:1px solid #e1d9c9; border-radius:12px; background:#fffefa; }
+.app-shell.student-workspace .progress-journal .progress-skill { display:grid; grid-template-columns:auto minmax(0,1fr); column-gap:12px; align-items:center; min-width:0; padding:18px; background:var(--skill-surface); }
+.app-shell.student-workspace .progress-journal .progress-skill:first-child { background:var(--skill-surface); }
+.app-shell.student-workspace .progress-journal .progress-skill + .progress-skill { border-left:1px solid #ffffffb3; }
+.app-shell.student-workspace .progress-journal .progress-skill h3 { grid-column:1/-1; display:flex; align-items:flex-start; gap:7px; min-height:32px; margin:0 0 12px; color:var(--skill-color); font-size:11px; line-height:1.6; font-weight:500; letter-spacing:0; }
+.app-shell.student-workspace .progress-journal .progress-skill h3 > svg { flex:none; margin-top:2px; color:var(--skill-color); }
+.app-shell.student-workspace .progress-journal .progress-skill-value { display:flex; align-items:baseline; gap:6px; margin:0; }
+.app-shell.student-workspace .progress-journal .progress-skill-value b { color:var(--skill-color); font-size:30px; font-weight:600; line-height:1.2; font-variant-numeric:tabular-nums; }
+.app-shell.student-workspace .progress-journal .progress-skill-value > span { color:var(--faint); font-size:12px; }
+.app-shell.student-workspace .progress-journal .progress-sparkline { display:block; width:100%; height:34px; margin:0; overflow:visible; }
+.app-shell.student-workspace .progress-journal .progress-sparkline polyline { fill:none; stroke:var(--skill-color); stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke; }
+.app-shell.student-workspace .progress-journal .progress-sparkline circle { fill:var(--skill-color); }
+.app-shell.student-workspace .progress-journal .progress-skill-change { grid-column:1/-1; margin:10px 0 0; color:var(--muted); font-size:10px; line-height:1.6; }
+.app-shell.student-workspace .progress-journal .progress-skill-change .is-up { color:#4d7057; font-weight:600; }
+.app-shell.student-workspace .progress-journal .progress-skill-change .is-down { color:#9d3d33; font-weight:600; }
+.app-shell.student-workspace .progress-journal .progress-overview-footer { display:flex; align-items:center; justify-content:space-between; gap:12px 24px; margin-top:16px; }
+.app-shell.student-workspace .progress-journal .progress-activity { display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:5px 16px; padding:0; color:var(--muted); font-size:11px; }
+.app-shell.student-workspace .progress-journal .progress-activity b { margin-right:3px; color:#645333; font-weight:600; }
+.app-shell.student-workspace .progress-journal .progress-change-summary { display:flex; align-items:center; flex-wrap:wrap; gap:4px 12px; }
+.app-shell.student-workspace .progress-journal .progress-change-value { display:flex; align-items:center; flex-wrap:wrap; gap:6px; color:#2f7e70; font-size:11px; }
+.app-shell.student-workspace .progress-journal .progress-change-value > b { font-size:17px; font-weight:600; }
+.app-shell.student-workspace .progress-journal .progress-change-value > span { color:var(--muted); font-size:10px; }
+.app-shell.student-workspace .progress-journal .progress-change-value.is-down { color:#a64a3a; }
+.app-shell.student-workspace .progress-journal .progress-change-before { display:flex; align-items:center; gap:6px; color:#76684f; font-size:12px; }
+.app-shell.student-workspace .progress-journal .progress-change-before b { font-weight:500; }
+.app-shell.student-workspace .progress-journal .progress-change-before small { color:var(--faint); font-size:10px; }
+.app-shell.student-workspace .progress-journal .progress-change-best { display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin:16px 0 0 24px; font-size:11px; }
+.app-shell.student-workspace .progress-journal .progress-change-best b { font-size:13px; font-weight:600; }
+.app-shell.student-workspace .progress-journal .progress-change-best small { color:var(--faint); font-size:9px; }
+.app-shell.student-workspace .progress-journal .progress-visual-layout { display:grid; grid-template-columns:minmax(0,2.2fr) minmax(250px,1fr); overflow:hidden; border:1px solid #e4ded1; border-radius:14px; background:var(--surface); }
+.app-shell.student-workspace .progress-journal .progress-trend { min-width:0; padding:24px; }
+.app-shell.student-workspace .progress-journal .progress-trend-key { display:flex; flex-wrap:wrap; gap:2px 20px; margin:0 0 10px; }
+.app-shell.student-workspace .progress-journal .progress-trend-key button { display:flex; align-items:center; gap:6px; min-width:0; min-height:32px; padding:4px 0; border:0; border-radius:5px; background:transparent; color:var(--muted); font-size:10px; line-height:1.5; text-align:left; }
+.app-shell.student-workspace .progress-journal .progress-trend-key button > i { width:18px; height:4px; flex:none; border-radius:3px; background:#d8d4cb; }
+.app-shell.student-workspace .progress-journal .progress-trend-key button[aria-pressed="true"] { color:var(--skill-color); font-weight:600; }
+.app-shell.student-workspace .progress-journal .progress-trend-key button[aria-pressed="true"] > i { background:var(--skill-color); }
+.app-shell.student-workspace .progress-journal .progress-trend-key button:hover { background:#eeede8; }
+.app-shell.student-workspace .progress-journal .progress-trend-plot { display:flex; gap:8px; }
+.app-shell.student-workspace .progress-journal .progress-trend-y { position:relative; flex:0 0 16px; height:250px; color:#8a8272; font-size:10px; }
+.app-shell.student-workspace .progress-journal .progress-trend-y > span { position:absolute; right:0; transform:translateY(-50%); }
+.app-shell.student-workspace .progress-journal .progress-trend-y > span:nth-child(1) { top:14.2857%; }
+.app-shell.student-workspace .progress-journal .progress-trend-y > span:nth-child(2) { top:52.381%; }
+.app-shell.student-workspace .progress-journal .progress-trend-y > span:nth-child(3) { top:90.4762%; }
+.app-shell.student-workspace .progress-journal .progress-trend-canvas { position:relative; flex:1; min-width:0; }
+.app-shell.student-workspace .progress-journal .progress-trend-canvas > svg { display:block; width:100%; height:250px; overflow:visible; }
+.app-shell.student-workspace .progress-journal .progress-trend-grid { stroke:#e9e5db; stroke-width:1; stroke-dasharray:3 5; vector-effect:non-scaling-stroke; }
+.app-shell.student-workspace .progress-journal .progress-trend-selected { fill:#f5edda; }
+.app-shell.student-workspace .progress-journal .progress-trend-line { fill:none; stroke:currentColor; stroke-width:2.6; stroke-linejoin:round; stroke-linecap:round; vector-effect:non-scaling-stroke; }
+.app-shell.student-workspace .progress-journal .progress-trend-dot { fill:currentColor; stroke:#fffefa; stroke-width:1.3; vector-effect:non-scaling-stroke; }
+.app-shell.student-workspace .progress-journal .progress-trend-weeks { display:grid; grid-template-columns:repeat(9,minmax(0,1fr)); }
+.app-shell.student-workspace .progress-journal .progress-trend-weeks > button { min-height:32px; padding:0; border:0; border-radius:6px; background:transparent; color:var(--muted); font-size:10px; }
+.app-shell.student-workspace .progress-journal .progress-trend-weeks > button[aria-pressed="true"] { background:#f1e2af; color:#634819; font-weight:600; }
+.app-shell.student-workspace .progress-journal .progress-trend-weeks > button:hover:not(:disabled) { background:#eeede8; }
+.app-shell.student-workspace .progress-journal .progress-trend-note { margin:10px 0 0 24px; color:var(--faint); font-size:10px; line-height:1.7; }
+.app-shell.student-workspace .progress-journal .progress-trend-empty { position:absolute; inset:0 0 32px; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:8px; padding:20px; text-align:center; background:#fffefaec; }
+.app-shell.student-workspace .progress-journal .progress-trend-empty > svg { color:#9c7b36; }
+.app-shell.student-workspace .progress-journal .progress-trend-empty b { font-size:13px; font-weight:500; }
+.app-shell.student-workspace .progress-journal .progress-trend-empty p { max-width:280px; margin:0; color:var(--muted); font-size:12px; line-height:1.7; }
+.app-shell.student-workspace .progress-journal .progress-week-aside { min-width:0; padding:24px; border-left:1px solid #e8e2d5; background:#faf8f1; }
+.app-shell.student-workspace .progress-journal .progress-week-reading { margin:0; padding:0; }
+.app-shell.student-workspace .progress-journal .progress-week-reading > strong { display:block; color:#725a29; font-size:16px; font-weight:600; }
+.app-shell.student-workspace .progress-journal .progress-week-reading dl { display:grid; gap:12px; margin:18px 0; }
+.app-shell.student-workspace .progress-journal .progress-week-reading dl > div { display:flex; align-items:baseline; justify-content:space-between; gap:8px; }
+.app-shell.student-workspace .progress-journal .progress-week-reading dt { display:flex; align-items:baseline; gap:5px; color:var(--muted); font-size:10px; line-height:1.5; }
+.app-shell.student-workspace .progress-journal .progress-week-reading dt > i { width:5px; height:5px; flex:none; border-radius:50%; }
+.app-shell.student-workspace .progress-journal .progress-week-reading dd { margin:0; color:inherit; font-size:16px; font-weight:600; white-space:nowrap; }
+.app-shell.student-workspace .progress-journal .progress-week-reading dd > small { padding-left:2px; color:var(--faint); font-size:9px; font-weight:400; }
+.app-shell.student-workspace .progress-journal .progress-week-sources { display:grid; gap:4px; }
+.app-shell.student-workspace .progress-journal .progress-week-sources .text-button { justify-content:space-between; min-width:0; min-height:28px; font-size:10px; text-align:left; }
+.app-shell.student-workspace .progress-journal .progress-week-sources svg { flex:none; }
+.app-shell.student-workspace .progress-journal .progress-strengths { margin-top:22px; padding-top:20px; border-top:1px solid #e8e2d5; }
+.app-shell.student-workspace .progress-journal .progress-strengths:first-child { margin:0; padding:0; border:0; }
+.app-shell.student-workspace .progress-journal .progress-strengths .progress-section-heading { margin-bottom:6px; }
+.app-shell.student-workspace .progress-journal .progress-strengths h2 { font-size:14px; }
+.app-shell.student-workspace .progress-journal .progress-strengths > p,.app-shell.student-workspace .progress-journal .progress-milestones > p { margin:0; color:var(--muted); font-size:11px; line-height:1.7; }
+.app-shell.student-workspace .progress-journal .progress-strengths ul { display:grid; gap:14px; margin:16px 0 0; padding:0; list-style:none; }
+.app-shell.student-workspace .progress-journal .progress-strengths li { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.app-shell.student-workspace .progress-journal .progress-strengths li div { display:grid; gap:4px; }
+.app-shell.student-workspace .progress-journal .progress-strengths li b { color:#4d7057; font-size:12px; font-weight:500; }
+.app-shell.student-workspace .progress-journal .progress-strengths li span { color:var(--faint); font-size:10px; }
+.app-shell.student-workspace .progress-journal .progress-strengths li > strong { color:#4d7057; font-size:18px; font-weight:600; white-space:nowrap; }
+.app-shell.student-workspace .progress-journal .progress-strengths li small { padding-left:3px; color:var(--faint); font-size:10px; font-weight:400; }
+.app-shell.student-workspace .progress-journal .progress-insights { display:grid; grid-template-columns:minmax(0,2.2fr) minmax(250px,1fr); gap:28px; align-items:start; min-width:0; }
+.app-shell.student-workspace .progress-journal .progress-coach { padding:24px; border-radius:12px; background:#f4ecd7; }
+.app-shell.student-workspace .progress-journal .progress-insight-eyebrow { display:flex; align-items:center; gap:7px; color:#8a6b2e; font-size:9px; line-height:1.6; }
+.app-shell.student-workspace .progress-journal .progress-coach h2 { margin:10px 0 14px; color:#654b28; font-size:16px; font-weight:600; letter-spacing:0; }
+.app-shell.student-workspace .progress-journal .progress-coach blockquote { margin:0; color:#685b42; font-size:12px; line-height:1.9; }
+.app-shell.student-workspace .progress-journal .progress-coach > p { margin:0; color:#786b51; font-size:12px; line-height:1.8; }
+.app-shell.student-workspace .progress-journal .progress-coach .progress-coach-source { margin:-6px 0 12px; color:#8a7b60; font-size:10px; line-height:1.7; }
+.app-shell.student-workspace .progress-journal .progress-coach-body { display:grid; grid-template-columns:1.1fr 1fr; gap:20px; }
+.app-shell.student-workspace .progress-journal .progress-coach-body:not(:has(.progress-coach-next)) { grid-template-columns:minmax(0,1fr); }
+.app-shell.student-workspace .progress-journal .progress-coach-body > p { margin:0; color:var(--muted); font-size:12px; line-height:1.8; }
+.app-shell.student-workspace .progress-journal .progress-coach-next { padding-left:20px; border-left:1px solid #dfd1ae; }
+.app-shell.student-workspace .progress-journal .progress-coach-next b { color:#765b2b; font-size:10px; font-weight:600; }
+.app-shell.student-workspace .progress-journal .progress-coach-next p { margin:4px 0 0; color:#786b51; font-size:11px; line-height:1.8; }
+.app-shell.student-workspace .progress-journal .progress-coach > .text-button { justify-content:flex-start; gap:10px; margin-top:18px; color:#725323; font-size:11px; text-align:left; }
+.app-shell.student-workspace .progress-journal .progress-coach > small { display:block; margin-top:12px; color:#897b60; font-size:9px; line-height:1.7; }
+.app-shell.student-workspace .progress-journal .progress-milestones { padding:0 2px; }
+.app-shell.student-workspace .progress-journal .progress-milestones .progress-section-heading { margin-bottom:6px; }
+.app-shell.student-workspace .progress-journal .progress-milestones h2 { font-size:15px; }
+.app-shell.student-workspace .progress-journal .progress-milestones ul { margin:8px 0 0; padding:0; list-style:none; }
+.app-shell.student-workspace .progress-journal .progress-milestones li { display:flex; align-items:flex-start; gap:10px; padding:14px 0; }
+.app-shell.student-workspace .progress-journal .progress-milestones li + li { border-top:1px solid #e5dfd2; }
+.app-shell.student-workspace .progress-journal .progress-milestone-icon { display:grid; place-items:center; flex:none; width:32px; height:32px; border-radius:50%; background:#ece9e1; color:#8b8579; }
+.app-shell.student-workspace .progress-journal .progress-milestones li.is-earned .progress-milestone-icon { color:#876724; background:#f1e2af; }
+.app-shell.student-workspace .progress-journal .progress-milestones li > div { flex:1; min-width:0; }
+.app-shell.student-workspace .progress-journal .progress-milestones li > svg { flex:none; margin-top:6px; color:#4d7057; }
+.app-shell.student-workspace .progress-journal .progress-milestones h3 { margin:0; color:var(--ink); font-size:12px; line-height:1.6; font-weight:500; letter-spacing:0; }
+.app-shell.student-workspace .progress-journal .progress-milestones li p { margin:4px 0 8px; color:var(--muted); font-size:10px; line-height:1.6; }
+.app-shell.student-workspace .progress-journal .progress-milestone-track { display:block; width:100%; height:3px; overflow:hidden; border-radius:4px; background:#e6e1d5; }
+.app-shell.student-workspace .progress-journal .progress-milestone-track > span { display:block; height:100%; border-radius:inherit; background:#c9ad60; }
+.app-shell.student-workspace .progress-journal .progress-milestones li.is-earned .progress-milestone-track > span { background:#77917c; }
+.app-shell.student-workspace .progress-journal .growth-ledgers { grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr); gap:28px; padding-top:24px; border-top:1px solid #e4ded1; }
+.app-shell.student-workspace .progress-journal .growth-ledger { padding:0; border:0; border-radius:0; background:transparent; box-shadow:none; animation:none; }
+.app-shell.student-workspace .progress-journal .growth-label { color:#725a29; font-size:13px; font-weight:600; text-transform:none; letter-spacing:0; }
+.app-shell.student-workspace .progress-journal .growth-label::after { display:none; }
+.app-shell.student-workspace .progress-journal .growth-details { border:1px solid #e4ded1; border-radius:10px; background:#fffefa; }
+.app-shell.student-workspace .progress-journal .growth-details > summary { padding:16px 20px; font-size:12px; font-weight:500; }
+.app-shell.student-workspace .progress-journal .progress-advanced-content { display:grid; gap:20px; padding:20px; }
+.app-shell.student-workspace .progress-journal .progress-advanced-content .growth-sheet { padding:20px; border-radius:10px; background:#fbf9f2; box-shadow:none; animation:none; }
+.app-shell.student-workspace .progress-journal .progress-advanced-content .growth-reflection { grid-template-columns:minmax(0,1fr) 220px; gap:24px; }
+.app-shell.student-workspace .progress-journal .progress-advanced-content .growth-now-value b { font-size:40px; }
+.app-shell.student-workspace .progress-journal .progress-advanced-content .learning-analytics { margin:0; padding:0; border:0; }
+@media(max-width:1100px) {
+ .app-shell.student-workspace .progress-journal .progress-visual-layout { grid-template-columns:minmax(0,2fr) minmax(230px,1fr); }
+ .app-shell.student-workspace .progress-journal .progress-skill { padding:16px 12px; }
+ .app-shell.student-workspace .progress-journal .progress-trend { padding:18px; }
+ .app-shell.student-workspace .progress-journal .progress-overview-footer { align-items:flex-start; flex-direction:column; }
+ .app-shell.student-workspace .progress-journal .progress-activity { justify-content:flex-start; }
+ .app-shell.student-workspace .progress-journal .progress-insights { grid-template-columns:minmax(0,2fr) minmax(230px,1fr); gap:20px; }
+ .app-shell.student-workspace .progress-journal .progress-coach-body { grid-template-columns:minmax(0,1fr); gap:14px; }
+ .app-shell.student-workspace .progress-journal .progress-coach-next { padding:12px 0 0; border-left:0; border-top:1px solid #dfd1ae; }
+ .app-shell.student-workspace .progress-journal .growth-ledgers { grid-template-columns:minmax(0,1fr); gap:24px; }
+}
+@media(max-width:860px) {
+ .app-shell.student-workspace .progress-journal .progress-visual-layout { grid-template-columns:minmax(0,1fr); }
+ .app-shell.student-workspace .progress-journal .progress-week-aside { display:grid; grid-template-columns:1fr 1fr; gap:24px; border-left:0; border-top:1px solid #e8e2d5; }
+ .app-shell.student-workspace .progress-journal .progress-strengths { margin:0; padding:0 0 0 24px; border-top:0; border-left:1px solid #e8e2d5; }
+ .app-shell.student-workspace .progress-journal .progress-coach-body { grid-template-columns:1.1fr 1fr; gap:20px; }
+ .app-shell.student-workspace .progress-journal .progress-coach-next { padding:0 0 0 20px; border-top:0; border-left:1px solid #dfd1ae; }
+ .app-shell.student-workspace .progress-journal .progress-insights { grid-template-columns:minmax(0,1fr); }
+ .app-shell.student-workspace .progress-journal .progress-advanced-content .growth-reflection { grid-template-columns:minmax(0,1fr); }
+}
+@media(max-width:640px) {
+ .app-shell.student-workspace .progress-journal { gap:20px; }
+ .app-shell.student-workspace .progress-journal .progress-section-heading { flex-wrap:wrap; gap:4px 12px; }
+ .app-shell.student-workspace .progress-journal .progress-overview-metrics { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .app-shell.student-workspace .progress-journal .progress-skill { padding:16px; }
+ .app-shell.student-workspace .progress-journal .progress-skill:nth-child(3) { border-left:0; }
+ .app-shell.student-workspace .progress-journal .progress-skill:nth-child(n+3) { border-top:1px solid #e8e1d3; }
+ .app-shell.student-workspace .progress-journal .progress-skill h3 { min-height:36px; }
+ .app-shell.student-workspace .progress-journal .progress-activity { gap:6px 16px; }
+ .app-shell.student-workspace .progress-journal .progress-insights { grid-template-columns:minmax(0,1fr); }
+ .app-shell.student-workspace .progress-journal .progress-trend { padding:16px; }
+ .app-shell.student-workspace .progress-journal .progress-week-aside { grid-template-columns:minmax(0,1fr); padding:20px 16px; }
+ .app-shell.student-workspace .progress-journal .progress-strengths { padding:20px 0 0; border-left:0; border-top:1px solid #e8e2d5; }
+ .app-shell.student-workspace .progress-journal .progress-coach { padding:20px; }
+ .app-shell.student-workspace .progress-journal .progress-coach-body { grid-template-columns:minmax(0,1fr); gap:14px; }
+ .app-shell.student-workspace .progress-journal .progress-coach-next { padding:12px 0 0; border-left:0; border-top:1px solid #dfd1ae; }
+ .app-shell.student-workspace .progress-journal .progress-change-best { margin-left:0; }
+ .app-shell.student-workspace .progress-journal .progress-week-reading dl { grid-template-columns:minmax(0,1fr); }
+ .app-shell.student-workspace .progress-journal .progress-trend-canvas > svg,.app-shell.student-workspace .progress-journal .progress-trend-y { height:200px; }
+ .app-shell.student-workspace .progress-journal .progress-advanced-content { padding:12px; }
+}
+

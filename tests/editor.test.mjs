@@ -82,15 +82,47 @@ const Coach=(await import(componentModule(new URL('../app/AICoachPanel.tsx',impo
 const noop=()=>{};
 const props={draft:draft({content:fullContent}),courses:[],weeks:defaultWeeks,language:'en',busy:'',saveLabel:'Đã lưu',includeEvidence:false,thinking:'Thinking content',coach:'Coach content',feedback:'Rubric content',reminder:null,onChange:noop,onBack:noop,onSave:noop,onReload:noop,onHistory:noop,onExport:noop,onRubric:noop,onSubmit:noop,onUpload:noop,onEvidence:noop};
 
-test('thinking, AI Coach and rubric have distinct panels and Coach can be opened directly',()=>{
-  const html=renderToStaticMarkup(createElement(StudentEditor,props));
-  assert.ok(/id="reflection-thinking-panel">Thinking content/.test(html));
-  assert.ok(/id="reflection-coach-panel" hidden="">Coach content/.test(html));
+test('the AI Assistant walks a draft through five stages that can be opened in any order',()=>{
+  const reviewed={...props.draft,id:'saved',versions:[],attachments:[],analyses:[],reviews:[{id:'r',decision:'returned'}]};
+  const both={...props,draft:{...props.draft,status:'returned'},current:{...reviewed,status:'returned'},score:'Score content',selfCheck:'Self content'};
+  const html=renderToStaticMarkup(createElement(StudentEditor,both));
+  assert.equal((html.match(/role="tab"/g)||[]).length,2,'AI Assistant and Feedback & grades');
+  assert.equal((html.match(/class="ai-step[ "]/g)||[]).length,5,'Write, review, trial grade, self-check and submit');
+  assert.match(html,/aria-current="step"[^>]*>[\s\S]*?Write/);
+  assert.ok(/id="reflection-thinking-panel" class="ai-stage-pane">/.test(html),'Writing is the first stage');
+  assert.ok(/id="reflection-coach-panel" class="ai-stage-pane" hidden="">Coach content/.test(html));
+  for(const text of ['Score content','Self content','Review &amp; submit','Done writing, go to Review'])assert.ok(html.includes(text),text);
   assert.ok(/id="reflection-feedback-panel" hidden="">Rubric content/.test(html));
-  assert.equal((html.match(/aria-controls="reflection-(?:thinking|coach|feedback)-panel"/g)||[]).length,3);
-  const coach=renderToStaticMarkup(createElement(StudentEditor,{...props,initialSupport:'coach'}));
-  assert.ok(/id="reflection-coach-panel">Coach content/.test(coach));
-  assert.ok(/id="reflection-thinking-panel" hidden="">Thinking content/.test(coach));
+  for(const options of [{initialSupport:'coach'},{current:{...both.current,analyses:[{id:'a',kind:'coach',versionId:'v',provider:'x',result:{},createdAt:''}]}}]){
+    const review=renderToStaticMarkup(createElement(StudentEditor,{...both,...options}));
+    assert.ok(/id="reflection-coach-panel" class="ai-stage-pane">Coach content/.test(review),'Coach requests and Coach feedback open on the review stage');
+    assert.ok(/id="reflection-thinking-panel" class="ai-stage-pane" hidden="">/.test(review));
+  }
+  const submitted=renderToStaticMarkup(createElement(StudentEditor,{...both,draft:{...props.draft,status:'submitted'}}));
+  assert.ok(!submitted.includes('class="ai-steps"')&&!submitted.includes('reflection-thinking-panel'),'No stages once submitted');
+  assert.ok(/id="reflection-coach-panel">Coach content/.test(submitted));
+  const feedback=renderToStaticMarkup(createElement(StudentEditor,{...both,initialSupport:'feedback'}));
+  assert.ok(/id="reflection-feedback-panel">Rubric content/.test(feedback));
+});
+
+test('the compact stage counter reports completed work rather than the selected stage',()=>{
+ const empty=renderToStaticMarkup(createElement(StudentEditor,{...props,draft:draft({content:freeContent('One thought.')}),initialSupport:'coach'}));
+ assert.match(empty,/role="progressbar" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0"/);
+ assert.match(empty,/aria-label="0 of 4 steps done"/);
+ const current={...props.draft,id:'saved',title:props.draft.title,latestVersion:'v',versions:[{id:'v',title:props.draft.title,content:fullContent}],attachments:[],reviews:[],selfAssessments:[{id:'self'}],analyses:['coach','feedback'].map(kind=>({id:kind,versionId:'v',kind,result:{},createdAt:''}))};
+ const complete=renderToStaticMarkup(createElement(StudentEditor,{...props,current,draft:current}));
+ assert.match(complete,/class="ai-steps-count is-complete"/);assert.match(complete,/aria-valuenow="4"/);
+ const changed=renderToStaticMarkup(createElement(StudentEditor,{...props,current,draft:{...current,content:{...fullContent,what:fullContent.what+' An additional detail.'}}}));
+ assert.match(changed,/aria-valuenow="2"/,'Stale Coach and trial-grade results do not count as completed steps');
+});
+
+test('a new draft shows only the assistant and completed work shows only its feedback',()=>{
+  const fresh=renderToStaticMarkup(createElement(StudentEditor,{...props,initialSupport:'feedback'}));
+  assert.ok(!fresh.includes('role="tablist"')&&!fresh.includes('reflection-feedback-panel'),'Nothing to grade yet');
+  assert.ok(/id="reflection-assistant-panel" class="ai-assistant">/.test(fresh));
+  const done=renderToStaticMarkup(createElement(StudentEditor,{...props,draft:{...props.draft,status:'final'}}));
+  assert.ok(!done.includes('role="tablist"')&&!done.includes('reflection-assistant-panel'),'Completed work is not written any more');
+  assert.ok(/id="reflection-feedback-panel">Rubric content/.test(done));
 });
 
 test('AI Coach reads its own analysis and shows five guidance groups with a reflection level',()=>{
@@ -100,22 +132,22 @@ test('AI Coach reads its own analysis and shows five guidance groups with a refl
   const reflection={...writing,versions:[{id:'version',title:writing.title,content:fullContent}],analyses:[{...analysis,id:'feedback-analysis',kind:'feedback',result:{...result,strengths:['Rubric-only strength.']}},analysis]};
   const coachProps={draft:writing,reflection,language:'en',aiReady:true,busy:'',onAnalyze:noop,onCommit:noop};
   const html=renderToStaticMarkup(createElement(Coach,coachProps));
-  for(const label of ['Strengths','Areas to develop','Reflective questions','Suggested actions','Reflection level'])assert.ok(html.includes(label),label);
+  for(const label of ['You do well at','To develop further','Questions for you','Suggested actions','Current reflection level'])assert.ok(html.includes(label),label);
   assert.ok(html.includes('Coach-specific strength.'));
   assert.ok(!html.includes('Rubric-only strength.')&&!html.includes('/10'));
-  assert.ok(html.includes('Review and confirm action'));
+  assert.ok(html.includes('Turn into a commitment'));
   const stale=renderToStaticMarkup(createElement(Coach,{...coachProps,draft:{...writing,title:'Changed title'}}));
   assert.ok(stale.includes('notice warning'));
   for(const status of ['submitted','final']){
     const locked=renderToStaticMarkup(createElement(Coach,{...coachProps,draft:{...writing,status}}));
-    assert.ok(/<button[^>]*disabled=""[^>]*>Get feedback from AI Coach/.test(locked));
+    assert.ok(!locked.includes('<button class="button')&&locked.includes('Coach-specific strength.'),'Locked work only shows the saved feedback');
   }
 });
 
 test('thinking uses a button and editor context with no chat prompt; blank work needs context first',()=>{
   const thinkingProps={draft:draft({title:''}),language:'en',provider:'codex',aiReady:true,attachmentCount:0,busy:false,ensureSaved:async()=>({id:'reflection'})};
   const blank=renderToStaticMarkup(createElement(Thinking,thinkingProps));
-  assert.ok(blank.includes('Think with AI'));
+  assert.ok(blank.includes('Ideas for your next step'));
   assert.ok(/id="reflection-think-button"[^>]*disabled/.test(blank));
   assert.ok(!blank.includes('<textarea')&&!blank.includes('<form'));
   for(const options of [{attachmentCount:1},{draft:draft({title:'',content:freeContent('One thought.')})}]){
@@ -138,7 +170,7 @@ test('the editor has one free-form body, visible AI sidebar and optional evidenc
   assert.equal((blank.match(/<textarea/g)||[]).length,1,'An empty draft opens ready to write');assert.ok(blank.includes('id="reflection-body"'));
   assert.ok(html.includes('Coach content'));
   assert.ok(html.includes('Your reflection companion')&&!html.includes('Chat with AI'));
-  assert.ok(!html.includes('writing-tab-')&&!html.includes('/4'));
+  assert.ok(!html.includes('writing-tab-')&&!html.includes('writing-step-number'),'The body remains free-form, without four mandatory writing sections');
   const checkbox=html.match(/<input[^>]+id="writing-include-evidence"[^>]*>/)[0];assert.ok(!checkbox.includes('checked'));
   assert.ok(html.includes('Review &amp; submit'));
 });
@@ -159,8 +191,9 @@ test('Coach and Feedback keep all four guidance groups and require explicit conf
   const analysis={id:'real-analysis',result:{strengths:['Context is clear.'],development:['Explain why.'],questions:['What changed your perspective?'],suggestedActions:['Review one assumption tomorrow.'],context:''}};
   const html=renderToStaticMarkup(createElement(Guidance,{analysis,language:'en',onCommit:noop}));
   for(const label of ['Strengths','Areas to develop','Reflective questions','Suggested actions'])assert.ok(html.includes(label),label);
-  assert.equal((html.match(/<details/g)||[]).length,4);
-  assert.equal((html.match(/open=""/g)||[]).length,1);
+  assert.equal((html.match(/<details/g)||[]).length,1,'Only questions and next steps need a disclosure');
+  assert.equal((html.match(/open=""/g)||[]).length,0);
+  assert.ok(html.indexOf('Context is clear.')<html.indexOf('<details'),'The main feedback is readable immediately');
   assert.ok(html.includes('Review and confirm action'));
 });
 
