@@ -4,6 +4,7 @@ export const levelRanges = [[0,2.5],[2.6,5],[5.1,7.5],[7.6,10]] as const;
 export function criterionLevel(score:number):number {return score<=2.5?1:score<=5?2:score<=7.5?3:4;}
 export function scoreOnTen(score:number,scale:4|10=4){return score/scale*10;}
 export function reviewScoresOnTen(review:Review){return review.scores.map(s=>scoreOnTen(s,review.scoreScale));}
+export const levelNames=['Khởi đầu','Đang phát triển','Thành thạo','Chuyên sâu'];
 export function rubricVersion(rubric:Criterion[]){
  let hash=2166136261;for(const c of JSON.stringify(rubric))hash=Math.imul(hash^c.charCodeAt(0),16777619);
  return `final-v3-${(hash>>>0).toString(16)}`;

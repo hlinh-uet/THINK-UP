@@ -1,7 +1,7 @@
 import type { Content, Criterion } from './domain';
 
 type EvidenceFile={object_key:string;type:string;name:string};
-function base64(bytes: Uint8Array) {
+export function base64(bytes: Uint8Array) {
   let value='';for(let i=0;i<bytes.length;i+=8192)value+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(value);
 }
 export async function analysisInput(title: string,content: Content,rubric: Criterion[],files: EvidenceFile[],includeAttachments: boolean,read: (key:string)=>Promise<ArrayBuffer|null>) {

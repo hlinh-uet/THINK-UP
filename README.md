@@ -10,6 +10,8 @@ A bilingual (English/Vietnamese) web app that helps students write reflective jo
   - AI Reading with quotes for each criterion.
   - Grading by rubric, 5-part feedback with templates, revision diffs.
   - Class analytics with CSV export, action tracking, course and rubric setup.
+  - AI rubric suggestions from PDF slides: level descriptions are adapted per course from the default rubric, and the lecturer reviews, edits and saves them.
+  - Copy rubric, weekly content, deadlines and commitment rules from another course they teach. Deadlines move with a new first date.
   - Internal similarity check.
 - **Admins:** users, courses and assignments. Default settings, role permissions and audit log.
 - **Everyone:** messages, community feed, profile, English/Vietnamese, works on desktop, tablet and phone.
@@ -24,6 +26,8 @@ A bilingual (English/Vietnamese) web app that helps students write reflective jo
 | Action Plan | 20% |
 
 Each criterion is scored 0–10 (Level 1: 0–2.5, Level 2: 2.6–5.0, Level 3: 5.1–7.5, Level 4: 7.6–10).
+
+These are the default weights. Lecturers can rebalance them per course as long as they total 100%, and can edit the level descriptions. Criterion names and the course name, class and code can only be changed by admins.
 
 - The app computes the weighted total.
 - AI proposals and lecturer decisions are stored separately, and the lecturer decides the final result.

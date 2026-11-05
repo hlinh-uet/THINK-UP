@@ -980,3 +980,59 @@ a.lx-metric:hover .lx-metric-value b { text-decoration: underline; text-decorati
 @media(max-width:720px){.admin-workspace .admin-default-editor{grid-template-columns:minmax(0,1fr)}.admin-workspace .admin-default-selector{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}.admin-workspace .admin-default-selector button{padding:10px 8px}.admin-workspace .admin-default-selector button>b{font-size:12px}.admin-workspace .admin-default-detail{padding:18px}.admin-workspace .admin-settings-head{align-items:flex-start;flex-direction:column;gap:16px}.admin-workspace .admin-role-tabs{gap:8px}.admin-workspace .admin-role-tabs b{font-size:13px}.admin-workspace .admin-role-heading{align-items:flex-start;flex-direction:column;gap:12px}.admin-workspace .admin-permission-list{padding:0 16px}.admin-workspace .admin-permission-row{gap:16px}.admin-workspace .admin-permission-control{flex-direction:column;gap:4px}.admin-workspace .admin-permissions-footer{flex-wrap:wrap}}
 .admin-workspace .admin-defaults .lx-form-head,.admin-workspace .admin-settings-head{position:sticky;top:0;z-index:3;background:var(--paper);padding:12px 0}
 @media(max-width:720px){.admin-workspace .admin-defaults .lx-form-head,.admin-workspace .admin-settings-head{top:64px}}
+
+/* AI rubric suggestion from slides */
+.lx-rubric-ai { --ai-hl: var(--hl, #f3dd8f); --ai-soft: var(--hl-soft, #fdf6dc); overflow: hidden; border: 1px solid var(--ai-hl); border-radius: 14px; background: var(--lx-surface); }
+.lx-rubric-ai-head { display: flex; align-items: center; gap: 14px; padding: 18px 20px; background: linear-gradient(100deg, var(--ai-hl), var(--ai-soft)); }
+.lx-rubric-ai-head > div { flex: 1; min-width: 0; }
+.lx-rubric-ai-head h3 { margin: 0; font-size: 17px; font-weight: 650; }
+.lx-rubric-ai-head p { margin: 2px 0; color: var(--lx-ink); font-size: 13.5px; }
+.lx-rubric-ai-head small { color: #5d5230; font-size: 12px; }
+.lx-rubric-ai-head .lx-btn { flex: none; }
+.lx-rubric-ai-head .lx-btn[aria-busy="true"] .ui-icon { animation: lx-scan-spin 1.2s linear infinite; }
+.lx-rubric-ai-mark { display: grid; flex: none; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: var(--lx-accent); color: var(--ai-hl); }
+.lx-rubric-ai-body { display: grid; gap: 14px; padding: 18px 20px; }
+.lx-rubric-ai-body [aria-live]:empty { display: none; }
+.lx-rubric-ai-body p { margin: 0; }
+.lx-rubric-ai-source { display: grid; gap: 6px; padding-bottom: 14px; border-bottom: 1px solid #eee5cc; }
+.lx-rubric-ai-source b { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #534525; }
+.lx-rubric-ai-body .lx-rubric-ai-source p { color: #716344; font-size: 13px; line-height: 1.7; }
+.lx-rubric-steps { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 10px; }
+.lx-rubric-steps button { display: flex; align-items: center; gap: 11px; min-width: 0; padding: 12px 14px; border: 1px solid #e6e4df; border-radius: 10px; background: #fff; color: #384455; font-size: 13px; font-weight: 600; line-height: 1.4; text-align: left; cursor: pointer; transition: background .15s, border-color .15s; }
+.lx-rubric-steps button:hover:not(:disabled):not([aria-pressed="true"]) { border-color: #cfcabb; background: #faf8f2; }
+.lx-rubric-steps button:disabled { cursor: not-allowed; opacity: .6; }
+.lx-rubric-steps button[aria-pressed="true"] { border-color: #354258; background: #354258; color: #fff; box-shadow: 0 6px 16px #35425826; }
+.lx-rubric-steps i { display: grid; flex: none; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: #f1eee5; color: #6b6249; font-size: 12px; font-style: normal; font-weight: 600; }
+.lx-rubric-steps .is-applied i { background: #e3efe9; color: #3f7263; }
+.lx-rubric-steps button[aria-pressed="true"] i { background: #e4ca82; color: #354258; }
+.lx-rubric-steps small { display: block; margin-top: 2px; color: #7b828a; font-size: 11.5px; font-weight: 400; }
+.lx-rubric-steps button[aria-pressed="true"] small { color: #c9d0da; }
+.lx-rubric-focus { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
+.lx-rubric-focus .course-rubric-level { background: #fff; box-shadow: 0 2px 10px #3542580a; }
+.lx-rubric-focus .course-rubric-level.is-editing { box-shadow: 0 0 0 2px var(--level-color); }
+.lx-rubric-level-tools { display: flex; flex: none; align-items: center; gap: 8px; }
+.lx-rubric-level-tools em { color: #916823; font-size: 11px; font-style: normal; font-weight: 600; }
+.lx-rubric-level-tools > strong { padding: 3px 6px; border: 1px solid #0000000c; border-radius: 4px; background: #ffffffa6; color: #4d5865; font-size: 10px; font-weight: 500; white-space: nowrap; }
+.lx-rubric-edit { display: grid; place-items: center; width: 30px; height: 30px; padding: 0; border: 1px solid #0000001a; border-radius: 7px; background: #fff; color: #384455; cursor: pointer; transition: background .15s, color .15s, border-color .15s; }
+.lx-rubric-edit:hover:not(:disabled) { border-color: #354258; background: #354258; color: #fff; }
+.lx-rubric-edit:focus-visible { outline: 2px solid var(--level-color); outline-offset: 2px; }
+.lx-rubric-edit:disabled { cursor: not-allowed; opacity: .4; }
+.lx-rubric-ai-body .lx-rubric-suggested { padding: 14px 15px; border-top: 1px solid #e9e7e1; color: var(--lx-ink); font-size: 14px; line-height: 1.75; }
+.lx-rubric-edit-form > div { display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding: 9px 13px; border-top: 1px solid #e9e7e1; background: var(--level-tint); }
+.lx-rubric-edit-form small { flex: 1; color: var(--lx-muted); font-size: 11px; }
+.app-shell main.lx .lx-rubric-focus .course-rubric-level textarea { min-height: 150px; font-size: 14px; line-height: 1.75; }
+.lx-rubric-focus details { padding: 9px 15px; border-top: 1px dashed #e6e4df; }
+.lx-rubric-focus summary { color: var(--lx-muted); font-size: 12px; cursor: pointer; }
+.lx-rubric-focus details p { margin-top: 6px; color: var(--lx-muted); font-size: 13px; line-height: 1.65; }
+.lx-rubric-ai-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px; padding-top: 14px; border-top: 1px solid #eee5cc; }
+.lx-rubric-ai-bar > span { flex: 1; min-width: 160px; color: var(--lx-muted); font-size: 13px; }
+.app-shell main.lx .lx-rubric-ai-body .lx-btn.is-primary { border-color: #384555; background: #384555; color: #fff; }
+.app-shell main.lx .lx-rubric-ai-body .lx-btn.is-primary:hover:not(:disabled) { border-color: #2b3644; background: #2b3644; }
+@media (max-width: 720px) {
+  .lx-rubric-ai-head { flex-wrap: wrap; }
+  .lx-rubric-ai-head > div { flex-basis: calc(100% - 56px); }
+  .lx-rubric-ai-head .lx-btn { width: 100%; }
+  .lx-rubric-steps, .lx-rubric-focus { grid-template-columns: minmax(0,1fr); }
+  .lx-rubric-ai-bar > span { flex-basis: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .lx-rubric-ai-head .lx-btn .ui-icon { animation: none; } .lx-rubric-steps button, .lx-rubric-edit { transition: none; } }

@@ -1,7 +1,7 @@
 import {validateCommitmentDeadline} from './commitment-deadline';
 import {normalizePermissionPolicy} from './permissions';
 import { all, database, assertPermission } from './server';
-import { records } from './learning-store';
+import { records, withRecordOwners } from './learning-store';
 import { attachAvatars } from './profile-store';
 import type { Data, User } from './domain';
 
@@ -19,7 +19,7 @@ export async function adminManagementData(user:User,section:string,courseId:stri
     settingsPage?[]:all<{id:string;course_id:string;user_id:string;role:string}>('SELECT * FROM memberships'),
     section==='users'?all<{id:string;email:string;name:string;role:string;course_id:string|null}>('SELECT * FROM invitations'):[],
     settingsPage?[]:records("SELECT * FROM learning_records WHERE kind='course-metadata'"),
-    section==='courses'&&courseId?records("SELECT * FROM learning_records WHERE kind='course-history' AND course_id=? ORDER BY created_at DESC",courseId):[],
+    section==='courses'&&courseId?records("SELECT * FROM learning_records WHERE kind='course-history' AND course_id=? ORDER BY created_at DESC",courseId).then(withRecordOwners):[],
   ]);
   return {
     ...base,user,...(settingsPage?{permissionPolicy:normalizePermissionPolicy(settings.find(s=>s.key==='role-permissions')?JSON.parse(settings.find(s=>s.key==='role-permissions')!.value):undefined)}:{}),

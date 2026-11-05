@@ -21,7 +21,7 @@ export default function AdminCourses({data,language,busy,selectedCourseId,onMuta
   if(selected){
     const rows=data.memberships.filter(m=>m.courseId===selected.id).sort((a,b)=>a.role.localeCompare(b.role)||name(a.userId).localeCompare(name(b.userId),'vi'));
     return <div className="lx-stack">
-      <CourseSettings key={selected.id+language} course={selected} listHref={adminHref('courses')} records={(data.learningRecords||[]).filter(r=>r.kind==='course-history'&&r.courseId===selected.id)} language={language} busy={busy} onMutate={onMutate}/>
+      <CourseSettings admin key={selected.id+language} sources={data.courses} course={selected} listHref={adminHref('courses')} records={(data.learningRecords||[]).filter(r=>r.kind==='course-history'&&r.courseId===selected.id)} language={language} busy={busy} onMutate={onMutate}/>
       <Section title={tr('Giảng viên & sinh viên')} count={rows.length} action={<a className="lx-link" href={adminHref('users')}>{tr('Phân công thêm')}<UiIcon name="next" size={13}/></a>}>
         <div className="lx-table-wrap"><table className="lx-table">
           <thead><tr><th>{tr('Người dùng')}</th><th>{tr('Vai trò trong học phần')}</th><th/></tr></thead>

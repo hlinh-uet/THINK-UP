@@ -29,7 +29,7 @@ Thay đổi quy định áp dụng cho cam kết chưa hoàn thành. Cam kết �
 ## Đánh giá và trả bài
 
 1. Mở bài cần đánh giá, đọc bài viết và mở **Thông tin & minh chứng** để tải tệp khi cần. Xem các phiên bản, AI Coach, feedback và lịch sử nhận xét khi cần.
-2. Chọn Level và điểm /10 trong khoảng tương ứng cho từng tiêu chí theo trọng số 35/25/20/20. Gắn minh chứng, lý do và hướng cải thiện; chọn mức Kember riêng cho toàn bài. Có thể lưu nháp chưa gửi hoặc dùng trình soạn nhận xét năm phần và thư viện mẫu. Điểm lịch sử /4 không tự điền thành điểm mới.
+2. Chọn Level và điểm /10 trong khoảng tương ứng cho từng tiêu chí theo trọng số của học phần (mặc định 35/25/20/20). Gắn minh chứng, lý do và hướng cải thiện; chọn mức Kember riêng cho toàn bài. Có thể lưu nháp chưa gửi hoặc dùng trình soạn nhận xét năm phần và thư viện mẫu. Điểm lịch sử /4 không tự điền thành điểm mới.
 3. Sang **Nhận xét**, chọn mức Kember và viết nhận xét rồi bấm **Duyệt và gửi**. Nếu cần sinh viên sửa bài, chọn **Yêu cầu chỉnh sửa**, viết nhận xét rồi bấm **Gửi yêu cầu chỉnh sửa**; không cần chọn điểm hoặc mức Kember. Bài được mở lại cho sinh viên và nhận xét được lưu trong lịch sử.
 
 Tab AI Coach cho giảng viên hiển thị đủ điểm mạnh, điểm cần phát triển, câu hỏi gợi mở, gợi ý hành động và mức phản tư, cùng phiên bản nguồn. Trợ lý đọc có nhận định/trích dẫn theo đủ bốn tiêu chí, hoặc ghi rõ thiếu căn cứ. Bản Reading chưa duyệt chỉ tác giả còn quyền truy cập; không trả qua API/SSR cho sinh viên. Xóa mẫu riêng cũng phải còn role và phân công học phần hiện tại.

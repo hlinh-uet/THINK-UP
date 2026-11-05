@@ -76,6 +76,12 @@ test('final requirements: decimal grading, private drafts, actions, snapshots, r
   const originalReview=JSON.stringify(row.reviews),configuration=(await state(teacher.cookie)).courses.find(c=>c.id===courses[0]);
   await mutate(teacher.cookie,{action:'course-save',...configuration,weeks:configuration.weeks.map((w,i)=>i===0?{...w,requirements:'TEST assignment instructions'}:w),rubric:configuration.rubric.map((c,i)=>i===0?{...c,descriptions:c.descriptions.map(d=>d+' TEST revised')}:c)});
   const updated=(await state(student.cookie)).reflections.find(r=>r.id===row.id);assert.equal(JSON.stringify(updated.reviews),originalReview);assert.equal(updated.reviews[0].rubricVersion,versionKey);assert.ok((await state(teacher.cookie)).learningRecords.filter(r=>r.kind==='course-history'&&r.courseId===courses[0]).length>=2);
+  const courseBefore=(await state(teacher.cookie)).courses.find(c=>c.id===courses[0]),rebalanced=[40,30,15,15];
+  await mutate(teacher.cookie,{action:'course-save',...courseBefore,name:'TEST lecturer rename',code:'TEST-LECTURER',className:'TEST lecturer class',rubric:courseBefore.rubric.map((c,i)=>({...c,name:'TEST lecturer criterion',label:'TEST lecturer label',weight:rebalanced[i]}))});
+  const lecturerSaved=(await state(teacher.cookie)).courses.find(c=>c.id===courses[0]);assert.deepEqual([lecturerSaved.name,lecturerSaved.code,lecturerSaved.className],[courseBefore.name,courseBefore.code,courseBefore.className]);assert.deepEqual(lecturerSaved.rubric.map(c=>[c.name,c.label,c.weight]),courseBefore.rubric.map((c,i)=>[c.name,c.label,rebalanced[i]]));
+  await mutate(owner,{action:'course-save',...courseBefore,name:'TEST admin rename',rubric:courseBefore.rubric.map(c=>({...c,name:'TEST admin criterion'}))});
+  const adminSaved=(await state(owner)).courses.find(c=>c.id===courses[0]);assert.equal(adminSaved.name,'TEST admin rename');assert.ok(adminSaved.rubric.every(c=>c.name==='TEST admin criterion'));
+  await mutate(owner,{action:'course-save',...courseBefore});
   await learning(student.cookie,{action:'archive-reflection',id:row.id},400);await learning(outside.cookie,{action:'archive-reflection',id:row.id},403);
   await learning(owner,{action:'archive-reflection',id:row.id,reason:'TEST reversible archival'});assert.ok(!(await state(student.cookie)).reflections.some(r=>r.id===row.id));assert.ok(!(await state(teacher.cookie)).classReflections.some(r=>r.id===row.id));
   await learning(owner,{action:'restore-reflection',id:row.id});assert.ok((await state(student.cookie)).reflections.some(r=>r.id===row.id));

@@ -16,7 +16,7 @@
     "host": "node scripts/host.mjs",
     "test:host": "node --test tests/host.test.mjs",
     "test:host:integration": "node scripts/test-host.mjs",
-    "test": "node --test tests/reflection-translation.test.mjs tests/feedback-language.test.mjs tests/commitment-deadlines.test.mjs tests/reflection-support.test.mjs tests/domain.test.mjs tests/i18n.test.mjs tests/access.test.mjs tests/version15.test.mjs tests/criteria.test.mjs tests/lecturer.test.mjs tests/editor.test.mjs tests/journey.test.mjs tests/admin.test.mjs tests/messaging.test.mjs tests/messages-render.test.mjs tests/profile.test.mjs tests/final-requirements.test.mjs tests/student-design.test.mjs tests/student-space-summary.test.mjs tests/student-progress-visuals.test.mjs tests/community.test.mjs",
+    "test": "node --test tests/reflection-translation.test.mjs tests/feedback-language.test.mjs tests/commitment-deadlines.test.mjs tests/reflection-support.test.mjs tests/domain.test.mjs tests/i18n.test.mjs tests/access.test.mjs tests/version15.test.mjs tests/criteria.test.mjs tests/lecturer.test.mjs tests/editor.test.mjs tests/journey.test.mjs tests/admin.test.mjs tests/messaging.test.mjs tests/messages-render.test.mjs tests/profile.test.mjs tests/final-requirements.test.mjs tests/student-design.test.mjs tests/student-space-summary.test.mjs tests/student-progress-visuals.test.mjs tests/community.test.mjs tests/rubric-suggestion.test.mjs tests/course-history.test.mjs tests/course-copy.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate",
     "db:seed": "node scripts/seed-demo.mjs",

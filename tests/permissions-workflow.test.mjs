@@ -41,7 +41,7 @@ test('role permissions persist, reject stale saves and revoke access for existin
     await call('/api/reflection-chat',student.cookie,{reflectionId:draft,mode:'thinking'},403);
     await call('/api/messages',student.cookie,null,403);
     await call('/api/messages',student.cookie,{action:'send',peerId:teacher.id,text:'Denied',clientId:randomUUID()},403);
-    const deniedPage=await fetch(root+'/student/messages',{headers:{cookie:student.cookie}});assert.equal(deniedPage.status,200);assert.match(await deniedPage.text(),/Vai trò của bạn chưa được cấp quyền/);
+    const deniedPage=await fetch(root+'/student/messages',{headers:{cookie:`${student.cookie}; thinkup-language=vi`}});assert.equal(deniedPage.status,200);assert.match(await deniedPage.text(),/Vai trò của bạn chưa được cấp quyền/);
     for(const path of ['/api/thinkup','/api/action-evidence']){
       const response=await fetch(root+path,{method:'POST',headers:{cookie:student.cookie,Origin:root},body:new FormData()});assert.equal(response.status,403,await response.text());
     }

@@ -56,10 +56,16 @@ export async function teachingExtras(user:User,courseIds:string[]){
  // Only progress metadata is shared for private drafts: no id/title/content/versions.
  return {classActions:shared,participation:participation.map(p=>({courseId:p.course_id,userId:p.user_id,week:p.week,status:p.status,count:p.n}))};
 }
+/** Names who saved each course snapshot, for the staff change history. */
+export async function withRecordOwners(rows:LearningRecord[]){
+ const ids=[...new Set(rows.map(r=>r.ownerId))];if(!ids.length)return rows;
+ const owners=new Map((await all<{id:string;name:string;role:string}>('SELECT id,name,role FROM users WHERE id IN (SELECT value FROM json_each(?))',JSON.stringify(ids))).map(o=>[o.id,o]));
+ return rows.map(r=>({...r,ownerName:owners.get(r.ownerId)?.name,ownerRole:owners.get(r.ownerId)?.role}));
+}
 export async function workspaceRecords(user:User,courseIds:string[]){
  const own=user.role!=='student'&&courseIds.length?await records(`SELECT * FROM learning_records WHERE owner_id=? AND kind IN ('review-draft','feedback-template') AND course_id IN (SELECT value FROM json_each(?)) ORDER BY updated_at DESC`,user.id,JSON.stringify(courseIds)):[];
  const history=courseIds.length?await records(`SELECT * FROM learning_records WHERE kind IN ('course-history','course-metadata') AND course_id IN (SELECT value FROM json_each(?)) ORDER BY created_at DESC`,JSON.stringify(courseIds)):[];
- return [...own,...history];
+ return [...own,...(user.role==='student'?history:await withRecordOwners(history))];
 }
 export async function saveCourseHistory(user:User,courseId:string,payload:unknown){await recordInsert(id(),'course-history',user.id,null,courseId,null,payload).run();}
 

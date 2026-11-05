@@ -1,17 +1,21 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { defaultRubric, criterionKeys, writingSections, rubricSpecification, validateRubric } from '../lib/domain.ts';
+import { keepCriterionNames, defaultRubric, criterionKeys, writingSections, rubricSpecification, validateRubric } from '../lib/domain.ts';
 import { normalizeFeedback, feedbackSchema } from '../lib/feedback-schema.ts';
 import { learnerProgress } from '../lib/progress.ts';
 import { coachInstructions } from '../lib/coach-prompt.ts';
 
 const content={what:'We interviewed six students and recorded two different needs.',soWhat:'I felt uncertain because I had assumed that silence meant agreement.',nowWhat:'I now understand that I must ask about each person’s needs before deciding.',action:'Next Tuesday I will ask every team member two questions and record their answers.'};
 function output(){return {strengths:['Specific personal insight.'],development:['Test the assumption.'],questions:['What did you learn?'],suggestedActions:['Ask two questions.'],context:'',level:2,levelReason:'The reflection connects a lesson but does not yet demonstrate a changed core belief.',levelEvidence:content.nowWhat,criteria:criterionKeys.map((key,i)=>({key,score:[5,10,5,10][i],level:[2,4,2,4][i],behavior:'Observed behavior.',evidence:content.nowWhat,evidenceSection:'nowWhat',attachmentNames:[],improvement:'Explain the cause.'})),total:999};}
-test('the specification uses distinct grading criteria and the exact 35/25/20/20 weights',()=>{
+test('the default rubric uses distinct grading criteria and 35/25/20/20 weights, and courses may rebalance them to 100%',()=>{
   assert.deepEqual(defaultRubric.map(c=>c.label),['Reflection Depth','Evidence & Context Quality','Insight Realized','Action Plan']);
   assert.deepEqual(defaultRubric.map(c=>c.weight),[35,25,20,20]);assert.ok(defaultRubric.every(c=>c.descriptions.length===4));
   assert.deepEqual(writingSections.map(s=>s.key),['what','soWhat','nowWhat','action']);assert.ok(!criterionKeys.some(key=>writingSections.some(s=>s.key===key)));
-  assert.throws(()=>validateRubric(defaultRubric.map(c=>({...c,weight:25}))));
+  const weighted=weights=>defaultRubric.map((c,i)=>({...c,weight:weights[i]}));
+  assert.deepEqual(validateRubric(weighted([40,30,15,15])).map(c=>c.weight),[40,30,15,15]);
+  for(const bad of [[25,25,25,26],[100,0,0,0],[40.5,29.5,15,15],[40,30,15,null]])assert.throws(()=>validateRubric(weighted(bad)));
+  const renamed=defaultRubric.map(c=>({...c,name:'Changed',label:'Changed',weight:25}));
+  assert.deepEqual(keepCriterionNames(renamed,defaultRubric).map(c=>[c.name,c.label,c.weight]),defaultRubric.map(c=>[c.name,c.label,25]));
   assert.deepEqual(feedbackSchema.properties.criteria.items.properties.key.enum,criterionKeys);assert.ok(feedbackSchema.required.includes('level'));
 });
 test('Kember classification stays independent of score calculation and quotations can come from any section',()=>{

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {translate, resolveLanguage, dateLocale, stageLabel} from '../lib/i18n.ts';
-import {demoText,demoContent} from '../lib/demo-i18n.ts';
+import {courseForEditing,courseToStore,demoText,demoContent} from '../lib/demo-i18n.ts';
 import {createDemoData} from '../scripts/demo-data.mjs';
 import {createStudentCourseDemoData,studentDemoTranslations} from '../scripts/student-course-demo-data.mjs';
 import {coachInstructions} from '../lib/coach-prompt.ts';
@@ -25,6 +25,14 @@ test('translated labels support dynamic values without translating or re-interpo
 test('every default rubric, week, role, status and level is available in English',()=>{
   const labels=[...defaultRubric.flatMap(c=>[c.name,...c.descriptions]),...defaultWeeks.flatMap(w=>[w.title,w.prompt]),...Object.values(roles),...Object.values(statuses),...levels];
   for(const value of labels){const english=translate(value,'en');assert.notEqual(english,value,value);assert.equal(translate(value,'vi'),value);}
+});
+test('saving a course in English keeps untouched Vietnamese text and only stores real edits',()=>{
+  const course={id:'custom',name:'Học phần A',code:'A',weeks:defaultWeeks,rubric:defaultRubric};
+  const shown=courseForEditing(course,'en');assert.notEqual(shown.rubric[0].name,defaultRubric[0].name);
+  const unchanged=courseToStore(shown,course,'en');assert.deepEqual(unchanged.rubric,defaultRubric);assert.deepEqual(unchanged.weeks,defaultWeeks);
+  const edited=structuredClone(shown);edited.rubric[1].descriptions[2]='A real English edit';edited.rubric[1].weight=30;edited.rubric[0].weight=30;
+  const stored=courseToStore(edited,course,'en');assert.equal(stored.rubric[1].descriptions[2],'A real English edit');assert.equal(stored.rubric[1].descriptions[1],defaultRubric[1].descriptions[1]);assert.deepEqual(stored.rubric.map(c=>c.weight),[30,30,20,20]);assert.equal(stored.rubric[0].name,defaultRubric[0].name);
+  assert.deepEqual(courseToStore(courseForEditing(course,'vi'),course,'vi').rubric,defaultRubric);
 });
 test('AI output follows the selected language while preserving evidence quotations',()=>{
   const en=coachInstructions('en'),vi=coachInstructions('vi');

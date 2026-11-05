@@ -9,7 +9,7 @@ import { analyze } from '../../../lib/ai';
 import { createManagedUser, updateManagedUser } from '../../../lib/admin-users';
 import { lecturerAnalysis } from '../../../lib/lecturer-analysis';
 import { reviewDecision } from '../../../lib/lecturer-review';
-import { validateRubric as rawRubric,validateWeeks as rawWeeks,totalScore,validateLevel,wordCount,type User } from '../../../lib/domain';
+import { keepCriterionNames,validateRubric as rawRubric,validateWeeks as rawWeeks,totalScore,validateLevel,wordCount,type User } from '../../../lib/domain';
 export const dynamic='force-dynamic';
 function valid<T>(fn:()=>T):T{try{return fn()}catch(e){throw new AppError(e instanceof Error?e.message:'Thông tin chưa hợp lệ.')}}
 const validateRubric=(x:unknown)=>valid(()=>rawRubric(x)),validateWeeks=(x:unknown)=>valid(()=>rawWeeks(x));
@@ -40,9 +40,11 @@ export async function POST(request:Request){try{const origin=request.headers.get
  }
  if(action==='action-save')return json(await saveAction(user,body));
  if(action==='course-save'){
-  const courseId=body.id?str(body.id,100):id();if(body.id)await course(user,courseId,true);else assertAdmin(user);
+  const courseId=body.id?str(body.id,100):id(),current=body.id?await course(user,courseId,true):null;if(!current)assertAdmin(user);
+  // Only administrators change a course's identity or criterion names, whatever a lecturer's request contains.
+  const locked=user.role==='lecturer'?current:null;
   const prior=await one<{payload_json:string}>("SELECT payload_json FROM learning_records WHERE id=? AND kind='course-metadata'",`course:${courseId}`),metadata=prior?JSON.parse(prior.payload_json):{};
-  const name=str(body.name,200,true),code=str(body.code,40,true),weeks=validateWeeks(body.weeks),rubric=validateRubric(body.rubric),className=str(body.className??code,120,true);
+  const name=locked?locked.name:str(body.name,200,true),code=locked?locked.code:str(body.code,40,true),weeks=validateWeeks(body.weeks),requested=validateRubric(body.rubric),rubric=locked?keepCriterionNames(requested,locked.rubric):requested,className=locked?String(metadata.className||locked.code):str(body.className??code,120,true);
   const commitmentDeadline=valid(()=>validateCommitmentDeadline(Object.hasOwn(body,'commitmentDeadline')?body.commitmentDeadline:metadata.commitmentDeadline));
   if(body.id){await archiveCourseBaseline(user,courseId);await prepare('UPDATE courses SET name=?,code=?,weeks_json=?,rubric_json=? WHERE id=?',name,code,JSON.stringify(weeks),JSON.stringify(rubric),courseId).run()}
   else await prepare('INSERT INTO courses (id,name,code,weeks_json,rubric_json,created_at) VALUES (?,?,?,?,?,?)',courseId,name,code,JSON.stringify(weeks),JSON.stringify(rubric),now()).run();
